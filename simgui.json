@@ -1,0 +1,144 @@
+{
+  "HALProvider": {
+    "Addressable LEDs": {
+      "0": {
+        "columns": 2,
+        "order": 1
+      },
+      "window": {
+        "visible": true
+      }
+    },
+    "Other Devices": {
+      "CANCoder (Pro)[3]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (Pro)[11]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (Pro)[12]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (Pro)[12]/Rotor Sensor": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (Pro)[1]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (Pro)[1]/Fwd Limit": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (Pro)[1]/Rev Limit": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (Pro)[1]/Rotor Sensor": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (Pro)[2]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (Pro)[2]/Fwd Limit": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (Pro)[2]/Rev Limit": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (Pro)[2]/Rotor Sensor": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (v6)[52]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (v6)[52]/Rotor Sensor": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/Pose": "Field2d",
+      "/SmartDashboard/Module 0": "Mechanism2d",
+      "/SmartDashboard/Module 1": "Mechanism2d",
+      "/SmartDashboard/Module 2": "Mechanism2d",
+      "/SmartDashboard/Module 3": "Mechanism2d",
+      "/SmartDashboard/Scheduler": "Scheduler"
+    },
+    "windows": {
+      "/Pose": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Module 0": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Scheduler": {
+        "window": {
+          "visible": true
+        }
+      }
+    }
+  },
+  "NetworkTables": {
+    "transitory": {
+      "AdvantageKit": {
+        "RealMetadata": {
+          "open": true
+        },
+        "RealOutputs": {
+          "Intake": {
+            "open": true
+          },
+          "Odometry": {
+            "open": true
+          },
+          "SwerveStates": {
+            "open": true
+          },
+          "open": true
+        },
+        "open": true
+      },
+      "Drive": {
+        "open": true
+      },
+      "Shuffleboard": {
+        "open": true
+      },
+      "SmartDashboard": {
+        "open": true
+      }
+    }
+  }
+}
