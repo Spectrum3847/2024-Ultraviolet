@@ -12,10 +12,11 @@ public class Intake extends Mechanism {
         /* Revolutions per min Intake Output */
         public double maxSpeed = 5000; // TODO: configure
         public double intake = 4000; // TODO: configure
-        public double eject = -3000; // TODO: configure
 
         /* Percentage Intake Output */
+        public double ejectPercentage = -0.5; // TODO: configure
         public double slowIntakePercentage = 0.06; // TODO: configure
+        public double testIntakePercentage = 0.5;//
 
         /* Intake config values */
         public double currentLimit = 12;

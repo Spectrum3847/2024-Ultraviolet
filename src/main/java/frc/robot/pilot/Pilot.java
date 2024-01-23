@@ -2,6 +2,7 @@ package frc.robot.pilot;
 
 import frc.robot.Robot;
 import frc.robot.RobotTelemetry;
+import frc.robot.mechanisms.intake.IntakeCommands;
 import frc.robot.swerve.commands.SwerveCommands;
 import frc.spectrumLib.Gamepad;
 import frc.spectrumLib.util.ExpCurve;
@@ -50,7 +51,7 @@ public class Pilot extends Gamepad {
         // manual output commands (map joystick to raw -1 to 1 output on motor): manualAmpTrap,
         // manualClimber, manualElevator, manualFeeder, manualIntake, manualPivot, manualLauncher
 
-        // controller.a().whileTrue();
+        controller.a().whileTrue(IntakeCommands.runTestin());
 
         // controller.b().whileTrue();
 
