@@ -23,6 +23,8 @@ public class Operator extends Gamepad {
     /** Setup the Buttons for telop mode. */
     /*  A, B, X, Y, Left Bumper, Right Bumper = Buttons 1 to 6 in simualation */
     public void setupTeleopButtons() {
+        //manual output commands (map joystick to raw -1 to 1 output on motor): manualAmpTrap, manualClimber, manualElevator, manualFeeder, manualIntake, manualPivot, manualLauncher
+
         // controller.a().whileTrue();
 
         // controller.b().whileTrue();
@@ -64,4 +66,5 @@ public class Operator extends Gamepad {
         // This is just for training, robots may have different buttons during test
         setupTeleopButtons();
     };
+ 
 }
