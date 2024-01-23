@@ -31,5 +31,4 @@ public class IntakeCommands {
         return intake.runStop().withName("Intake.stopMotor");
     }
 
-
 }

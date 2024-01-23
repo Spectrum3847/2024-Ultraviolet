@@ -7,6 +7,8 @@ import frc.robot.mechanisms.amptrap.AmpTrap;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
 import frc.robot.mechanisms.elevator.Elevator;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
+import frc.robot.mechanisms.feeder.Feeder;
+import frc.robot.mechanisms.feeder.FeederCommands;
 import frc.robot.mechanisms.intake.Intake;
 import frc.robot.mechanisms.intake.IntakeCommands;
 import frc.robot.operator.Operator;
@@ -30,6 +32,7 @@ public class Robot extends LoggedRobot {
     public static Intake intake;
     public static AmpTrap ampTrap;
     public static Elevator elevator;
+    public static Feeder feeder;
     public static LEDs leds;
     public static Pilot pilot;
     public static Operator operator;
@@ -67,6 +70,7 @@ public class Robot extends LoggedRobot {
             intake = new Intake(config.intakeAttached);
             ampTrap = new AmpTrap(config.ampTrapAttached);
             elevator = new Elevator(config.elevatorAttached);
+            feeder = new Feeder(config.feederAttached);
             pilot = new Pilot();
             operator = new Operator();
             leds = new LEDs();
@@ -84,6 +88,7 @@ public class Robot extends LoggedRobot {
             IntakeCommands.setupDefaultCommand();
             AmpTrapCommands.setupDefaultCommand();
             ElevatorCommands.setupDefaultCommand();
+            FeederCommands.setupDefaultCommand();
             LEDsCommands.setupDefaultCommand();
             PilotCommands.setupDefaultCommand();
             OperatorCommands.setupDefaultCommand();
