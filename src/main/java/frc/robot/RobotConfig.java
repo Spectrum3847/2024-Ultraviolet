@@ -21,6 +21,7 @@ public final class RobotConfig {
     public boolean elevatorAttached = true;
     public boolean feederAttached = true;
     public boolean climberAttached = true;
+    public boolean pivotAttached = true;
 
     public RobotConfig() {
         if (Robot.isReal()) {
@@ -42,6 +43,7 @@ public final class RobotConfig {
                 elevatorAttached = true;
                 feederAttached = true;
                 climberAttached = true;
+                pivotAttached = true;
                 break;
             case XRAY:
                 intakeAttached = false;
@@ -49,6 +51,7 @@ public final class RobotConfig {
                 elevatorAttached = true;
                 feederAttached = false;
                 climberAttached = false;
+                pivotAttached = false;
             default:
                 /* Set all the constants specifically for the robot */
                 break;

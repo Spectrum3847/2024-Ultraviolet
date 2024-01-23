@@ -12,6 +12,8 @@ import frc.robot.mechanisms.feeder.Feeder;
 import frc.robot.mechanisms.feeder.FeederCommands;
 import frc.robot.mechanisms.intake.Intake;
 import frc.robot.mechanisms.intake.IntakeCommands;
+import frc.robot.mechanisms.pivot.Pivot;
+import frc.robot.mechanisms.pivot.PivotCommands;
 import frc.robot.operator.Operator;
 import frc.robot.operator.OperatorCommands;
 import frc.robot.pilot.Pilot;
@@ -35,6 +37,7 @@ public class Robot extends LoggedRobot {
     public static Elevator elevator;
     public static Feeder feeder;
     public static Climber climber;
+    public static Pivot pivot;
     public static LEDs leds;
     public static Pilot pilot;
     public static Operator operator;
@@ -74,6 +77,7 @@ public class Robot extends LoggedRobot {
             elevator = new Elevator(config.elevatorAttached);
             feeder = new Feeder(config.feederAttached);
             climber = new Climber(config.climberAttached);
+            pivot = new Pivot(config.pivotAttached);
             pilot = new Pilot();
             operator = new Operator();
             leds = new LEDs();
@@ -92,6 +96,7 @@ public class Robot extends LoggedRobot {
             AmpTrapCommands.setupDefaultCommand();
             ElevatorCommands.setupDefaultCommand();
             FeederCommands.setupDefaultCommand();
+            PivotCommands.setupDefaultCommand();
             LEDsCommands.setupDefaultCommand();
             PilotCommands.setupDefaultCommand();
             OperatorCommands.setupDefaultCommand();
