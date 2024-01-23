@@ -1,4 +1,4 @@
-package frc.robot.elevator;
+package frc.robot.mechanisms.elevator;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;

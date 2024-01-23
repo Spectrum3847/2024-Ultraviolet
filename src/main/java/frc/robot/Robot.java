@@ -1,14 +1,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.amptrap.AmpTrap;
-import frc.robot.amptrap.AmpTrapCommands;
-import frc.robot.elevator.Elevator;
-import frc.robot.elevator.ElevatorCommands;
-import frc.robot.intake.Intake;
-import frc.robot.intake.IntakeCommands;
 import frc.robot.leds.LEDs;
 import frc.robot.leds.LEDsCommands;
+import frc.robot.mechanisms.amptrap.AmpTrap;
+import frc.robot.mechanisms.amptrap.AmpTrapCommands;
+import frc.robot.mechanisms.elevator.Elevator;
+import frc.robot.mechanisms.elevator.ElevatorCommands;
+import frc.robot.mechanisms.intake.Intake;
+import frc.robot.mechanisms.intake.IntakeCommands;
 import frc.robot.operator.Operator;
 import frc.robot.operator.OperatorCommands;
 import frc.robot.pilot.Pilot;

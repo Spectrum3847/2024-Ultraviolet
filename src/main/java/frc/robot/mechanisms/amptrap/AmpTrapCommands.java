@@ -1,4 +1,4 @@
-package frc.robot.amptrap;
+package frc.robot.mechanisms.amptrap;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
