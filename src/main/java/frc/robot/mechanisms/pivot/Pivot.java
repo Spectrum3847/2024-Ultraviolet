@@ -9,8 +9,10 @@ public class Pivot extends Mechanism {
     public class PivotConfig extends Config {
 
         /* Pivot constants in motor rotations */
-        public final double maxRotation = 10; //TODO: configure (find using smartdashboard) or else bad things will happen
-        public final double minRotation = 0; //TODO: configure (find using smartdashboard) or else bad things will happen
+        public final double maxRotation =
+                10; // TODO: configure (find using smartdashboard) or else bad things will happen
+        public final double minRotation =
+                0; // TODO: configure (find using smartdashboard) or else bad things will happen
 
         /* Pivot positions in percentage of max rotation || 0 is vertical? */
         public final int score = 100;
@@ -33,7 +35,7 @@ public class Pivot extends Mechanism {
             configGearRatio(1); // TODO: configure
             configSupplyCurrentLimit(currentLimit, threshold, true);
             configNeutralBrakeMode(true);
-            configClockwise_Positive(); //TODO: configure
+            configClockwise_Positive(); // TODO: configure
             configReverseSoftLimit(minRotation, true);
             configForwardSoftLimit(maxRotation, true);
             configMotionMagic(51, 205, 0);

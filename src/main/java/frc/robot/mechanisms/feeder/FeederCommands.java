@@ -15,8 +15,7 @@ public class FeederCommands {
     }
 
     public static Command slowFeed() {
-        return feeder.runPercentage(feeder.config.slowFeederPercentage)
-                .withName("Feeder.slowFeed");
+        return feeder.runPercentage(feeder.config.slowFeederPercentage).withName("Feeder.slowFeed");
     }
 
     public static Command feeder() {
@@ -30,5 +29,4 @@ public class FeederCommands {
     public static Command stopMotor() {
         return feeder.runStop().withName("Feeder.stopMotor");
     }
-
 }

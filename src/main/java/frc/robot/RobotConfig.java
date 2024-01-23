@@ -22,6 +22,8 @@ public final class RobotConfig {
     public boolean feederAttached = true;
     public boolean climberAttached = true;
     public boolean pivotAttached = true;
+    public boolean leftLauncherAttached = true;
+    public boolean rightLauncherAttached = true;
 
     public RobotConfig() {
         if (Robot.isReal()) {
@@ -44,6 +46,8 @@ public final class RobotConfig {
                 feederAttached = true;
                 climberAttached = true;
                 pivotAttached = true;
+                leftLauncherAttached = true;
+                rightLauncherAttached = true;
                 break;
             case XRAY:
                 intakeAttached = false;
@@ -52,6 +56,8 @@ public final class RobotConfig {
                 feederAttached = false;
                 climberAttached = false;
                 pivotAttached = false;
+                leftLauncherAttached = false;
+                rightLauncherAttached = false;
             default:
                 /* Set all the constants specifically for the robot */
                 break;

@@ -12,6 +12,9 @@ import frc.robot.mechanisms.feeder.Feeder;
 import frc.robot.mechanisms.feeder.FeederCommands;
 import frc.robot.mechanisms.intake.Intake;
 import frc.robot.mechanisms.intake.IntakeCommands;
+import frc.robot.mechanisms.launcher.LauncherCommands;
+import frc.robot.mechanisms.launcher.LeftLauncher;
+import frc.robot.mechanisms.launcher.RightLauncher;
 import frc.robot.mechanisms.pivot.Pivot;
 import frc.robot.mechanisms.pivot.PivotCommands;
 import frc.robot.operator.Operator;
@@ -32,12 +35,15 @@ public class Robot extends LoggedRobot {
 
     /** Create a single static instance of all of your subsystems */
     public static Swerve swerve;
+
     public static Intake intake;
     public static AmpTrap ampTrap;
     public static Elevator elevator;
     public static Feeder feeder;
     public static Climber climber;
     public static Pivot pivot;
+    public static LeftLauncher leftLauncher;
+    public static RightLauncher rightLauncher;
     public static LEDs leds;
     public static Pilot pilot;
     public static Operator operator;
@@ -78,6 +84,8 @@ public class Robot extends LoggedRobot {
             feeder = new Feeder(config.feederAttached);
             climber = new Climber(config.climberAttached);
             pivot = new Pivot(config.pivotAttached);
+            leftLauncher = new LeftLauncher(config.leftLauncherAttached);
+            rightLauncher = new RightLauncher(config.rightLauncherAttached);
             pilot = new Pilot();
             operator = new Operator();
             leds = new LEDs();
@@ -97,6 +105,7 @@ public class Robot extends LoggedRobot {
             ElevatorCommands.setupDefaultCommand();
             FeederCommands.setupDefaultCommand();
             PivotCommands.setupDefaultCommand();
+            LauncherCommands.setupDefaultCommand();
             LEDsCommands.setupDefaultCommand();
             PilotCommands.setupDefaultCommand();
             OperatorCommands.setupDefaultCommand();
