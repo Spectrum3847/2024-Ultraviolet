@@ -3,9 +3,13 @@ package frc.robot.pilot;
 import frc.robot.Robot;
 import frc.robot.RobotTelemetry;
 import frc.robot.mechanisms.intake.IntakeCommands;
+import frc.robot.mechanisms.amptrap.AmpTrapCommands;
+import frc.robot.mechanisms.feeder.Feeder;
+import frc.robot.mechanisms.feeder.FeederCommands;
 import frc.robot.swerve.commands.SwerveCommands;
 import frc.spectrumLib.Gamepad;
 import frc.spectrumLib.util.ExpCurve;
+import frc.robot.mechanisms.intake.IntakeCommands;
 
 public class Pilot extends Gamepad {
     public class PilotConfig {
@@ -53,13 +57,18 @@ public class Pilot extends Gamepad {
 
         controller.a().whileTrue(IntakeCommands.runTestin());
 
-        // controller.b().whileTrue();
+        controller.b().whileTrue(
+            AmpTrapCommands.testForward().alongWith(FeederCommands.testBack())
+        );
 
-        // controller.x().whileTrue();
+        controller.x().whileTrue(AmpTrapCommands.testForward().alongWith(FeederCommands.testForward())
+        );
+        
+        controller.y().and(noBumpers()).whileTrue(AmpTrapCommands.testReverse().alongWith(FeederCommands.testBack(), IntakeCommands.eject()));
 
-        // controller.y().and(noBumpers()).whileTrue();
-
-        // controller.y().and(leftBumperOnly()).whileTrue();
+        
+        
+        //controller.leftBumper().whileTrue();
 
         // controller.y().and(rightBumperOnly()).whileTrue();
 
