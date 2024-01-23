@@ -29,7 +29,7 @@ public class Climber extends Mechanism {
         public final double threshold = 30;
 
         public ClimberConfig() {
-            super("Climber", 52, "3847"); // TODO: configure ID
+            super("Climber", 63, "3847"); // TODO: configure ID
             configPIDGains(0, positionKp, 0, 0);
             configFeedForwardGains(0, positionKv, 0, 0);
             configMotionMagic(120, 195, 0); // 40, 120 FOC // 120, 195 Regular
