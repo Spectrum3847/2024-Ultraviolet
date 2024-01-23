@@ -1,13 +1,12 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Timer;
-import frc.spectrumLib.util.Network;
 
 public final class RobotConfig {
 
-    public static String MAC = "";
+    public static String MAC = "00:80:2F:38:D9:B6"; // TODO: change; MAC stalling
     public static final Double robotInitDelay = 2.0; // Seconds to wait before starting robot code
-    public final String ULTRAVIOLET2024MAC = ""; // TODO: configure
+    public final String ULTRAVIOLET2024MAC = "00:80:2F:38:D9:B6";
     public final String NOTEBLOCK2023MAC = "00:80:2F:19:0D:CE";
     public final String MUSICDISC2023MAC = "00:80:2F:23:E9:33";
     public final String XRAY2023MAC = "00:80:2F:22:50:6D";
@@ -25,8 +24,8 @@ public final class RobotConfig {
         }
         // Set the MAC Address for this robot, useful for adjusting comp/practice bot
         // settings
-        MAC = Network.getMACaddress();
-        RobotTelemetry.print("Robot MAC: " + MAC);
+        // MAC = Network.getMACaddress();
+        // RobotTelemetry.print("Robot MAC: " + MAC);
 
         checkRobotType();
         switch (getRobotType()) {
