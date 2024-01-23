@@ -3,6 +3,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.amptrap.AmpTrap;
 import frc.robot.amptrap.AmpTrapCommands;
+import frc.robot.elevator.Elevator;
+import frc.robot.elevator.ElevatorCommands;
 import frc.robot.intake.Intake;
 import frc.robot.intake.IntakeCommands;
 import frc.robot.leds.LEDs;
@@ -27,6 +29,7 @@ public class Robot extends LoggedRobot {
     public static Swerve swerve;
     public static Intake intake;
     public static AmpTrap ampTrap;
+    public static Elevator elevator;
     public static LEDs leds;
     public static Pilot pilot;
     public static Operator operator;
@@ -63,6 +66,7 @@ public class Robot extends LoggedRobot {
             swerve = new Swerve();
             intake = new Intake(config.intakeAttached);
             ampTrap = new AmpTrap(config.ampTrapAttached);
+            elevator = new Elevator(config.elevatorAttached);
             pilot = new Pilot();
             operator = new Operator();
             leds = new LEDs();
@@ -79,6 +83,7 @@ public class Robot extends LoggedRobot {
             SwerveCommands.setupDefaultCommand();
             IntakeCommands.setupDefaultCommand();
             AmpTrapCommands.setupDefaultCommand();
+            ElevatorCommands.setupDefaultCommand();
             LEDsCommands.setupDefaultCommand();
             PilotCommands.setupDefaultCommand();
             OperatorCommands.setupDefaultCommand();
