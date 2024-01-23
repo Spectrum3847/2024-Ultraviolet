@@ -17,6 +17,7 @@ public final class RobotConfig {
 
     private RobotType robotType = null;
     public boolean intakeAttached = true;
+    public boolean ampTrapAttached = true;
 
     public RobotConfig() {
         if (Robot.isReal()) {
@@ -33,9 +34,12 @@ public final class RobotConfig {
                 /* Set all the constants specifically for the simulation*/
                 break;
             case ULTRAVIOLET:
+                intakeAttached = true;
+                ampTrapAttached = true;
                 break;
             case XRAY:
                 intakeAttached = false;
+                ampTrapAttached = false;
             default:
                 /* Set all the constants specifically for the robot */
                 break;
