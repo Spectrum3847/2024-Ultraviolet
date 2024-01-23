@@ -5,6 +5,7 @@ import frc.robot.leds.LEDs;
 import frc.robot.leds.LEDsCommands;
 import frc.robot.mechanisms.amptrap.AmpTrap;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
+import frc.robot.mechanisms.climber.Climber;
 import frc.robot.mechanisms.elevator.Elevator;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
 import frc.robot.mechanisms.feeder.Feeder;
@@ -33,6 +34,7 @@ public class Robot extends LoggedRobot {
     public static AmpTrap ampTrap;
     public static Elevator elevator;
     public static Feeder feeder;
+    public static Climber climber;
     public static LEDs leds;
     public static Pilot pilot;
     public static Operator operator;
@@ -71,6 +73,7 @@ public class Robot extends LoggedRobot {
             ampTrap = new AmpTrap(config.ampTrapAttached);
             elevator = new Elevator(config.elevatorAttached);
             feeder = new Feeder(config.feederAttached);
+            climber = new Climber(config.climberAttached);
             pilot = new Pilot();
             operator = new Operator();
             leds = new LEDs();
