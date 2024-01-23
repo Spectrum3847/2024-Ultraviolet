@@ -23,7 +23,6 @@ public class Robot extends LoggedRobot {
 
     /** Create a single static instance of all of your subsystems */
     public static Swerve swerve;
-
     public static Intake intake;
     public static LEDs leds;
     public static Pilot pilot;

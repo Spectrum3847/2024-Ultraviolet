@@ -10,16 +10,12 @@ public class Intake extends Mechanism {
     public class IntakeConfig extends Config {
 
         /* Revolutions per min Intake Output */
-        public double maxSpeed = 5000;
-        public double intake = 4000;
-        public double slowIntake = 900;
-        public double eject = -3000;
-        public double drop = -300;
-        public double floorDrop = -500;
+        public double maxSpeed = 5000; //TODO: configure
+        public double intake = 4000; //TODO: configure
+        public double eject = -3000; //TODO: configure
 
         /* Percentage Intake Output */
-        public double slowIntakePercentage = 0.06;
-        public double holdIntakePercentage = 0.1;
+        public double slowIntakePercentage = 0.06; //TODO: configure
 
         /* Intake config values */
         public double currentLimit = 12;
@@ -29,13 +25,13 @@ public class Intake extends Mechanism {
         public double velocityKs = 0.24;
 
         public IntakeConfig() {
-            super("Intake", 52, "rio");
+            super("Intake", 60, "3847");
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
-            configGearRatio(12 / 30);
+            configGearRatio(12 / 30); //TODO: configure
             configSupplyCurrentLimit(currentLimit, threshold, true);
             configNeutralBrakeMode(true);
-            configCounterClockwise_Positive();
+            configCounterClockwise_Positive(); //TODO: configure
             configMotionMagic(51, 205, 0);
         }
     }
@@ -80,12 +76,6 @@ public class Intake extends Mechanism {
         return run(() -> stop()).withName("Intake.stop");
     }
 
-    @Override
-    protected Config setConfig() {
-        config = new IntakeConfig();
-        return config;
-    }
-
     /* Logging */
 
     /** Returns the velocity of the motor in rotations per second */
@@ -95,5 +85,11 @@ public class Intake extends Mechanism {
             return motor.getVelocity().getValueAsDouble();
         }
         return 0;
+    }
+
+    @Override
+    protected Config setConfig() {
+        config = new IntakeConfig();
+        return config;
     }
 }

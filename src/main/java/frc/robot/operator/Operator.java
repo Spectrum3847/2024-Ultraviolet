@@ -23,7 +23,6 @@ public class Operator extends Gamepad {
     /** Setup the Buttons for telop mode. */
     /*  A, B, X, Y, Left Bumper, Right Bumper = Buttons 1 to 6 in simualation */
     public void setupTeleopButtons() {
-        // Prints Once
         // controller.a().whileTrue();
 
         // controller.b().whileTrue();
