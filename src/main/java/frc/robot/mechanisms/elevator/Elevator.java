@@ -12,14 +12,14 @@ public class Elevator extends Mechanism {
     public class ElevatorConfig extends Config {
 
         /* Elevator constants in rotations */
-        public final double maxHeight = 10; //TODO: configure
-        public final double minHeight = 0.29; //TODO: configure
+        public final double maxHeight = 10; // TODO: configure
+        public final double minHeight = 0.29; // TODO: configure
 
         /* Elevator positions in rotations */
         public double fullExtend = maxHeight;
         public double home = minHeight;
-        public double amp = 2; //TODO: configure
-        public double trap = 5; //TODO: configure
+        public double amp = 2; // TODO: configure
+        public double trap = 5; // TODO: configure
         public double startingMotorPos = -0.15;
 
         /* Elevator config settings */
@@ -39,7 +39,7 @@ public class Elevator extends Mechanism {
             configReverseSoftLimit(minHeight, true);
             configNeutralBrakeMode(true);
             // configMotionMagicPosition(0.12);
-            configClockwise_Positive(); //TODO: configure
+            configClockwise_Positive(); // TODO: configure
         }
     }
 
@@ -89,7 +89,8 @@ public class Elevator extends Mechanism {
         return runPercentage(percentSupplier.getAsDouble());
     }
 
-    // TODO: review; having commands in the elevator class would mean you are calling elevator commands from
+    // TODO: review; having commands in the elevator class would mean you are calling elevator
+    // commands from
     // two different places
     public Command runStop() {
         return run(() -> stop()).withName("Elevator.runStop");
@@ -129,7 +130,8 @@ public class Elevator extends Mechanism {
                 double currentPosition = motor.getPosition().getValueAsDouble();
                 if (Math.abs(holdPosition - currentPosition) <= 5) {
                     setMMPosition(
-                            holdPosition); // TODO: add: change mode depending on current control mode
+                            holdPosition); // TODO: add: change mode depending on current control
+                    // mode
                 } else {
                     DriverStation.reportError(
                             "ElevatorHoldPosition tried to go too far away from current position. Current Position: "
@@ -148,7 +150,7 @@ public class Elevator extends Mechanism {
     }
 
     // TODO: review; inline vs custom command
-    //TODO: fix: will not work currently
+    // TODO: fix: will not work currently
     public Command zeroElevatorRoutine() {
         return new FunctionalCommand( // TODO: refresh config in order to modify soft limits
                         () ->

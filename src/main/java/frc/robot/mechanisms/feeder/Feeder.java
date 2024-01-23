@@ -10,12 +10,12 @@ public class Feeder extends Mechanism {
     public class FeederConfig extends Config {
 
         /* Revolutions per min Feeder Output */
-        public double maxSpeed = 5000; //TODO: configure
-        public double feed = 4000; //TODO: configure
-        public double eject = -3000; //TODO: configure
+        public double maxSpeed = 5000; // TODO: configure
+        public double feed = 4000; // TODO: configure
+        public double eject = -3000; // TODO: configure
 
         /* Percentage Feeder Output */
-        public double slowFeederPercentage = 0.06; //TODO: configure
+        public double slowFeederPercentage = 0.06; // TODO: configure
 
         /* Feeder config values */
         public double currentLimit = 12;
@@ -28,10 +28,10 @@ public class Feeder extends Mechanism {
             super("Feeder", 40, "3847");
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
-            configGearRatio(12 / 30); //TODO: configure
+            configGearRatio(12 / 30); // TODO: configure
             configSupplyCurrentLimit(currentLimit, threshold, true);
             configNeutralBrakeMode(true);
-            configCounterClockwise_Positive(); //TODO: configure
+            configCounterClockwise_Positive(); // TODO: configure
             configMotionMagic(51, 205, 0);
         }
     }

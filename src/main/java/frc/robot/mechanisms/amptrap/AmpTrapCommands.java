@@ -30,5 +30,4 @@ public class AmpTrapCommands {
     public static Command stopMotor() {
         return ampTrap.runStop().withName("AmpTrap.stopMotor");
     }
-
 }
