@@ -61,4 +61,8 @@ public class LauncherCommands {
     public static Command stopRightMotor() {
         return rightLauncher.runStop().withName("RightLauncher.stopMotor");
     }
+
+    public static Command LeftLauncherTest(){
+        return leftLauncher.runPercentage(leftLauncher.config.testForwardPercent);
+    }
 }

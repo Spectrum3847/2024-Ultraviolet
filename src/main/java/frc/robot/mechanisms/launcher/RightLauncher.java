@@ -16,6 +16,9 @@ public class RightLauncher extends Mechanism {
 
         /* Percentage RightLauncher Output */
         public double slowRightLauncherPercentage = 0.06; // TODO: configure
+        public double testForwardPercent = 0.5;
+        public double testBackPercent = -0.5;
+        
 
         /* RightLauncher config values */
         public double currentLimit = 12;

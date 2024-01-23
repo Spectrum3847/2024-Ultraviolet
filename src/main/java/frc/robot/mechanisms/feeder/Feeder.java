@@ -16,6 +16,9 @@ public class Feeder extends Mechanism {
 
         /* Percentage Feeder Output */
         public double slowFeederPercentage = 0.06; // TODO: configure
+        public double testForwardPercent=0.5;
+        public double testBackPercent=-0.5;
+
 
         /* Feeder config values */
         public double currentLimit = 12;
