@@ -29,12 +29,12 @@ public class FeederCommands {
     public static Command stopMotor() {
         return feeder.runStop().withName("Feeder.stopMotor");
     }
-    
+
     public static Command testForward() {
         return feeder.runPercentage(feeder.config.testForwardPercent);
-
     }
-    public static Command testBack(){
+
+    public static Command testBack() {
         return feeder.runPercentage(feeder.config.testBackPercent);
     }
 }

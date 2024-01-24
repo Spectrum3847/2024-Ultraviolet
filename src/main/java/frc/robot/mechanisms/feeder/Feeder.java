@@ -16,9 +16,8 @@ public class Feeder extends Mechanism {
 
         /* Percentage Feeder Output */
         public double slowFeederPercentage = 0.06; // TODO: configure
-        public double testForwardPercent=0.5;
-        public double testBackPercent=-0.5;
-
+        public double testForwardPercent = 1;
+        public double testBackPercent = -0.5;
 
         /* Feeder config values */
         public double currentLimit = 12;
@@ -32,7 +31,7 @@ public class Feeder extends Mechanism {
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
             configGearRatio(12 / 30); // TODO: configure
-            configSupplyCurrentLimit(currentLimit, threshold, true);
+            configSupplyCurrentLimit(currentLimit, threshold, false);
             configNeutralBrakeMode(true);
             configCounterClockwise_Positive(); // TODO: configure
             configMotionMagic(51, 205, 0);

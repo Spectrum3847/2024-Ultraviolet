@@ -30,9 +30,11 @@ public class AmpTrapCommands {
     public static Command stopMotor() {
         return ampTrap.runStop().withName("AmpTrap.stopMotor");
     }
+
     public static Command testForward() {
         return ampTrap.runPercentage(ampTrap.config.testForwardPercent);
     }
+
     public static Command testReverse() {
         return ampTrap.runPercentage(ampTrap.config.testBackPercent);
     }

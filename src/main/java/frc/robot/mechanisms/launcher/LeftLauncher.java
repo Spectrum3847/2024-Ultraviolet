@@ -31,7 +31,7 @@ public class LeftLauncher extends Mechanism {
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
             configGearRatio(12 / 30); // TODO: configure
-            configSupplyCurrentLimit(currentLimit, threshold, true);
+            configSupplyCurrentLimit(currentLimit, threshold, false);
             configNeutralBrakeMode(true);
             configCounterClockwise_Positive(); // TODO: configure
             configMotionMagic(51, 205, 0);

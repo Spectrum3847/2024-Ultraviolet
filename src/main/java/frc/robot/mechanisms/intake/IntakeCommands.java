@@ -14,7 +14,7 @@ public class IntakeCommands {
         return intake.runVelocity(intake.config.maxSpeed).withName("Intake.runFull");
     }
 
-    public static Command runTestin(){
+    public static Command runTestin() {
         return intake.runPercentage(intake.config.testIntakePercentage)
                 .withName("Intake.testIntake");
     }
