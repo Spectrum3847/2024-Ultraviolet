@@ -12,13 +12,13 @@ public class Elevator extends Mechanism {
     public class ElevatorConfig extends Config {
 
         /* Elevator constants in rotations */
-        public final double maxHeight = 10; // TODO: configure
+        public final double maxHeight = 53; // TODO: configure
         public final double minHeight = 0.29; // TODO: configure
 
         /* Elevator positions in rotations */
         public double fullExtend = maxHeight;
         public double home = minHeight;
-        public double amp = 2; // TODO: configure
+        public double amp = 10; // TODO: configure
         public double trap = 5; // TODO: configure
         public double startingMotorPos = -0.15;
 
@@ -39,7 +39,7 @@ public class Elevator extends Mechanism {
             configReverseSoftLimit(minHeight, true);
             configNeutralBrakeMode(true);
             // configMotionMagicPosition(0.12);
-            configClockwise_Positive(); // TODO: configure
+            configCounterClockwise_Positive(); // TODO: configure
         }
     }
 
@@ -96,6 +96,7 @@ public class Elevator extends Mechanism {
         return run(() -> stop()).withName("Elevator.runStop");
     }
 
+    // TODO: come back alexis
     /**
      * Temporarily sets the elevator to coast mode. The configuration is applied when the command is
      * started and reverted when the command is ended.

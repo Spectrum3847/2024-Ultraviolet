@@ -101,9 +101,7 @@ public class PilotCommands {
     }
 
     public static Command manualElevator() {
-        return new RunCommand(
-                        () -> Robot.elevator.runPercentage(pilot.controller.getRightY()),
-                        Robot.elevator)
+        return new RunCommand(() -> Robot.elevator.runPercentage(0.3), Robot.elevator)
                 .withName("Elevator.manualOutput");
     }
 

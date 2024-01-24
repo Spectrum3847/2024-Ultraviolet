@@ -19,6 +19,10 @@ public class IntakeCommands {
                 .withName("Intake.testIntake");
     }
 
+    public static Command runVelocityTestin() {
+        return intake.runVelocity(intake.config.testVelocity).withName("Intake.testVelocity");
+    }
+
     public static Command slowIntake() {
         return intake.runPercentage(intake.config.slowIntakePercentage)
                 .withName("Intake.slowIntake");

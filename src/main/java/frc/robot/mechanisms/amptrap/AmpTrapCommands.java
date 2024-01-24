@@ -38,4 +38,9 @@ public class AmpTrapCommands {
     public static Command testReverse() {
         return ampTrap.runPercentage(ampTrap.config.testBackPercent);
     }
+
+    public static Command runVelocityTestin() {
+        return ampTrap.runVelocity(ampTrap.config.testVelocity)
+                .withName("AmpTrap.runVelocityTestin");
+    }
 }

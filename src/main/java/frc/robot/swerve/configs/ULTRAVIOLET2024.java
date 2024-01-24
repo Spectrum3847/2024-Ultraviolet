@@ -11,7 +11,8 @@ public class ULTRAVIOLET2024 {
 
     // Angle Offsets
     private static final double kFrontLeftCANcoderOffset = 308.76; // -0.399658;
-    private static final double kFrontRightCANncoderOffset = 71.016; // -0.186279;
+    private static final double kFrontRightCANncoderOffset =
+            388; // -0.186279; //Absolute Position No Offset, opposite sign
     private static final double kBackLeftCANcoderOffset = 279.316; // 0.118896;
     private static final double kBackRightCANcoderOffset = 260.684; // -0.021240;
 

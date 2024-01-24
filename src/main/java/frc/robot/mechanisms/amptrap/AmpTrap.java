@@ -13,6 +13,7 @@ public class AmpTrap extends Mechanism {
         public double maxSpeed = 5000; // TODO: configure
         public double intake = 4000; // TODO: configure
         public double eject = -3000; // TODO: configure
+        public double testVelocity = 3000;
 
         /* Percentage AmpTrap Output */
         public double slowIntakePercentage = 0.06; // TODO: configure

@@ -10,7 +10,7 @@ public class Pivot extends Mechanism {
 
         /* Pivot constants in motor rotations */
         public final double maxRotation =
-                10; // TODO: configure (find using smartdashboard) or else bad things will happen
+                28.448; // TODO: configure (find using smartdashboard) or else bad things will happen
         public final double minRotation =
                 0; // TODO: configure (find using smartdashboard) or else bad things will happen
 
@@ -34,10 +34,10 @@ public class Pivot extends Mechanism {
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
             configGearRatio(1); // TODO: configure
             configSupplyCurrentLimit(currentLimit, threshold, true);
-            configNeutralBrakeMode(true);
-            configClockwise_Positive(); // TODO: configure
+            configNeutralBrakeMode(false);
+            configCounterClockwise_Positive(); // TODO: configure
             configReverseSoftLimit(minRotation, true);
-            configForwardSoftLimit(maxRotation, true);
+            configForwardSoftLimit(maxRotation, false);
             configMotionMagic(51, 205, 0);
         }
     }
@@ -97,6 +97,12 @@ public class Pivot extends Mechanism {
      */
     public Command runStop() {
         return run(() -> stop()).withName("Pivot.stop");
+    }
+
+    public Command coastMode() {
+        return startEnd(() -> setBrakeMode(false), () -> setBrakeMode(true))
+                .ignoringDisable(true)
+                .withName("Pivot.coastMode");
     }
 
     /* Custom Commands */

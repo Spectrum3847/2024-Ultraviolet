@@ -176,7 +176,10 @@ public class Climber extends Mechanism {
 
     @AutoLogOutput(key = "Climber/Position (rotations)")
     public double getMotorPosition() {
-        return motor.getPosition().getValueAsDouble();
+        if (attached) {
+            return motor.getPosition().getValueAsDouble();
+        }
+        return 0;
     }
 
     @Override

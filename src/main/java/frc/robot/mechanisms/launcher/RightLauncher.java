@@ -13,6 +13,7 @@ public class RightLauncher extends Mechanism {
         /* Revolutions per min RightLauncher Output */
         public double maxSpeed = 5000; // TODO: configure
         public double launch = 4000; // TODO: configure
+        public double testVelocity = 3000;
 
         /* Percentage RightLauncher Output */
         public double slowRightLauncherPercentage = 0.06; // TODO: configure

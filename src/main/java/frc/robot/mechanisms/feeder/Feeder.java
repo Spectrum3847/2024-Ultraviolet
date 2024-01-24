@@ -13,6 +13,7 @@ public class Feeder extends Mechanism {
         public double maxSpeed = 5000; // TODO: configure
         public double feed = 4000; // TODO: configure
         public double eject = -3000; // TODO: configure
+        public double testVelocity = 3000;
 
         /* Percentage Feeder Output */
         public double slowFeederPercentage = 0.06; // TODO: configure

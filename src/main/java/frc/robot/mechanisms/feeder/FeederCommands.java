@@ -37,4 +37,8 @@ public class FeederCommands {
     public static Command testBack() {
         return feeder.runPercentage(feeder.config.testBackPercent);
     }
+
+    public static Command runVelocityTestin() {
+        return feeder.runVelocity(feeder.config.testVelocity).withName("Feeder.runVelocityTestin");
+    }
 }

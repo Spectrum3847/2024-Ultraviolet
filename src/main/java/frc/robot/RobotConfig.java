@@ -1,7 +1,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.swerve.configs.ULTRAVIOLET2024;
 
 public final class RobotConfig {
 

@@ -16,6 +16,10 @@ public class PivotCommands {
         return pivot.runPosition(pivot.config.home).withName("Pivot.home");
     }
 
+    public static Command percentage() {
+        return pivot.runManualOutput(0.3);
+    }
+
     /* Intaking Positions */
 
     /* Scoring Positions */
@@ -26,5 +30,9 @@ public class PivotCommands {
 
     public static Command halfScore() {
         return pivot.runPosition(pivot.config.halfScore).withName("Pivot.halfScore");
+    }
+
+    public static Command coastMode() {
+        return pivot.coastMode();
     }
 }

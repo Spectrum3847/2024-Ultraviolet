@@ -65,4 +65,10 @@ public class LauncherCommands {
     public static Command LeftLauncherTest() {
         return leftLauncher.runPercentage(leftLauncher.config.testForwardPercent);
     }
+
+    public static Command runVelocityTestin() {
+        return runLauncherVelocities(
+                        leftLauncher.config.testVelocity, rightLauncher.config.testVelocity)
+                .withName("Launcher.runTestVelocity");
+    }
 }

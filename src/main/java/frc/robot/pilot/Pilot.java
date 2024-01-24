@@ -3,9 +3,11 @@ package frc.robot.pilot;
 import frc.robot.Robot;
 import frc.robot.RobotTelemetry;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
+import frc.robot.mechanisms.elevator.ElevatorCommands;
 import frc.robot.mechanisms.feeder.FeederCommands;
 import frc.robot.mechanisms.intake.IntakeCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
+import frc.robot.mechanisms.pivot.PivotCommands;
 import frc.robot.swerve.commands.SwerveCommands;
 import frc.spectrumLib.Gamepad;
 import frc.spectrumLib.util.ExpCurve;
@@ -54,15 +56,19 @@ public class Pilot extends Gamepad {
         // manual output commands (map joystick to raw -1 to 1 output on motor): manualAmpTrap,
         // manualClimber, manualElevator, manualFeeder, manualIntake, manualPivot, manualLauncher
 
-        controller.a().whileTrue(IntakeCommands.runTestin());
+        controller.a().and(noBumpers()).whileTrue(PivotCommands.coastMode());
 
-        controller
-                .b()
-                .whileTrue(AmpTrapCommands.testForward().alongWith(FeederCommands.testBack()));
+        // controller.a().and(leftBumperOnly()).whileTrue(ElevatorCommands.amp());
+
+        controller.b().whileTrue(ElevatorCommands.amp());
+
+        controller.b().and(leftBumperOnly()).whileTrue(PivotCommands.halfScore());
 
         controller
                 .x()
                 .whileTrue(AmpTrapCommands.testForward().alongWith(FeederCommands.testForward()));
+
+        controller.x().and(leftBumperOnly()).whileTrue(FeederCommands.runVelocityTestin());
 
         controller
                 .y()
@@ -70,6 +76,8 @@ public class Pilot extends Gamepad {
                 .whileTrue(
                         AmpTrapCommands.testReverse()
                                 .alongWith(FeederCommands.testBack(), IntakeCommands.eject()));
+
+        controller.y().and(leftBumperOnly()).whileTrue(LauncherCommands.runVelocityTestin());
 
         controller.rightBumper().whileTrue(LauncherCommands.runLauncherPercentages(0.8, 0.6));
 
