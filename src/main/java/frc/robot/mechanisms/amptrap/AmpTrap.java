@@ -18,7 +18,7 @@ public class AmpTrap extends Mechanism {
         /* Percentage AmpTrap Output */
         public double slowIntakePercentage = 0.06; // TODO: configure
 
-        public double testForwardPercent = 0.50;
+        public double testForwardPercent = 0.30;
         public double testBackPercent = -0.50;
 
         /* AmpTrap config values */

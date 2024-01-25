@@ -18,7 +18,7 @@ public class Elevator extends Mechanism {
         /* Elevator positions in rotations */
         public double fullExtend = maxHeight;
         public double home = minHeight;
-        public double amp = 10; // TODO: configure
+        public double amp = 15; // TODO: configure
         public double trap = 5; // TODO: configure
         public double startingMotorPos = -0.15;
 

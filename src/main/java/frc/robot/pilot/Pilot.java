@@ -60,7 +60,7 @@ public class Pilot extends Gamepad {
 
         // controller.a().and(leftBumperOnly()).whileTrue(ElevatorCommands.amp());
 
-        controller.b().whileTrue(ElevatorCommands.amp());
+        controller.b().whileTrue(ElevatorCommands.amp().alongWith(AmpTrapCommands.testForward()));
 
         controller.b().and(leftBumperOnly()).whileTrue(PivotCommands.halfScore());
 

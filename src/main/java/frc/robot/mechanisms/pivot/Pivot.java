@@ -10,7 +10,8 @@ public class Pivot extends Mechanism {
 
         /* Pivot constants in motor rotations */
         public final double maxRotation =
-                28.448; // TODO: configure (find using smartdashboard) or else bad things will happen
+                28.448; // TODO: configure (find using smartdashboard) or else bad things will
+        // happen
         public final double minRotation =
                 0; // TODO: configure (find using smartdashboard) or else bad things will happen
 
