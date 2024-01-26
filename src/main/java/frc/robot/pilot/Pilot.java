@@ -56,7 +56,7 @@ public class Pilot extends Gamepad {
         // manual output commands (map joystick to raw -1 to 1 output on motor): manualAmpTrap,
         // manualClimber, manualElevator, manualFeeder, manualIntake, manualPivot, manualLauncher
 
-        controller.a().and(noBumpers()).whileTrue(PivotCommands.coastMode());
+        controller.a().and(noBumpers()).whileTrue(PivotCommands.percentage());
 
         // controller.a().and(leftBumperOnly()).whileTrue(ElevatorCommands.amp());
 

@@ -31,7 +31,7 @@ public class RightLauncher extends Mechanism {
             super("RightLauncher", 43, "3847");
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
-            configGearRatio(12 / 30); // TODO: configure
+            configGearRatio(1 / 2); // TODO: configure
             configSupplyCurrentLimit(currentLimit, threshold, false);
             configNeutralBrakeMode(true);
             configClockwise_Positive(); // TODO: configure
@@ -88,6 +88,15 @@ public class RightLauncher extends Mechanism {
     public double getMotorVelocity() {
         if (attached) {
             return motor.getVelocity().getValueAsDouble();
+        }
+        return 0;
+    }
+
+    /** Returns the velocity of the motor in rotations per second */
+    @AutoLogOutput(key = "RightLauncher/Motor Velocity (revolutions per minute)")
+    public double getMotorVelocityInRPM() {
+        if (attached) {
+            return Conversions.RPStoRPM(getMotorVelocity());
         }
         return 0;
     }

@@ -15,6 +15,12 @@ public class LauncherCommands {
 
     /* Launch Commands */
 
+    public static Command runTest() {
+        return runLauncherVelocities(
+                        leftLauncher.config.testVelocity, rightLauncher.config.testVelocity)
+                .withName("Launcher.runTest");
+    }
+
     public static Command runFull() {
         return runLauncherVelocities(leftLauncher.config.maxSpeed, rightLauncher.config.maxSpeed)
                 .withName("Launcher.runFull");

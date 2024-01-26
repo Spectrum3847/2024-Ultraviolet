@@ -21,6 +21,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Timer;
 import frc.spectrumLib.swerve.config.ModuleConfig;
 
 /**
@@ -80,6 +81,7 @@ public class Module {
                 config.DriveMotorInverted
                         ? InvertedValue.Clockwise_Positive
                         : InvertedValue.CounterClockwise_Positive;
+        Timer.delay(1);
         StatusCode response = m_driveMotor.getConfigurator().apply(talonConfigs);
         if (!response.isOK()) {
             System.out.println(
@@ -122,6 +124,8 @@ public class Module {
                 config.SteerMotorInverted
                         ? InvertedValue.Clockwise_Positive
                         : InvertedValue.CounterClockwise_Positive;
+
+        Timer.delay(1);
         response = m_steerMotor.getConfigurator().apply(talonConfigs);
         if (!response.isOK()) {
             System.out.println(
@@ -133,6 +137,7 @@ public class Module {
 
         CANcoderConfiguration cancoderConfigs = new CANcoderConfiguration();
         cancoderConfigs.MagnetSensor.MagnetOffset = config.CANcoderOffset;
+        Timer.delay(1);
         response = m_cancoder.getConfigurator().apply(cancoderConfigs);
         if (!response.isOK()) {
             System.out.println(
