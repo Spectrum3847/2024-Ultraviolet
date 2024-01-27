@@ -1,5 +1,6 @@
 package frc.robot.mechanisms.launcher;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
@@ -21,8 +22,8 @@ public class LeftLauncher extends Mechanism {
         public double testBackPercent = 0.5;
 
         /* LeftLauncher config values */
-        public double currentLimit = 12;
-        public double threshold = 20;
+        public double currentLimit = 40;
+        public double threshold = 80;
         public double velocityKp = 0.156152;
         public double velocityKv = 0.12;
         public double velocityKs = 0.24;
@@ -32,7 +33,7 @@ public class LeftLauncher extends Mechanism {
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
             configGearRatio(1 / 2); // TODO: configure
-            configSupplyCurrentLimit(currentLimit, threshold, false);
+            configSupplyCurrentLimit(currentLimit, threshold, true);
             configNeutralBrakeMode(true);
             configCounterClockwise_Positive(); // TODO: configure
             configMotionMagic(51, 205, 0);
@@ -45,6 +46,8 @@ public class LeftLauncher extends Mechanism {
         super(attached);
         if (attached) {
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
+
+            SmartDashboard.putNumber("leftLaunchSpeed", 3000);
         }
     }
 

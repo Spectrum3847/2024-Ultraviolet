@@ -15,6 +15,11 @@ public class LauncherCommands {
 
     /* Launch Commands */
 
+    public static Command runOnDemandVelocity() {
+        return new LaunchTest(leftLauncher.config.testVelocity)
+                .withName("Launcher.onDemandVelocity");
+    }
+
     public static Command runTest() {
         return runLauncherVelocities(
                         leftLauncher.config.testVelocity, rightLauncher.config.testVelocity)

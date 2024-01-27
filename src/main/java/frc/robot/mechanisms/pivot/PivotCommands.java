@@ -17,7 +17,11 @@ public class PivotCommands {
     }
 
     public static Command percentage() {
-        return pivot.runManualOutput(0.3);
+        return pivot.runManualOutput(0.1);
+    }
+
+    public static Command negativePercentage() {
+        return pivot.runManualOutput(-0.1);
     }
 
     /* Intaking Positions */

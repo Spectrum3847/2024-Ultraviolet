@@ -58,17 +58,23 @@ public class Pilot extends Gamepad {
 
         controller.a().and(noBumpers()).whileTrue(PivotCommands.percentage());
 
-        // controller.a().and(leftBumperOnly()).whileTrue(ElevatorCommands.amp());
-
-        controller.b().whileTrue(ElevatorCommands.amp().alongWith(AmpTrapCommands.testForward()));
-
-        controller.b().and(leftBumperOnly()).whileTrue(PivotCommands.halfScore());
+        controller.a().and(leftBumperOnly()).whileTrue(PivotCommands.negativePercentage());
 
         controller
-                .x()
+                .b()
+                .and(noBumpers())
+                .whileTrue(ElevatorCommands.amp().alongWith(AmpTrapCommands.testForward()));
+
+        // controller.b().and(leftBumperOnly()).whileTrue(PivotCommands.halfScore());
+
+        controller
+                .b()
+                .and(leftBumperOnly())
                 .whileTrue(AmpTrapCommands.testForward().alongWith(FeederCommands.testForward()));
 
-        controller.x().and(leftBumperOnly()).whileTrue(FeederCommands.runVelocityTestin());
+        controller.x().and(leftBumperOnly()).whileTrue(LauncherCommands.runOnDemandVelocity());
+
+        controller.y().and(leftBumperOnly()).whileTrue(IntakeCommands.intake());
 
         controller
                 .y()
@@ -77,7 +83,7 @@ public class Pilot extends Gamepad {
                         AmpTrapCommands.testReverse()
                                 .alongWith(FeederCommands.testBack(), IntakeCommands.eject()));
 
-        controller.y().and(leftBumperOnly()).whileTrue(LauncherCommands.runVelocityTestin());
+        // controller.y().and(leftBumperOnly()).whileTrue(LauncherCommands.runVelocityTestin());
 
         controller.rightBumper().whileTrue(LauncherCommands.runLauncherPercentages(0.8, 0.6));
 

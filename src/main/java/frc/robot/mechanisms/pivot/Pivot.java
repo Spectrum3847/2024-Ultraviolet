@@ -1,5 +1,6 @@
 package frc.robot.mechanisms.pivot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
@@ -9,14 +10,12 @@ public class Pivot extends Mechanism {
     public class PivotConfig extends Config {
 
         /* Pivot constants in motor rotations */
-        public final double maxRotation =
-                28.448; // TODO: configure (find using smartdashboard) or else bad things will
+        public final double maxRotation = 31;
         // happen
-        public final double minRotation =
-                0; // TODO: configure (find using smartdashboard) or else bad things will happen
+        public final double minRotation = 0;
 
         /* Pivot positions in percentage of max rotation || 0 is vertical? */
-        public final int score = 100;
+        public final int score = 80;
         public final int halfScore = 50;
         public final int home = 0;
 
@@ -50,6 +49,8 @@ public class Pivot extends Mechanism {
         if (attached) {
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
         }
+
+        SmartDashboard.putNumber("pivotPercent", 50);
     }
 
     @Override
