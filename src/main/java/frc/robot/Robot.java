@@ -23,6 +23,7 @@ import frc.robot.pilot.Pilot;
 import frc.robot.pilot.PilotCommands;
 import frc.robot.swerve.Swerve;
 import frc.robot.swerve.commands.SwerveCommands;
+import frc.spectrumLib.orchestra.AudioControl;
 import frc.spectrumLib.util.CrashTracker;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -47,6 +48,7 @@ public class Robot extends LoggedRobot {
     public static LEDs leds;
     public static Pilot pilot;
     public static Operator operator;
+    public static AudioControl audioControl;
     // public static Auton auton;
 
     /**
@@ -86,6 +88,7 @@ public class Robot extends LoggedRobot {
             pivot = new Pivot(config.pivotAttached);
             leftLauncher = new LeftLauncher(config.leftLauncherAttached);
             rightLauncher = new RightLauncher(config.rightLauncherAttached);
+            audioControl = new AudioControl(config.audioControlRunWhileEnabled);
             pilot = new Pilot();
             operator = new Operator();
             leds = new LEDs();
@@ -200,6 +203,9 @@ public class Robot extends LoggedRobot {
         try {
             RobotTelemetry.print("!!! Teleop Init Starting !!! ");
             resetCommandsAndButtons();
+
+            //audible confirmation that teleop is enabled
+            audioControl.playSFX();
 
             RobotTelemetry.print("!!! Teleop Init Complete !!! ");
         } catch (Throwable t) {

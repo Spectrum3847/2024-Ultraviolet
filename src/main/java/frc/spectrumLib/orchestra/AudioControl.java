@@ -90,7 +90,7 @@ public class AudioControl implements Subsystem {
     }
 
     public Command runMixerSkip() {
-        return runOnce(() -> skipTrack()).withName("AudioControl.skip").ignoringDisable(true);
+        return runOnce(() -> continueToNextTrack()).withName("AudioControl.skip").ignoringDisable(true);
     }
 
     /* SFX Commands */
@@ -129,6 +129,11 @@ public class AudioControl implements Subsystem {
     /* Mixer Custom */
 
     //stop current song and continue to next song in playlist
+    public void continueToNextTrack() {
+        stop();
+        playTrack();
+    }
+
     public void skipTrack() {
         currentTrack = playlist[++currentTrackNumber];
         loadTrack(currentTrack);

@@ -24,6 +24,7 @@ public final class RobotConfig {
     public boolean pivotAttached = true;
     public boolean leftLauncherAttached = true;
     public boolean rightLauncherAttached = true;
+    public boolean audioControlRunWhileEnabled = true;
 
     public RobotConfig() {
         if (Robot.isReal()) {
@@ -48,6 +49,7 @@ public final class RobotConfig {
                 pivotAttached = true;
                 leftLauncherAttached = true;
                 rightLauncherAttached = true;
+                audioControlRunWhileEnabled = true;
                 break;
             case XRAY:
                 intakeAttached = false;
@@ -58,6 +60,7 @@ public final class RobotConfig {
                 pivotAttached = false;
                 leftLauncherAttached = false;
                 rightLauncherAttached = false;
+                audioControlRunWhileEnabled = false;
             default:
                 /* Set all the constants specifically for the robot */
                 break;
