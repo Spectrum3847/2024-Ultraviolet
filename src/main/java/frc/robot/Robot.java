@@ -23,6 +23,7 @@ import frc.robot.pilot.Pilot;
 import frc.robot.pilot.PilotCommands;
 import frc.robot.swerve.Swerve;
 import frc.robot.swerve.commands.SwerveCommands;
+import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.util.CrashTracker;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -215,6 +216,9 @@ public class Robot extends LoggedRobot {
     /** This method is called once when teleop exits */
     public void teleopExit() {
         RobotTelemetry.print("!!! Teleop Exit !!! ");
+
+
+        checkRobotMotors();
     }
 
     /* TEST MODE */
@@ -281,5 +285,11 @@ public class Robot extends LoggedRobot {
 
         // Start AdvantageKit logger
         Logger.start();
+    }
+
+    /** This method is called at TeleopExit to check motor licenses and faults */
+    public void checkRobotMotors() {
+        Mechanism.checkMechanismMotors();
+        swerve.checkSwerveModules();
     }
 }

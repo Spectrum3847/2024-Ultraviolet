@@ -205,4 +205,10 @@ public class Swerve implements Subsystem {
             m_stateLock.readLock().unlock();
         }
     }
+
+    public void checkSwerveModules() {
+        for(frc.spectrumLib.swerve.Module module : drivetrain.getModules()) {
+            module.checkModuleDevices();
+        }
+    }
 }
