@@ -17,6 +17,8 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.spectrumLib.util.CanDeviceId;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Control Modes Docs:
@@ -29,9 +31,13 @@ public abstract class Mechanism implements Subsystem {
     protected TalonFX motor;
     public Config config;
 
+    // Mechanism instances
+    private static List<Mechanism> instances = new ArrayList<>();
+
     public Mechanism(boolean attached) {
         this.attached = attached;
         this.config = setConfig();
+        instances.add(this);
     }
 
     protected abstract Config setConfig();
@@ -39,6 +45,14 @@ public abstract class Mechanism implements Subsystem {
     protected void setConfig(Config config) {
         this.config = config;
     };
+
+    public static List<Mechanism> getInstances() {
+        return instances;
+    }
+
+    public TalonFX getMotor() {
+        return motor;
+    }
 
     public void stop() {
         if (attached) {
@@ -153,6 +167,9 @@ public abstract class Mechanism implements Subsystem {
             this.voltageCompSaturation = 12.0;
             this.id = new CanDeviceId(id, canbus);
             talonConfig = new TalonFXConfiguration();
+
+            /* Add default config settings to all mechanism motor configs */
+            talonConfig.Audio.AllowMusicDurDisable = true;
         }
 
         public void applyTalonConfig(TalonFX talon) {

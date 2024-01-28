@@ -17,6 +17,7 @@ import frc.robot.swerve.configs.NOTEBLOCK2023;
 import frc.robot.swerve.configs.ULTRAVIOLET2024;
 import frc.spectrumLib.swerve.Drivetrain;
 import frc.spectrumLib.swerve.Drivetrain.DriveState;
+import frc.spectrumLib.swerve.Module;
 import frc.spectrumLib.swerve.Request;
 import frc.spectrumLib.swerve.config.SwerveConfig;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -122,6 +123,10 @@ public class Swerve implements Subsystem {
 
     public void resetRotationController() {
         rotationController.reset();
+    }
+
+    public Module[] getModules() {
+        return drivetrain.getModules();
     }
 
     public double calculateRotationController(DoubleSupplier targetRadians) {

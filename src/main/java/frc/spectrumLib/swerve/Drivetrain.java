@@ -399,6 +399,10 @@ public class Drivetrain {
         return Modules[index];
     }
 
+    public Module[] getModules() {
+        return Modules;
+    }
+
     /**
      * Gets the current state of the swerve drivetrain.
      *
