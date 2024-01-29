@@ -96,7 +96,6 @@ public class Elevator extends Mechanism {
         return run(() -> stop()).withName("Elevator.runStop");
     }
 
-    // TODO: come back alexis
     /**
      * Temporarily sets the elevator to coast mode. The configuration is applied when the command is
      * started and reverted when the command is ended.

@@ -56,36 +56,41 @@ public class Pilot extends Gamepad {
         // manual output commands (map joystick to raw -1 to 1 output on motor): manualAmpTrap,
         // manualClimber, manualElevator, manualFeeder, manualIntake, manualPivot, manualLauncher
 
-        controller.a().and(noBumpers()).whileTrue(PivotCommands.percentage());
+        controller.y().and(noBumpers()).whileTrue(PivotCommands.percentage());
 
-        controller.a().and(leftBumperOnly()).whileTrue(PivotCommands.negativePercentage());
+        controller.a().and(noBumpers()).whileTrue(PivotCommands.negativePercentage());
+
+        controller.x().and(noBumpers()).whileTrue(LauncherCommands.runOnDemandVelocity());
+
+        controller.b().and(noBumpers()).whileTrue(IntakeCommands.intake());
 
         controller
                 .b()
-                .and(noBumpers())
+                .and(leftBumperOnly())
                 .whileTrue(ElevatorCommands.amp().alongWith(AmpTrapCommands.testForward()));
 
         // controller.b().and(leftBumperOnly()).whileTrue(PivotCommands.halfScore());
 
         controller
-                .b()
+                .x()
                 .and(leftBumperOnly())
-                .whileTrue(AmpTrapCommands.testForward().alongWith(FeederCommands.testForward()));
-
-        controller.x().and(leftBumperOnly()).whileTrue(LauncherCommands.runOnDemandVelocity());
-
-        controller.y().and(leftBumperOnly()).whileTrue(IntakeCommands.intake());
+                .whileTrue(
+                        AmpTrapCommands.testForward()
+                                .alongWith(
+                                        FeederCommands.testBack(),
+                                        IntakeCommands.runTestin(),
+                                        ElevatorCommands.home()));
 
         controller
                 .y()
-                .and(noBumpers())
+                .and(leftBumperOnly())
                 .whileTrue(
                         AmpTrapCommands.testReverse()
                                 .alongWith(FeederCommands.testBack(), IntakeCommands.eject()));
 
         // controller.y().and(leftBumperOnly()).whileTrue(LauncherCommands.runVelocityTestin());
 
-        controller.rightBumper().whileTrue(LauncherCommands.runLauncherPercentages(0.8, 0.6));
+        controller.rightBumper().whileTrue(LauncherCommands.runLauncherPercentages(0.8, 0.8));
 
         // controller.y().and(rightBumperOnly()).whileTrue();
 
