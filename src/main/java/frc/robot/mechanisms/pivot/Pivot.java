@@ -34,7 +34,7 @@ public class Pivot extends Mechanism {
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
             configGearRatio(1); // TODO: configure
             configSupplyCurrentLimit(currentLimit, threshold, true);
-            configNeutralBrakeMode(false);
+            configNeutralBrakeMode(true);
             configCounterClockwise_Positive(); // TODO: configure
             configReverseSoftLimit(minRotation, true);
             configForwardSoftLimit(maxRotation, false);
