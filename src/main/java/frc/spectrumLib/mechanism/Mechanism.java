@@ -1,8 +1,5 @@
 package frc.spectrumLib.mechanism;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
@@ -20,6 +17,8 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.spectrumLib.util.CanDeviceId;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Control Modes Docs:
@@ -32,7 +31,7 @@ public abstract class Mechanism implements Subsystem {
     protected TalonFX motor;
     public Config config;
 
-    //Mechanism instances
+    // Mechanism instances
     private static List<Mechanism> instances = new ArrayList<>();
 
     public Mechanism(boolean attached) {
@@ -146,19 +145,22 @@ public abstract class Mechanism implements Subsystem {
     }
 
     /**
-     * Checks the motors of all instances of the Mechanism class.
-     * Reports any errors related to motor licensing, sticky faults, or faults.
+     * Checks the motors of all instances of the Mechanism class. Reports any errors related to
+     * motor licensing, sticky faults, or faults.
      */
     public static void checkMechanismMotors() {
-        for(Mechanism mechanism : Mechanism.getInstances()) {
-            if(!mechanism.isMotorProLicensed()) {
-                DriverStation.reportError("Mechanism: " + mechanism.config.name + " is not Pro Licensed", false);
+        for (Mechanism mechanism : Mechanism.getInstances()) {
+            if (!mechanism.isMotorProLicensed()) {
+                DriverStation.reportError(
+                        "Mechanism: " + mechanism.config.name + " is not Pro Licensed", false);
             }
-            if(mechanism.motor.getStickyFaultField().getValue() != 0) {
-                DriverStation.reportError("Mechanism: " + mechanism.config.name + " has a sticky fault", false);
+            if (mechanism.motor.getStickyFaultField().getValue() != 0) {
+                DriverStation.reportError(
+                        "Mechanism: " + mechanism.config.name + " has a sticky fault", false);
             }
-            if(mechanism.motor.getFaultField().getValue() != 0) {
-                DriverStation.reportError("Mechanism: " + mechanism.config.name + " has a fault", false);
+            if (mechanism.motor.getFaultField().getValue() != 0) {
+                DriverStation.reportError(
+                        "Mechanism: " + mechanism.config.name + " has a fault", false);
             }
         }
     }

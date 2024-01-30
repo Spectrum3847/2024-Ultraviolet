@@ -217,7 +217,6 @@ public class Robot extends LoggedRobot {
     public void teleopExit() {
         RobotTelemetry.print("!!! Teleop Exit !!! ");
 
-
         checkRobotMotors();
     }
 

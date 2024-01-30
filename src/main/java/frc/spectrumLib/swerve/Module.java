@@ -13,7 +13,6 @@ import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.CANcoder;
-import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -351,35 +350,42 @@ public class Module {
     }
 
     /**
-     * Checks all devices in the module for errors.
-     * Reports any errors related to motor licensing, sticky faults, or faults.
+     * Checks all devices in the module for errors. Reports any errors related to motor licensing,
+     * sticky faults, or faults.
      */
     public void checkModuleDevices() {
         TalonFX[] motors = {m_driveMotor, m_steerMotor};
-        for(TalonFX motor : motors) {
-            if(!motor.getIsProLicensed().getValue()) {
-                DriverStation.reportError("Swerve Motor: (" + motor.getDeviceID() + ") is not Pro Licensed", false);
+        for (TalonFX motor : motors) {
+            if (!motor.getIsProLicensed().getValue()) {
+                DriverStation.reportError(
+                        "Swerve Motor: (" + motor.getDeviceID() + ") is not Pro Licensed", false);
             }
 
-            if(motor.getStickyFaultField().getValue() != 0) {
-                DriverStation.reportError("Swerve Motor: (" + motor.getDeviceID() + ") has a sticky fault", false);
+            if (motor.getStickyFaultField().getValue() != 0) {
+                DriverStation.reportError(
+                        "Swerve Motor: (" + motor.getDeviceID() + ") has a sticky fault", false);
             }
-            if(motor.getFaultField().getValue() != 0) {
-                DriverStation.reportError("Swerve Motor (" + motor.getDeviceID() + ") has a fault", false);
+            if (motor.getFaultField().getValue() != 0) {
+                DriverStation.reportError(
+                        "Swerve Motor (" + motor.getDeviceID() + ") has a fault", false);
             }
         }
 
-        if(!m_cancoder.getIsProLicensed().getValue()) {
-            DriverStation.reportError("Swerve CANcoder: (" + m_cancoder.getDeviceID() + ") is not Pro Licensed", false);
+        if (!m_cancoder.getIsProLicensed().getValue()) {
+            DriverStation.reportError(
+                    "Swerve CANcoder: (" + m_cancoder.getDeviceID() + ") is not Pro Licensed",
+                    false);
         }
 
-        if(m_cancoder.getStickyFaultField().getValue() != 0) {
-            DriverStation.reportError("Swerve CANcoder: (" + m_cancoder.getDeviceID() + ") has a sticky fault", false);
+        if (m_cancoder.getStickyFaultField().getValue() != 0) {
+            DriverStation.reportError(
+                    "Swerve CANcoder: (" + m_cancoder.getDeviceID() + ") has a sticky fault",
+                    false);
         }
 
-        if(m_cancoder.getFaultField().getValue() != 0) {
-            DriverStation.reportError("Swerve CANcoder: (" + m_cancoder.getDeviceID() + ") has a fault", false);
+        if (m_cancoder.getFaultField().getValue() != 0) {
+            DriverStation.reportError(
+                    "Swerve CANcoder: (" + m_cancoder.getDeviceID() + ") has a fault", false);
         }
     }
-
 }

@@ -207,7 +207,7 @@ public class Swerve implements Subsystem {
     }
 
     public void checkSwerveModules() {
-        for(frc.spectrumLib.swerve.Module module : drivetrain.getModules()) {
+        for (frc.spectrumLib.swerve.Module module : drivetrain.getModules()) {
             module.checkModuleDevices();
         }
     }
