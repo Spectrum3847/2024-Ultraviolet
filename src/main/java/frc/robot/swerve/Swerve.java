@@ -206,9 +206,15 @@ public class Swerve implements Subsystem {
         }
     }
 
-    public void checkSwerveModules() {
+    
+    /**
+     * Checks all devices in the module for errors. Reports any errors related to motor licensing,
+     * sticky faults, or faults.
+     */
+    public void checkSwerveDevices() {
         for (frc.spectrumLib.swerve.Module module : drivetrain.getModules()) {
             module.checkModuleDevices();
         }
+        drivetrain.checkPigeon();
     }
 }

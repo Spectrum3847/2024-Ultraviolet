@@ -350,7 +350,7 @@ public class Module {
     }
 
     /**
-     * Checks all devices in the module for errors. Reports any errors related to motor licensing,
+     * Checks swerve motors and cancoders in the module for errors. Reports any errors related to motor licensing,
      * sticky faults, or faults.
      */
     public void checkModuleDevices() {
@@ -358,34 +358,34 @@ public class Module {
         for (TalonFX motor : motors) {
             if (!motor.getIsProLicensed().getValue()) {
                 DriverStation.reportError(
-                        "Swerve Motor: (" + motor.getDeviceID() + ") is not Pro Licensed", false);
+                        "CRITICAL MOTOR ERROR: Swerve Motor (" + motor.getDeviceID() + ") is not Pro Licensed", false);
             }
 
             if (motor.getStickyFaultField().getValue() != 0) {
                 DriverStation.reportError(
-                        "Swerve Motor: (" + motor.getDeviceID() + ") has a sticky fault", false);
+                        "MOTOR ERROR: Swerve Motor (" + motor.getDeviceID() + ") has a sticky fault. Check Phoenix Tuner X for more details", false);
             }
             if (motor.getFaultField().getValue() != 0) {
                 DriverStation.reportError(
-                        "Swerve Motor (" + motor.getDeviceID() + ") has a fault", false);
+                        "MOTOR ERROR: Swerve Motor (" + motor.getDeviceID() + ") has a fault. Check Phoenix Tuner X for more details", false);
             }
         }
 
         if (!m_cancoder.getIsProLicensed().getValue()) {
             DriverStation.reportError(
-                    "Swerve CANcoder: (" + m_cancoder.getDeviceID() + ") is not Pro Licensed",
+                    "CRITICAL CANcoder ERROR: Swerve CANcoder (" + m_cancoder.getDeviceID() + ") is not Pro Licensed. ",
                     false);
         }
 
         if (m_cancoder.getStickyFaultField().getValue() != 0) {
             DriverStation.reportError(
-                    "Swerve CANcoder: (" + m_cancoder.getDeviceID() + ") has a sticky fault",
+                    "CANcoder ERROR: Swerve CANcoder (" + m_cancoder.getDeviceID() + ") has a sticky fault. Check Phoenix Tuner X for more details",
                     false);
         }
 
         if (m_cancoder.getFaultField().getValue() != 0) {
             DriverStation.reportError(
-                    "Swerve CANcoder: (" + m_cancoder.getDeviceID() + ") has a fault", false);
+                    "CANcoder ERROR: Swerve CANcoder (" + m_cancoder.getDeviceID() + ") has a fault. Check Phoenix Tuner X for more details", false);
         }
     }
 }

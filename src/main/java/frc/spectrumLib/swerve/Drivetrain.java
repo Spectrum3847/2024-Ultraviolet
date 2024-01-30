@@ -19,6 +19,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Threads;
 import frc.robot.RobotTelemetry;
 import frc.spectrumLib.swerve.Request.ControlRequestParameters;
@@ -549,5 +550,26 @@ public class Drivetrain {
      */
     public void registerTelemetry(Consumer<DriveState> telemetryFunction) {
         m_telemetryFunction = telemetryFunction;
+    }
+
+    /**
+     * Checks pigeon for errors. Reports any errors related to motor licensing,
+     * sticky faults, or faults.
+     */
+    public void checkPigeon() {
+        if(!m_pigeon2.getIsProLicensed().getValue()) {
+            DriverStation.reportError(
+                "Pigeon: (" + m_pigeon2.getDeviceID() + ") is not Pro Licensed", false);
+        }
+
+        if(m_pigeon2.getStickyFaultField().getValue() != 0) {
+            DriverStation.reportError(
+                "Pigeon: (" + m_pigeon2.getDeviceID() + ") has a sticky fault. Check Phoenix Tuner X for more details", false);
+        }
+
+        if(m_pigeon2.getFaultField().getValue() != 0) {
+            DriverStation.reportError(
+                "Pigeon: (" + m_pigeon2.getDeviceID() + ") has a fault. Check Phoenix Tuner X for more details", false);
+        }
     }
 }

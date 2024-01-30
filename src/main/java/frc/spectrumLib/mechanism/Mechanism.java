@@ -152,15 +152,15 @@ public abstract class Mechanism implements Subsystem {
         for (Mechanism mechanism : Mechanism.getInstances()) {
             if (!mechanism.isMotorProLicensed()) {
                 DriverStation.reportError(
-                        "Mechanism: " + mechanism.config.name + " is not Pro Licensed", false);
+                        "CRITICAL MOTOR ERROR: " + mechanism.config.name + " is not Pro Licensed", false);
             }
             if (mechanism.motor.getStickyFaultField().getValue() != 0) {
                 DriverStation.reportError(
-                        "Mechanism: " + mechanism.config.name + " has a sticky fault", false);
+                        "MOTOR ERROR: " + mechanism.config.name + " has a sticky fault. Check Phoenix Tuner X for more details", false);
             }
             if (mechanism.motor.getFaultField().getValue() != 0) {
                 DriverStation.reportError(
-                        "Mechanism: " + mechanism.config.name + " has a fault", false);
+                        "MOTOR ERROR: " + mechanism.config.name + " has a fault. Check Phoenix Tuner X for more details", false);
             }
         }
     }

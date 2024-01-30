@@ -111,6 +111,7 @@ public class Robot extends LoggedRobot {
             PilotCommands.setupDefaultCommand();
             OperatorCommands.setupDefaultCommand();
 
+            RobotTelemetry.print("Motor check available after TeleopExit");
             RobotTelemetry.print("--- Robot Init Complete ---");
         } catch (Throwable t) {
             // intercept error and log it
@@ -289,6 +290,6 @@ public class Robot extends LoggedRobot {
     /** This method is called at TeleopExit to check motor licenses and faults */
     public void checkRobotMotors() {
         Mechanism.checkMechanismMotors();
-        swerve.checkSwerveModules();
+        swerve.checkSwerveDevices();
     }
 }
