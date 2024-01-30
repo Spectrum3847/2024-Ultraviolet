@@ -105,7 +105,6 @@ public class Pilot extends Gamepad {
         controller.a().onTrue(Robot.audioControl.runMixerPlay());
         controller.b().onTrue(Robot.audioControl.runMixerPause());
         controller.x().onTrue(Robot.audioControl.runMixerSkip());
-
     };
 
     public void setMaxVelocity(double maxVelocity) {

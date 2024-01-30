@@ -3,7 +3,6 @@ package frc.spectrumLib.orchestra;
 import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.hardware.ParentDevice;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -14,8 +13,7 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-
-//TODO: separate tracks and SFX, implement audio control in robot control & gamepads
+// TODO: separate tracks and SFX, implement audio control in robot control & gamepads
 public class AudioControl implements Subsystem {
     public Orchestra mixer;
     public Orchestra sfxControl;
@@ -23,7 +21,7 @@ public class AudioControl implements Subsystem {
     public Collection<ParentDevice> sfxInstruments;
 
     private boolean runWhileEnabled = false;
-    private final String[] sfx = { "sfx1.chrp"};
+    private final String[] sfx = {"sfx1.chrp"};
     private final String[] playlist = {
         "track1.chrp",
         "track2.chrp",
@@ -48,15 +46,12 @@ public class AudioControl implements Subsystem {
     private int currentTrackNumber = 0;
     private String currentTrack = playlist[currentTrackNumber];
 
-    /**
-     * 
-     * @param runWhileEnabled whether tracks (not SFX) run in enabled
-     */
+    /** @param runWhileEnabled whether tracks (not SFX) run in enabled */
     public AudioControl(boolean runWhileEnabled) {
         this.runWhileEnabled = runWhileEnabled;
         // retrieve swerve modules
         Stream<frc.spectrumLib.swerve.Module> swerveModules =
-                Arrays.stream(Robot.swerve.getModules()); 
+                Arrays.stream(Robot.swerve.getModules());
 
         // create sfx instruments
         sfxInstruments =
@@ -64,20 +59,24 @@ public class AudioControl implements Subsystem {
                         .map(Mechanism::getMotor)
                         .collect(Collectors.toList()); // only mechanism motors
 
-        //create track instruments
-        trackInstruments.addAll(sfxInstruments); // include mechanism motors in track instruments
+        // create track instruments
+        trackInstruments =
+                Mechanism.getInstances().stream()
+                        .map(Mechanism::getMotor)
+                        .collect(Collectors.toList());
+        // trackInstruments.addAll(sfxInstruments); // include mechanism motors in track instruments
         trackInstruments.addAll(
                 swerveModules
                         .flatMap(
                                 module -> Stream.of(module.getDriveMotor(), module.getSteerMotor()))
                         .collect(Collectors.toList())); // add swerve drive & angle motors
 
-        //create orchestras
+        // create orchestras
         sfxControl = new Orchestra(sfxInstruments);
         mixer = new Orchestra(trackInstruments);
 
-        loadTrack(currentTrack); //queue up first song
-        loadSFX(sfx[0]); //queue up sfx
+        loadTrack(currentTrack); // queue up first song
+        loadSFX(sfx[0]); // queue up sfx
     }
 
     /* Mixer Commands */
@@ -90,7 +89,9 @@ public class AudioControl implements Subsystem {
     }
 
     public Command runMixerSkip() {
-        return runOnce(() -> continueToNextTrack()).withName("AudioControl.skip").ignoringDisable(true);
+        return runOnce(() -> continueToNextTrack())
+                .withName("AudioControl.skip")
+                .ignoringDisable(true);
     }
 
     /* SFX Commands */
@@ -99,13 +100,14 @@ public class AudioControl implements Subsystem {
     }
 
     public Command runSFXPlay(String filepath) {
-        return runOnce(() -> playSFX(filepath)).withName("AudioControl.playSFX").ignoringDisable(true);
+        return runOnce(() -> playSFX(filepath))
+                .withName("AudioControl.playSFX")
+                .ignoringDisable(true);
     }
 
     public Command runSFXStop() {
         return runOnce(() -> stopSFX()).withName("AudioControl.stopSFX").ignoringDisable(true);
     }
-
 
     /* SFX Wrapper */
 
@@ -128,7 +130,7 @@ public class AudioControl implements Subsystem {
 
     /* Mixer Custom */
 
-    //stop current song and continue to next song in playlist
+    // stop current song and continue to next song in playlist
     public void continueToNextTrack() {
         stop();
         playTrack();
@@ -174,23 +176,22 @@ public class AudioControl implements Subsystem {
     }
 
     public void playTrack() {
-        if(canRun()) {
+        if (canRun()) {
             mixer.play();
         }
     }
 
-    //stop current song and continue to next song in playlist
+    // stop current song and continue to next song in playlist
     public StatusCode stop() {
         StatusCode status = mixer.stop();
         skipTrack();
         return status;
     }
 
-
     /* Audio Control */
     public boolean canRun() {
-        if(DriverStation.isEnabled()) {
-            if(!runWhileEnabled) {
+        if (DriverStation.isEnabled()) {
+            if (!runWhileEnabled) {
                 return false;
             }
         }

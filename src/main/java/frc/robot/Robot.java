@@ -204,7 +204,7 @@ public class Robot extends LoggedRobot {
             RobotTelemetry.print("!!! Teleop Init Starting !!! ");
             resetCommandsAndButtons();
 
-            //audible confirmation that teleop is enabled
+            // audible confirmation that teleop is enabled
             audioControl.playSFX();
 
             RobotTelemetry.print("!!! Teleop Init Complete !!! ");
