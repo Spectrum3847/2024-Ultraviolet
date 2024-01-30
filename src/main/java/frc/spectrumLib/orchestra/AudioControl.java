@@ -13,7 +13,6 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-// TODO: separate tracks and SFX, implement audio control in robot control & gamepads
 public class AudioControl implements Subsystem {
     public Orchestra mixer;
     public Orchestra sfxControl;
@@ -61,10 +60,8 @@ public class AudioControl implements Subsystem {
 
         // create track instruments
         trackInstruments =
-                Mechanism.getInstances().stream()
-                        .map(Mechanism::getMotor)
-                        .collect(Collectors.toList());
-        // trackInstruments.addAll(sfxInstruments); // include mechanism motors in track instruments
+                sfxInstruments.stream()
+                        .collect(Collectors.toList()); // copy mechanism motors to track instruments
         trackInstruments.addAll(
                 swerveModules
                         .flatMap(
