@@ -83,7 +83,8 @@ public class ULTRAVIOLET2024 {
                     .withDriveMotorGains(driveGains)
                     .withSteerMotorGains(steerGains)
                     .withWheelRadius(kWheelRadiusInches)
-                    .withFeedbackSource(steerFeedbackType);
+                    .withFeedbackSource(steerFeedbackType)
+                    .withDriveMotorInverted(false);
 
     public static final ModuleConfig BackLeft =
             DefaultConfig.BackLeft.withCANcoderOffset(kBackLeftCANcoderOffset)
