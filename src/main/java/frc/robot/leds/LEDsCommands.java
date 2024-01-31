@@ -13,14 +13,27 @@ public class LEDsCommands {
         leds.setDefaultCommand(defaultCommand());
     }
 
-    /** Specific Commands */
     public static Command defaultCommand() {
+        return Commands.either(errorStatus(), defaultPattern(), () -> Robot.errorHasOccured);
+    }
+
+    /** Specific Commands */
+    public static Command defaultPattern() {
         return leds.run(
                         () -> {
                             rainbow(Section.FULL, LEDsConfig.length / 2, 2, 0).execute();
                         })
                 .ignoringDisable(true)
                 .withName("LEDs.default");
+    }
+
+    public static Command errorStatus() {
+        return leds.run(
+                        () -> {
+                            strobe(Color.kRed, 1).execute();
+                        })
+                .ignoringDisable(true)
+                .withName("LEDs.error");
     }
 
     public static Command solidPurpleLED() {
