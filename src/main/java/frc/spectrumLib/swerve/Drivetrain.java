@@ -553,23 +553,35 @@ public class Drivetrain {
     }
 
     /**
-     * Checks pigeon for errors. Reports any errors related to motor licensing,
-     * sticky faults, or faults.
+     * Checks pigeon for errors. Reports any errors related to motor licensing, sticky faults, or
+     * faults.
      */
-    public void checkPigeon() {
-        if(!m_pigeon2.getIsProLicensed().getValue()) {
+    public boolean checkPigeon() {
+        boolean faultFound = false;
+        if (!m_pigeon2.getIsProLicensed().getValue()) {
+            faultFound = true;
             DriverStation.reportError(
-                "Pigeon: (" + m_pigeon2.getDeviceID() + ") is not Pro Licensed", false);
+                    "Pigeon: (" + m_pigeon2.getDeviceID() + ") is not Pro Licensed", false);
         }
 
-        if(m_pigeon2.getStickyFaultField().getValue() != 0) {
+        if (m_pigeon2.getStickyFaultField().getValue() != 0) {
+            faultFound = true;
             DriverStation.reportError(
-                "Pigeon: (" + m_pigeon2.getDeviceID() + ") has a sticky fault. Check Phoenix Tuner X for more details", false);
+                    "Pigeon: ("
+                            + m_pigeon2.getDeviceID()
+                            + ") has a sticky fault. Check Phoenix Tuner X for more details",
+                    false);
         }
 
-        if(m_pigeon2.getFaultField().getValue() != 0) {
+        if (m_pigeon2.getFaultField().getValue() != 0) {
+            faultFound = true;
             DriverStation.reportError(
-                "Pigeon: (" + m_pigeon2.getDeviceID() + ") has a fault. Check Phoenix Tuner X for more details", false);
+                    "Pigeon: ("
+                            + m_pigeon2.getDeviceID()
+                            + ") has a fault. Check Phoenix Tuner X for more details",
+                    false);
         }
+
+        return faultFound;
     }
 }

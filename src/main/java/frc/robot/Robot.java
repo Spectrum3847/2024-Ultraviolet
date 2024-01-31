@@ -33,6 +33,7 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 public class Robot extends LoggedRobot {
     public static RobotConfig config;
     public static RobotTelemetry telemetry;
+    public static boolean errorHasOccured;
 
     /** Create a single static instance of all of your subsystems */
     public static Swerve swerve;
@@ -69,6 +70,7 @@ public class Robot extends LoggedRobot {
     public void robotInit() {
         try {
             RobotTelemetry.print("--- Robot Init Starting ---");
+            errorHasOccured = false;
 
             /** Set up the config */
             config = new RobotConfig();
@@ -110,7 +112,6 @@ public class Robot extends LoggedRobot {
             LEDsCommands.setupDefaultCommand();
             PilotCommands.setupDefaultCommand();
             OperatorCommands.setupDefaultCommand();
-
             RobotTelemetry.print("Motor check available after TeleopExit");
             RobotTelemetry.print("--- Robot Init Complete ---");
         } catch (Throwable t) {
@@ -289,7 +290,8 @@ public class Robot extends LoggedRobot {
 
     /** This method is called at TeleopExit to check motor licenses and faults */
     public void checkRobotMotors() {
-        Mechanism.checkMechanismMotors();
-        swerve.checkSwerveDevices();
+        if (Mechanism.checkMechanismMotors() || swerve.checkSwerveDevices()) {
+            errorHasOccured = true;
+        }
     }
 }

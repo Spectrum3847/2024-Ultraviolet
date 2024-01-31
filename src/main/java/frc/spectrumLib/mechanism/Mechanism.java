@@ -148,21 +148,33 @@ public abstract class Mechanism implements Subsystem {
      * Checks the motors of all instances of the Mechanism class. Reports any errors related to
      * motor licensing, sticky faults, or faults.
      */
-    public static void checkMechanismMotors() {
+    public static boolean checkMechanismMotors() {
+        boolean faultFound = false;
         for (Mechanism mechanism : Mechanism.getInstances()) {
             if (!mechanism.isMotorProLicensed()) {
+                faultFound = true;
                 DriverStation.reportError(
-                        "CRITICAL MOTOR ERROR: " + mechanism.config.name + " is not Pro Licensed", false);
+                        "CRITICAL MOTOR ERROR: " + mechanism.config.name + " is not Pro Licensed",
+                        false);
             }
             if (mechanism.motor.getStickyFaultField().getValue() != 0) {
+                faultFound = true;
                 DriverStation.reportError(
-                        "MOTOR ERROR: " + mechanism.config.name + " has a sticky fault. Check Phoenix Tuner X for more details", false);
+                        "MOTOR ERROR: "
+                                + mechanism.config.name
+                                + " has a sticky fault. Check Phoenix Tuner X for more details",
+                        false);
             }
             if (mechanism.motor.getFaultField().getValue() != 0) {
+                faultFound = true;
                 DriverStation.reportError(
-                        "MOTOR ERROR: " + mechanism.config.name + " has a fault. Check Phoenix Tuner X for more details", false);
+                        "MOTOR ERROR: "
+                                + mechanism.config.name
+                                + " has a fault. Check Phoenix Tuner X for more details",
+                        false);
             }
         }
+        return faultFound;
     }
 
     public static class Config {

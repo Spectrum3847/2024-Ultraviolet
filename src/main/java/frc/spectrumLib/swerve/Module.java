@@ -350,42 +350,67 @@ public class Module {
     }
 
     /**
-     * Checks swerve motors and cancoders in the module for errors. Reports any errors related to motor licensing,
-     * sticky faults, or faults.
+     * Checks swerve motors and cancoders in the module for errors. Reports any errors related to
+     * motor licensing, sticky faults, or faults.
      */
-    public void checkModuleDevices() {
+    public boolean checkModuleDevices() {
+        boolean faultFound = false;
         TalonFX[] motors = {m_driveMotor, m_steerMotor};
         for (TalonFX motor : motors) {
             if (!motor.getIsProLicensed().getValue()) {
+                faultFound = true;
                 DriverStation.reportError(
-                        "CRITICAL MOTOR ERROR: Swerve Motor (" + motor.getDeviceID() + ") is not Pro Licensed", false);
+                        "CRITICAL MOTOR ERROR: Swerve Motor ("
+                                + motor.getDeviceID()
+                                + ") is not Pro Licensed",
+                        false);
             }
 
             if (motor.getStickyFaultField().getValue() != 0) {
+                faultFound = true;
                 DriverStation.reportError(
-                        "MOTOR ERROR: Swerve Motor (" + motor.getDeviceID() + ") has a sticky fault. Check Phoenix Tuner X for more details", false);
+                        "MOTOR ERROR: Swerve Motor ("
+                                + motor.getDeviceID()
+                                + ") has a sticky fault. Check Phoenix Tuner X for more details",
+                        false);
             }
             if (motor.getFaultField().getValue() != 0) {
+                faultFound = true;
                 DriverStation.reportError(
-                        "MOTOR ERROR: Swerve Motor (" + motor.getDeviceID() + ") has a fault. Check Phoenix Tuner X for more details", false);
+                        "MOTOR ERROR: Swerve Motor ("
+                                + motor.getDeviceID()
+                                + ") has a fault. Check Phoenix Tuner X for more details",
+                        false);
             }
         }
 
         if (!m_cancoder.getIsProLicensed().getValue()) {
+            faultFound = true;
             DriverStation.reportError(
-                    "CRITICAL CANcoder ERROR: Swerve CANcoder (" + m_cancoder.getDeviceID() + ") is not Pro Licensed. ",
+                    "CRITICAL CANcoder ERROR: Swerve CANcoder ("
+                            + m_cancoder.getDeviceID()
+                            + ") is not Pro Licensed. ",
                     false);
         }
 
         if (m_cancoder.getStickyFaultField().getValue() != 0) {
+            faultFound = true;
             DriverStation.reportError(
-                    "CANcoder ERROR: Swerve CANcoder (" + m_cancoder.getDeviceID() + ") has a sticky fault. Check Phoenix Tuner X for more details",
+                    "CANcoder ERROR: Swerve CANcoder ("
+                            + m_cancoder.getDeviceID()
+                            + ") has a sticky fault. Check Phoenix Tuner X for more details",
                     false);
         }
 
         if (m_cancoder.getFaultField().getValue() != 0) {
+            faultFound = true;
             DriverStation.reportError(
-                    "CANcoder ERROR: Swerve CANcoder (" + m_cancoder.getDeviceID() + ") has a fault. Check Phoenix Tuner X for more details", false);
+                    "CANcoder ERROR: Swerve CANcoder ("
+                            + m_cancoder.getDeviceID()
+                            + ") has a fault. Check Phoenix Tuner X for more details",
+                    false);
         }
+
+        return faultFound;
     }
 }
