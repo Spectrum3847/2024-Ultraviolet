@@ -80,7 +80,7 @@ public class Pilot extends Gamepad {
 
         rightStick()
                 .and(leftBumperOnly())
-                .whileTrue(ClimberCommands.manualCommand(() -> controller.getRightY()));
+                .whileTrue(ClimberCommands.manualCommand(() -> -controller.getRightY()));
         // controller.b().and(leftBumperOnly()).whileTrue(PivotCommands.halfScore());
 
         // controller.a().and(leftBumperOnly()).whileTrue(ElevatorCommands.amp());
@@ -210,7 +210,8 @@ public class Pilot extends Gamepad {
     public Trigger rightStick() {
         return new Trigger(
                 () -> {
-                    return controller.getRightX() != 0 || controller.getRightY() != 0;
+                    return Math.abs(controller.getRightX()) >= 0.1
+                            || Math.abs(controller.getRightY()) >= 0.1;
                 });
     }
 }
