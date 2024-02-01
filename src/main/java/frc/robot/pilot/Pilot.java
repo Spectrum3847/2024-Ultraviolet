@@ -1,13 +1,14 @@
 package frc.robot.pilot;
 
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Robot;
 import frc.robot.RobotTelemetry;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
+import frc.robot.mechanisms.climber.ClimberCommands;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
 import frc.robot.mechanisms.feeder.FeederCommands;
 import frc.robot.mechanisms.intake.IntakeCommands;
-import frc.robot.mechanisms.launcher.LauncherCommands;
-import frc.robot.mechanisms.pivot.PivotCommands;
 import frc.robot.swerve.commands.SwerveCommands;
 import frc.spectrumLib.Gamepad;
 import frc.spectrumLib.util.ExpCurve;
@@ -56,41 +57,52 @@ public class Pilot extends Gamepad {
         // manual output commands (map joystick to raw -1 to 1 output on motor): manualAmpTrap,
         // manualClimber, manualElevator, manualFeeder, manualIntake, manualPivot, manualLauncher
 
-        controller.y().and(noBumpers()).whileTrue(PivotCommands.percentage());
+        controller.y().and(noBumpers()).whileTrue(ClimberCommands.raise());
 
-        controller.a().and(noBumpers()).whileTrue(PivotCommands.negativePercentage());
+        controller.a().and(noBumpers()).whileTrue(ClimberCommands.lower());
 
-        controller.x().and(noBumpers()).whileTrue(LauncherCommands.runOnDemandVelocity());
+        controller.b().and(leftBumperOnly()).whileTrue(ClimberCommands.fullExtend());
 
-        controller.b().and(noBumpers()).whileTrue(IntakeCommands.intake());
+        // controller.a().and(leftBumperOnly()).whileTrue(ClimberCommands.home());
 
-        controller
-                .b()
-                .and(leftBumperOnly())
-                .whileTrue(ElevatorCommands.amp().alongWith(AmpTrapCommands.testForward()));
+        controller.y().and(leftBumperOnly()).whileTrue(ElevatorCommands.fullExtend());
 
-        // controller.b().and(leftBumperOnly()).whileTrue(PivotCommands.halfScore());
+        controller.a().and(leftBumperOnly()).whileTrue(ElevatorCommands.home());
+
+        // controller.x().and(noBumpers()).whileTrue(LauncherCommands.runOnDemandVelocity());
 
         controller
                 .x()
                 .and(leftBumperOnly())
-                .whileTrue(
-                        AmpTrapCommands.testForward()
-                                .alongWith(
-                                        FeederCommands.testBack(),
-                                        IntakeCommands.runTestin(),
-                                        ElevatorCommands.home()));
+                .whileTrue(FeederCommands.testBack().alongWith(AmpTrapCommands.testForward()));
 
-        controller
-                .y()
+        controller.rightBumper().whileTrue(IntakeCommands.intake());
+
+        rightStick()
                 .and(leftBumperOnly())
-                .whileTrue(
-                        AmpTrapCommands.testReverse()
-                                .alongWith(FeederCommands.testBack(), IntakeCommands.eject()));
+                .whileTrue(ClimberCommands.manualCommand(() -> controller.getRightY()));
+        // controller.b().and(leftBumperOnly()).whileTrue(PivotCommands.halfScore());
+
+        // controller.a().and(leftBumperOnly()).whileTrue(ElevatorCommands.amp());
+
+        // controller
+        //         .x()
+        //         .and(leftBumperOnly())
+        //         .whileTrue(
+        //                 AmpTrapCommands.testForward()
+        //                         .alongWith(
+        //                                 FeederCommands.testBack(),
+        //                                 IntakeCommands.runTestin(),
+        //                                 ElevatorCommands.home()));
+
+        // controller
+        //         .y()
+        //         .and(leftBumperOnly())
+        //         .whileTrue(
+        //                 AmpTrapCommands.testReverse()
+        //                         .alongWith(FeederCommands.testBack(), IntakeCommands.eject()));
 
         // controller.y().and(leftBumperOnly()).whileTrue(LauncherCommands.runVelocityTestin());
-
-        controller.rightBumper().whileTrue(LauncherCommands.runLauncherPercentages(0.8, 0.8));
 
         // controller.y().and(rightBumperOnly()).whileTrue();
 
@@ -120,15 +132,21 @@ public class Pilot extends Gamepad {
                 .whileTrue(PilotCommands.pilotDrive());
 
         // Use the right stick to set a cardinal direction to aim at
-        rightXTrigger(ThresholdType.ABS_GREATER_THAN, 0.5)
-                .and(rightYTrigger(ThresholdType.ABS_GREATER_THAN, 0.5))
-                .whileTrue(PilotCommands.stickSteerDrive());
+        // rightXTrigger(ThresholdType.ABS_GREATER_THAN, 0.5)
+        //         .and(rightYTrigger(ThresholdType.ABS_GREATER_THAN, 0.5))
+        //         .whileTrue(PilotCommands.stickSteerDrive());
     };
 
     /** Setup the Buttons for Disabled mode. */
     public void setupDisabledButtons() {
         // This is just for training, most robots will have different buttons during disabled
-        setupTeleopButtons();
+        // setupTeleopButtons();
+
+        rightStick()
+                .and(leftBumperOnly())
+                .whileTrue(
+                        new RunCommand(() -> System.out.println(-controller.getRightY()))
+                                .ignoringDisable(true));
     };
 
     /** Setup the Buttons for Test mode. */
@@ -187,5 +205,12 @@ public class Pilot extends Gamepad {
             ccwPositive *= config.rotationScalor;
         }
         return ccwPositive;
+    }
+
+    public Trigger rightStick() {
+        return new Trigger(
+                () -> {
+                    return controller.getRightX() != 0 || controller.getRightY() != 0;
+                });
     }
 }

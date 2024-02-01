@@ -6,6 +6,7 @@ import frc.robot.leds.LEDsCommands;
 import frc.robot.mechanisms.amptrap.AmpTrap;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
 import frc.robot.mechanisms.climber.Climber;
+import frc.robot.mechanisms.climber.ClimberCommands;
 import frc.robot.mechanisms.elevator.Elevator;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
 import frc.robot.mechanisms.feeder.Feeder;
@@ -109,6 +110,7 @@ public class Robot extends LoggedRobot {
             LEDsCommands.setupDefaultCommand();
             PilotCommands.setupDefaultCommand();
             OperatorCommands.setupDefaultCommand();
+            ClimberCommands.setupDefaultCommand();
 
             RobotTelemetry.print("--- Robot Init Complete ---");
         } catch (Throwable t) {
