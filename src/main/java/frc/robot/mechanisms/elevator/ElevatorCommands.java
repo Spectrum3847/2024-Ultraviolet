@@ -29,4 +29,8 @@ public class ElevatorCommands {
     public static Command home() {
         return elevator.runPosition(elevator.config.home).withName("Elevator.home");
     }
+
+    public static Command coastMode() {
+        return elevator.coastMode();
+    }
 }

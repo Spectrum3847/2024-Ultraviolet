@@ -14,7 +14,8 @@ public class LeftLauncher extends Mechanism {
         /* Revolutions per min LeftLauncher Output */
         public double maxSpeed = 5000; // TODO: configure
         public double launch = 4000; // TODO: configure
-        public double testVelocity = 3000;
+        public double testVelocity = 4500;
+        public double subwoofer = 4500;
 
         /* Percentage LeftLauncher Output */
         public double slowLeftLauncherPercentage = 0.06; // TODO: configure
@@ -73,6 +74,16 @@ public class LeftLauncher extends Mechanism {
      */
     public Command runPercentage(double percent) {
         return run(() -> setPercentOutput(percent)).withName("LeftLauncher.runPercentage");
+    }
+
+    /**
+     * Temporarily sets the left launcher to coast mode. The configuration is applied when the
+     * command is started and reverted when the command is ended.
+     */
+    public Command coastMode() {
+        return startEnd(() -> setBrakeMode(false), () -> setBrakeMode(true))
+                .ignoringDisable(true)
+                .withName("LeftLauncher.coastMode");
     }
 
     /**

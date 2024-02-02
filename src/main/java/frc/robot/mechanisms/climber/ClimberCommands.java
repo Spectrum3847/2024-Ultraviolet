@@ -2,13 +2,12 @@ package frc.robot.mechanisms.climber;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
-import java.util.function.DoubleSupplier;
 
 public class ClimberCommands {
     private static Climber climber = Robot.climber;
 
     public static void setupDefaultCommand() {
-        climber.setDefaultCommand(climber.runPercentage(0.0).withName("Climber.default"));
+        climber.setDefaultCommand(climber.holdPosition().withName("Climber.default"));
     }
 
     public static Command fullExtend() {
@@ -20,14 +19,26 @@ public class ClimberCommands {
     }
 
     public static Command raise() {
-        return climber.runPercentage(0.2);
+        return climber.runPercentage(climber.config.raisePercentage);
     }
 
     public static Command lower() {
-        return climber.runPercentage(-0.2);
+        return climber.runPercentage(climber.config.lowerPercentage);
     }
 
-    public static Command manualCommand(DoubleSupplier stick) {
-        return climber.runPercentage(stick);
+    public static Command topClimb() {
+        return climber.runPosition(climber.config.topClimb);
+    }
+
+    public static Command midClimb() {
+        return climber.runPosition(climber.config.midClimb);
+    }
+
+    public static Command botClimb() {
+        return climber.runPosition(climber.config.botClimb);
+    }
+
+    public static Command coastMode() {
+        return climber.coastMode();
     }
 }

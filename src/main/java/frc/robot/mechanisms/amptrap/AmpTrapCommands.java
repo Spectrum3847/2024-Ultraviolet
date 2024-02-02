@@ -23,6 +23,14 @@ public class AmpTrapCommands {
         return ampTrap.runVelocity(ampTrap.config.intake).withName("AmpTrap.intake");
     }
 
+    public static Command score() {
+        return ampTrap.runVelocity(ampTrap.config.score).withName("AmpTrap.score");
+    }
+
+    public static Command launchEject() {
+        return ampTrap.runVelocity(ampTrap.config.launchEject).withName("AmpTrap.launchEject");
+    }
+
     public static Command eject() {
         return ampTrap.runVelocity(ampTrap.config.eject).withName("AmpTrap.eject");
     }
@@ -39,8 +47,7 @@ public class AmpTrapCommands {
         return ampTrap.runPercentage(ampTrap.config.testBackPercent);
     }
 
-    public static Command runVelocityTestin() {
-        return ampTrap.runVelocity(ampTrap.config.testVelocity)
-                .withName("AmpTrap.runVelocityTestin");
+    public static Command coastMode() {
+        return ampTrap.coastMode();
     }
 }

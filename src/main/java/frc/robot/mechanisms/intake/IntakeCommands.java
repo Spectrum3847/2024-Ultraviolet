@@ -36,6 +36,10 @@ public class IntakeCommands {
         return intake.runPercentage(intake.config.ejectPercentage).withName("Intake.eject");
     }
 
+    public static Command coastMode() {
+        return intake.coastMode();
+    }
+
     public static Command stopMotor() {
         return intake.runStop().withName("Intake.stopMotor");
     }

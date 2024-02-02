@@ -1,7 +1,9 @@
 package frc.robot.operator;
 
+import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
-import frc.robot.swerve.commands.SwerveCommands;
+import frc.robot.mechanisms.climber.ClimberCommands;
+import frc.robot.mechanisms.elevator.ElevatorCommands;
 import frc.spectrumLib.Gamepad;
 
 public class Operator extends Gamepad {
@@ -38,28 +40,18 @@ public class Operator extends Gamepad {
 
         // leftXTrigger(ThresholdType.GREATER_THAN, 0).whileTrue();
 
-        controller
-                .povUp()
-                .and(leftBumperOnly())
-                .whileTrue(rumbleCommand(SwerveCommands.reorient(0)));
-        controller
-                .povLeft()
-                .and(leftBumperOnly())
-                .whileTrue(rumbleCommand(SwerveCommands.reorient(90)));
-        controller
-                .povDown()
-                .and(leftBumperOnly())
-                .whileTrue(rumbleCommand(SwerveCommands.reorient(180)));
-        controller
-                .povRight()
-                .and(leftBumperOnly())
-                .whileTrue(rumbleCommand(SwerveCommands.reorient(270)));
+        controller.rightBumper().whileTrue(RobotCommands.feedToAmp());
+        controller.povUp().and(leftBumperOnly()).whileTrue(ClimberCommands.topClimb());
+        controller.povLeft().and(leftBumperOnly()).whileTrue(ElevatorCommands.fullExtend());
+        controller.povDown().and(leftBumperOnly()).whileTrue(ClimberCommands.botClimb());
+        controller.povRight().and(leftBumperOnly()).whileTrue(ClimberCommands.botClimb());
     };
 
     /** Setup the Buttons for Disabled mode. */
     public void setupDisabledButtons() {
         // This is just for training, most robots will have different buttons during disabled
-        setupTeleopButtons();
+
+        controller.b().toggleOnTrue(RobotCommands.coastModeMechanisms());
     };
 
     /** Setup the Buttons for Test mode. */

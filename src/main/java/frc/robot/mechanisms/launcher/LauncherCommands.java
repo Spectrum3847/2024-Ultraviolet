@@ -36,11 +36,20 @@ public class LauncherCommands {
                 .withName("Launcher.launch");
     }
 
+    public static Command subwoofer() {
+        return runLauncherVelocities(leftLauncher.config.subwoofer, rightLauncher.config.subwoofer)
+                .withName("Launcher.subwoofer");
+    }
+
     public static Command slowLaunchPercent() {
         return runLauncherPercentages(
                         leftLauncher.config.slowLeftLauncherPercentage,
                         rightLauncher.config.slowRightLauncherPercentage)
                 .withName("Launcher.slowLaunchPercent");
+    }
+
+    public static Command coastMode() {
+        return leftLauncher.coastMode().alongWith(rightLauncher.coastMode());
     }
 
     /* Helpers */

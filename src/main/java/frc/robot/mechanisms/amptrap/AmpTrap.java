@@ -11,9 +11,10 @@ public class AmpTrap extends Mechanism {
 
         /* Revolutions per min AmpTrap Output */
         public double maxSpeed = 5000; // TODO: configure
-        public double intake = 4000; // TODO: configure
-        public double eject = -3000; // TODO: configure
-        public double testVelocity = 3000;
+        public double intake = -750; // TODO: configure
+        public double score = 3000; // TODO: configure
+        public double launchEject = -500;
+        public double eject = 3000;
 
         /* Percentage AmpTrap Output */
         public double slowIntakePercentage = 0.06; // TODO: configure
@@ -71,6 +72,16 @@ public class AmpTrap extends Mechanism {
      */
     public Command runPercentage(double percent) {
         return run(() -> setPercentOutput(percent)).withName("AmpTrap.runPercentage");
+    }
+
+    /**
+     * Temporarily sets the amptrap to coast mode. The configuration is applied when the command is
+     * started and reverted when the command is ended.
+     */
+    public Command coastMode() {
+        return startEnd(() -> setBrakeMode(false), () -> setBrakeMode(true))
+                .ignoringDisable(true)
+                .withName("AmpTrap.coastMode");
     }
 
     /**

@@ -26,6 +26,14 @@ public class FeederCommands {
         return feeder.runVelocity(feeder.config.eject).withName("Feeder.eject");
     }
 
+    public static Command launchEject() {
+        return feeder.runVelocity(feeder.config.launchEject).withName("Feeder.launchEject");
+    }
+
+    public static Command intake() {
+        return feeder.runVelocity(feeder.config.intake).withName("Feeder.intake");
+    }
+
     public static Command stopMotor() {
         return feeder.runStop().withName("Feeder.stopMotor");
     }
@@ -38,7 +46,11 @@ public class FeederCommands {
         return feeder.runPercentage(feeder.config.testBackPercent);
     }
 
-    public static Command runVelocityTestin() {
-        return feeder.runVelocity(feeder.config.testVelocity).withName("Feeder.runVelocityTestin");
+    public static Command feedToAmp() {
+        return feeder.runVelocity(feeder.config.feedToAmp).withName("Feeder.feedToAmp");
+    }
+
+    public static Command coastMode() {
+        return feeder.coastMode();
     }
 }

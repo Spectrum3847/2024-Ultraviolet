@@ -19,7 +19,13 @@ public class Climber extends Mechanism {
         /* Climber positions in rotations */
         public double fullExtend = maxHeight;
         public double home = minHeight;
-        public double startingMotorPos = -0.15;
+        public double topClimb = maxHeight;
+        public double midClimb = 74;
+        public double botClimb = minHeight;
+
+        /* Climber Percentage Output */
+        public double raisePercentage = 0.2;
+        public double lowerPercentage = -0.2;
 
         /* Climber config settings */
         public final double zeroSpeed = -0.2;

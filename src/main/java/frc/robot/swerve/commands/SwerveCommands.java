@@ -4,7 +4,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Robot;
-import frc.robot.pilot.PilotCommands;
 import frc.robot.swerve.Swerve;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
@@ -14,7 +13,8 @@ public class SwerveCommands {
     private static Swerve swerve = Robot.swerve;
 
     public static void setupDefaultCommand() {
-        swerve.setDefaultCommand(PilotCommands.pilotDrive());
+        // swerve.setDefaultCommand(PilotCommands.pilotDrive());
+        swerve.setDefaultCommand(SwerveCommands.Xbrake());
     }
 
     /** Turn the swerve wheels to an X to prevent the robot from moving */

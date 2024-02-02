@@ -14,7 +14,8 @@ public class RightLauncher extends Mechanism {
         /* Revolutions per min RightLauncher Output */
         public double maxSpeed = 5000; // TODO: configure
         public double launch = 4000; // TODO: configure
-        public double testVelocity = 3000;
+        public double testVelocity = 4500;
+        public double subwoofer = 4500;
 
         /* Percentage RightLauncher Output */
         public double slowRightLauncherPercentage = 0.06; // TODO: configure
@@ -82,6 +83,16 @@ public class RightLauncher extends Mechanism {
      */
     public Command runStop() {
         return run(() -> stop()).withName("RightLauncher.stop");
+    }
+
+    /**
+     * Temporarily sets the right launcher to coast mode. The configuration is applied when the
+     * command is started and reverted when the command is ended.
+     */
+    public Command coastMode() {
+        return startEnd(() -> setBrakeMode(false), () -> setBrakeMode(true))
+                .ignoringDisable(true)
+                .withName("RightLauncher.coastMode");
     }
 
     /* Logging */
