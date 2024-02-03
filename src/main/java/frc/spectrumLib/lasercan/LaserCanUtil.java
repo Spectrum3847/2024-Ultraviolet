@@ -1,0 +1,92 @@
+package frc.spectrumLib.lasercan;
+
+import au.grapplerobotics.ConfigurationFailedException;
+import au.grapplerobotics.LaserCan;
+import edu.wpi.first.wpilibj.DriverStation;
+
+public class LaserCanUtil {
+    private LaserCan lasercan;
+    private int id;
+
+    // default constructor
+    public LaserCanUtil(int id) {
+        this.id = id;
+        lasercan = new LaserCan(id);
+        setShortRange();
+        setRegionOfInterest(8, 8, 16, 16); // max region
+        setTimingBudget(
+                LaserCan.TimingBudget.TIMING_BUDGET_33MS); // Can only set ms to 20, 33, 50, and 100
+    }
+
+    public LaserCanUtil(
+            int id,
+            boolean shortRange,
+            int x,
+            int y,
+            int w,
+            int h,
+            LaserCan.TimingBudget timingBudget) {
+        lasercan = new LaserCan(id);
+        if (shortRange = true) {
+            setShortRange();
+        } else {
+            setLongRange();
+        }
+        setRegionOfInterest(x, y, w, h); // max region
+        setTimingBudget(timingBudget); // Can only set ms to 20, 33, 50, and 100
+    }
+
+    /* Helper methods for constructors */
+
+    public void setShortRange() {
+        try {
+            lasercan.setRangingMode(LaserCan.RangingMode.SHORT);
+        } catch (ConfigurationFailedException e) {
+            logError();
+        }
+    }
+
+    public void setLongRange() {
+        try {
+            lasercan.setRangingMode(LaserCan.RangingMode.LONG);
+        } catch (ConfigurationFailedException e) {
+            logError();
+        }
+    }
+
+    public void setRegionOfInterest(int x, int y, int w, int h) {
+        try {
+            lasercan.setRegionOfInterest(new LaserCan.RegionOfInterest(x, y, w, h));
+        } catch (ConfigurationFailedException e) {
+            logError();
+        }
+    }
+
+    public void setTimingBudget(LaserCan.TimingBudget timingBudget) {
+        try {
+            lasercan.setTimingBudget(timingBudget);
+        } catch (ConfigurationFailedException e) {
+            logError();
+        }
+    }
+
+    /* Other methods */
+    public static void logError() {
+        DriverStation.reportWarning("LaserCan: failed to complete operation", false);
+    }
+
+    public int getDistance() {
+        LaserCan.Measurement measurement = lasercan.getMeasurement();
+        if (measurement != null) {
+            if (measurement.status == 0) {
+                return measurement.distance_mm;
+            } else {
+                DriverStation.reportWarning(
+                        "LaserCan status went bad: " + measurement.status, false);
+                return measurement.distance_mm;
+            }
+        } else {
+            return 0;
+        }
+    }
+}
