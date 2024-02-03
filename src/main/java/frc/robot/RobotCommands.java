@@ -5,6 +5,7 @@ import frc.robot.mechanisms.amptrap.AmpTrapCommands;
 import frc.robot.mechanisms.climber.ClimberCommands;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
 import frc.robot.mechanisms.feeder.FeederCommands;
+import frc.robot.mechanisms.feeder.LaserCanFeed;
 import frc.robot.mechanisms.intake.IntakeCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.mechanisms.pivot.PivotCommands;
@@ -15,6 +16,11 @@ import frc.robot.mechanisms.pivot.PivotCommands;
  * called this MechanismCommands.java
  */
 public class RobotCommands {
+
+    public static Command laserCanFeed() {
+        return new LaserCanFeed(300)
+                .withName("RobotCommands.laserCanFeed");
+    }
 
     public static Command onDemandLaunching() {
         return LauncherCommands.runOnDemandVelocity()

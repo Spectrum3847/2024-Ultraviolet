@@ -13,9 +13,10 @@ public class LaserCanUtil {
         this.id = id;
         lasercan = new LaserCan(id);
         setShortRange();
-        setRegionOfInterest(8, 8, 16, 16); // max region
+        setRegionOfInterest(8, 8, 4, 4); // max region
         setTimingBudget(
-                LaserCan.TimingBudget.TIMING_BUDGET_33MS); // Can only set ms to 20, 33, 50, and 100
+                LaserCan.TimingBudget
+                        .TIMING_BUDGET_100MS); // Can only set ms to 20, 33, 50, and 100
     }
 
     public LaserCanUtil(

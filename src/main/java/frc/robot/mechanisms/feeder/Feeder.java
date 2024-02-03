@@ -13,7 +13,8 @@ public class Feeder extends Mechanism {
         /* Revolutions per min Feeder Output */
         public double maxSpeed = 5000; // TODO: configure
         public double feed = 4000; // TODO: configure
-        public double intake = 750;
+        public double testFeed = 250;
+        public double intake = 250;
         public double eject = -3000; // TODO: configure
         public double launchEject = 500;
         public double feedToAmp = -3000;
@@ -61,7 +62,7 @@ public class Feeder extends Mechanism {
 
     @Override
     public void periodic() {
-        System.out.println("MEASUREMENT: " + lasercan.getDistance());
+        // System.out.println("MEASUREMENT: " + lasercan.getDistance());
     }
 
     /* Control methods: see method in lambda for more information */

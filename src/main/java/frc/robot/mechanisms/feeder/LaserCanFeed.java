@@ -6,69 +6,72 @@ package frc.robot.mechanisms.feeder;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
+import frc.robot.mechanisms.amptrap.AmpTrap;
+import frc.robot.mechanisms.intake.Intake;
+import frc.spectrumLib.util.Conversions;
 
 public class LaserCanFeed extends Command {
-  private boolean setPointPassedOnce;
-  private int setPoint; //millimeters
-  private int tolerance; //millimeterse
-  private int count;
-  private int thresholdCount;
-  private boolean continueFeeding;
-  /** Creates a new LaserCanFeed. */
-  public LaserCanFeed(int setPoint, int tolerance) {
-    this.setPoint = setPoint;
-    this.tolerance = tolerance;
-    setPointPassedOnce = false;
-    count = 0;
-    thresholdCount = 0;
-    continueFeeding = false;
+    private boolean passedZero;
+    private int setPoint; // millimeters
+    private boolean continueFeeding;
+    private Feeder feeder = Robot.feeder;
+    private AmpTrap ampTrap = Robot.ampTrap;
+    private Intake intake = Robot.intake;
 
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Robot.feeder, Robot.ampTrap);
-  }
+    /** Creates a new LaserCanFeed. */
+    public LaserCanFeed(int setPoint) {
+        this.setPoint = setPoint;
+        passedZero = false;
+        continueFeeding = false;
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    setPointPassedOnce = false;
-    count = 0;
-    thresholdCount = 0;
-    continueFeeding = false;
-  }
+        // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(feeder, ampTrap, intake);
+    }
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    if(!setPointPassedOnce) {
-      if(Math.abs(Robot.feeder.getLaserCanDistance() - setPoint) <= tolerance) {
-        setPointPassedOnce = true;
-      }
-    } else {
-      if(Robot.feeder.getLaserCanDistance() - setPoint >= tolerance) {
-        if(thresholdCount >= 4) {
-          count++;
+    // Called when the command is initially scheduled.
+    @Override
+    public void initialize() {
+        passedZero = false;
+        continueFeeding = true;
+    }
+
+    // Called every time the scheduler runs while the command is scheduled.
+    @Override
+    public void execute() {
+
+        int distance = Robot.feeder.getLaserCanDistance();
+
+        if(distance < setPoint) {
+            intake.stop();
         }
-        thresholdCount++;
-      }
+
+        if (Math.abs(distance) - 10 <= 0) {
+            passedZero = true;
+        }
+
+        if (passedZero && distance >= setPoint) {
+            continueFeeding = false;
+        }
+
+        if (continueFeeding) {
+            feeder.setVelocity(Conversions.RPMtoRPS(feeder.config.testFeed));
+            ampTrap.setVelocity(Conversions.RPMtoRPS(feeder.config.testFeed));
+            intake.setVelocity(Conversions.RPMtoRPS(intake.config.intake));
+        } else {
+            feeder.stop();
+            ampTrap.stop();
+            intake.stop();
+        }
+        System.out.println(distance);
     }
 
-    if(count >= 1) {
-      continueFeeding = false;
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted) {}
+
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+        return false;
     }
-
-    if(continueFeeding) {
-      
-    }
-
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
 }
