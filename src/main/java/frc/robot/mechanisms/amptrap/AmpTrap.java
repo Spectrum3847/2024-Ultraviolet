@@ -11,9 +11,9 @@ public class AmpTrap extends Mechanism {
 
         /* Revolutions per min AmpTrap Output */
         public double maxSpeed = 5000; // TODO: configure
-        public double intake = -750; // TODO: configure
-        public double score = 3000; // TODO: configure
-        public double launchEject = -500;
+        public double intake = 750; // TODO: configure
+        public double score = -3000; // TODO: configure
+        public double launchEject = 500;
         public double eject = 3000;
 
         /* Percentage AmpTrap Output */
