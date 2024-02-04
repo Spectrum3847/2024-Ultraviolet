@@ -91,7 +91,6 @@ public class AlignToVisionTarget extends PIDCommand {
     public void initialize() {
         super.initialize();
         out = 0;
-        // getLedCommand(tagID).initialize();
         Robot.swerve.resetRotationController();
         driveCommand.initialize();
         limelight.setLimelightPipeline(config.pipelineIndex);
@@ -108,8 +107,6 @@ public class AlignToVisionTarget extends PIDCommand {
 
     @Override
     public void end(boolean interrupted) {
-        // Robot.vision.setLimelightPipeline(VisionConfig.aprilTagPipeline);
-        // getLedCommand(tagID).end(interrupted);
     }
 
     /**

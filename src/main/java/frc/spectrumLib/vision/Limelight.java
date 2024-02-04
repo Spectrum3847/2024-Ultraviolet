@@ -13,7 +13,7 @@ public class Limelight {
 
     /* Limelight Configuration */
 
-    /** Must connect to the name given in LL dashboard */
+    /** Must match to the name given in LL dashboard */
     private final String CAMERA_NAME;
 
     /* Debug */
@@ -150,12 +150,6 @@ public class Limelight {
                 df.format(Units.radiansToDegrees(botPose3d.getRotation().getY())));
         SmartDashboard.putString(
                 "LimelightYaw", df.format(Units.radiansToDegrees(botPose3d.getRotation().getZ())));
-        // SmartDashboard.putString("EstimatedPoseX",
-        // df.format(Robot.pose.getEstimatedPose().getX()));
-        // SmartDashboard.putString("EstimatedPoseY",
-        // df.format(Robot.pose.getEstimatedPose().getY()));
-        // SmartDashboard.putString(
-        // "EstimatedPoseTheta", df.format(Robot.pose.getHeading().getDegrees()));
     }
 
     // TODO: isEstimateReady, toPose2d

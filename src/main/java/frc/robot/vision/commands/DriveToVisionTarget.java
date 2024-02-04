@@ -64,7 +64,6 @@ public class DriveToVisionTarget extends PIDCommand {
         if (getVerticalOffset() > config.verticalMaxView) {
             out = 0;
         }
-        // RobotTelemetry.print("Drive to Cone Out: " + out);
         alignCommand.execute();
     }
 
