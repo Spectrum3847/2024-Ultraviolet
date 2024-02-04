@@ -48,7 +48,7 @@ public class LeftLauncher extends Mechanism {
         if (attached) {
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
 
-            SmartDashboard.putNumber("leftLaunchSpeed", 3000);
+            SmartDashboard.putNumber("leftLaunchSpeed", config.testVelocity);
         }
     }
 

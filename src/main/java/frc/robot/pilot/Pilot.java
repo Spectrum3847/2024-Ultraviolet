@@ -5,6 +5,7 @@ import frc.robot.Robot;
 import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
+import frc.robot.mechanisms.feeder.FeederCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.swerve.commands.SwerveCommands;
 import frc.spectrumLib.Gamepad;
@@ -52,7 +53,7 @@ public class Pilot extends Gamepad {
     /*  A, B, X, Y, Left Bumper, Right Bumper = Buttons 1 to 6 in simualation */
     public void setupTeleopButtons() {
 
-        controller.a().and(noBumpers()).whileTrue(RobotCommands.intake());
+        controller.a().and(noBumpers()).whileTrue(RobotCommands.laserCanFeed());
         controller.a().and(leftBumperOnly()).whileTrue(LauncherCommands.stopMotors());
 
         controller.b().and(noBumpers()).whileTrue(RobotCommands.feedToAmp());
@@ -64,7 +65,7 @@ public class Pilot extends Gamepad {
         controller.x().and(noBumpers()).whileTrue(ElevatorCommands.amp());
         controller.x().and(leftBumperOnly()).whileTrue(ElevatorCommands.home());
 
-        controller.rightBumper().whileTrue(RobotCommands.laserCanFeed());
+        controller.rightBumper().whileTrue(FeederCommands.slowFeed());
 
         rightStick().and(leftBumperOnly()).whileTrue(PilotCommands.manualPivot());
 
@@ -86,15 +87,15 @@ public class Pilot extends Gamepad {
                 .whileTrue(rumbleCommand(SwerveCommands.reorient(270)));
 
         // Use the pilot drive if we are manually steering the robot
-        // controller
-        //         .rightTrigger(config.triggersDeadzone)
-        //         .or(controller.leftTrigger(config.triggersDeadzone))
-        //         .whileTrue(PilotCommands.pilotDrive());
+        controller
+                .rightTrigger(config.triggersDeadzone)
+                .or(controller.leftTrigger(config.triggersDeadzone))
+                .whileTrue(PilotCommands.pilotDrive());
 
         // Use the right stick to set a cardinal direction to aim at
-        // rightXTrigger(ThresholdType.ABS_GREATER_THAN, 0.5)
-        //         .and(rightYTrigger(ThresholdType.ABS_GREATER_THAN, 0.5))
-        //         .whileTrue(PilotCommands.stickSteerDrive());
+        rightXTrigger(ThresholdType.ABS_GREATER_THAN, 0.5)
+                .and(rightYTrigger(ThresholdType.ABS_GREATER_THAN, 0.5))
+                .whileTrue(PilotCommands.stickSteerDrive());
     };
 
     /** Setup the Buttons for Disabled mode. */

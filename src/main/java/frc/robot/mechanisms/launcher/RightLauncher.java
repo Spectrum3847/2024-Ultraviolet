@@ -48,7 +48,7 @@ public class RightLauncher extends Mechanism {
         if (attached) {
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
 
-            SmartDashboard.putNumber("rightLaunchSpeed", 3000);
+            SmartDashboard.putNumber("rightLaunchSpeed", config.testVelocity);
         }
     }
 
