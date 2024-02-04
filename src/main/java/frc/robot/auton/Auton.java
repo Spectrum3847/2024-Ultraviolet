@@ -5,61 +5,63 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 import frc.robot.RobotTelemetry;
+import frc.robot.auton.config.AutonConfig;
+import frc.robot.swerve.commands.SwerveCommands;
 
 public class Auton extends SubsystemBase {
     public static final SendableChooser<Command> autonChooser = new SendableChooser<>();
+    public static boolean trackNote = false;
+    public static boolean trackSpeaker = false;
     private static boolean autoMessagePrinted = true;
     private static double autonStart = 0;
 
     // A chooser for autonomous commands
     public static void setupSelectors() {
-        autonChooser.setDefaultOption("Clean Side 3", new PathPlannerAuto("Clean Side 3"));
-        // autonChooser.addOption("Clean3", AutoPaths.CleanSide());
+        autonChooser.setDefaultOption("4 Piece Middle", new PathPlannerAuto("4 Piece Middle"));
+        autonChooser.addOption("4 Piece Front", new PathPlannerAuto("4 Piece Front"));
+
+        // autonChooser.addOption(
+        //         "Example Path", FollowSinglePath.getSinglePath("Example Path")); // Runs single
+        // Path
+        autonChooser.addOption("1 Meter", new PathPlannerAuto("1 Meter")); // Runs full Auto
+        autonChooser.addOption("3 Meter", new PathPlannerAuto("3 Meter")); // Runs full Auto
+        autonChooser.addOption("5 Meter", new PathPlannerAuto("5 Meter")); // Runs full Auto
+
+        autonChooser.addOption(
+                "Test Swerve",
+                SwerveCommands.Drive(
+                        () -> 0.1,
+                        () -> 0,
+                        () -> 1,
+                        () -> true, // true is field oriented
+                        () -> true)); // Runs full Auto
+
+        SmartDashboard.putData("Auto Chooser", autonChooser);
     }
 
     // Setup the named commands
     public static void setupNamedCommands() {
         // Register Named Commands
-        NamedCommands.registerCommand("Print", new PrintCommand("Hello World"));
+        NamedCommands.registerCommand("alignToSpeaker", AutonCommands.trackSpeaker());
+        NamedCommands.registerCommand("alignToNote", AutonCommands.trackNote());
+        NamedCommands.registerCommand("stopTracking", AutonCommands.stopTracking());
     }
 
     // Subsystem Documentation:
     // https://docs.wpilib.org/en/stable/docs/software/commandbased/subsystems.html
     public Auton() {
-        /*
-        configureAutoBuilder(); // configures the auto builder
-          */
-
         setupNamedCommands(); // registers named commands
+        AutonConfig.configureAutoBuilder(); // configures the auto builder
         setupSelectors(); // runs the command to start the chooser for auto on shuffleboard
 
         RobotTelemetry.print("Auton Subsystem Initialized: ");
     }
-
-    /*
-    // Configures the auto builder to use to run autons
-    public static void configureAutoBuilder() {
-        // Configure the AutoBuilder last
-        AutoBuilder.configureHolonomic(
-                Robot.swerve::getPose, // Robot pose supplier
-                Robot.swerve
-                        ::resetPose, // Method to reset odometry (will be called if your auto has a
-                // starting pose)
-                Robot.swerve
-                        ::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-                ApplyChassisSpeeds.robotRelativeOutput(
-                        true), // Method that will drive the robot given ROBOT
-                // RELATIVE ChassisSpeeds
-                AutonConfig.AutonPathFollowerConfig,
-                Robot.swerve // Reference to this subsystem to set requirements
-                );
-    }
-     */
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
