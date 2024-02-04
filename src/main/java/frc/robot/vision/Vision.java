@@ -8,7 +8,8 @@ public class Vision extends SubsystemBase {
     public static final class VisionConfig {
         /* Limelight Configuration */
         public static final String NOTE_LL =
-                "limelight-detect"; // TODO: change this name in LL dashboard to reflect name in code
+                "limelight-detect"; // TODO: change this name in LL dashboard to reflect name in
+        // code
         public static final String SPEAKER_LL =
                 "limelight-aim"; // TODO: change this name in LL dashboard to reflect name in code
 
