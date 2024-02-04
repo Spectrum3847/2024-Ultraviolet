@@ -1,19 +1,17 @@
 package frc.robot.auton.config;
 
-import java.util.Optional;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.Robot;
 import frc.robot.auton.Auton;
 import frc.robot.swerve.commands.ApplyChassisSpeeds;
+import java.util.Optional;
 
 public class AutonConfig {
     // TODO: Check if required commands work
@@ -48,8 +46,7 @@ public class AutonConfig {
         // ...
 
         // Set the method that will be used to get rotation overrides
-        PPHolonomicDriveController.setRotationTargetOverride(
-                () -> getRotationTargetOverride());
+        PPHolonomicDriveController.setRotationTargetOverride(() -> getRotationTargetOverride());
 
         // Configure AutoBuilder last
         AutoBuilder.configureHolonomic(
@@ -78,7 +75,6 @@ public class AutonConfig {
                 Robot.swerve // Reference to this subsystem to set requirements
                 );
     }
-
 
     public static Optional<Rotation2d> getRotationTargetOverride() {
         // Some condition that should decide if we want to override rotation

@@ -9,7 +9,6 @@ import frc.robot.swerve.commands.SwerveCommands;
 import frc.robot.vision.Vision.CommandConfig;
 import frc.robot.vision.Vision.VisionConfig;
 import frc.spectrumLib.vision.Limelight;
-
 import java.util.function.DoubleSupplier;
 
 public class AlignToVisionTarget extends PIDCommand {
@@ -22,14 +21,15 @@ public class AlignToVisionTarget extends PIDCommand {
     private double horizontalSetpoint;
 
     /**
-     * Creates a new AlignToTarget command that aligns to a vision target (apriltag,
-     * retroreflective tape, detector target) on the Field Oriented X-axis.
+     * Creates a new AlignToTarget command that aligns to a vision target (apriltag, retroreflective
+     * tape, detector target) on the Field Oriented X-axis.
      *
      * @param commandConfig this config should be created in {@link VisionConfig}
      * @param fwdPositiveSupplier
      * @param offset
      */
-    public AlignToVisionTarget(CommandConfig commandConfig, DoubleSupplier fwdPositiveSupplier, double offset) {
+    public AlignToVisionTarget(
+            CommandConfig commandConfig, DoubleSupplier fwdPositiveSupplier, double offset) {
         super(
                 // The controller that the command will use
                 new PIDController(commandConfig.kp, 0, 0),

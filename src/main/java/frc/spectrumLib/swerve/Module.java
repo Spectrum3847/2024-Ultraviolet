@@ -249,7 +249,8 @@ public class Module {
             velocityToSet /= m_driveRotationsPerMeter;
             /* Open loop always uses voltage setter */
             m_driveMotor.setControl(
-                    m_voltageOpenLoopSetter.withOutput(velocityToSet / m_speedAt12VoltsMps * 12.0)); //TODO: come back
+                    m_voltageOpenLoopSetter.withOutput(
+                            velocityToSet / m_speedAt12VoltsMps * 12.0)); // TODO: come back
         } else {
             /* If we support pro, use the torque request */
             if (m_supportsPro) {

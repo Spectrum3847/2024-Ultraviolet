@@ -15,26 +15,32 @@ public class AutonCommands {
     }
 
     public static Command trackNote() {
-        return new InstantCommand(() -> {
-            Auton.trackSpeaker = false;
-            Auton.trackNote = true;
-            System.out.println("Starting Tracking Note");
-        }).withName("AutonCommands.trackNote");
+        return new InstantCommand(
+                        () -> {
+                            Auton.trackSpeaker = false;
+                            Auton.trackNote = true;
+                            System.out.println("Starting Tracking Note");
+                        })
+                .withName("AutonCommands.trackNote");
     }
 
     public static Command trackSpeaker() {
-        return new InstantCommand(() -> {
-            Auton.trackNote = false;
-            Auton.trackSpeaker = true;
-            System.out.println("Starting Tracking Speaker");
-        }).withName("AutonCommands.trackSpeaker");
+        return new InstantCommand(
+                        () -> {
+                            Auton.trackNote = false;
+                            Auton.trackSpeaker = true;
+                            System.out.println("Starting Tracking Speaker");
+                        })
+                .withName("AutonCommands.trackSpeaker");
     }
 
     public static Command stopTracking() {
-        return new InstantCommand(() -> {
-            Auton.trackNote = false;
-            Auton.trackSpeaker = false;
-            System.out.println("Stopping Tracking");
-        }).withName("AutonCommands.stopTracking");
+        return new InstantCommand(
+                        () -> {
+                            Auton.trackNote = false;
+                            Auton.trackSpeaker = false;
+                            System.out.println("Stopping Tracking");
+                        })
+                .withName("AutonCommands.stopTracking");
     }
 }

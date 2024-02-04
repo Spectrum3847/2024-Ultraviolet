@@ -41,7 +41,7 @@ public class LaserCanFeed extends Command {
 
         int distance = Robot.feeder.getLaserCanDistance();
 
-        if(distance < setPoint) {
+        if (distance < setPoint) {
             intake.stop();
         }
 

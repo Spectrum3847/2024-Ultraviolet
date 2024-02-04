@@ -17,14 +17,16 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.Robot;
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.CompletableFuture;
 
-/** This utility class should not be used outside the library. Limelights should be directly interacted through {@link Limelight}  */
+/**
+ * This utility class should not be used outside the library. Limelights should be directly
+ * interacted through {@link Limelight}
+ */
 class LimelightHelpers {
 
     public static class LimelightTarget_Retro {

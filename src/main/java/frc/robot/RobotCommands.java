@@ -18,8 +18,7 @@ import frc.robot.mechanisms.pivot.PivotCommands;
 public class RobotCommands {
 
     public static Command laserCanFeed() {
-        return new LaserCanFeed(300)
-                .withName("RobotCommands.laserCanFeed");
+        return new LaserCanFeed(300).withName("RobotCommands.laserCanFeed");
     }
 
     public static Command onDemandLaunching() {

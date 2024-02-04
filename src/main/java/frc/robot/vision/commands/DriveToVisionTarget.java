@@ -77,7 +77,8 @@ public class DriveToVisionTarget extends PIDCommand {
     @Override
     public boolean isFinished() {
         // wait for robot to horizontally and vertically aligned before ending
-        if (Math.floor(getVerticalOffset()) < config.verticalSetpoint && alignCommand.isFinished()) {
+        if (Math.floor(getVerticalOffset()) < config.verticalSetpoint
+                && alignCommand.isFinished()) {
             return true;
         }
         if (getVerticalOffset() > config.verticalMaxView) {

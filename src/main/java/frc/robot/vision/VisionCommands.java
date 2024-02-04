@@ -7,12 +7,14 @@ import frc.robot.vision.commands.AlignToVisionTarget;
 import frc.robot.vision.commands.DriveToVisionTarget;
 
 public class VisionCommands {
-    
+
     public static Command alignToNote() {
-        return new AlignToVisionTarget(AlignToNote.getConfig(), () -> 0, 0).withName("VisionCommands.alignToNote");
+        return new AlignToVisionTarget(AlignToNote.getConfig(), () -> 0, 0)
+                .withName("VisionCommands.alignToNote");
     }
 
     public static Command driveToNote() {
-        return new DriveToVisionTarget(DriveToNote.getConfig(), 0).withName("VisionCommands.driveToNote");
+        return new DriveToVisionTarget(DriveToNote.getConfig(), 0)
+                .withName("VisionCommands.driveToNote");
     }
 }

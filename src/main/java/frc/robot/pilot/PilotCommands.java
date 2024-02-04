@@ -69,7 +69,9 @@ public class PilotCommands {
         return SwerveCommands.aimDrive(
                         () -> pilot.getDriveFwdPositive(),
                         () -> pilot.getDriveLeftPositive(),
-                        () -> (Units.degreesToRadians(Robot.vision.speakerLL.getHorizontalOffset())),
+                        () ->
+                                (Units.degreesToRadians(
+                                        Robot.vision.speakerLL.getHorizontalOffset())),
                         () -> pilot.getFieldOriented(), // true is field oriented
                         () -> true)
                 .withName("Swerve.PilotSpeakerAimingDrive");

@@ -27,7 +27,6 @@ import frc.robot.pilot.PilotCommands;
 import frc.robot.swerve.Swerve;
 import frc.robot.swerve.commands.SwerveCommands;
 import frc.robot.vision.Vision;
-import frc.robot.vision.VisionCommands;
 import frc.spectrumLib.util.CrashTracker;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -181,14 +180,13 @@ public class Robot extends LoggedRobot {
             RobotTelemetry.print("@@@ Auton Init Starting @@@ ");
             resetCommandsAndButtons();
             Command autonCommand = Auton.getAutonomousCommand();
-            
-            if(autonCommand != null) {
+
+            if (autonCommand != null) {
                 autonCommand.schedule();
                 Auton.startAutonTimer();
             } else {
                 RobotTelemetry.print("No Auton Command Found");
             }
-
 
             RobotTelemetry.print("@@@ Auton Init Complete @@@ ");
         } catch (Throwable t) {
