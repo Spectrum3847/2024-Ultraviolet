@@ -25,9 +25,9 @@ public class RightLauncher extends Mechanism {
         /* RightLauncher config values */
         public double currentLimit = 40;
         public double threshold = 80;
-        public double velocityKp = 0.156152;
-        public double velocityKv = 0.12;
-        public double velocityKs = 0.24;
+        public double velocityKp = 0; // 0.156152;
+        public double velocityKv = 0; // 0.12;
+        public double velocityKs = 0.5;
 
         public RightLauncherConfig() {
             super("RightLauncher", 43, "3847");
@@ -65,6 +65,17 @@ public class RightLauncher extends Mechanism {
     public Command runVelocity(double velocity) {
         return run(() -> setVelocity(Conversions.RPMtoRPS(velocity)))
                 .withName("RightLauncher.runVelocity");
+    }
+
+    /**
+     * Run the right launcher at given velocity in TorqueCurrentFOC mode
+     *
+     * @param percent
+     * @return
+     */
+    public Command runVelocityTorqueCurrentFOC(double velocity) {
+        return run(() -> setVelocityTorqueCurrentFOC(Conversions.RPMtoRPS(velocity)))
+                .withName("RightLauncher.runVelocityFOC");
     }
 
     /**
