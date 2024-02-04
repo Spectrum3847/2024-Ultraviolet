@@ -29,11 +29,11 @@ public class NOTEBLOCK2023 {
 
     // Tuning Config
     // Estimated at first, then fudge-factored to make odom match record
-    private static final double kWheelRadiusInches = 2;
+    private static final double kWheelRadiusInches = 3.9 / 2;
     private static final double speedAt12VoltsMps = 6;
     private static final double slipCurrent = 800;
-    private static final SlotGains steerGains = new SlotGains(100, 0, 0.05, 0, 0);
-    private static final SlotGains driveGains = new SlotGains(0.4, 0, 0, 0, 0);
+    private static final SlotGains steerGains = new SlotGains(80.42574, 0, 0, 0.2767262, 0);
+    private static final SlotGains driveGains = new SlotGains(5.883745, 0, 0, 0.01806, 1.8289);
 
     /*Rotation Controller*/
     private static final double kPRotationController = 0.0;
