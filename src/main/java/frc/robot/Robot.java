@@ -49,6 +49,7 @@ public class Robot extends LoggedRobot {
     public static LeftLauncher leftLauncher;
     public static RightLauncher rightLauncher;
     public static Vision vision;
+    public static Auton auton;
     public static LEDs leds;
     public static Pilot pilot;
     public static Operator operator;
@@ -92,6 +93,7 @@ public class Robot extends LoggedRobot {
             leftLauncher = new LeftLauncher(config.leftLauncherAttached);
             rightLauncher = new RightLauncher(config.rightLauncherAttached);
             vision = new Vision();
+            auton = new Auton();
             pilot = new Pilot();
             operator = new Operator();
             leds = new LEDs();
