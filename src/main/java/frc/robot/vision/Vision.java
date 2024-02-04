@@ -13,6 +13,39 @@ public class Vision extends SubsystemBase {
         /* Pipeline config */
         public static final int noteDetectorPipeline = 1;
         public static final int speakerDetectorPipeline = 1;
+
+
+        /* Vision Command Configs */
+        public static final class AlignToNote extends CommandConfig {
+            public AlignToNote() {
+                configKp(0.04);
+                configTolerance(0.01);
+                configMaxOutput(Robot.swerve.config.maxVelocity * 0.5);
+                configError(0.3);
+                configPipelineIndex(noteDetectorPipeline);
+                configLimelight(Robot.vision.noteLL);
+            }
+
+            public static AlignToNote getConfig() {
+                return new AlignToNote();
+            }
+        }
+
+        public static final class DriveToNote extends CommandConfig {
+            public DriveToNote() {
+                configKp(0.3);
+                configTolerance(0.05);
+                configMaxOutput(Robot.swerve.config.maxVelocity * 0.5);
+                configVerticalSetpoint(-8);
+                configVerticalMaxView(6);
+                configLimelight(Robot.vision.noteLL);
+                configAlignCommand(AlignToNote.getConfig());
+            }
+
+            public static DriveToNote getConfig() {
+                return new DriveToNote();
+            }
+        }
     }
 
     /* Limelights */
@@ -64,4 +97,60 @@ public class Vision extends SubsystemBase {
     //     return ((botPose.getX() > 1.8 && botPose.getX() < 2.5)
     //             && (botPose.getY() > 0.1 && botPose.getY() < 5.49));
     // }
+
+
+
+    public static class CommandConfig {
+        public double kp;
+        public double tolerance;
+        public double maxOutput;
+        public double error;
+        public int pipelineIndex;
+        public Limelight limelight;
+        /* For Drive-To commands */
+        public CommandConfig alignCommand;
+        public double verticalSetpoint; // numbers get small as the cone gets closer
+        public double verticalMaxView;
+
+        public void configKp(double kp) {
+            this.kp = kp;
+        }
+
+        public void configTolerance(double tolerance) {
+            this.tolerance = tolerance;
+        }
+
+        public void configMaxOutput(double maxOutput) {
+            this.maxOutput = maxOutput;
+        }
+
+        public void configError(double error) {
+            this.error = error;
+        }
+
+        public void configPipelineIndex(int pipelineIndex) {
+            this.pipelineIndex = pipelineIndex;
+        }
+
+        public void configLimelight(Limelight limelight) {
+            this.limelight = limelight;
+        }
+
+        public void configVerticalSetpoint(double verticalSetpoint) {
+            this.verticalSetpoint = verticalSetpoint;
+        }
+
+        public void configVerticalMaxView(double verticalMaxView) {
+            this.verticalMaxView = verticalMaxView;
+        }
+
+        public void configAlignCommand(CommandConfig alignCommand) {
+            this.alignCommand = alignCommand;
+        }
+
+        public CommandConfig() {
+
+        }
+        
+    } 
 }

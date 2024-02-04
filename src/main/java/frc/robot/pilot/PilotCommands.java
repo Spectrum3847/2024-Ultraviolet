@@ -1,5 +1,6 @@
 package frc.robot.pilot;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Robot;
@@ -52,6 +53,26 @@ public class PilotCommands {
                         () -> pilot.getFieldOriented(), // true is field oriented
                         () -> true)
                 .withName("Swerve.PilotHeadingLockDrive");
+    }
+
+    public static Command noteAimingDrive() {
+        return SwerveCommands.aimDrive(
+                        () -> pilot.getDriveFwdPositive(),
+                        () -> pilot.getDriveLeftPositive(),
+                        () -> (Units.degreesToRadians(Robot.vision.noteLL.getHorizontalOffset())),
+                        () -> pilot.getFieldOriented(), // true is field oriented
+                        () -> true)
+                .withName("Swerve.PilotNoteAimingDrive");
+    }
+
+    public static Command speakerAimingDrive() {
+        return SwerveCommands.aimDrive(
+                        () -> pilot.getDriveFwdPositive(),
+                        () -> pilot.getDriveLeftPositive(),
+                        () -> (Units.degreesToRadians(Robot.vision.speakerLL.getHorizontalOffset())),
+                        () -> pilot.getFieldOriented(), // true is field oriented
+                        () -> true)
+                .withName("Swerve.PilotSpeakerAimingDrive");
     }
 
     /**
