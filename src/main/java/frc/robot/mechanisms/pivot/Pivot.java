@@ -123,7 +123,7 @@ public class Pivot extends Mechanism {
 
             @Override
             public void initialize() {
-                holdPosition = motor.getPosition().getValueAsDouble();
+                holdPosition = getMotorPosition();
             }
 
             @Override
