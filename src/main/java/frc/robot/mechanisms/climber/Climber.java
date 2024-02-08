@@ -8,13 +8,12 @@ import frc.spectrumLib.mechanism.TalonFXFactory;
 import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.AutoLogOutput;
 
-// TODO: this mechanism's motor has not been setup (given id and updated)
 public class Climber extends Mechanism {
     public class ClimberConfig extends Config {
 
         /* Climber constants in rotations */
-        public final double maxHeight = 147; // TODO: configure
-        public final double minHeight = 0.5; // TODO: configure
+        public final double maxHeight = 147;
+        public final double minHeight = 0.5;
 
         /* Climber positions in rotations */
         public double fullExtend = maxHeight;
@@ -35,7 +34,7 @@ public class Climber extends Mechanism {
         public final double threshold = 30;
 
         public ClimberConfig() {
-            super("Climber", 53, "3847"); // TODO: configure ID
+            super("Climber", 53, "3847");
             configPIDGains(0, positionKp, 0, 0);
             configFeedForwardGains(0, positionKv, 0, 0);
             configMotionMagic(120, 195, 0); // 40, 120 FOC // 120, 195 Regular
@@ -44,7 +43,7 @@ public class Climber extends Mechanism {
             configReverseSoftLimit(minHeight, true);
             configNeutralBrakeMode(true);
             // configMotionMagicPosition(0.12);
-            configClockwise_Positive(); // TODO: configure
+            configClockwise_Positive();
         }
     }
 
