@@ -33,7 +33,7 @@ public class Elevator extends Mechanism {
             super("Elevator", 52, "3847");
             configPIDGains(0, positionKp, 0, 0);
             configFeedForwardGains(0, positionKv, 0, 0);
-            configMotionMagic(120, 195, 0); // 40, 120 FOC // 120, 195 Regular
+            configMotionMagic(700, 900, 0); // 40, 120 FOC // 120, 195 Regular
             configSupplyCurrentLimit(currentLimit, threshold, true);
             configForwardSoftLimit(maxHeight, true);
             configReverseSoftLimit(minHeight, true);
