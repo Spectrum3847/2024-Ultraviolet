@@ -70,6 +70,9 @@ public class Robot extends LoggedRobot {
         try {
             RobotTelemetry.print("--- Robot Init Starting ---");
 
+            /* Start AdvantageKit */
+            advantageKitInit();
+
             /** Set up the config */
             config = new RobotConfig();
 
@@ -94,7 +97,6 @@ public class Robot extends LoggedRobot {
             /** Intialize Telemetry and Auton */
             telemetry = new RobotTelemetry();
             // auton = new Auton();
-            advantageKitInit();
 
             /**
              * Set Default Commands this method should exist for each subsystem that has default
@@ -113,6 +115,7 @@ public class Robot extends LoggedRobot {
             ClimberCommands.setupDefaultCommand();
 
             RobotTelemetry.print("--- Robot Init Complete ---");
+
         } catch (Throwable t) {
             // intercept error and log it
             CrashTracker.logThrowableCrash(t);
@@ -267,18 +270,12 @@ public class Robot extends LoggedRobot {
 
     /** This method is called once at the end of RobotInit to begin logging */
     public void advantageKitInit() {
-        // Set up data receivers & replay source
-        switch (Robot.config.getRobotType()) {
-            case SIM:
-                // Running a physics simulator, log to NT
-                Logger.addDataReceiver(new NT4Publisher());
-                break;
+        /* Set up data receivers & replay source */
+        Logger.addDataReceiver(new NT4Publisher()); // Running a physics simulator, log to NT
 
-            default:
-                // Running on a real robot, log to a USB stick
-                Logger.addDataReceiver(new WPILOGWriter("/U"));
-                Logger.addDataReceiver(new NT4Publisher());
-                break;
+        if (!Robot.isSimulation()) {
+            Logger.addDataReceiver(
+                    new WPILOGWriter("/U")); // Running on a real robot, log to a USB stick
         }
 
         // Start AdvantageKit logger
