@@ -14,8 +14,8 @@ public class Vision extends SubsystemBase {
                 "limelight-aim"; // TODO: change this name in LL dashboard to reflect name in code
 
         /* Pipeline config */
-        public static final int noteDetectorPipeline = 1;
-        public static final int speakerDetectorPipeline = 1;
+        public static final int noteDetectorPipeline = 0;
+        public static final int speakerDetectorPipeline = 0;
 
         /* Vision Command Configs */
         public static final class AlignToNote extends CommandConfig {
