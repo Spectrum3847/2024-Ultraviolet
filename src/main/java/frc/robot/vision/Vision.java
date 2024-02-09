@@ -88,6 +88,14 @@ public class Vision extends SubsystemBase {
         return Robot.swerve.getRotation().getDegrees() - speakerLL.getHorizontalOffset();
     }
 
+    public boolean noteInView() {
+        return noteLL.targetInView();
+    }
+
+    public boolean speakerInView() {
+        return speakerLL.targetInView();
+    }
+
     /** Change both LL pipelines to the same pipeline */
     public void setLimelightPipelines(int pipeline) {
         noteLL.setLimelightPipeline(pipeline);

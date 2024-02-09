@@ -106,8 +106,7 @@ public class AlignToVisionTarget extends PIDCommand {
     }
 
     @Override
-    public void end(boolean interrupted) {
-    }
+    public void end(boolean interrupted) {}
 
     /**
      * Returns true when the command should end. If in auto, automatically end when crosshair gets

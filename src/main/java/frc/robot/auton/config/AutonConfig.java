@@ -81,9 +81,17 @@ public class AutonConfig {
         if (Auton.trackNote) {
             // Return an optional containing the rotation override (this should be a field relative
             // rotation)
-            return Optional.of(Rotation2d.fromDegrees(Robot.vision.getOffsetToNote()));
+            if (Robot.vision.noteInView()) {
+                return Optional.of(Rotation2d.fromDegrees(Robot.vision.getOffsetToNote()));
+            } else {
+                return Optional.empty();
+            }
         } else if (Auton.trackSpeaker) {
-            return Optional.of(Rotation2d.fromDegrees(Robot.vision.getOffsetToSpeaker()));
+            if (Robot.vision.speakerInView()) {
+                return Optional.of(Rotation2d.fromDegrees(Robot.vision.getOffsetToSpeaker()));
+            } else {
+                return Optional.empty();
+            }
         } else {
             // return an empty optional when we don't want to override the path's rotation
             return Optional.empty();
