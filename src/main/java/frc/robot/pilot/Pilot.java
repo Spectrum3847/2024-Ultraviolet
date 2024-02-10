@@ -64,6 +64,11 @@ public class Pilot extends Gamepad {
         controller.x().and(noBumpers()).whileTrue(ElevatorCommands.amp());
         controller.x().and(leftBumperOnly()).whileTrue(ElevatorCommands.home());
 
+        // controller
+        //         .a()
+        //         .and(noBumpers())
+        //         .whileTrue(new AlignToVisionTarget(AlignToNote.getConfig(), () -> 0, 0));
+
         controller.rightBumper().whileTrue(RobotCommands.laserCanFeed());
 
         rightStick().and(leftBumperOnly()).whileTrue(PilotCommands.manualPivot());
@@ -86,15 +91,15 @@ public class Pilot extends Gamepad {
                 .whileTrue(rumbleCommand(SwerveCommands.reorient(270)));
 
         // Use the pilot drive if we are manually steering the robot
-        // controller
-        //         .rightTrigger(config.triggersDeadzone)
-        //         .or(controller.leftTrigger(config.triggersDeadzone))
-        //         .whileTrue(PilotCommands.pilotDrive());
+        controller
+                .rightTrigger(config.triggersDeadzone)
+                .or(controller.leftTrigger(config.triggersDeadzone))
+                .whileTrue(PilotCommands.pilotDrive());
 
         // Use the right stick to set a cardinal direction to aim at
-        // rightXTrigger(ThresholdType.ABS_GREATER_THAN, 0.5)
-        //         .and(rightYTrigger(ThresholdType.ABS_GREATER_THAN, 0.5))
-        //         .whileTrue(PilotCommands.stickSteerDrive());
+        rightXTrigger(ThresholdType.ABS_GREATER_THAN, 0.5)
+                .and(rightYTrigger(ThresholdType.ABS_GREATER_THAN, 0.5))
+                .whileTrue(PilotCommands.stickSteerDrive());
     };
 
     /** Setup the Buttons for Disabled mode. */

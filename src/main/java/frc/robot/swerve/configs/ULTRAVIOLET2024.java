@@ -10,10 +10,10 @@ import frc.spectrumLib.swerve.config.SwerveConfig;
 public class ULTRAVIOLET2024 {
 
     // Angle Offsets: from cancoder Absolute Position No Offset, opposite sign
-    private static final double kFrontLeftCANcoderOffset = -0.356689;
-    private static final double kFrontRightCANncoderOffset = -0.201660;
-    private static final double kBackLeftCANcoderOffset = -0.282715;
-    private static final double kBackRightCANcoderOffset = -0.220459;
+    private static final double kFrontLeftCANcoderOffset = 0.143799;
+    private static final double kFrontRightCANncoderOffset = -0.201172;
+    private static final double kBackLeftCANcoderOffset = 0.212158;
+    private static final double kBackRightCANcoderOffset = 0.279541;
 
     // Physical Config
     private static final double wheelBaseInches = 21.5;
@@ -27,7 +27,8 @@ public class ULTRAVIOLET2024 {
     private static final double speedAt12VoltsMps = 6;
     private static final double slipCurrent = 800;
     private static final SlotGains steerGains = new SlotGains(80.42574, 0, 0, 0.2767262, 0);
-    private static final SlotGains driveGains = new SlotGains(5.883745, 0, 0, 0.01806, 1.8289);
+    private static final SlotGains driveGains =
+            new SlotGains(1.1200337829912024, 0, 0, 0.0028068, 3.2105);
 
     /*Rotation Controller*/
     private static final double kPRotationController = 0.0;
@@ -83,8 +84,7 @@ public class ULTRAVIOLET2024 {
                     .withDriveMotorGains(driveGains)
                     .withSteerMotorGains(steerGains)
                     .withWheelRadius(kWheelRadiusInches)
-                    .withFeedbackSource(steerFeedbackType)
-                    .withDriveMotorInverted(false);
+                    .withFeedbackSource(steerFeedbackType);
 
     public static final ModuleConfig BackLeft =
             DefaultConfig.BackLeft.withCANcoderOffset(kBackLeftCANcoderOffset)

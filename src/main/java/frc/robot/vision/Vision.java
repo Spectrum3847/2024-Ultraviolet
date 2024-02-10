@@ -19,7 +19,7 @@ public class Vision extends SubsystemBase {
 
         /* Vision Command Configs */
         public static final class AlignToNote extends CommandConfig {
-            public AlignToNote() {
+            private AlignToNote() {
                 configKp(0.04);
                 configTolerance(0.01);
                 configMaxOutput(Robot.swerve.config.maxVelocity * 0.5);
