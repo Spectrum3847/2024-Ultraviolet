@@ -5,7 +5,6 @@ import frc.robot.mechanisms.amptrap.AmpTrapCommands;
 import frc.robot.mechanisms.climber.ClimberCommands;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
 import frc.robot.mechanisms.feeder.FeederCommands;
-import frc.robot.mechanisms.feeder.LaserCanFeed;
 import frc.robot.mechanisms.intake.IntakeCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.mechanisms.pivot.PivotCommands;
@@ -18,7 +17,17 @@ import frc.robot.mechanisms.pivot.PivotCommands;
 public class RobotCommands {
 
     public static Command laserCanFeed() {
-        return new LaserCanFeed(300).withName("RobotCommands.laserCanFeed");
+        return IntakeCommands.intake()
+                .alongWith(AmpTrapCommands.slowIntake(), FeederCommands.slowFeed())
+                .until(() -> Robot.feeder.hasNote())
+                .andThen(
+                        AmpTrapCommands.slowIntake()
+                                .alongWith(FeederCommands.slowFeed(), IntakeCommands.stopMotor())
+                                .until(() -> !Robot.feeder.hasNote()))
+                .andThen(
+                        FeederCommands.slowFeedReverse()
+                                .alongWith(AmpTrapCommands.stopMotor())
+                                .until(() -> Robot.feeder.hasNote()));
     }
 
     public static Command onDemandLaunching() {

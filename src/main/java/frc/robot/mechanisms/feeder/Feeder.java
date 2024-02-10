@@ -20,7 +20,8 @@ public class Feeder extends Mechanism {
         public double feedToAmp = -3000;
 
         /* Percentage Feeder Output */
-        public double slowFeederPercentage = 0.06; // TODO: configure
+        public double slowFeederPercentage = 0.15; // TODO: configure
+
         public double testForwardPercent = 1;
         public double testBackPercent = -0.5;
 
@@ -58,6 +59,10 @@ public class Feeder extends Mechanism {
     @AutoLogOutput(key = "LaserCan/Measurement")
     public int getLaserCanDistance() {
         return lasercan.getDistance();
+    }
+
+    public boolean hasNote() {
+        return getLaserCanDistance() < 300;
     }
 
     @Override
