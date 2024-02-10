@@ -53,7 +53,7 @@ public class AlignToVisionTarget extends PIDCommand {
                         () -> true); // Field relative is true
         // Use addRequirements() here to declare subsystem dependencies.
         // Configure additional PID options by calling `getController` here.
-        this.setName("AlignToConeOBject");
+        this.setName("AlignToVisionTarget");
     }
 
     public double getSteering() {

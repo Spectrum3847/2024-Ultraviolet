@@ -3,6 +3,7 @@ package frc.robot.vision;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 import frc.spectrumLib.vision.Limelight;
+import org.littletonrobotics.junction.AutoLogOutput;
 
 public class Vision extends SubsystemBase {
     public static final class VisionConfig {
@@ -63,7 +64,7 @@ public class Vision extends SubsystemBase {
     }
 
     @Override
-    public void periodic() {}
+    public void periodic() { }
 
     /**
      * Calculates the required rotation for the robot to align with a note, based on the current
@@ -73,7 +74,7 @@ public class Vision extends SubsystemBase {
      * @return The angle in degrees to rotate the robot towards the note.
      */
     public double getOffsetToNote() {
-        return Robot.swerve.getRotation().getDegrees() - noteLL.getHorizontalOffset();
+        return Robot.swerve.getRotation().getDegrees() + noteLL.getHorizontalOffset();
     }
 
     /**
@@ -85,7 +86,7 @@ public class Vision extends SubsystemBase {
      * @return The angle in degrees to rotate the robot towards the speaker.
      */
     public double getOffsetToSpeaker() {
-        return Robot.swerve.getRotation().getDegrees() - speakerLL.getHorizontalOffset();
+        return Robot.swerve.getRotation().getDegrees() + speakerLL.getHorizontalOffset();
     }
 
     public boolean noteInView() {

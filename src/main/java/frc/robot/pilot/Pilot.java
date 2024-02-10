@@ -5,8 +5,8 @@ import frc.robot.Robot;
 import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
-import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.swerve.commands.SwerveCommands;
+import frc.robot.vision.VisionCommands;
 import frc.spectrumLib.Gamepad;
 import frc.spectrumLib.util.ExpCurve;
 
@@ -52,10 +52,10 @@ public class Pilot extends Gamepad {
     /*  A, B, X, Y, Left Bumper, Right Bumper = Buttons 1 to 6 in simualation */
     public void setupTeleopButtons() {
 
-        controller.a().and(noBumpers()).whileTrue(RobotCommands.intake());
-        controller.a().and(leftBumperOnly()).whileTrue(LauncherCommands.stopMotors());
+        controller.a().and(noBumpers()).whileTrue(VisionCommands.alignToNote());
+        controller.a().and(leftBumperOnly()).whileTrue(VisionCommands.driveToNote());
 
-        controller.b().and(noBumpers()).whileTrue(RobotCommands.feedToAmp());
+        controller.b().and(noBumpers()).whileTrue(PilotCommands.speakerAimingDrive());
         controller.b().and(leftBumperOnly()).onTrue(RobotCommands.subwooferReady());
 
         controller.y().and(noBumpers()).whileTrue(RobotCommands.eject());
@@ -63,11 +63,6 @@ public class Pilot extends Gamepad {
 
         controller.x().and(noBumpers()).whileTrue(ElevatorCommands.amp());
         controller.x().and(leftBumperOnly()).whileTrue(ElevatorCommands.home());
-
-        // controller
-        //         .a()
-        //         .and(noBumpers())
-        //         .whileTrue(new AlignToVisionTarget(AlignToNote.getConfig(), () -> 0, 0));
 
         controller.rightBumper().whileTrue(RobotCommands.laserCanFeed());
 
