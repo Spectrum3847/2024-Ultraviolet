@@ -35,7 +35,7 @@ public class Vision extends SubsystemBase {
         }
 
         public static final class DriveToNote extends CommandConfig {
-            public DriveToNote() {
+            private DriveToNote() {
                 configKp(0.3);
                 configTolerance(0.05);
                 configMaxOutput(Robot.swerve.config.maxVelocity * 0.5);
