@@ -16,19 +16,20 @@ public class ULTRAVIOLET2024 {
     private static final double kBackRightCANcoderOffset = 0.279541;
 
     // Physical Config
-    private static final double wheelBaseInches = 21.5;
-    private static final double trackWidthInches = 18.5;
+    private static final double frontWheelBaseInches = 11.875;
+    private static final double backWheelBaseInches = 8.375;
+    private static final double trueWheelBaseInches = frontWheelBaseInches + backWheelBaseInches;
+    private static final double trackWidthInches = 11.875;
     private static final double kDriveGearRatio = 6.746;
     private static final double kSteerGearRatio = 21.428;
 
     // Tuning Config
     // Estimated at first, then fudge-factored to make odom match record
-    private static final double kWheelRadiusInches = 3.9 / 2;
+    private static final double kWheelRadiusInches = 3.765 / 2; // Updated for VexIQ Pro Wheels
     private static final double speedAt12VoltsMps = 6;
     private static final double slipCurrent = 800;
-    private static final SlotGains steerGains = new SlotGains(80.42574, 0, 0, 0.2767262, 0);
-    private static final SlotGains driveGains =
-            new SlotGains(1.1200337829912024, 0, 0, 0.0028068, 3.2105);
+    private static final SlotGains steerGains = new SlotGains(80, 0, 0, 0.27, 0);
+    private static final SlotGains driveGains = new SlotGains(11.5, 0.3, 0, 0.0024727, 3.1881);
 
     /*Rotation Controller*/
     private static final double kPRotationController = 0.0;
@@ -39,9 +40,7 @@ public class ULTRAVIOLET2024 {
     private static final double maxVelocity = speedAt12VoltsMps;
     private static final double maxAccel = maxVelocity * 1.5; // take 1/2 sec to get to max speed.
     private static final double maxAngularVelocity =
-            maxVelocity
-                    / Units.inchesToMeters(
-                            Math.hypot(wheelBaseInches / 2.0, trackWidthInches / 2.0));
+            maxVelocity / Units.inchesToMeters(Math.hypot(trueWheelBaseInches, trackWidthInches));
     private static final double maxAngularAcceleration = Math.pow(maxAngularVelocity, 2);
 
     // Device Setup
@@ -51,14 +50,14 @@ public class ULTRAVIOLET2024 {
             SwerveModuleSteerFeedbackType.FusedCANcoder;
 
     // Wheel Positions
-    private static final double kFrontLeftXPos = Units.inchesToMeters(wheelBaseInches / 2.0);
-    private static final double kFrontLeftYPos = Units.inchesToMeters(trackWidthInches / 2.0);
-    private static final double kFrontRightXPos = Units.inchesToMeters(wheelBaseInches / 2.0);
-    private static final double kFrontRightYPos = Units.inchesToMeters(-trackWidthInches / 2.0);
-    private static final double kBackLeftXPos = Units.inchesToMeters(-wheelBaseInches / 2.0);
-    private static final double kBackLeftYPos = Units.inchesToMeters(trackWidthInches / 2.0);
-    private static final double kBackRightXPos = Units.inchesToMeters(-wheelBaseInches / 2.0);
-    private static final double kBackRightYPos = Units.inchesToMeters(-trackWidthInches / 2.0);
+    private static final double kFrontLeftXPos = Units.inchesToMeters(frontWheelBaseInches);
+    private static final double kFrontLeftYPos = Units.inchesToMeters(trackWidthInches);
+    private static final double kFrontRightXPos = Units.inchesToMeters(frontWheelBaseInches);
+    private static final double kFrontRightYPos = Units.inchesToMeters(-trackWidthInches);
+    private static final double kBackLeftXPos = Units.inchesToMeters(-backWheelBaseInches);
+    private static final double kBackLeftYPos = Units.inchesToMeters(trackWidthInches);
+    private static final double kBackRightXPos = Units.inchesToMeters(-backWheelBaseInches);
+    private static final double kBackRightYPos = Units.inchesToMeters(-trackWidthInches);
 
     public static final ModuleConfig FrontLeft =
             DefaultConfig.FrontLeft.withCANcoderOffset(kFrontLeftCANcoderOffset)

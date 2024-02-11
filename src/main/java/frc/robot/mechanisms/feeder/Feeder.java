@@ -14,7 +14,7 @@ public class Feeder extends Mechanism {
         public double maxSpeed = 5000; // TODO: configure
         public double feed = 4000; // TODO: configure
         public double testFeed = 250;
-        public double intake = 250;
+        public double intake = 500;
         public double eject = -3000; // TODO: configure
         public double launchEject = 500;
         public double feedToAmp = -3000;

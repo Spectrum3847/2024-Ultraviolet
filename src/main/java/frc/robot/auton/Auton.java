@@ -10,8 +10,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
+import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
 import frc.robot.auton.config.AutonConfig;
+import frc.robot.mechanisms.feeder.FeederCommands;
 import frc.robot.swerve.commands.SwerveCommands;
 
 public class Auton extends SubsystemBase {
@@ -34,6 +36,7 @@ public class Auton extends SubsystemBase {
         autonChooser.addOption("5 Meter", new PathPlannerAuto("5 Meter Auto")); // Runs full Auto
 
         autonChooser.addOption("Front 4", new PathPlannerAuto("Front 4")); // Runs full Auto
+        autonChooser.addOption("Front 5", new PathPlannerAuto("Front 5")); // Runs full Auto
 
         autonChooser.addOption(
                 "Test Swerve",
@@ -53,6 +56,9 @@ public class Auton extends SubsystemBase {
         NamedCommands.registerCommand("alignToSpeaker", AutonCommands.trackSpeaker());
         NamedCommands.registerCommand("alignToNote", AutonCommands.trackNote());
         NamedCommands.registerCommand("stopTracking", AutonCommands.stopTracking());
+        NamedCommands.registerCommand("intake", RobotCommands.intake());
+        NamedCommands.registerCommand("launchReady", RobotCommands.launchReady());
+        NamedCommands.registerCommand("launch", FeederCommands.launchEject());
     }
 
     // Subsystem Documentation:

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.55,
-        "y": 6.9952350485752195
+        "x": 2.7076091812668635,
+        "y": 6.90939356201109
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.705755737047272,
-        "y": 7.152806372963755
+        "x": 3.8633649183141356,
+        "y": 7.066964886399625
       },
       "isLocked": false,
       "linkedName": "GP 4"
@@ -49,7 +49,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.0,
-    "maxAcceleration": 3.4,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

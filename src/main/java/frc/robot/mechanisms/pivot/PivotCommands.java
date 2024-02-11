@@ -44,6 +44,10 @@ public class PivotCommands {
         return pivot.runPosition(pivot.config.subwoofer).withName("Pivot.subwoofer");
     }
 
+    public static Command autoLaunch() {
+        return pivot.runPosition(pivot.config.autoLaunch).withName("Pivot.subwoofer");
+    }
+
     public static Command coastMode() {
         return pivot.coastMode();
     }
