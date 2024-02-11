@@ -1,5 +1,8 @@
 package frc.robot.vision;
 
+import edu.wpi.first.math.interpolation.InterpolatingTreeMap;
+import edu.wpi.first.math.interpolation.Interpolator;
+import edu.wpi.first.math.interpolation.InverseInterpolator;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 import frc.spectrumLib.vision.Limelight;
@@ -34,7 +37,7 @@ public class Vision extends SubsystemBase {
         }
 
         public static final class DriveToNote extends CommandConfig {
-            public DriveToNote() {
+            private DriveToNote() {
                 configKp(0.3);
                 configTolerance(0.05);
                 configMaxOutput(Robot.swerve.config.maxVelocity * 0.5);
@@ -56,8 +59,14 @@ public class Vision extends SubsystemBase {
     public final Limelight speakerLL =
             new Limelight(VisionConfig.SPEAKER_LL, VisionConfig.speakerDetectorPipeline);
 
+    /* Interpolator */
+    public InterpolatingTreeMap<Double, Double> treeMap =
+            new InterpolatingTreeMap<>(InverseInterpolator.forDouble(), Interpolator.forDouble());
+
     public Vision() {
         setName("Vision");
+        /* Tree Map Data: key - distance (meters), value - pivot angle (degrees) */
+        treeMap.put(0.0, 0.0);
 
         /* Configure Limelight Settings Here */
     }
@@ -73,7 +82,7 @@ public class Vision extends SubsystemBase {
      * @return The angle in degrees to rotate the robot towards the note.
      */
     public double getOffsetToNote() {
-        return Robot.swerve.getRotation().getDegrees() - noteLL.getHorizontalOffset();
+        return Robot.swerve.getRotation().getDegrees() + noteLL.getHorizontalOffset();
     }
 
     /**
@@ -85,7 +94,7 @@ public class Vision extends SubsystemBase {
      * @return The angle in degrees to rotate the robot towards the speaker.
      */
     public double getOffsetToSpeaker() {
-        return Robot.swerve.getRotation().getDegrees() - speakerLL.getHorizontalOffset();
+        return Robot.swerve.getRotation().getDegrees() + speakerLL.getHorizontalOffset();
     }
 
     public boolean noteInView() {
@@ -100,6 +109,17 @@ public class Vision extends SubsystemBase {
     public void setLimelightPipelines(int pipeline) {
         noteLL.setLimelightPipeline(pipeline);
         speakerLL.setLimelightPipeline(pipeline);
+    }
+
+    /* Tree Map */
+
+    /**
+     * @param distance the distance from the target
+     * @return the angle corresponding to the given distance OR an interpolated angle using
+     *     surrounding data
+     */
+    public double getAngleFromMap(double distance) {
+        return treeMap.get(distance);
     }
 
     public static class CommandConfig {

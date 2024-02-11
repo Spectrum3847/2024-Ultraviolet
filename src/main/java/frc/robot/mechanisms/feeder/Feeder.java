@@ -14,10 +14,14 @@ public class Feeder extends Mechanism {
         public double maxSpeed = 5000; // TODO: configure
         public double feed = 4000; // TODO: configure
         public double testFeed = 250;
-        public double intake = 500;
+        public double intake = 250;
         public double eject = -3000; // TODO: configure
         public double launchEject = 500;
         public double feedToAmp = -3000;
+        public double feedToLauncher = 900;
+        public double slowFeed = 900; // 780
+        public double slowEject = -780; // -780
+        public double fastFeed = 1000;
 
         /* Percentage Feeder Output */
         public double slowFeederPercentage = 0.15; // TODO: configure
@@ -63,6 +67,14 @@ public class Feeder extends Mechanism {
 
     public boolean hasNote() {
         return getLaserCanDistance() < 300;
+    }
+
+    public boolean midNote() {
+        return Math.abs(getLaserCanDistance()) - 10 <= 0;
+    }
+
+    public boolean endNote() {
+        return getLaserCanDistance() > 250;
     }
 
     @Override

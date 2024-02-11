@@ -53,11 +53,11 @@ public class Pilot extends Gamepad {
     /*  A, B, X, Y, Left Bumper, Right Bumper = Buttons 1 to 6 in simualation */
     public void setupTeleopButtons() {
 
-        controller.a().and(noBumpers()).whileTrue(RobotCommands.laserCanFeed());
+        controller.a().and(noBumpers()).whileTrue(RobotCommands.feed());
         controller.a().and(leftBumperOnly()).whileTrue(LauncherCommands.stopMotors());
 
         controller.b().and(noBumpers()).whileTrue(RobotCommands.feedToAmp());
-        controller.b().and(leftBumperOnly()).onTrue(RobotCommands.subwooferReady());
+        controller.b().and(leftBumperOnly()).whileTrue(RobotCommands.subwooferReady());
 
         controller.y().and(noBumpers()).whileTrue(RobotCommands.eject());
         controller.y().and(leftBumperOnly()).onTrue(RobotCommands.onDemandLaunching());
@@ -65,7 +65,7 @@ public class Pilot extends Gamepad {
         controller.x().and(noBumpers()).whileTrue(ElevatorCommands.amp());
         controller.x().and(leftBumperOnly()).whileTrue(ElevatorCommands.home());
 
-        controller.rightBumper().whileTrue(FeederCommands.slowFeed());
+        controller.rightBumper().whileTrue(FeederCommands.feedToLauncher());
 
         rightStick().and(leftBumperOnly()).whileTrue(PilotCommands.manualPivot());
 

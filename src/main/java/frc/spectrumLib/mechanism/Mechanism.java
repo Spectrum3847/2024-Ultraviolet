@@ -140,8 +140,10 @@ public abstract class Mechanism implements Subsystem {
     }
 
     public void setBrakeMode(boolean isInBrake) {
-        config.configNeutralBrakeMode(isInBrake);
-        config.applyTalonConfig(motor);
+        if (attached) {
+            config.configNeutralBrakeMode(isInBrake);
+            config.applyTalonConfig(motor);
+        }
     }
 
     public static class Config {

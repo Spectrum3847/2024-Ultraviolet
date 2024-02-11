@@ -16,6 +16,9 @@ public class AmpTrap extends Mechanism {
         public double score = 3000; // TODO: configure
         public double launchEject = 500;
         public double eject = -3000;
+        public double slowIntake = 500; // 360
+        public double slowEject = -360; // -360
+        public double fastIntake = 780;
 
         /* Percentage AmpTrap Output */
         public double slowIntakePercentage = 0.1; // TODO: configure

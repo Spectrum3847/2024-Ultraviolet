@@ -39,10 +39,11 @@ public class DriveToVisionTarget extends PIDCommand {
                 },
                 Robot.swerve);
         config = commandConfig;
+        limelight = commandConfig.limelight;
         this.horizontalOffset = horizontalOffset;
         alignCommand = getVisionTargetCommand();
         this.getController().setTolerance(commandConfig.tolerance);
-        this.setName("DriveToNote");
+        this.setName("DriveToVisionTarget");
     }
 
     @Override

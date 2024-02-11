@@ -15,7 +15,15 @@ public class FeederCommands {
     }
 
     public static Command slowFeed() {
-        return feeder.runPercentage(feeder.config.slowFeederPercentage).withName("Feeder.slowFeed");
+        return feeder.runVelocity(feeder.config.slowFeed).withName("Feeder.slowFeed");
+    }
+
+    public static Command fastFeed() {
+        return feeder.runVelocity(feeder.config.fastFeed).withName("Feeder.fastFeed");
+    }
+
+    public static Command slowFeedReverse() {
+        return feeder.runVelocity(feeder.config.slowEject).withName("Feeder.slowFeedReverse");
     }
 
     public static Command slowFeedReverse() {
@@ -33,6 +41,10 @@ public class FeederCommands {
 
     public static Command launchEject() {
         return feeder.runVelocity(feeder.config.launchEject).withName("Feeder.launchEject");
+    }
+
+    public static Command feedToLauncher() {
+        return feeder.runVelocity(feeder.config.feedToLauncher).withName("Feeder.feedToLauncher");
     }
 
     public static Command intake() {

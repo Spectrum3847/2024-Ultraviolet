@@ -15,8 +15,15 @@ public class AmpTrapCommands {
     }
 
     public static Command slowIntake() {
-        return ampTrap.runPercentage(ampTrap.config.slowIntakePercentage)
-                .withName("AmpTrap.slowIntake");
+        return ampTrap.runVelocity(ampTrap.config.slowIntake).withName("AmpTrap.slowIntake");
+    }
+
+    public static Command fastIntake() {
+        return ampTrap.runVelocity(ampTrap.config.fastIntake).withName("AmpTrap.fastIntake");
+    }
+
+    public static Command slowEject() {
+        return ampTrap.runVelocity(ampTrap.config.slowEject).withName("AmpTrap.slowEject");
     }
 
     public static Command intake() {
