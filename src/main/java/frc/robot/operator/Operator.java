@@ -42,8 +42,8 @@ public class Operator extends Gamepad {
 
         controller.rightBumper().whileTrue(RobotCommands.feedToAmp());
         controller.povUp().and(leftBumperOnly()).whileTrue(ClimberCommands.topClimb());
+        controller.povDown().and(leftBumperOnly()).whileTrue(ClimberCommands.midClimb());
         controller.povLeft().and(leftBumperOnly()).whileTrue(ElevatorCommands.fullExtend());
-        controller.povDown().and(leftBumperOnly()).whileTrue(ClimberCommands.botClimb());
         controller.povRight().and(leftBumperOnly()).whileTrue(ClimberCommands.botClimb());
     };
 

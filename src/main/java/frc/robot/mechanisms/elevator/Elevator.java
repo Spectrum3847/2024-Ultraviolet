@@ -18,7 +18,7 @@ public class Elevator extends Mechanism {
         /* Elevator positions in rotations */
         public double fullExtend = maxHeight;
         public double home = minHeight;
-        public double amp = 15; // TODO: configure
+        public double amp = 20; // TODO: configure
         public double trap = 5; // TODO: configure
         public double startingMotorPos = -0.15;
 
@@ -33,7 +33,7 @@ public class Elevator extends Mechanism {
             super("Elevator", 52, "3847");
             configPIDGains(0, positionKp, 0, 0);
             configFeedForwardGains(0, positionKv, 0, 0);
-            configMotionMagic(120, 195, 0); // 40, 120 FOC // 120, 195 Regular
+            configMotionMagic(700, 900, 0); // 40, 120 FOC // 120, 195 Regular
             configSupplyCurrentLimit(currentLimit, threshold, true);
             configForwardSoftLimit(maxHeight, true);
             configReverseSoftLimit(minHeight, true);
@@ -122,12 +122,12 @@ public class Elevator extends Mechanism {
             @Override
             public void initialize() {
                 stop();
-                holdPosition = motor.getPosition().getValueAsDouble();
+                holdPosition = getMotorPosition();
             }
 
             @Override
             public void execute() {
-                double currentPosition = motor.getPosition().getValueAsDouble();
+                double currentPosition = getMotorPosition();
                 if (Math.abs(holdPosition - currentPosition) <= 5) {
                     setMMPosition(
                             holdPosition); // TODO: add: change mode depending on current control
@@ -177,7 +177,10 @@ public class Elevator extends Mechanism {
 
     @AutoLogOutput(key = "Elevator/Position (rotations)")
     public double getMotorPosition() {
-        return motor.getPosition().getValueAsDouble();
+        if (attached) {
+            return motor.getPosition().getValueAsDouble();
+        }
+        return 0;
     }
 
     @Override

@@ -18,6 +18,11 @@ public class FeederCommands {
         return feeder.runPercentage(feeder.config.slowFeederPercentage).withName("Feeder.slowFeed");
     }
 
+    public static Command slowFeedReverse() {
+        return feeder.runPercentage(feeder.config.slowFeederPercentage * -1)
+                .withName("Feeder.slowFeedReverse");
+    }
+
     public static Command feeder() {
         return feeder.runVelocity(feeder.config.feed).withName("Feeder.feed");
     }

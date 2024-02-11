@@ -18,7 +18,7 @@ public class Pivot extends Mechanism {
         /* Pivot positions in percentage of max rotation || 0 is vertical? */
         public final int score = 80;
         public final int halfScore = 50;
-        public final int test = 20;
+        public final int test = 65;
         public final int home = 0;
         public final int subwoofer = 65;
         public final int autoLaunch = 77;
@@ -54,7 +54,7 @@ public class Pivot extends Mechanism {
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
         }
 
-        SmartDashboard.putNumber("pivotPercent", 20);
+        SmartDashboard.putNumber("pivotPercent", config.test);
     }
 
     @Override
@@ -124,7 +124,7 @@ public class Pivot extends Mechanism {
 
             @Override
             public void initialize() {
-                holdPosition = motor.getPosition().getValueAsDouble();
+                holdPosition = getMotorPosition();
             }
 
             @Override

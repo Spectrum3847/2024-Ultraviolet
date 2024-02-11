@@ -24,15 +24,15 @@ public class LaunchTest extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        leftLaunchSpeed = SmartDashboard.getNumber("leftLaunchSpeed", 0);
-        rightLaunchSpeed = SmartDashboard.getNumber("rightLaunchSpeed", 0);
+        leftLaunchSpeed = SmartDashboard.getNumber("leftLaunchSpeed", defaultValue);
+        rightLaunchSpeed = SmartDashboard.getNumber("rightLaunchSpeed", defaultValue);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        Robot.leftLauncher.setVelocity(Conversions.RPMtoRPS(leftLaunchSpeed));
-        Robot.rightLauncher.setVelocity(Conversions.RPMtoRPS(rightLaunchSpeed));
+        Robot.leftLauncher.setVelocityTorqueCurrentFOC(Conversions.RPMtoRPS(leftLaunchSpeed));
+        Robot.rightLauncher.setVelocityTorqueCurrentFOC(Conversions.RPMtoRPS(rightLaunchSpeed));
     }
 
     // Called once the command ends or is interrupted.

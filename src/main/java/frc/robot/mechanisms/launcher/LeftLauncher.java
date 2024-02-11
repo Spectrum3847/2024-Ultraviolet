@@ -25,9 +25,9 @@ public class LeftLauncher extends Mechanism {
         /* LeftLauncher config values */
         public double currentLimit = 40;
         public double threshold = 80;
-        public double velocityKp = 0.156152;
-        public double velocityKv = 0.12;
-        public double velocityKs = 0.24;
+        public double velocityKp = 12; // 0.156152;
+        public double velocityKv = 0.2; // 0.12;
+        public double velocityKs = 14;
 
         public LeftLauncherConfig() {
             super("LeftLauncher", 42, "3847");
@@ -48,7 +48,7 @@ public class LeftLauncher extends Mechanism {
         if (attached) {
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
 
-            SmartDashboard.putNumber("leftLaunchSpeed", 3000);
+            SmartDashboard.putNumber("leftLaunchSpeed", config.testVelocity);
         }
     }
 
@@ -65,6 +65,17 @@ public class LeftLauncher extends Mechanism {
     public Command runVelocity(double velocity) {
         return run(() -> setVelocity(Conversions.RPMtoRPS(velocity)))
                 .withName("LeftLauncher.runVelocity");
+    }
+
+    /**
+     * Run the left launcher at given velocity in TorqueCurrentFOC mode
+     *
+     * @param percent
+     * @return
+     */
+    public Command runVelocityTorqueCurrentFOC(double velocity) {
+        return run(() -> setVelocityTorqueCurrentFOC(Conversions.RPMtoRPS(velocity)))
+                .withName("LeftLauncher.runVelocityFOC");
     }
 
     /**

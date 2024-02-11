@@ -12,8 +12,8 @@ import frc.spectrumLib.util.Conversions;
 
 public class LaserCanFeed extends Command {
     private boolean passedZero;
-    private int setPoint; // millimeters
     private boolean continueFeeding;
+    private int setPoint; // millimeters
     private Feeder feeder = Robot.feeder;
     private AmpTrap ampTrap = Robot.ampTrap;
     private Intake intake = Robot.intake;
