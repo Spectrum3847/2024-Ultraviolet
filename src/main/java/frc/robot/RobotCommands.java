@@ -77,4 +77,10 @@ public class RobotCommands {
                 .alongWith(LauncherCommands.subwoofer())
                 .withName("RobotCommands.subwooferReady");
     }
+
+    public static Command launchReady() {
+        return PivotCommands.autoLaunch()
+                .alongWith(LauncherCommands.subwoofer())
+                .withName("RobotCommands.subwooferReady");
+    }
 }

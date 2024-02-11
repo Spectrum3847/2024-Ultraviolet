@@ -48,7 +48,7 @@ public final class RobotConfig {
                 /* Set all the constants specifically for the simulation*/
                 break;
             case ULTRAVIOLET:
-                intakeAttached = false;
+                intakeAttached = true;
                 ampTrapAttached = true;
                 elevatorAttached = true;
                 feederAttached = true;
