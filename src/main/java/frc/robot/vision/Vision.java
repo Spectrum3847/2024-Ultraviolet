@@ -3,7 +3,6 @@ package frc.robot.vision;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 import frc.spectrumLib.vision.Limelight;
-import org.littletonrobotics.junction.AutoLogOutput;
 
 public class Vision extends SubsystemBase {
     public static final class VisionConfig {
@@ -64,7 +63,7 @@ public class Vision extends SubsystemBase {
     }
 
     @Override
-    public void periodic() { }
+    public void periodic() {}
 
     /**
      * Calculates the required rotation for the robot to align with a note, based on the current
