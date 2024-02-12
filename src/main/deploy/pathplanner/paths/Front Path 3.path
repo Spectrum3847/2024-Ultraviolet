@@ -3,69 +3,59 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.7076091812668635,
-        "y": 6.90939356201109
+        "x": 2.5,
+        "y": 5.7
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.8633649183141356,
-        "y": 7.066964886399625
-      },
-      "isLocked": false,
-      "linkedName": "GP 4"
-    },
-    {
-      "anchor": {
-        "x": 7.05,
-        "y": 7.35
-      },
-      "prevControl": {
-        "x": 6.701341177329473,
-        "y": 7.636620873707815
-      },
-      "nextControl": {
-        "x": 7.3986588226705265,
-        "y": 7.063379126292184
+        "x": 2.4972696424814798,
+        "y": 5.910671665054784
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.928113579332866,
-        "y": 6.22443332819313
+        "x": 1.8528728448199805,
+        "y": 6.4037664856321195
       },
       "prevControl": {
-        "x": 6.0275309492623155,
-        "y": 6.271018809969801
+        "x": 1.8490096475047955,
+        "y": 6.108386697596594
       },
       "nextControl": {
-        "x": 4.015213418640122,
-        "y": 6.185751117994285
+        "x": 1.8567961331834226,
+        "y": 6.703740830882538
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.398297032328396,
-        "y": 5.551362870733224
+        "x": 2.7076091812668635,
+        "y": 6.90939356201109
       },
       "prevControl": {
-        "x": 2.972072795618409,
-        "y": 5.645281771269395
+        "x": 2.276087918939198,
+        "y": 6.696715903877136
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "GP 4"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.0,
+      "rotationDegrees": 180.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "intake",
-      "waypointRelativePos": 0.0,
+      "name": "Intake",
+      "waypointRelativePos": 0,
       "command": {
         "type": "sequential",
         "data": {
@@ -87,7 +77,7 @@
       }
     },
     {
-      "name": "launchReady",
+      "name": "LaunchReady",
       "waypointRelativePos": 0,
       "command": {
         "type": "sequential",
@@ -96,7 +86,7 @@
             {
               "type": "named",
               "data": {
-                "name": "launchReady5"
+                "name": "launchReady4"
               }
             }
           ]
@@ -112,7 +102,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
+    "rotation": -155.0,
     "rotateFast": false
   },
   "reversed": false,

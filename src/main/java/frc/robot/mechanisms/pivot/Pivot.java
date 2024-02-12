@@ -21,7 +21,11 @@ public class Pivot extends Mechanism {
         public final int test = 65;
         public final int home = 0;
         public final int subwoofer = 65;
-        public final int autoLaunch = 77;
+        public final int autoLaunch1 = 74;
+        public final int autoLaunch2 = 77;
+        public final int autoLaunch3 = 70;
+        public final int autoLaunch4 = 63;
+        public final int autoLaunch5 = 67;
 
         public final double zeroSpeed = -0.2;
 

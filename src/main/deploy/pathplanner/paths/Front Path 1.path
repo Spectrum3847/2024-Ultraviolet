@@ -12,121 +12,28 @@
         "y": 4.1
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Start Pose"
     },
     {
       "anchor": {
-        "x": 2.5,
+        "x": 1.996002046260407,
         "y": 4.1
       },
       "prevControl": {
-        "x": 2.4,
+        "x": 1.8960020462604068,
         "y": 4.1
-      },
-      "nextControl": {
-        "x": 2.6,
-        "y": 4.1
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 1.8528728448199805,
-        "y": 5.03323212095903
-      },
-      "prevControl": {
-        "x": 1.8528728448199805,
-        "y": 4.6693878616179365
-      },
-      "nextControl": {
-        "x": 1.8528728448199805,
-        "y": 5.342696406516392
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.5,
-        "y": 5.7
-      },
-      "prevControl": {
-        "x": 2.5037879097006557,
-        "y": 5.40772866252811
-      },
-      "nextControl": {
-        "x": 2.4972696424814798,
-        "y": 5.910671665054784
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 1.8528728448199805,
-        "y": 6.4037664856321195
-      },
-      "prevControl": {
-        "x": 1.8490096475047955,
-        "y": 6.108386697596594
-      },
-      "nextControl": {
-        "x": 1.8567961331834226,
-        "y": 6.703740830882538
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.7076091812668635,
-        "y": 6.90939356201109
-      },
-      "prevControl": {
-        "x": 2.276087918939198,
-        "y": 6.696715903877136
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "GP 4"
+      "linkedName": "GP 1 Shoot"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 4.0,
-      "rotationDegrees": 180.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Intake",
+      "name": "LauncherReady",
       "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "intake"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "launchReady"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "Launch",
-      "waypointRelativePos": 2.05,
       "command": {
         "type": "sequential",
         "data": {
@@ -134,24 +41,7 @@
             {
               "type": "named",
               "data": {
-                "name": "launch"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "Intake",
-      "waypointRelativePos": 4.0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "intake"
+                "name": "launchReady1"
               }
             }
           ]
@@ -167,8 +57,8 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -155.0,
-    "rotateFast": false
+    "rotation": 145.0,
+    "rotateFast": true
   },
   "reversed": false,
   "folder": "Front Paths",

@@ -18,6 +18,42 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launch"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Front Path 2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launch"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Front Path 3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launch"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Front Piece 5 Middle Path"
@@ -26,7 +62,7 @@
         {
           "type": "named",
           "data": {
-            "name": "intake"
+            "name": "launch"
           }
         }
       ]
