@@ -17,7 +17,7 @@ public class Vision extends SubsystemBase {
         public static final String SPEAKER_LL =
                 "limelight-aim"; // TODO: change this name in LL dashboard to reflect name in code
         public static final PhysicalConfig SPEAKER_CONFIG =
-                new PhysicalConfig().withTranslation(0, 0, 0).withRotation(0, 0, 0);
+                new PhysicalConfig().withTranslation(-0.051, 0, 28.5).withRotation(0, 0, 0);
 
         /* Pipeline config */
         public static final int noteDetectorPipeline = 0;
