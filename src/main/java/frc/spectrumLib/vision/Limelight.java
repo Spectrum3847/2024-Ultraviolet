@@ -6,6 +6,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.vision.Vision.VisionConfig;
 import frc.spectrumLib.vision.LimelightHelpers.LimelightResults;
 import java.text.DecimalFormat;
 
@@ -16,16 +17,25 @@ public class Limelight {
     /** Must match to the name given in LL dashboard */
     private final String CAMERA_NAME;
 
+    /** Physical Config */
+    private PhysicalConfig physicalConfig;
+
     /* Debug */
     private final DecimalFormat df = new DecimalFormat();
 
     public Limelight(String cameraName) {
         this.CAMERA_NAME = cameraName;
+        physicalConfig = new PhysicalConfig();
     }
 
     public Limelight(String cameraName, int pipeline) {
         this(cameraName);
         setLimelightPipeline(pipeline);
+    }
+
+    public Limelight(String cameraName, int pipeline, PhysicalConfig physicalConfig) {
+        this(cameraName, pipeline);
+        this.physicalConfig = physicalConfig;
     }
 
     /*
@@ -96,6 +106,15 @@ public class Limelight {
      *
      */
 
+    /**
+     * get distance in meters to a target
+     * @param targetHeight meters 
+     * @return
+     */
+    public double getDistanceToTarget(double targetHeight) {
+        return (targetHeight - physicalConfig.up) / Math.tan(Units.degreesToRadians(physicalConfig.roll + getVerticalOffset()));
+    }
+
     /*
      *
      * Utility Wrappers
@@ -153,4 +172,45 @@ public class Limelight {
     }
 
     // TODO: isEstimateReady, toPose2d
+
+    /**
+     * Specify the location of your Limelight relative to the center of your robot. (meters,
+     * degrees)
+     */
+    public static class PhysicalConfig {
+        public double forward, right, up; // meters
+        public double roll, pitch, yaw; // degrees
+
+        /**
+         * Specify the location of your Limelight relative to the center of your robot. (meters,
+         * degrees)
+         */
+        public PhysicalConfig() {}
+
+        /**
+         * @param forward (meters) forward from center of robot
+         * @param right (meters) right from center of robot
+         * @param up (meters) up from center of robot
+         * @return
+         */
+        public PhysicalConfig withTranslation(double forward, double right, double up) {
+            this.forward = forward;
+            this.right = right;
+            this.up = up;
+            return this;
+        }
+
+        /**
+         * @param roll (degrees) roll of limelight || positive is camera tilted up
+         * @param pitch (degrees) pitch of limelight || positive is rotated right
+         * @param yaw (yaw) yaw of limelight || positive is rotated left
+         * @return
+         */
+        public PhysicalConfig withRotation(double roll, double pitch, double yaw) {
+            this.roll = roll;
+            this.pitch = pitch;
+            this.yaw = yaw;
+            return this;
+        }
+    }
 }
