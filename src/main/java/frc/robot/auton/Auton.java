@@ -13,7 +13,11 @@ import frc.robot.Robot;
 import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
 import frc.robot.auton.config.AutonConfig;
+import frc.robot.mechanisms.amptrap.AmpTrapCommands;
 import frc.robot.mechanisms.feeder.FeederCommands;
+import frc.robot.mechanisms.intake.IntakeCommands;
+import frc.robot.mechanisms.launcher.LauncherCommands;
+import frc.robot.mechanisms.pivot.PivotCommands;
 import frc.robot.swerve.commands.SwerveCommands;
 
 public class Auton extends SubsystemBase {
@@ -55,10 +59,18 @@ public class Auton extends SubsystemBase {
         // Register Named Commands
         NamedCommands.registerCommand("alignToSpeaker", AutonCommands.trackSpeaker());
         NamedCommands.registerCommand("alignToNote", AutonCommands.trackNote());
+        NamedCommands.registerCommand("launchReady", AutonCommands.launchReady());
+        NamedCommands.registerCommand("smartIntake", RobotCommands.laserCanFeed());
+        NamedCommands.registerCommand("launch", FeederCommands.feedToLauncher());
+
+        /* Stop Commands */
         NamedCommands.registerCommand("stopTracking", AutonCommands.stopTracking());
-        NamedCommands.registerCommand("intake", RobotCommands.laserCanFeed());
-        NamedCommands.registerCommand("launchReady", RobotCommands.launchReady());
-        NamedCommands.registerCommand("launch", FeederCommands.launchEject());
+        NamedCommands.registerCommand("stopSmartIntake", AutonCommands.stopFeed());
+        NamedCommands.registerCommand("stopIntake", IntakeCommands.stopMotor());
+        NamedCommands.registerCommand("stopFeeder", FeederCommands.stopMotor());
+        NamedCommands.registerCommand("stopAmpTrap", AmpTrapCommands.stopMotor());
+        NamedCommands.registerCommand("stopLauncher", LauncherCommands.stopMotors());
+        NamedCommands.registerCommand("stopPivot", PivotCommands.stopMotor());
     }
 
     // Subsystem Documentation:

@@ -48,6 +48,10 @@ public class PivotCommands {
         return pivot.runPosition(pivot.config.autoLaunch).withName("Pivot.subwoofer");
     }
 
+    public static Command stopMotor() {
+        return pivot.runStop().withName("Pivot.stopMotor");
+    }
+
     public static Command coastMode() {
         return pivot.coastMode();
     }
