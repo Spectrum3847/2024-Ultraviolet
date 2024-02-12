@@ -22,34 +22,6 @@ public class RobotCommands {
         return new ConditionalCommand(new InstantCommand(), laserCanFeed(), Robot.feeder::hasNote);
     }
 
-    //     public static Command laserCanFeed3() {
-    //         return IntakeCommands.intake()
-    //                 .alongWith(AmpTrapCommands.slowIntake(), FeederCommands.slowFeed())
-    //                 .until(() -> Robot.feeder.hasNote())
-    //                 .andThen(
-    //                         AmpTrapCommands.slowEject()
-    //                                 .alongWith(FeederCommands.slowFeedReverse())
-    //                                 .until(() -> !Robot.feeder.hasNote()))
-    //                 .andThen(
-    //                         FeederCommands.slowFeed()
-    //                                 .alongWith(AmpTrapCommands.slowIntake())
-    //                                 .until(() -> Robot.feeder.hasNote()));
-    //     }
-
-    //     public static Command laserCanFeed2() {
-    //         return IntakeCommands.intake()
-    //                 .alongWith(AmpTrapCommands.fastIntake(), FeederCommands.fastFeed())
-    //                 .until(() -> Robot.feeder.hasNote())
-    //                 .andThen(
-    //                         AmpTrapCommands.slowEject()
-    //                                 .alongWith(FeederCommands.slowFeedReverse())
-    //                                 .until(() -> !Robot.feeder.hasNote()))
-    //                 .andThen(
-    //                         FeederCommands.slowFeed()
-    //                                 .alongWith(AmpTrapCommands.slowIntake())
-    //                                 .until(() -> Robot.feeder.hasNote()));
-    //     }
-
     public static Command laserCanFeed() {
         return IntakeCommands.intake()
                 .alongWith(AmpTrapCommands.slowIntake(), FeederCommands.slowFeed())
