@@ -39,7 +39,6 @@ public class Auton extends SubsystemBase {
         autonChooser.addOption("3 Meter", new PathPlannerAuto("3 Meter Auto")); // Runs full Auto
         autonChooser.addOption("5 Meter", new PathPlannerAuto("5 Meter Auto")); // Runs full Auto
 
-        autonChooser.addOption("Front 4", new PathPlannerAuto("Front 4")); // Runs full Auto
         autonChooser.addOption("Front 5", new PathPlannerAuto("Front 5")); // Runs full Auto
 
         autonChooser.addOption(
