@@ -1,0 +1,100 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.45,
+        "y": 5.7
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.224097353713884,
+        "y": 6.007812951079597
+      },
+      "isLocked": false,
+      "linkedName": "GP 5 Shoot - Front Alt 5"
+    },
+    {
+      "anchor": {
+        "x": 5.547028942514387,
+        "y": 6.21669688615336
+      },
+      "prevControl": {
+        "x": 4.647028942514386,
+        "y": 6.21669688615336
+      },
+      "nextControl": {
+        "x": 6.447028942514387,
+        "y": 6.21669688615336
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.991744627081395,
+        "y": 5.899502762522831
+      },
+      "prevControl": {
+        "x": 7.535294546735025,
+        "y": 6.1548053498352076
+      },
+      "nextControl": {
+        "x": 8.428123700642958,
+        "y": 5.655426331547719
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.9338510445028385,
+        "y": 6.21669688615336
+      },
+      "prevControl": {
+        "x": 7.133851044502839,
+        "y": 6.21669688615336
+      },
+      "nextControl": {
+        "x": 4.733851044502838,
+        "y": 6.21669688615336
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.45,
+        "y": 5.7
+      },
+      "prevControl": {
+        "x": 4.378826194509265,
+        "y": 6.046495161278442
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 180.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Front Paths",
+  "previewStartingState": {
+    "rotation": 180.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

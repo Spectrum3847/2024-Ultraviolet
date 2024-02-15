@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.7076091812668635,
-        "y": 6.90939356201109
+        "x": 2.7,
+        "y": 6.9
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.8633649183141356,
-        "y": 7.066964886399625
+        "x": 3.8557557370472724,
+        "y": 7.057571324388536
       },
       "isLocked": false,
-      "linkedName": "GP 4"
+      "linkedName": "GP 4 - Front 5"
     },
     {
       "anchor": {

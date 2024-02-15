@@ -25,7 +25,7 @@ public class Pilot extends Gamepad {
         public final double triggersDeadzone = 0.1;
         public final double triggersExp = 2.0;
         public final double triggersScalor = Robot.swerve.config.maxAngularVelocity;
-        public final double rotationScalor = 0.8;
+        public final double rotationScalor = -0.8;
     }
 
     public PilotConfig config;
@@ -72,7 +72,7 @@ public class Pilot extends Gamepad {
         controller
                 .povUp()
                 .and(leftBumperOnly())
-                .whileTrue(rumbleCommand(SwerveCommands.reorient(0)));
+                .whileTrue(rumbleCommand(SwerveCommands.reorient(180)));
         controller
                 .povLeft()
                 .and(leftBumperOnly())
@@ -80,7 +80,7 @@ public class Pilot extends Gamepad {
         controller
                 .povDown()
                 .and(leftBumperOnly())
-                .whileTrue(rumbleCommand(SwerveCommands.reorient(180)));
+                .whileTrue(rumbleCommand(SwerveCommands.reorient(0)));
         controller
                 .povRight()
                 .and(leftBumperOnly())

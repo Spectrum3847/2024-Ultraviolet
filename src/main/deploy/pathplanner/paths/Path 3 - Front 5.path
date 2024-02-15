@@ -32,16 +32,16 @@
     },
     {
       "anchor": {
-        "x": 2.7076091812668635,
-        "y": 6.90939356201109
+        "x": 2.7,
+        "y": 6.9
       },
       "prevControl": {
-        "x": 2.276087918939198,
-        "y": 6.696715903877136
+        "x": 2.2684787376723348,
+        "y": 6.687322341866047
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "GP 4"
+      "linkedName": "GP 4 - Front 5"
     }
   ],
   "rotationTargets": [

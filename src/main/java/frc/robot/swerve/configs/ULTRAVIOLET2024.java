@@ -28,8 +28,8 @@ public class ULTRAVIOLET2024 {
     private static final double kWheelRadiusInches = 3.765 / 2; // Updated for VexIQ Pro Wheels
     private static final double speedAt12VoltsMps = 6;
     private static final double slipCurrent = 800;
-    private static final SlotGains steerGains = new SlotGains(80, 0, 0, 0.27, 0);
-    private static final SlotGains driveGains = new SlotGains(11.5, 0.3, 0, 0.0024727, 3.1881);
+    private static final SlotGains steerGains = new SlotGains(100, 0, 0, 0, 0);
+    private static final SlotGains driveGains = new SlotGains(8, 0, 0, 0, 1.2);
 
     /*Rotation Controller*/
     private static final double kPRotationController = 0.0;

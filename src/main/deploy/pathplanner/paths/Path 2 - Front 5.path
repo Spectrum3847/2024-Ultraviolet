@@ -12,7 +12,7 @@
         "y": 4.1
       },
       "isLocked": false,
-      "linkedName": "GP 1 Shoot"
+      "linkedName": "GP 1 Shoot - Front 5"
     },
     {
       "anchor": {
@@ -28,7 +28,7 @@
         "y": 4.1
       },
       "isLocked": false,
-      "linkedName": "GP 2"
+      "linkedName": "GP 2 - Front 5"
     },
     {
       "anchor": {
@@ -44,7 +44,7 @@
         "y": 5.28323212095903
       },
       "isLocked": false,
-      "linkedName": "GP 2 Shoot"
+      "linkedName": "GP 2 Shoot - Front 5"
     },
     {
       "anchor": {
@@ -57,7 +57,7 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "GP 3"
+      "linkedName": "GP 3 - Front 5"
     }
   ],
   "rotationTargets": [

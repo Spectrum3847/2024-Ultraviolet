@@ -3,45 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.7076091812668635,
-        "y": 6.90939356201109
+        "x": 1.9,
+        "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.8633649183141356,
-        "y": 7.066964886399625
+        "x": 1.9999999999999998,
+        "y": 5.55
       },
       "isLocked": false,
-      "linkedName": "GP 4"
+      "linkedName": "GP 1 Shoot - Front Alt 5"
     },
     {
       "anchor": {
-        "x": 8.0,
-        "y": 7.4
+        "x": 2.704660137103249,
+        "y": 5.55
       },
       "prevControl": {
-        "x": 7.651341177329473,
-        "y": 7.686620873707816
-      },
-      "nextControl": {
-        "x": 8.328854693079663,
-        "y": 7.129659445496154
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 5.423245869878082,
-        "y": 6.479735915505507
-      },
-      "prevControl": {
-        "x": 6.423245869878079,
-        "y": 6.479735915505507
+        "x": 2.6046601371032487,
+        "y": 5.55
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "GP 5 Shoot"
+      "linkedName": "GP 2 Shoot - Front Alt 5"
     }
   ],
   "rotationTargets": [],
