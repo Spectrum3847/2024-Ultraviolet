@@ -3,80 +3,86 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.45,
-        "y": 5.7
+        "x": 2.398297032328396,
+        "y": 5.551362870733224
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.224097353713884,
-        "y": 6.007812951079597
+        "x": 3.17239438604228,
+        "y": 5.859175821812821
       },
       "isLocked": false,
-      "linkedName": "GP 5 Shoot - Front Alt 5"
+      "linkedName": "GP 5 Shoot - Front 5"
     },
     {
       "anchor": {
-        "x": 5.547028942514387,
-        "y": 6.21669688615336
+        "x": 5.477400964156465,
+        "y": 6.533891009783891
       },
       "prevControl": {
-        "x": 4.647028942514386,
-        "y": 6.21669688615336
+        "x": 4.477400964156465,
+        "y": 6.533891009783891
       },
       "nextControl": {
-        "x": 6.447028942514387,
-        "y": 6.21669688615336
+        "x": 6.477400964156465,
+        "y": 6.533891009783891
+      },
+      "isLocked": false,
+      "linkedName": "GP 4 to 5 - Front Alt 5"
+    },
+    {
+      "anchor": {
+        "x": 7.914380206683707,
+        "y": 5.976867182920521
+      },
+      "prevControl": {
+        "x": 7.454648994225389,
+        "y": 6.2262129252707945
+      },
+      "nextControl": {
+        "x": 8.37083028703008,
+        "y": 5.729301037647913
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.991744627081395,
-        "y": 5.899502762522831
+        "x": 5.477400964156465,
+        "y": 6.533891009783891
       },
       "prevControl": {
-        "x": 7.535294546735025,
-        "y": 6.1548053498352076
+        "x": 6.477400964156465,
+        "y": 6.533891009783891
       },
       "nextControl": {
-        "x": 8.428123700642958,
-        "y": 5.655426331547719
+        "x": 4.477400964156465,
+        "y": 6.533891009783891
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "GP 4 to 5 - Front Alt 5"
     },
     {
       "anchor": {
-        "x": 5.9338510445028385,
-        "y": 6.21669688615336
+        "x": 2.398297032328396,
+        "y": 5.551362870733224
       },
       "prevControl": {
-        "x": 7.133851044502839,
-        "y": 6.21669688615336
-      },
-      "nextControl": {
-        "x": 4.733851044502838,
-        "y": 6.21669688615336
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 3.45,
-        "y": 5.7
-      },
-      "prevControl": {
-        "x": 4.378826194509265,
-        "y": 6.046495161278442
+        "x": 3.3271232268376605,
+        "y": 5.8978580320116665
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "GP 5 Shoot - Front 5"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.85,
+      "rotationDegrees": 152.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
