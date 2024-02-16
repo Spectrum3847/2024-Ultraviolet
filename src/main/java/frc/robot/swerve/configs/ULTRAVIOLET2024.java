@@ -29,7 +29,7 @@ public class ULTRAVIOLET2024 {
     private static final double speedAt12VoltsMps = 6;
     private static final double slipCurrent = 800;
     private static final SlotGains steerGains = new SlotGains(100, 0, 0, 0, 0);
-    private static final SlotGains driveGains = new SlotGains(8, 0, 0, 0, 1.2);
+    private static final SlotGains driveGains = new SlotGains(10, 0, 0.02, 0, 0.8);
 
     /*Rotation Controller*/
     private static final double kPRotationController = 0.0;
