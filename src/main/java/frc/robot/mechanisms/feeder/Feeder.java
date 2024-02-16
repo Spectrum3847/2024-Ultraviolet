@@ -1,6 +1,7 @@
 package frc.robot.mechanisms.feeder;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.spectrumLib.lasercan.LaserCanUtil;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
 import frc.spectrumLib.util.Conversions;
@@ -12,11 +13,15 @@ public class Feeder extends Mechanism {
         /* Revolutions per min Feeder Output */
         public double maxSpeed = 5000; // TODO: configure
         public double feed = 4000; // TODO: configure
+        public double testFeed = 250;
+        public double intake = 250;
         public double eject = -3000; // TODO: configure
-        public double testVelocity = 3000;
+        public double launchEject = 500;
+        public double feedToAmp = -3000;
 
         /* Percentage Feeder Output */
-        public double slowFeederPercentage = 0.06; // TODO: configure
+        public double slowFeederPercentage = 0.15; // TODO: configure
+
         public double testForwardPercent = 1;
         public double testBackPercent = -0.5;
 
@@ -40,16 +45,30 @@ public class Feeder extends Mechanism {
     }
 
     public FeederConfig config;
+    public LaserCanUtil lasercan;
 
     public Feeder(boolean attached) {
         super(attached);
         if (attached) {
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
         }
+
+        lasercan = new LaserCanUtil(0);
+    }
+
+    @AutoLogOutput(key = "LaserCan/Measurement")
+    public int getLaserCanDistance() {
+        return lasercan.getDistance();
+    }
+
+    public boolean hasNote() {
+        return getLaserCanDistance() < 300;
     }
 
     @Override
-    public void periodic() {}
+    public void periodic() {
+        // System.out.println("MEASUREMENT: " + lasercan.getDistance());
+    }
 
     /* Control methods: see method in lambda for more information */
 
@@ -79,6 +98,16 @@ public class Feeder extends Mechanism {
      */
     public Command runStop() {
         return run(() -> stop()).withName("Feeder.stop");
+    }
+
+    /**
+     * Temporarily sets the feeder to coast mode. The configuration is applied when the command is
+     * started and reverted when the command is ended.
+     */
+    public Command coastMode() {
+        return startEnd(() -> setBrakeMode(false), () -> setBrakeMode(true))
+                .ignoringDisable(true)
+                .withName("Feeder.coastMode");
     }
 
     /* Logging */

@@ -14,7 +14,8 @@ public class RightLauncher extends Mechanism {
         /* Revolutions per min RightLauncher Output */
         public double maxSpeed = 5000; // TODO: configure
         public double launch = 4000; // TODO: configure
-        public double testVelocity = 3000;
+        public double testVelocity = 4500;
+        public double subwoofer = 4500;
 
         /* Percentage RightLauncher Output */
         public double slowRightLauncherPercentage = 0.06; // TODO: configure
@@ -24,9 +25,9 @@ public class RightLauncher extends Mechanism {
         /* RightLauncher config values */
         public double currentLimit = 40;
         public double threshold = 80;
-        public double velocityKp = 0.156152;
-        public double velocityKv = 0.12;
-        public double velocityKs = 0.24;
+        public double velocityKp = 12; // 0.156152;
+        public double velocityKv = 0.2; // 0.12;
+        public double velocityKs = 14;
 
         public RightLauncherConfig() {
             super("RightLauncher", 43, "3847");
@@ -47,7 +48,7 @@ public class RightLauncher extends Mechanism {
         if (attached) {
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
 
-            SmartDashboard.putNumber("rightLaunchSpeed", 3000);
+            SmartDashboard.putNumber("rightLaunchSpeed", config.testVelocity);
         }
     }
 
@@ -67,6 +68,17 @@ public class RightLauncher extends Mechanism {
     }
 
     /**
+     * Run the right launcher at given velocity in TorqueCurrentFOC mode
+     *
+     * @param percent
+     * @return
+     */
+    public Command runVelocityTorqueCurrentFOC(double velocity) {
+        return run(() -> setVelocityTorqueCurrentFOC(Conversions.RPMtoRPS(velocity)))
+                .withName("RightLauncher.runVelocityFOC");
+    }
+
+    /**
      * Runs the right launcher at a specified percentage of its maximum output.
      *
      * @param percent The percentage of the maximum output to run the right launcher at.
@@ -82,6 +94,16 @@ public class RightLauncher extends Mechanism {
      */
     public Command runStop() {
         return run(() -> stop()).withName("RightLauncher.stop");
+    }
+
+    /**
+     * Temporarily sets the right launcher to coast mode. The configuration is applied when the
+     * command is started and reverted when the command is ended.
+     */
+    public Command coastMode() {
+        return startEnd(() -> setBrakeMode(false), () -> setBrakeMode(true))
+                .ignoringDisable(true)
+                .withName("RightLauncher.coastMode");
     }
 
     /* Logging */

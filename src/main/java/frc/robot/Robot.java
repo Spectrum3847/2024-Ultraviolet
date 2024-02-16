@@ -1,11 +1,14 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.auton.Auton;
 import frc.robot.leds.LEDs;
 import frc.robot.leds.LEDsCommands;
 import frc.robot.mechanisms.amptrap.AmpTrap;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
 import frc.robot.mechanisms.climber.Climber;
+import frc.robot.mechanisms.climber.ClimberCommands;
 import frc.robot.mechanisms.elevator.Elevator;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
 import frc.robot.mechanisms.feeder.Feeder;
@@ -24,6 +27,7 @@ import frc.robot.pilot.PilotCommands;
 import frc.robot.swerve.Swerve;
 import frc.robot.swerve.commands.SwerveCommands;
 import frc.spectrumLib.mechanism.Mechanism;
+import frc.robot.vision.Vision;
 import frc.spectrumLib.util.CrashTracker;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -46,6 +50,8 @@ public class Robot extends LoggedRobot {
     public static Pivot pivot;
     public static LeftLauncher leftLauncher;
     public static RightLauncher rightLauncher;
+    public static Vision vision;
+    public static Auton auton;
     public static LEDs leds;
     public static Pilot pilot;
     public static Operator operator;
@@ -72,6 +78,9 @@ public class Robot extends LoggedRobot {
             RobotTelemetry.print("--- Robot Init Starting ---");
             errorHasOccured = false;
 
+            /* Start AdvantageKit */
+            advantageKitInit();
+
             /** Set up the config */
             config = new RobotConfig();
 
@@ -89,6 +98,8 @@ public class Robot extends LoggedRobot {
             pivot = new Pivot(config.pivotAttached);
             leftLauncher = new LeftLauncher(config.leftLauncherAttached);
             rightLauncher = new RightLauncher(config.rightLauncherAttached);
+            vision = new Vision();
+            auton = new Auton();
             pilot = new Pilot();
             operator = new Operator();
             leds = new LEDs();
@@ -96,7 +107,6 @@ public class Robot extends LoggedRobot {
             /** Intialize Telemetry and Auton */
             telemetry = new RobotTelemetry();
             // auton = new Auton();
-            advantageKitInit();
 
             /**
              * Set Default Commands this method should exist for each subsystem that has default
@@ -112,8 +122,11 @@ public class Robot extends LoggedRobot {
             LEDsCommands.setupDefaultCommand();
             PilotCommands.setupDefaultCommand();
             OperatorCommands.setupDefaultCommand();
+            ClimberCommands.setupDefaultCommand();
+
             RobotTelemetry.print("Motor check available after TeleopExit");
             RobotTelemetry.print("--- Robot Init Complete ---");
+
         } catch (Throwable t) {
             // intercept error and log it
             CrashTracker.logThrowableCrash(t);
@@ -175,6 +188,14 @@ public class Robot extends LoggedRobot {
         try {
             RobotTelemetry.print("@@@ Auton Init Starting @@@ ");
             resetCommandsAndButtons();
+            Command autonCommand = Auton.getAutonomousCommand();
+
+            if (autonCommand != null) {
+                autonCommand.schedule();
+                Auton.startAutonTimer();
+            } else {
+                RobotTelemetry.print("No Auton Command Found");
+            }
 
             RobotTelemetry.print("@@@ Auton Init Complete @@@ ");
         } catch (Throwable t) {
@@ -270,18 +291,12 @@ public class Robot extends LoggedRobot {
 
     /** This method is called once at the end of RobotInit to begin logging */
     public void advantageKitInit() {
-        // Set up data receivers & replay source
-        switch (Robot.config.getRobotType()) {
-            case SIM:
-                // Running a physics simulator, log to NT
-                Logger.addDataReceiver(new NT4Publisher());
-                break;
+        /* Set up data receivers & replay source */
+        Logger.addDataReceiver(new NT4Publisher()); // Running a physics simulator, log to NT
 
-            default:
-                // Running on a real robot, log to a USB stick
-                Logger.addDataReceiver(new WPILOGWriter("/U"));
-                Logger.addDataReceiver(new NT4Publisher());
-                break;
+        if (!Robot.isSimulation()) {
+            Logger.addDataReceiver(
+                    new WPILOGWriter("/U")); // Running on a real robot, log to a USB stick
         }
 
         // Start AdvantageKit logger

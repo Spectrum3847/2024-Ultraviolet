@@ -7,6 +7,7 @@ import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.MotionMagicVelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -83,6 +84,19 @@ public abstract class Mechanism implements Subsystem {
     }
 
     /**
+     * Closed-loop Velocity with torque control (requires Pro)
+     *
+     * @param velocity rotations per second
+     */
+    public void setVelocityTorqueCurrentFOC(double velocity) {
+        if (attached) {
+            VelocityTorqueCurrentFOC output =
+                    config.velocityTorqueCurrentFOC.withVelocity(velocity);
+            motor.setControl(output);
+        }
+    }
+
+    /**
      * Closed-loop velocity control with voltage compensation
      *
      * @param velocity rotations per second
@@ -132,8 +146,10 @@ public abstract class Mechanism implements Subsystem {
     }
 
     public void setBrakeMode(boolean isInBrake) {
-        config.configNeutralBrakeMode(isInBrake);
-        config.applyTalonConfig(motor);
+        if (attached) {
+            config.configNeutralBrakeMode(isInBrake);
+            config.applyTalonConfig(motor);
+        }
     }
 
     public boolean isMotorProLicensed() {
@@ -190,6 +206,7 @@ public abstract class Mechanism implements Subsystem {
         public MotionMagicVoltage mmPositionVoltage = new MotionMagicVoltage(0);
         public VoltageOut voltageControl = new VoltageOut(0);
         public VelocityVoltage velocityControl = new VelocityVoltage(0);
+        public VelocityTorqueCurrentFOC velocityTorqueCurrentFOC = new VelocityTorqueCurrentFOC(0);
         public DutyCycleOut percentOutput =
                 new DutyCycleOut(
                         0); // Percent Output control using percentage of supply voltage //Should

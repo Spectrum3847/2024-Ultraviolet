@@ -11,13 +11,13 @@ public class Intake extends Mechanism {
 
         /* Revolutions per min Intake Output */
         public double maxSpeed = 5000; // TODO: configure
-        public double intake = 4000; // TODO: configure
+        public double intake = 2000; // TODO: configure
         public double testVelocity = 3000;
 
         /* Percentage Intake Output */
         public double ejectPercentage = -0.5; // TODO: configure
         public double slowIntakePercentage = 0.06; // TODO: configure
-        public double testIntakePercentage = 1; //
+        public double testIntakePercentage = 1;
 
         /* Intake config values */
         public double currentLimit = 12;
@@ -69,6 +69,16 @@ public class Intake extends Mechanism {
      */
     public Command runPercentage(double percent) {
         return run(() -> setPercentOutput(percent)).withName("Intake.runPercentage");
+    }
+
+    /**
+     * Temporarily sets the intake to coast mode. The configuration is applied when the command is
+     * started and reverted when the command is ended.
+     */
+    public Command coastMode() {
+        return startEnd(() -> setBrakeMode(false), () -> setBrakeMode(true))
+                .ignoringDisable(true)
+                .withName("Intake.coastMode");
     }
 
     /**

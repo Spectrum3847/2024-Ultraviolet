@@ -12,6 +12,10 @@ public class PivotCommands {
 
     /* Misc Positions */
 
+    public static Command onDemandPivot() {
+        return new OnDemandPivot(pivot.config.test).withName("Pivot.onDemandPivot");
+    }
+
     public static Command home() {
         return pivot.runPosition(pivot.config.home).withName("Pivot.home");
     }
@@ -34,6 +38,10 @@ public class PivotCommands {
 
     public static Command halfScore() {
         return pivot.runPosition(pivot.config.halfScore).withName("Pivot.halfScore");
+    }
+
+    public static Command subwoofer() {
+        return pivot.runPosition(pivot.config.subwoofer).withName("Pivot.subwoofer");
     }
 
     public static Command coastMode() {

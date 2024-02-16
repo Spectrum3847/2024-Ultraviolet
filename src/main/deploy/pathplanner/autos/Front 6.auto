@@ -1,0 +1,37 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.42,
+      "y": 4.1
+    },
+    "rotation": 180.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Front Path 1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Front Piece 5 Shoot Path"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Front Piece 6 Path"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Front Autos",
+  "choreoAuto": false
+}
