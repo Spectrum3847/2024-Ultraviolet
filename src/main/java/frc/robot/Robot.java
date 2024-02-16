@@ -1,6 +1,8 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.auton.Auton;
 import frc.robot.leds.LEDs;
 import frc.robot.leds.LEDsCommands;
 import frc.robot.mechanisms.amptrap.AmpTrap;
@@ -24,6 +26,7 @@ import frc.robot.pilot.Pilot;
 import frc.robot.pilot.PilotCommands;
 import frc.robot.swerve.Swerve;
 import frc.robot.swerve.commands.SwerveCommands;
+import frc.robot.vision.Vision;
 import frc.spectrumLib.util.CrashTracker;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -45,6 +48,8 @@ public class Robot extends LoggedRobot {
     public static Pivot pivot;
     public static LeftLauncher leftLauncher;
     public static RightLauncher rightLauncher;
+    public static Vision vision;
+    public static Auton auton;
     public static LEDs leds;
     public static Pilot pilot;
     public static Operator operator;
@@ -90,6 +95,8 @@ public class Robot extends LoggedRobot {
             pivot = new Pivot(config.pivotAttached);
             leftLauncher = new LeftLauncher(config.leftLauncherAttached);
             rightLauncher = new RightLauncher(config.rightLauncherAttached);
+            vision = new Vision();
+            auton = new Auton();
             pilot = new Pilot();
             operator = new Operator();
             leds = new LEDs();
@@ -177,6 +184,14 @@ public class Robot extends LoggedRobot {
         try {
             RobotTelemetry.print("@@@ Auton Init Starting @@@ ");
             resetCommandsAndButtons();
+            Command autonCommand = Auton.getAutonomousCommand();
+
+            if (autonCommand != null) {
+                autonCommand.schedule();
+                Auton.startAutonTimer();
+            } else {
+                RobotTelemetry.print("No Auton Command Found");
+            }
 
             RobotTelemetry.print("@@@ Auton Init Complete @@@ ");
         } catch (Throwable t) {
