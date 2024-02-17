@@ -13,7 +13,8 @@ public final class RobotConfig {
     public final String MUSICDISC2023MAC = "00:80:2F:23:E9:33";
     public final String XRAY2023MAC = "00:80:2F:22:50:6D";
 
-    public final String ULTRAVIOLET2024SERIAL = "032B1F69"; // TODO: find
+    public final String ULTRAVIOLET2024SERIAL = "032B1F69";
+    public final String PM2024SERIAL = "03223839";
     public final String NOTEBLOCK2023SERIAL = ""; // TODO: find
     public final String MUSICDISC2023SERIAL = ""; // TODO: find
     public final String XRAY2023SERIAL = ""; // TODO: find
@@ -40,6 +41,7 @@ public final class RobotConfig {
         // settings
         if (RobotController.getSerialNumber() != null) {
             rioSerial = RobotController.getSerialNumber();
+            System.out.println("RIO SERIAL: " + rioSerial);
         }
 
         checkRobotType();
@@ -82,6 +84,10 @@ public final class RobotConfig {
         } else if (rioSerial.equals(ULTRAVIOLET2024SERIAL)) {
             robotType = RobotType.ULTRAVIOLET;
             RobotTelemetry.print("Robot Type: ULTRAVIOLET");
+
+        } else if (rioSerial.equals(PM2024SERIAL)) {
+            robotType = RobotType.ULTRAVIOLET;
+            RobotTelemetry.print("Robot Type: PM (Config set to ULTRAVIOLET)");
         } else if (rioSerial.equals(NOTEBLOCK2023SERIAL)) {
             robotType = RobotType.NOTEBLOCK;
             RobotTelemetry.print("Robot Type: NOTEBLOCK");
