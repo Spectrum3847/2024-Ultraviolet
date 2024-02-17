@@ -27,8 +27,7 @@ public class LauncherCommands {
     }
 
     public static Command runFull() {
-        return runLauncherVelocities(leftLauncher.config.maxSpeed, rightLauncher.config.maxSpeed)
-                .withName("Launcher.runFull");
+        return runLauncherPercentages(1, 1).withName("Launcher.runFull");
     }
 
     public static Command launch() {

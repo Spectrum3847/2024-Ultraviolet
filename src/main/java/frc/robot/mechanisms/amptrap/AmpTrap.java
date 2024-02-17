@@ -31,13 +31,13 @@ public class AmpTrap extends Mechanism {
         public double velocityKs = 0.24;
 
         public AmpTrapConfig() {
-            super("AmpTrap", 51, "3847");
+            super("AmpTrap", 51, "rio");
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
             configGearRatio(12 / 30); // TODO: configure
             configSupplyCurrentLimit(currentLimit, threshold, false);
             configNeutralBrakeMode(true);
-            configClockwise_Positive(); // TODO: configure
+            configCounterClockwise_Positive(); // TODO: configure
             configMotionMagic(51, 205, 0);
         }
     }

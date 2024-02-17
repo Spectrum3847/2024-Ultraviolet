@@ -65,6 +65,14 @@ public class Feeder extends Mechanism {
         return getLaserCanDistance() < 300;
     }
 
+    public boolean midNote() {
+        return Math.abs(getLaserCanDistance()) - 10 <= 0;
+    }
+
+    public boolean endNote() {
+        return getLaserCanDistance() > 250;
+    }
+
     @Override
     public void periodic() {
         // System.out.println("MEASUREMENT: " + lasercan.getDistance());

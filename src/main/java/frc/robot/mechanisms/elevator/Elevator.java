@@ -12,8 +12,8 @@ public class Elevator extends Mechanism {
     public class ElevatorConfig extends Config {
 
         /* Elevator constants in rotations */
-        public final double maxHeight = 53; // TODO: configure
-        public final double minHeight = 0.29; // TODO: configure
+        public final double maxHeight = 29; // TODO: configure
+        public final double minHeight = 0; // TODO: configure
 
         /* Elevator positions in rotations */
         public double fullExtend = maxHeight;
@@ -39,7 +39,7 @@ public class Elevator extends Mechanism {
             configReverseSoftLimit(minHeight, true);
             configNeutralBrakeMode(true);
             // configMotionMagicPosition(0.12);
-            configCounterClockwise_Positive(); // TODO: configure
+            configClockwise_Positive();
         }
     }
 

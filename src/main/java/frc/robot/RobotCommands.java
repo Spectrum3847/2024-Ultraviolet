@@ -1,6 +1,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
 import frc.robot.mechanisms.climber.ClimberCommands;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
@@ -16,18 +18,43 @@ import frc.robot.mechanisms.pivot.PivotCommands;
  */
 public class RobotCommands {
 
+    public static Command feed() {
+        return new ConditionalCommand(new InstantCommand(), laserCanFeed(), Robot.feeder::hasNote);
+    }
+
+    //     public static Command laserCanFeed3() {
+    //         return IntakeCommands.intake()
+    //                 .alongWith(AmpTrapCommands.slowIntake(), FeederCommands.slowFeed())
+    //                 .until(() -> Robot.feeder.hasNote())
+    //                 .andThen(
+    //                         AmpTrapCommands.slowEject()
+    //                                 .alongWith(FeederCommands.slowFeedReverse())
+    //                                 .until(() -> !Robot.feeder.hasNote()))
+    //                 .andThen(
+    //                         FeederCommands.slowFeed()
+    //                                 .alongWith(AmpTrapCommands.slowIntake())
+    //                                 .until(() -> Robot.feeder.hasNote()));
+    //     }
+
+    //     public static Command laserCanFeed2() {
+    //         return IntakeCommands.intake()
+    //                 .alongWith(AmpTrapCommands.fastIntake(), FeederCommands.fastFeed())
+    //                 .until(() -> Robot.feeder.hasNote())
+    //                 .andThen(
+    //                         AmpTrapCommands.slowEject()
+    //                                 .alongWith(FeederCommands.slowFeedReverse())
+    //                                 .until(() -> !Robot.feeder.hasNote()))
+    //                 .andThen(
+    //                         FeederCommands.slowFeed()
+    //                                 .alongWith(AmpTrapCommands.slowIntake())
+    //                                 .until(() -> Robot.feeder.hasNote()));
+    //     }
+
     public static Command laserCanFeed() {
         return IntakeCommands.intake()
                 .alongWith(AmpTrapCommands.slowIntake(), FeederCommands.slowFeed())
-                .until(() -> Robot.feeder.hasNote())
-                .andThen(
-                        AmpTrapCommands.slowIntake()
-                                .alongWith(FeederCommands.slowFeed(), IntakeCommands.stopMotor())
-                                .until(() -> !Robot.feeder.hasNote()))
-                .andThen(
-                        FeederCommands.slowFeedReverse()
-                                .alongWith(AmpTrapCommands.stopMotor())
-                                .until(() -> Robot.feeder.hasNote()));
+        // .until(() -> Robot.feeder.midNote())
+        ;
     }
 
     public static Command onDemandLaunching() {
@@ -73,8 +100,6 @@ public class RobotCommands {
     }
 
     public static Command subwooferReady() {
-        return PivotCommands.subwoofer()
-                .alongWith(LauncherCommands.subwoofer())
-                .withName("RobotCommands.subwooferReady");
+        return LauncherCommands.runOnDemandVelocity().withName("RobotCommands.subwooferReady");
     }
 }
