@@ -7,16 +7,18 @@ public final class RobotConfig {
 
     public static String rioSerial = "empty";
     public static final Double robotInitDelay = 2.0; // Seconds to wait before starting robot code
-    /* Deprecated */
-    public final String ULTRAVIOLET2024MAC = "00:80:2F:38:D1:DA"; // This is Alpha MAC
-    public final String NOTEBLOCK2023MAC = "00:80:2F:19:0D:CE";
-    public final String MUSICDISC2023MAC = "00:80:2F:23:E9:33";
-    public final String XRAY2023MAC = "00:80:2F:22:50:6D";
 
-    public final String ULTRAVIOLET2024SERIAL = "032B1F69"; // TODO: find
+    public final String ALPHA2024SERIAL = "032B1F69";
+    public final String PM2024SERIAL = "03223839";
     public final String NOTEBLOCK2023SERIAL = ""; // TODO: find
     public final String MUSICDISC2023SERIAL = ""; // TODO: find
     public final String XRAY2023SERIAL = ""; // TODO: find
+
+    /* Deprecated */
+    public final String ALPHA2024MAC = "00:80:2F:38:D1:DA"; // This is Alpha MAC
+    public final String NOTEBLOCK2023MAC = "00:80:2F:19:0D:CE";
+    public final String MUSICDISC2023MAC = "00:80:2F:23:E9:33";
+    public final String XRAY2023MAC = "00:80:2F:22:50:6D";
 
     public final String Canivore = "3847";
 
@@ -47,15 +49,9 @@ public final class RobotConfig {
             case SIM:
                 /* Set all the constants specifically for the simulation*/
                 break;
-            case ULTRAVIOLET:
-                intakeAttached = true;
-                ampTrapAttached = true;
-                elevatorAttached = true;
-                feederAttached = true;
-                climberAttached = true;
-                pivotAttached = true;
-                leftLauncherAttached = true;
-                rightLauncherAttached = true;
+            case ALPHA:
+                break;
+            case PM:
                 break;
             case XRAY:
                 intakeAttached = false;
@@ -79,9 +75,12 @@ public final class RobotConfig {
         if (Robot.isSimulation()) {
             robotType = RobotType.SIM;
             RobotTelemetry.print("Robot Type: Simulation");
-        } else if (rioSerial.equals(ULTRAVIOLET2024SERIAL)) {
-            robotType = RobotType.ULTRAVIOLET;
-            RobotTelemetry.print("Robot Type: ULTRAVIOLET");
+        } else if (rioSerial.equals(ALPHA2024SERIAL)) {
+            robotType = RobotType.ALPHA;
+            RobotTelemetry.print("Robot Type: ALPHA 2024");
+        } else if (rioSerial.equals(PM2024SERIAL)) {
+            robotType = RobotType.PM;
+            RobotTelemetry.print("Robot Type: PM 2024");
         } else if (rioSerial.equals(NOTEBLOCK2023SERIAL)) {
             robotType = RobotType.NOTEBLOCK;
             RobotTelemetry.print("Robot Type: NOTEBLOCK");
@@ -89,8 +88,8 @@ public final class RobotConfig {
             robotType = RobotType.MUSICDISC;
             RobotTelemetry.print("Robot Type: MUSICDISC");
         } else {
-            robotType = RobotType.ULTRAVIOLET;
-            RobotTelemetry.print("Robot Type: ULTRAVIOLET");
+            robotType = RobotType.ALPHA;
+            RobotTelemetry.print("Robot Type: ALPHA 2024");
         }
         return robotType;
     }
@@ -100,7 +99,8 @@ public final class RobotConfig {
     }
 
     public enum RobotType {
-        ULTRAVIOLET,
+        ALPHA,
+        PM,
         MUSICDISC,
         NOTEBLOCK,
         XRAY,

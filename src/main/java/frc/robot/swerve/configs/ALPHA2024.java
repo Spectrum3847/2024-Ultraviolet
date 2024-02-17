@@ -7,7 +7,7 @@ import frc.spectrumLib.swerve.config.ModuleConfig;
 import frc.spectrumLib.swerve.config.ModuleConfig.SwerveModuleSteerFeedbackType;
 import frc.spectrumLib.swerve.config.SwerveConfig;
 
-public class ULTRAVIOLET2024 {
+public class ALPHA2024 {
 
     // Angle Offsets: from cancoder Absolute Position No Offset, opposite sign
     private static final double kFrontLeftCANcoderOffset = -0.356689;
