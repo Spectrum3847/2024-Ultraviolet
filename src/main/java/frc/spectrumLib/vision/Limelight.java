@@ -108,11 +108,13 @@ public class Limelight {
 
     /**
      * get distance in meters to a target
-     * @param targetHeight meters 
+     *
+     * @param targetHeight meters
      * @return
      */
     public double getDistanceToTarget(double targetHeight) {
-        return (targetHeight - physicalConfig.up) / Math.tan(Units.degreesToRadians(physicalConfig.roll + getVerticalOffset()));
+        return (targetHeight - physicalConfig.up)
+                / Math.tan(Units.degreesToRadians(physicalConfig.roll + getVerticalOffset()));
     }
 
     /*
