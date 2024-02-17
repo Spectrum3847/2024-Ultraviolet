@@ -1,8 +1,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
 import frc.robot.mechanisms.climber.ClimberCommands;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
@@ -18,14 +16,18 @@ import frc.robot.mechanisms.pivot.PivotCommands;
  */
 public class RobotCommands {
 
-    public static Command feed() {
-        return new ConditionalCommand(new InstantCommand(), laserCanFeed(), Robot.feeder::hasNote);
-    }
-
     public static Command laserCanFeed() {
         return IntakeCommands.intake()
                 .alongWith(AmpTrapCommands.slowIntake(), FeederCommands.slowFeed())
-                .until(() -> Robot.feeder.midNote());
+                .until(() -> Robot.feeder.hasNote())
+                .andThen(
+                        AmpTrapCommands.slowIntake()
+                                .alongWith(FeederCommands.slowFeed(), IntakeCommands.stopMotor())
+                                .until(() -> !Robot.feeder.hasNote()))
+                .andThen(
+                        FeederCommands.slowFeedReverse()
+                                .alongWith(AmpTrapCommands.stopMotor())
+                                .until(() -> Robot.feeder.hasNote()));
     }
 
     public static Command onDemandLaunching() {

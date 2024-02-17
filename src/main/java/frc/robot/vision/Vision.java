@@ -1,11 +1,9 @@
 package frc.robot.vision;
 
-import edu.wpi.first.math.interpolation.InterpolatingTreeMap;
-import edu.wpi.first.math.interpolation.Interpolator;
-import edu.wpi.first.math.interpolation.InverseInterpolator;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 import frc.spectrumLib.vision.Limelight;
+import frc.spectrumLib.vision.Limelight.PhysicalConfig;
 
 public class Vision extends SubsystemBase {
     public static final class VisionConfig {
@@ -13,12 +11,20 @@ public class Vision extends SubsystemBase {
         public static final String NOTE_LL =
                 "limelight-detect"; // TODO: change this name in LL dashboard to reflect name in
         // code
+        public static final PhysicalConfig NOTE_CONFIG =
+                new PhysicalConfig().withTranslation(0, 0, 0).withRotation(0, 0, 0);
+
         public static final String SPEAKER_LL =
                 "limelight-aim"; // TODO: change this name in LL dashboard to reflect name in code
+        public static final PhysicalConfig SPEAKER_CONFIG =
+                new PhysicalConfig().withTranslation(-0.051, 0, 0.69).withRotation(0, 0, 0);
 
         /* Pipeline config */
-        public static final int noteDetectorPipeline = 1;
-        public static final int speakerDetectorPipeline = 1;
+        public static final int noteDetectorPipeline = 0;
+        public static final int speakerDetectorPipeline = 0;
+
+        /* AprilTag Heights (meters) */
+        public static final double speakerTagHeight = 1.45;
 
         /* Vision Command Configs */
         public static final class AlignToNote extends CommandConfig {
@@ -55,18 +61,18 @@ public class Vision extends SubsystemBase {
 
     /* Limelights */
     public final Limelight noteLL =
-            new Limelight(VisionConfig.NOTE_LL, VisionConfig.noteDetectorPipeline);
+            new Limelight(
+                    VisionConfig.NOTE_LL,
+                    VisionConfig.noteDetectorPipeline,
+                    VisionConfig.NOTE_CONFIG);
     public final Limelight speakerLL =
-            new Limelight(VisionConfig.SPEAKER_LL, VisionConfig.speakerDetectorPipeline);
-
-    /* Interpolator */
-    public InterpolatingTreeMap<Double, Double> treeMap =
-            new InterpolatingTreeMap<>(InverseInterpolator.forDouble(), Interpolator.forDouble());
+            new Limelight(
+                    VisionConfig.SPEAKER_LL,
+                    VisionConfig.speakerDetectorPipeline,
+                    VisionConfig.SPEAKER_CONFIG);
 
     public Vision() {
         setName("Vision");
-        /* Tree Map Data: key - distance (meters), value - pivot angle (degrees) */
-        treeMap.put(0.0, 0.0);
 
         /* Configure Limelight Settings Here */
     }
@@ -97,6 +103,10 @@ public class Vision extends SubsystemBase {
         return Robot.swerve.getRotation().getDegrees() + speakerLL.getHorizontalOffset();
     }
 
+    public double getDistanceToSpeaker() {
+        return speakerLL.getDistanceToTarget(VisionConfig.speakerTagHeight);
+    }
+
     public boolean noteInView() {
         return noteLL.targetInView();
     }
@@ -109,17 +119,6 @@ public class Vision extends SubsystemBase {
     public void setLimelightPipelines(int pipeline) {
         noteLL.setLimelightPipeline(pipeline);
         speakerLL.setLimelightPipeline(pipeline);
-    }
-
-    /* Tree Map */
-
-    /**
-     * @param distance the distance from the target
-     * @return the angle corresponding to the given distance OR an interpolated angle using
-     *     surrounding data
-     */
-    public double getAngleFromMap(double distance) {
-        return treeMap.get(distance);
     }
 
     public static class CommandConfig {

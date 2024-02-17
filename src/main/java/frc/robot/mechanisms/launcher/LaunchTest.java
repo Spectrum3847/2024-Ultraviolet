@@ -14,11 +14,9 @@ public class LaunchTest extends Command {
     double rightLaunchSpeed = 0;
 
     double defaultValue = 0;
-    boolean rumblePilot;
     /** Creates a new CubeLaunchTest. */
     public LaunchTest(double configValue) {
         defaultValue = configValue;
-        rumblePilot = false;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(Robot.leftLauncher, Robot.rightLauncher);
     }
@@ -28,7 +26,6 @@ public class LaunchTest extends Command {
     public void initialize() {
         leftLaunchSpeed = SmartDashboard.getNumber("leftLaunchSpeed", defaultValue);
         rightLaunchSpeed = SmartDashboard.getNumber("rightLaunchSpeed", defaultValue);
-        rumblePilot = false;
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -36,14 +33,6 @@ public class LaunchTest extends Command {
     public void execute() {
         Robot.leftLauncher.setVelocityTorqueCurrentFOC(Conversions.RPMtoRPS(leftLaunchSpeed));
         Robot.rightLauncher.setVelocityTorqueCurrentFOC(Conversions.RPMtoRPS(rightLaunchSpeed));
-
-        if (!rumblePilot
-                && ((Robot.leftLauncher.getMotorVelocityInRPM() >= leftLaunchSpeed - 100)
-                        || (Robot.rightLauncher.getMotorVelocityInRPM()
-                                >= rightLaunchSpeed - 100))) {
-            rumblePilot = true;
-            Robot.pilot.rumbleCommand(0.5, 1).withName("LaunchRumble").schedule();
-        }
     }
 
     // Called once the command ends or is interrupted.

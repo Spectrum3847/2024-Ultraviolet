@@ -7,7 +7,7 @@ import frc.spectrumLib.swerve.config.ModuleConfig;
 import frc.spectrumLib.swerve.config.ModuleConfig.SwerveModuleSteerFeedbackType;
 import frc.spectrumLib.swerve.config.SwerveConfig;
 
-public class ULTRAVIOLET2024 {
+public class ALPHA2024 {
 
     // Angle Offsets: from cancoder Absolute Position No Offset, opposite sign
     private static final double kFrontLeftCANcoderOffset = 0.143799;
@@ -27,12 +27,13 @@ public class ULTRAVIOLET2024 {
     // Estimated at first, then fudge-factored to make odom match record
     private static final double kWheelRadiusInches = 3.765 / 2; // Updated for VexIQ Pro Wheels
     private static final double speedAt12VoltsMps = 6;
+
     private static final double slipCurrent = 800;
     private static final SlotGains steerGains = new SlotGains(100, 0, 0, 0, 0);
     private static final SlotGains driveGains = new SlotGains(10, 0, 0.02, 0, 0.8);
 
     /*Rotation Controller*/
-    private static final double kPRotationController = 0.0;
+    private static final double kPRotationController = 7.0;
     private static final double kIRotationController = 0.0;
     private static final double kDRotationController = 0.0;
 
