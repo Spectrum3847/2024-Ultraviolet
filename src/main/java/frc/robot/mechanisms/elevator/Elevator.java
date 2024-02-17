@@ -3,6 +3,8 @@ package frc.robot.mechanisms.elevator;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import frc.robot.Robot;
+import frc.spectrumLib.mechanism.BaseMechConfig;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
 import java.util.function.DoubleSupplier;
@@ -10,6 +12,7 @@ import org.littletonrobotics.junction.AutoLogOutput;
 
 public class Elevator extends Mechanism {
     public class ElevatorConfig extends Config {
+        public static BaseMechConfig baseConfig = Robot.config.robotMechConfig.ELEVATOR_CONFIG;
 
         /* Elevator constants in rotations */
         public final double maxHeight = 29; // TODO: configure
@@ -30,7 +33,7 @@ public class Elevator extends Mechanism {
         public final double threshold = 30;
 
         public ElevatorConfig() {
-            super("Elevator", 52, "3847");
+            super("Elevator", baseConfig.ID, baseConfig.CANBUS);
             configPIDGains(0, positionKp, 0, 0);
             configFeedForwardGains(0, positionKv, 0, 0);
             configMotionMagic(700, 900, 0); // 40, 120 FOC // 120, 195 Regular
@@ -39,16 +42,18 @@ public class Elevator extends Mechanism {
             configReverseSoftLimit(minHeight, true);
             configNeutralBrakeMode(true);
             // configMotionMagicPosition(0.12);
-            configClockwise_Positive();
+            configInverted(baseConfig.INVERTED);
         }
     }
 
     public ElevatorConfig config;
 
+    @SuppressWarnings("static-access")
     public Elevator(boolean attached) {
         super(attached);
         if (attached) {
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
+            motor.setPosition(config.baseConfig.STARTING_POSITION);
         }
     }
 

@@ -1,7 +1,9 @@
 package frc.robot.mechanisms.feeder;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Robot;
 import frc.spectrumLib.lasercan.LaserCanUtil;
+import frc.spectrumLib.mechanism.BaseMechConfig;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
 import frc.spectrumLib.util.Conversions;
@@ -9,6 +11,7 @@ import org.littletonrobotics.junction.AutoLogOutput;
 
 public class Feeder extends Mechanism {
     public class FeederConfig extends Config {
+        public static BaseMechConfig baseConfig = Robot.config.robotMechConfig.FEEDER_CONFIG;
 
         /* Revolutions per min Feeder Output */
         public double maxSpeed = 5000; // TODO: configure
@@ -33,13 +36,13 @@ public class Feeder extends Mechanism {
         public double velocityKs = 0.24;
 
         public FeederConfig() {
-            super("Feeder", 40, "3847");
+            super("Feeder", baseConfig.ID, baseConfig.CANBUS);
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
-            configGearRatio(12 / 30); // TODO: configure
+            configGearRatio(baseConfig.GEAR_RATIO); // TODO: configure
             configSupplyCurrentLimit(currentLimit, threshold, false);
             configNeutralBrakeMode(true);
-            configCounterClockwise_Positive(); // TODO: configure
+            configInverted(baseConfig.INVERTED);
             configMotionMagic(51, 205, 0);
         }
     }
@@ -47,10 +50,12 @@ public class Feeder extends Mechanism {
     public FeederConfig config;
     public LaserCanUtil lasercan;
 
+    @SuppressWarnings("static-access")
     public Feeder(boolean attached) {
         super(attached);
         if (attached) {
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
+            motor.setPosition(config.baseConfig.STARTING_POSITION);
         }
 
         lasercan = new LaserCanUtil(0);

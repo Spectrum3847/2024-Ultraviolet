@@ -2,6 +2,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.mechanisms.configs.ALPHA2024;
+import frc.robot.mechanisms.configs.PM2024;
+import frc.spectrumLib.mechanism.RobotMechConfig;
 
 public final class RobotConfig {
 
@@ -33,6 +36,7 @@ public final class RobotConfig {
     public boolean pivotAttached = true;
     public boolean leftLauncherAttached = true;
     public boolean rightLauncherAttached = true;
+    public RobotMechConfig robotMechConfig;
 
     public RobotConfig() {
         if (Robot.isReal()) {
@@ -49,10 +53,13 @@ public final class RobotConfig {
         switch (getRobotType()) {
             case SIM:
                 /* Set all the constants specifically for the simulation*/
+                robotMechConfig = new PM2024();
                 break;
             case ALPHA:
+                robotMechConfig = new ALPHA2024();
                 break;
             case PM:
+                robotMechConfig = new PM2024();
                 break;
             case XRAY:
                 intakeAttached = false;
@@ -63,8 +70,11 @@ public final class RobotConfig {
                 pivotAttached = false;
                 leftLauncherAttached = false;
                 rightLauncherAttached = false;
+                robotMechConfig = new PM2024();
+
             default:
                 /* Set all the constants specifically for the robot */
+                robotMechConfig = new PM2024();
                 break;
         }
 

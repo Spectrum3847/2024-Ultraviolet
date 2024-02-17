@@ -184,6 +184,14 @@ public abstract class Mechanism implements Subsystem {
             this.voltageCompSaturation = voltageCompSaturation;
         }
 
+        public void configInverted(boolean inverted) {
+            if (inverted) {
+                talonConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+            } else {
+                talonConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+            }
+        }
+
         public void configCounterClockwise_Positive() {
             talonConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         }

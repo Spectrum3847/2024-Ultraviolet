@@ -2,6 +2,8 @@ package frc.robot.mechanisms.pivot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Robot;
+import frc.spectrumLib.mechanism.BaseMechConfig;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
 import java.util.function.DoubleSupplier;
@@ -9,6 +11,7 @@ import org.littletonrobotics.junction.AutoLogOutput;
 
 public class Pivot extends Mechanism {
     public class PivotConfig extends Config {
+        public static BaseMechConfig baseConfig = Robot.config.robotMechConfig.PIVOT_CONFIG;
 
         /* Pivot constants in motor rotations */
         public final double maxRotation = 33.6;
@@ -32,13 +35,13 @@ public class Pivot extends Mechanism {
         public double velocityKs = 0;
 
         public PivotConfig() {
-            super("Pivot", 41, "3847");
+            super("Pivot", baseConfig.ID, baseConfig.CANBUS);
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
-            configGearRatio(1); // TODO: configure
+            configGearRatio(baseConfig.GEAR_RATIO); // TODO: configure
             configSupplyCurrentLimit(currentLimit, threshold, true);
             configNeutralBrakeMode(true);
-            configClockwise_Positive(); // TODO: configure
+            configInverted(baseConfig.INVERTED);
             configReverseSoftLimit(minRotation, true);
             configForwardSoftLimit(maxRotation, false);
             configMotionMagic(51, 205, 0);
@@ -47,11 +50,12 @@ public class Pivot extends Mechanism {
 
     public PivotConfig config;
 
+    @SuppressWarnings("static-access")
     public Pivot(boolean attached) {
         super(attached);
         if (attached) {
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
-            motor.setPosition(config.maxRotation);
+            motor.setPosition(config.baseConfig.STARTING_POSITION);
         }
 
         SmartDashboard.putNumber("pivotPercent", config.test);

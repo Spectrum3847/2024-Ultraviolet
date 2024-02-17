@@ -2,6 +2,8 @@ package frc.robot.mechanisms.launcher;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Robot;
+import frc.spectrumLib.mechanism.BaseMechConfig;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
 import frc.spectrumLib.util.Conversions;
@@ -10,6 +12,7 @@ import org.littletonrobotics.junction.AutoLogOutput;
 // TODO: this will get merged with right launcher into one class later
 public class LeftLauncher extends Mechanism {
     public class LeftLauncherConfig extends Config {
+        public static BaseMechConfig baseConfig = Robot.config.robotMechConfig.LEFTLAUNCHER_CONFIG;
 
         /* Revolutions per min LeftLauncher Output */
         public double maxSpeed = 5000; // TODO: configure
@@ -30,23 +33,25 @@ public class LeftLauncher extends Mechanism {
         public double velocityKs = 14;
 
         public LeftLauncherConfig() {
-            super("LeftLauncher", 42, "3847");
+            super("LeftLauncher", baseConfig.ID, baseConfig.CANBUS);
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
             configGearRatio(1 / 2); // TODO: configure
             configSupplyCurrentLimit(currentLimit, threshold, false);
             configNeutralBrakeMode(true);
-            configCounterClockwise_Positive(); // TODO: configure
+            configInverted(baseConfig.INVERTED);
             configMotionMagic(51, 205, 0);
         }
     }
 
     public LeftLauncherConfig config;
 
+    @SuppressWarnings("static-access")
     public LeftLauncher(boolean attached) {
         super(attached);
         if (attached) {
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
+            motor.setPosition(config.baseConfig.STARTING_POSITION);
 
             SmartDashboard.putNumber("leftLaunchSpeed", config.testVelocity);
         }

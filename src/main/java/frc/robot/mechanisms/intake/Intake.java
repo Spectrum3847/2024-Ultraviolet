@@ -1,6 +1,8 @@
 package frc.robot.mechanisms.intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Robot;
+import frc.spectrumLib.mechanism.BaseMechConfig;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
 import frc.spectrumLib.util.Conversions;
@@ -8,6 +10,7 @@ import org.littletonrobotics.junction.AutoLogOutput;
 
 public class Intake extends Mechanism {
     public class IntakeConfig extends Config {
+        public static BaseMechConfig baseConfig = Robot.config.robotMechConfig.INTAKE_CONFIG;
 
         /* Revolutions per min Intake Output */
         public double maxSpeed = 5000; // TODO: configure
@@ -27,23 +30,25 @@ public class Intake extends Mechanism {
         public double velocityKs = 0.24;
 
         public IntakeConfig() {
-            super("Intake", 60, "3847");
+            super("Intake", baseConfig.ID, baseConfig.CANBUS);
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
-            configGearRatio(12 / 30); // TODO: configure
+            configGearRatio(baseConfig.GEAR_RATIO); // TODO: configure
             configSupplyCurrentLimit(currentLimit, threshold, false);
             configNeutralBrakeMode(true);
-            configClockwise_Positive(); // TODO: configure
+            configInverted(baseConfig.INVERTED);
             configMotionMagic(51, 205, 0);
         }
     }
 
     public IntakeConfig config;
 
+    @SuppressWarnings("static-access")
     public Intake(boolean attached) {
         super(attached);
         if (attached) {
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
+            motor.setPosition(config.baseConfig.STARTING_POSITION);
         }
     }
 

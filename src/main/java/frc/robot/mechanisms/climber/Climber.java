@@ -3,6 +3,8 @@ package frc.robot.mechanisms.climber;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import frc.robot.Robot;
+import frc.spectrumLib.mechanism.BaseMechConfig;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
 import java.util.function.DoubleSupplier;
@@ -10,6 +12,7 @@ import org.littletonrobotics.junction.AutoLogOutput;
 
 public class Climber extends Mechanism {
     public class ClimberConfig extends Config {
+        public static BaseMechConfig baseConfig = Robot.config.robotMechConfig.CLIMBER_CONFIG;
 
         /* Climber constants in rotations */
         public final double maxHeight = 147;
@@ -34,7 +37,7 @@ public class Climber extends Mechanism {
         public final double threshold = 30;
 
         public ClimberConfig() {
-            super("Climber", 53, "3847");
+            super("Climber", baseConfig.ID, baseConfig.CANBUS);
             configPIDGains(0, positionKp, 0, 0);
             configFeedForwardGains(0, positionKv, 0, 0);
             configMotionMagic(120, 195, 0); // 40, 120 FOC // 120, 195 Regular
@@ -42,17 +45,19 @@ public class Climber extends Mechanism {
             configForwardSoftLimit(maxHeight, true);
             configReverseSoftLimit(minHeight, true);
             configNeutralBrakeMode(true);
+            configInverted(baseConfig.INVERTED);
             // configMotionMagicPosition(0.12);
-            configClockwise_Positive();
         }
     }
 
     public ClimberConfig config;
 
+    @SuppressWarnings("static-access")
     public Climber(boolean attached) {
         super(attached);
         if (attached) {
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
+            motor.setPosition(config.baseConfig.STARTING_POSITION);
         }
     }
 
