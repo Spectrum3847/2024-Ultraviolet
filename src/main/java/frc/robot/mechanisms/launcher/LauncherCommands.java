@@ -15,6 +15,17 @@ public class LauncherCommands {
 
     /* Launch Commands */
 
+    public static Command runOnDemandVelocity() {
+        return new LaunchTest(leftLauncher.config.testVelocity)
+                .withName("Launcher.onDemandVelocity");
+    }
+
+    public static Command runTest() {
+        return runLauncherVelocities(
+                        leftLauncher.config.testVelocity, rightLauncher.config.testVelocity)
+                .withName("Launcher.runTest");
+    }
+
     public static Command runFull() {
         return runLauncherVelocities(leftLauncher.config.maxSpeed, rightLauncher.config.maxSpeed)
                 .withName("Launcher.runFull");
@@ -25,11 +36,20 @@ public class LauncherCommands {
                 .withName("Launcher.launch");
     }
 
+    public static Command subwoofer() {
+        return runLauncherVelocities(leftLauncher.config.subwoofer, rightLauncher.config.subwoofer)
+                .withName("Launcher.subwoofer");
+    }
+
     public static Command slowLaunchPercent() {
         return runLauncherPercentages(
                         leftLauncher.config.slowLeftLauncherPercentage,
                         rightLauncher.config.slowRightLauncherPercentage)
                 .withName("Launcher.slowLaunchPercent");
+    }
+
+    public static Command coastMode() {
+        return leftLauncher.coastMode().alongWith(rightLauncher.coastMode());
     }
 
     /* Helpers */
@@ -60,5 +80,15 @@ public class LauncherCommands {
 
     public static Command stopRightMotor() {
         return rightLauncher.runStop().withName("RightLauncher.stopMotor");
+    }
+
+    public static Command LeftLauncherTest() {
+        return leftLauncher.runPercentage(leftLauncher.config.testForwardPercent);
+    }
+
+    public static Command runVelocityTestin() {
+        return runLauncherVelocities(
+                        leftLauncher.config.testVelocity, rightLauncher.config.testVelocity)
+                .withName("Launcher.runTestVelocity");
     }
 }

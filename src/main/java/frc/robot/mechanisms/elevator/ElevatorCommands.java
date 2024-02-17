@@ -14,6 +14,10 @@ public class ElevatorCommands {
         return elevator.runPosition(elevator.config.fullExtend).withName("Elevator.fullExtend");
     }
 
+    public static Command percentage() {
+        return elevator.runPercentage(0.3);
+    }
+
     public static Command amp() {
         return elevator.runPosition(elevator.config.amp).withName("Elevator.amp");
     }
@@ -24,5 +28,9 @@ public class ElevatorCommands {
 
     public static Command home() {
         return elevator.runPosition(elevator.config.home).withName("Elevator.home");
+    }
+
+    public static Command coastMode() {
+        return elevator.coastMode();
     }
 }

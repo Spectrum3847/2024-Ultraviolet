@@ -8,18 +8,23 @@ import frc.spectrumLib.mechanism.TalonFXFactory;
 import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.AutoLogOutput;
 
-// TODO: this mechanism's motor has not been setup (given id and updated)
 public class Climber extends Mechanism {
     public class ClimberConfig extends Config {
 
         /* Climber constants in rotations */
-        public final double maxHeight = 5; // TODO: configure
-        public final double minHeight = 0.29; // TODO: configure
+        public final double maxHeight = 147;
+        public final double minHeight = 0.5;
 
         /* Climber positions in rotations */
         public double fullExtend = maxHeight;
         public double home = minHeight;
-        public double startingMotorPos = -0.15;
+        public double topClimb = maxHeight;
+        public double midClimb = 74;
+        public double botClimb = minHeight;
+
+        /* Climber Percentage Output */
+        public double raisePercentage = 0.2;
+        public double lowerPercentage = -0.2;
 
         /* Climber config settings */
         public final double zeroSpeed = -0.2;
@@ -29,7 +34,7 @@ public class Climber extends Mechanism {
         public final double threshold = 30;
 
         public ClimberConfig() {
-            super("Climber", 63, "3847"); // TODO: configure ID
+            super("Climber", 53, "3847");
             configPIDGains(0, positionKp, 0, 0);
             configFeedForwardGains(0, positionKv, 0, 0);
             configMotionMagic(120, 195, 0); // 40, 120 FOC // 120, 195 Regular
@@ -38,7 +43,7 @@ public class Climber extends Mechanism {
             configReverseSoftLimit(minHeight, true);
             configNeutralBrakeMode(true);
             // configMotionMagicPosition(0.12);
-            configClockwise_Positive(); // TODO: configure
+            configClockwise_Positive();
         }
     }
 
@@ -85,7 +90,7 @@ public class Climber extends Mechanism {
     }
 
     public Command runPercentage(DoubleSupplier percentSupplier) {
-        return runPercentage(percentSupplier.getAsDouble());
+        return run(() -> setPercentOutput(percentSupplier.getAsDouble()));
     }
 
     // TODO: review; having commands in the climber class would mean you are calling climber
@@ -121,12 +126,12 @@ public class Climber extends Mechanism {
             @Override
             public void initialize() {
                 stop();
-                holdPosition = motor.getPosition().getValueAsDouble();
+                holdPosition = getMotorPosition();
             }
 
             @Override
             public void execute() {
-                double currentPosition = motor.getPosition().getValueAsDouble();
+                double currentPosition = getMotorPosition();
                 if (Math.abs(holdPosition - currentPosition) <= 5) {
                     setMMPosition(
                             holdPosition); // TODO: add: change mode depending on current control
@@ -176,7 +181,10 @@ public class Climber extends Mechanism {
 
     @AutoLogOutput(key = "Climber/Position (rotations)")
     public double getMotorPosition() {
-        return motor.getPosition().getValueAsDouble();
+        if (attached) {
+            return motor.getPosition().getValueAsDouble();
+        }
+        return 0;
     }
 
     @Override

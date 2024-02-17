@@ -23,11 +23,31 @@ public class AmpTrapCommands {
         return ampTrap.runVelocity(ampTrap.config.intake).withName("AmpTrap.intake");
     }
 
+    public static Command score() {
+        return ampTrap.runVelocity(ampTrap.config.score).withName("AmpTrap.score");
+    }
+
+    public static Command launchEject() {
+        return ampTrap.runVelocity(ampTrap.config.launchEject).withName("AmpTrap.launchEject");
+    }
+
     public static Command eject() {
         return ampTrap.runVelocity(ampTrap.config.eject).withName("AmpTrap.eject");
     }
 
     public static Command stopMotor() {
         return ampTrap.runStop().withName("AmpTrap.stopMotor");
+    }
+
+    public static Command testForward() {
+        return ampTrap.runPercentage(ampTrap.config.testForwardPercent);
+    }
+
+    public static Command testReverse() {
+        return ampTrap.runPercentage(ampTrap.config.testBackPercent);
+    }
+
+    public static Command coastMode() {
+        return ampTrap.coastMode();
     }
 }

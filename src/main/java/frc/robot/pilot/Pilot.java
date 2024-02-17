@@ -1,7 +1,12 @@
 package frc.robot.pilot;
 
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Robot;
+import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
+import frc.robot.mechanisms.elevator.ElevatorCommands;
+import frc.robot.mechanisms.feeder.FeederCommands;
+import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.swerve.commands.SwerveCommands;
 import frc.spectrumLib.Gamepad;
 import frc.spectrumLib.util.ExpCurve;
@@ -47,22 +52,22 @@ public class Pilot extends Gamepad {
     /** Setup the Buttons for telop mode. */
     /*  A, B, X, Y, Left Bumper, Right Bumper = Buttons 1 to 6 in simualation */
     public void setupTeleopButtons() {
-        // manual output commands (map joystick to raw -1 to 1 output on motor): manualAmpTrap,
-        // manualClimber, manualElevator, manualFeeder, manualIntake, manualPivot, manualLauncher
 
-        // controller.a().whileTrue();
+        controller.a().and(noBumpers()).whileTrue(RobotCommands.laserCanFeed());
+        controller.a().and(leftBumperOnly()).whileTrue(LauncherCommands.stopMotors());
 
-        // controller.b().whileTrue();
+        controller.b().and(noBumpers()).whileTrue(RobotCommands.feedToAmp());
+        controller.b().and(leftBumperOnly()).onTrue(RobotCommands.subwooferReady());
 
-        // controller.x().whileTrue();
+        controller.y().and(noBumpers()).whileTrue(RobotCommands.eject());
+        controller.y().and(leftBumperOnly()).onTrue(RobotCommands.onDemandLaunching());
 
-        // controller.y().and(noBumpers()).whileTrue();
+        controller.x().and(noBumpers()).whileTrue(ElevatorCommands.amp());
+        controller.x().and(leftBumperOnly()).whileTrue(ElevatorCommands.home());
 
-        // controller.y().and(leftBumperOnly()).whileTrue();
+        controller.rightBumper().whileTrue(FeederCommands.slowFeed());
 
-        // controller.y().and(rightBumperOnly()).whileTrue();
-
-        // leftXTrigger(ThresholdType.GREATER_THAN, 0).whileTrue();
+        rightStick().and(leftBumperOnly()).whileTrue(PilotCommands.manualPivot());
 
         controller
                 .povUp()
@@ -96,7 +101,9 @@ public class Pilot extends Gamepad {
     /** Setup the Buttons for Disabled mode. */
     public void setupDisabledButtons() {
         // This is just for training, most robots will have different buttons during disabled
-        setupTeleopButtons();
+        // setupTeleopButtons();
+
+        controller.b().toggleOnTrue(RobotCommands.coastModeMechanisms());
     };
 
     /** Setup the Buttons for Test mode. */
@@ -157,5 +164,13 @@ public class Pilot extends Gamepad {
             ccwPositive *= config.rotationScalor;
         }
         return ccwPositive;
+    }
+
+    public Trigger rightStick() {
+        return new Trigger(
+                () -> {
+                    return Math.abs(controller.getRightX()) >= 0.1
+                            || Math.abs(controller.getRightY()) >= 0.1;
+                });
     }
 }

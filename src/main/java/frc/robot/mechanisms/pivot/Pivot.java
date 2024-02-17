@@ -1,23 +1,26 @@
 package frc.robot.mechanisms.pivot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
+import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.AutoLogOutput;
 
 public class Pivot extends Mechanism {
     public class PivotConfig extends Config {
 
         /* Pivot constants in motor rotations */
-        public final double maxRotation =
-                10; // TODO: configure (find using smartdashboard) or else bad things will happen
-        public final double minRotation =
-                0; // TODO: configure (find using smartdashboard) or else bad things will happen
+        public final double maxRotation = 23;
+        // happen
+        public final double minRotation = 0;
 
         /* Pivot positions in percentage of max rotation || 0 is vertical? */
-        public final int score = 100;
+        public final int score = 80;
         public final int halfScore = 50;
+        public final int test = 65;
         public final int home = 0;
+        public final int subwoofer = 65;
 
         public final double zeroSpeed = -0.2;
 
@@ -35,9 +38,9 @@ public class Pivot extends Mechanism {
             configGearRatio(1); // TODO: configure
             configSupplyCurrentLimit(currentLimit, threshold, true);
             configNeutralBrakeMode(true);
-            configClockwise_Positive(); // TODO: configure
+            configCounterClockwise_Positive(); // TODO: configure
             configReverseSoftLimit(minRotation, true);
-            configForwardSoftLimit(maxRotation, true);
+            configForwardSoftLimit(maxRotation, false);
             configMotionMagic(51, 205, 0);
         }
     }
@@ -49,6 +52,8 @@ public class Pivot extends Mechanism {
         if (attached) {
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
         }
+
+        SmartDashboard.putNumber("pivotPercent", config.test);
     }
 
     @Override
@@ -84,10 +89,9 @@ public class Pivot extends Mechanism {
         return run(() -> setPercentOutput(percent)).withName("Pivot.runPercentage");
     }
 
-    public Command brakeMode() {
-        return startEnd(() -> setBrakeMode(false), () -> setBrakeMode(true))
-                .withName("Pivot.brakeMode")
-                .ignoringDisable(true);
+    public Command runManualOutput(DoubleSupplier percentSupplier) {
+        return run(() -> setPercentOutput(percentSupplier.getAsDouble()))
+                .withName("Pivot.runPercentage");
     }
 
     /**
@@ -97,6 +101,12 @@ public class Pivot extends Mechanism {
      */
     public Command runStop() {
         return run(() -> stop()).withName("Pivot.stop");
+    }
+
+    public Command coastMode() {
+        return startEnd(() -> setBrakeMode(false), () -> setBrakeMode(true))
+                .ignoringDisable(true)
+                .withName("Pivot.coastMode");
     }
 
     /* Custom Commands */
@@ -113,7 +123,7 @@ public class Pivot extends Mechanism {
 
             @Override
             public void initialize() {
-                holdPosition = motor.getPosition().getValueAsDouble();
+                holdPosition = getMotorPosition();
             }
 
             @Override

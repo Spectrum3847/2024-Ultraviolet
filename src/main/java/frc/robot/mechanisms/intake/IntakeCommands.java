@@ -14,6 +14,15 @@ public class IntakeCommands {
         return intake.runVelocity(intake.config.maxSpeed).withName("Intake.runFull");
     }
 
+    public static Command runTestin() {
+        return intake.runPercentage(intake.config.testIntakePercentage)
+                .withName("Intake.testIntake");
+    }
+
+    public static Command runVelocityTestin() {
+        return intake.runVelocity(intake.config.testVelocity).withName("Intake.testVelocity");
+    }
+
     public static Command slowIntake() {
         return intake.runPercentage(intake.config.slowIntakePercentage)
                 .withName("Intake.slowIntake");
@@ -24,7 +33,11 @@ public class IntakeCommands {
     }
 
     public static Command eject() {
-        return intake.runVelocity(intake.config.eject).withName("Intake.eject");
+        return intake.runPercentage(intake.config.ejectPercentage).withName("Intake.eject");
+    }
+
+    public static Command coastMode() {
+        return intake.coastMode();
     }
 
     public static Command stopMotor() {

@@ -1,5 +1,6 @@
 package frc.robot.mechanisms.launcher;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
@@ -13,25 +14,29 @@ public class RightLauncher extends Mechanism {
         /* Revolutions per min RightLauncher Output */
         public double maxSpeed = 5000; // TODO: configure
         public double launch = 4000; // TODO: configure
+        public double testVelocity = 4500;
+        public double subwoofer = 4500;
 
         /* Percentage RightLauncher Output */
         public double slowRightLauncherPercentage = 0.06; // TODO: configure
+        public double testForwardPercent = 0.5;
+        public double testBackPercent = -0.5;
 
         /* RightLauncher config values */
-        public double currentLimit = 12;
-        public double threshold = 20;
-        public double velocityKp = 0.156152;
-        public double velocityKv = 0.12;
-        public double velocityKs = 0.24;
+        public double currentLimit = 40;
+        public double threshold = 80;
+        public double velocityKp = 12; // 0.156152;
+        public double velocityKv = 0.2; // 0.12;
+        public double velocityKs = 14;
 
         public RightLauncherConfig() {
             super("RightLauncher", 43, "3847");
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
-            configGearRatio(12 / 30); // TODO: configure
-            configSupplyCurrentLimit(currentLimit, threshold, true);
+            configGearRatio(1 / 2); // TODO: configure
+            configSupplyCurrentLimit(currentLimit, threshold, false);
             configNeutralBrakeMode(true);
-            configCounterClockwise_Positive(); // TODO: configure
+            configClockwise_Positive(); // TODO: configure
             configMotionMagic(51, 205, 0);
         }
     }
@@ -42,6 +47,8 @@ public class RightLauncher extends Mechanism {
         super(attached);
         if (attached) {
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
+
+            SmartDashboard.putNumber("rightLaunchSpeed", config.testVelocity);
         }
     }
 
@@ -58,6 +65,17 @@ public class RightLauncher extends Mechanism {
     public Command runVelocity(double velocity) {
         return run(() -> setVelocity(Conversions.RPMtoRPS(velocity)))
                 .withName("RightLauncher.runVelocity");
+    }
+
+    /**
+     * Run the right launcher at given velocity in TorqueCurrentFOC mode
+     *
+     * @param percent
+     * @return
+     */
+    public Command runVelocityTorqueCurrentFOC(double velocity) {
+        return run(() -> setVelocityTorqueCurrentFOC(Conversions.RPMtoRPS(velocity)))
+                .withName("RightLauncher.runVelocityFOC");
     }
 
     /**
@@ -78,6 +96,16 @@ public class RightLauncher extends Mechanism {
         return run(() -> stop()).withName("RightLauncher.stop");
     }
 
+    /**
+     * Temporarily sets the right launcher to coast mode. The configuration is applied when the
+     * command is started and reverted when the command is ended.
+     */
+    public Command coastMode() {
+        return startEnd(() -> setBrakeMode(false), () -> setBrakeMode(true))
+                .ignoringDisable(true)
+                .withName("RightLauncher.coastMode");
+    }
+
     /* Logging */
 
     /** Returns the velocity of the motor in rotations per second */
@@ -85,6 +113,15 @@ public class RightLauncher extends Mechanism {
     public double getMotorVelocity() {
         if (attached) {
             return motor.getVelocity().getValueAsDouble();
+        }
+        return 0;
+    }
+
+    /** Returns the velocity of the motor in rotations per second */
+    @AutoLogOutput(key = "RightLauncher/Motor Velocity (revolutions per minute)")
+    public double getMotorVelocityInRPM() {
+        if (attached) {
+            return Conversions.RPStoRPM(getMotorVelocity());
         }
         return 0;
     }
