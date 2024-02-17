@@ -12,9 +12,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Robot;
 import frc.robot.RobotTelemetry;
+import frc.robot.swerve.configs.ALPHA2024;
 import frc.robot.swerve.configs.MUSICDISC2023;
 import frc.robot.swerve.configs.NOTEBLOCK2023;
-import frc.robot.swerve.configs.ULTRAVIOLET2024;
 import frc.spectrumLib.swerve.Drivetrain;
 import frc.spectrumLib.swerve.Drivetrain.DriveState;
 import frc.spectrumLib.swerve.Request;
@@ -40,8 +40,8 @@ public class Swerve implements Subsystem {
 
         // Choose the correct swerve configuration
         switch (Robot.config.getRobotType()) {
-            case ULTRAVIOLET:
-                config = ULTRAVIOLET2024.config;
+            case ALPHA:
+                config = ALPHA2024.config;
                 break;
             case NOTEBLOCK:
                 config = NOTEBLOCK2023.config;
