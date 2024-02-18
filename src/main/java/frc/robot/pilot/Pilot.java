@@ -1,5 +1,6 @@
 package frc.robot.pilot;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Robot;
 import frc.robot.RobotCommands;
@@ -25,7 +26,7 @@ public class Pilot extends Gamepad {
         public final double triggersDeadzone = 0.1;
         public final double triggersExp = 2.0;
         public final double triggersScalor = Robot.swerve.config.maxAngularVelocity;
-        public final double rotationScalor = -0.8;
+        public final double rotationScalor = 0.8;
     }
 
     public PilotConfig config;
@@ -53,11 +54,11 @@ public class Pilot extends Gamepad {
     /*  A, B, X, Y, Left Bumper, Right Bumper = Buttons 1 to 6 in simualation */
     public void setupTeleopButtons() {
 
-        controller.a().and(noBumpers()).whileTrue(RobotCommands.feed());
+        controller.a().and(noBumpers()).whileTrue(RobotCommands.laserCanFeed());
         controller.a().and(leftBumperOnly()).whileTrue(LauncherCommands.stopMotors());
 
         controller.b().and(noBumpers()).whileTrue(RobotCommands.feedToAmp());
-        controller.b().and(leftBumperOnly()).whileTrue(RobotCommands.subwooferReady());
+        controller.b().and(leftBumperOnly()).onTrue(RobotCommands.subwooferReady());
 
         controller.y().and(noBumpers()).whileTrue(RobotCommands.eject());
         controller.y().and(leftBumperOnly()).onTrue(RobotCommands.onDemandLaunching());
@@ -65,14 +66,14 @@ public class Pilot extends Gamepad {
         controller.x().and(noBumpers()).whileTrue(ElevatorCommands.amp());
         controller.x().and(leftBumperOnly()).whileTrue(ElevatorCommands.home());
 
-        controller.rightBumper().whileTrue(FeederCommands.feedToLauncher());
+        controller.rightBumper().whileTrue(FeederCommands.slowFeed());
 
         rightStick().and(leftBumperOnly()).whileTrue(PilotCommands.manualPivot());
 
         controller
                 .povUp()
                 .and(leftBumperOnly())
-                .whileTrue(rumbleCommand(SwerveCommands.reorient(180)));
+                .whileTrue(rumbleCommand(SwerveCommands.reorient(0)));
         controller
                 .povLeft()
                 .and(leftBumperOnly())
@@ -80,7 +81,7 @@ public class Pilot extends Gamepad {
         controller
                 .povDown()
                 .and(leftBumperOnly())
-                .whileTrue(rumbleCommand(SwerveCommands.reorient(0)));
+                .whileTrue(rumbleCommand(SwerveCommands.reorient(180)));
         controller
                 .povRight()
                 .and(leftBumperOnly())

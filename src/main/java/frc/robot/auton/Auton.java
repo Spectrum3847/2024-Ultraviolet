@@ -64,7 +64,7 @@ public class Auton extends SubsystemBase {
         NamedCommands.registerCommand("launchReady4", AutonCommands.launchReady4());
         NamedCommands.registerCommand("launchReady5", AutonCommands.launchReady5());
         NamedCommands.registerCommand("smartIntake", RobotCommands.laserCanFeed());
-        NamedCommands.registerCommand("launch", FeederCommands.feedToLauncher().withTimeout(0.3));
+        NamedCommands.registerCommand("launch", RobotCommands.laserCanFeed().withTimeout(0.3));
 
         /* Stop Commands */
         NamedCommands.registerCommand("stopTracking", AutonCommands.stopTracking());
