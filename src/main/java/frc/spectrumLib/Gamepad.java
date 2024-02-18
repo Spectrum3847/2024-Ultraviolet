@@ -187,6 +187,14 @@ public abstract class Gamepad extends SubsystemBase {
         return axisTrigger(t, threshold, () -> controller.getRightX());
     }
 
+    public Trigger rightStick() {
+        return new Trigger(
+                () -> {
+                    return Math.abs(controller.getRightX()) >= 0.1
+                            || Math.abs(controller.getRightY()) >= 0.1;
+                });
+    }
+
     private Trigger axisTrigger(ThresholdType t, double threshold, DoubleSupplier v) {
         return new Trigger(
                 () -> {

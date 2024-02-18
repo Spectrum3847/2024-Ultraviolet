@@ -1,6 +1,5 @@
 package frc.robot.pilot;
 
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Robot;
 import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
@@ -167,13 +166,5 @@ public class Pilot extends Gamepad {
             ccwPositive *= config.rotationScalor;
         }
         return ccwPositive;
-    }
-
-    public Trigger rightStick() {
-        return new Trigger(
-                () -> {
-                    return Math.abs(controller.getRightX()) >= 0.1
-                            || Math.abs(controller.getRightY()) >= 0.1;
-                });
     }
 }

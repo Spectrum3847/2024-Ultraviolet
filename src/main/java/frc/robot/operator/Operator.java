@@ -4,6 +4,7 @@ import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
+import frc.robot.pilot.PilotCommands;
 import frc.spectrumLib.Gamepad;
 
 public class Operator extends Gamepad {
@@ -37,6 +38,8 @@ public class Operator extends Gamepad {
 
         controller.x().and(noBumpers()).whileTrue(ElevatorCommands.amp());
         controller.x().and(leftBumperOnly()).whileTrue(ElevatorCommands.home());
+
+        rightStick().and(leftBumperOnly()).whileTrue(OperatorCommands.manualPivot());
 
         // manual output commands (map joystick to raw -1 to 1 output on motor): manualAmpTrap,
         // manualClimber, manualElevator, manualFeeder, manualIntake, manualPivot, manualLauncher
