@@ -35,8 +35,10 @@ public class Drive implements Request {
             DoubleSupplier velocityX,
             DoubleSupplier velocityY,
             DoubleSupplier rotationalRate,
+            DoubleSupplier deadBand, 
             BooleanSupplier isFieldOriented,
-            BooleanSupplier isOpenLoop) {
+            BooleanSupplier isOpenLoop
+            ) {
         return Robot.swerve
                 .applyRequest(
                         () ->
@@ -44,8 +46,10 @@ public class Drive implements Request {
                                         .withVelocityX(velocityX.getAsDouble())
                                         .withVelocityY(velocityY.getAsDouble())
                                         .withRotationalRate(rotationalRate.getAsDouble())
+                                        .withDeadband(deadBand.getAsDouble())
                                         .isFieldOriented(isFieldOriented.getAsBoolean())
-                                        .isOpenLoop(isOpenLoop.getAsBoolean()))
+                                        .isOpenLoop(isOpenLoop.getAsBoolean())
+                                        )
                 .withName("Drive");
     }
 
@@ -66,6 +70,10 @@ public class Drive implements Request {
      * <p>This is in radians per second
      */
     public double RotationalRate = 0;
+    /** The allowable deadband of the request. */
+    public double Deadband = 0;
+    /** The rotational deadband of the request. */
+    public double RotationalDeadband = 0;
 
     /** True to use open-loop control when driving. */
     public boolean IsOpenLoop = false;
@@ -80,6 +88,13 @@ public class Drive implements Request {
         double toApplyX = VelocityX;
         double toApplyY = VelocityY;
         double toApplyOmega = RotationalRate;
+        if (Math.sqrt(toApplyX * toApplyX + toApplyY * toApplyY) < Deadband) {
+            toApplyX = 0;
+            toApplyY = 0;
+        }
+        if (Math.abs(toApplyOmega) < RotationalDeadband) {
+            toApplyOmega = 0;
+        }
 
         if (Math.sqrt(toApplyX * toApplyX + toApplyY * toApplyY) < 0.6) {
             toApplyX = 0;
@@ -116,6 +131,17 @@ public class Drive implements Request {
         return this;
     }
 
+    /**
+     * Sets the allowable deadband of the request.
+     *
+     * @param deadband Allowable deadband of the request
+     * @return this request
+     */
+    public Drive withDeadband(double deadband) {
+        this.Deadband = deadband;
+        return this;
+    }
+
     public Drive withVelocityY(double velocityY) {
         this.VelocityY = velocityY;
         return this;
@@ -123,6 +149,17 @@ public class Drive implements Request {
 
     public Drive withRotationalRate(double rotationalRate) {
         this.RotationalRate = rotationalRate;
+        return this;
+    }
+
+    /**
+     * Sets the rotational deadband of the request.
+     *
+     * @param rotationalDeadband Rotational deadband of the request
+     * @return this request
+     */
+    public Drive withRotationalDeadband(double rotationalDeadband) {
+        this.RotationalDeadband = rotationalDeadband;
         return this;
     }
 

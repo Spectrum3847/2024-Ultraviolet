@@ -12,6 +12,7 @@ import java.util.function.Supplier;
 
 public class SwerveCommands {
     private static Swerve swerve = Robot.swerve;
+    private static DoubleSupplier deadband = () -> (swerve.config.deadband * swerve.config.maxVelocity);
 
     public static void setupDefaultCommand() {
         swerve.setDefaultCommand(PilotCommands.pilotDrive());
@@ -30,7 +31,7 @@ public class SwerveCommands {
             DoubleSupplier rotationalRate,
             BooleanSupplier isFieldOriented,
             BooleanSupplier isOpenLoop) {
-        return Drive.run(velocityX, velocityY, rotationalRate, isFieldOriented, isOpenLoop)
+        return Drive.run(velocityX, velocityY, rotationalRate, deadband, isFieldOriented, isOpenLoop)
                 .withName("Swerve.Drive")
                 .ignoringDisable(true);
     }
