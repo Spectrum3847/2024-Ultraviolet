@@ -35,10 +35,9 @@ public class Drive implements Request {
             DoubleSupplier velocityX,
             DoubleSupplier velocityY,
             DoubleSupplier rotationalRate,
-            DoubleSupplier deadBand, 
+            DoubleSupplier deadBand,
             BooleanSupplier isFieldOriented,
-            BooleanSupplier isOpenLoop
-            ) {
+            BooleanSupplier isOpenLoop) {
         return Robot.swerve
                 .applyRequest(
                         () ->
@@ -48,8 +47,7 @@ public class Drive implements Request {
                                         .withRotationalRate(rotationalRate.getAsDouble())
                                         .withDeadband(deadBand.getAsDouble())
                                         .isFieldOriented(isFieldOriented.getAsBoolean())
-                                        .isOpenLoop(isOpenLoop.getAsBoolean())
-                                        )
+                                        .isOpenLoop(isOpenLoop.getAsBoolean()))
                 .withName("Drive");
     }
 

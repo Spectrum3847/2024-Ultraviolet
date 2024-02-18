@@ -56,7 +56,8 @@ public class LaserCan {
 
     public void setRegionOfInterest(int x, int y, int w, int h) {
         try {
-            lasercan.setRegionOfInterest(new au.grapplerobotics.LaserCan.RegionOfInterest(x, y, w, h));
+            lasercan.setRegionOfInterest(
+                    new au.grapplerobotics.LaserCan.RegionOfInterest(x, y, w, h));
         } catch (ConfigurationFailedException e) {
             logError();
         }

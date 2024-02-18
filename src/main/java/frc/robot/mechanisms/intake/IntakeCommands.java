@@ -11,7 +11,8 @@ public class IntakeCommands {
     }
 
     public static Command runFull() {
-        return intake.runVelocityTorqueCurrentFOC(intake.config.maxSpeed).withName("Intake.runFull");
+        return intake.runVelocityTorqueCurrentFOC(intake.config.maxSpeed)
+                .withName("Intake.runFull");
     }
 
     public static Command runTestin() {
@@ -20,7 +21,8 @@ public class IntakeCommands {
     }
 
     public static Command runVelocityTestin() {
-        return intake.runVelocityTorqueCurrentFOC(intake.config.testVelocity).withName("Intake.testVelocity");
+        return intake.runVelocityTorqueCurrentFOC(intake.config.testVelocity)
+                .withName("Intake.testVelocity");
     }
 
     public static Command slowIntake() {

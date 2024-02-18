@@ -23,7 +23,7 @@ public class SwerveConfig {
     public double maxAngularAcceleration = Math.pow(maxAngularVelocity, 2);
 
     /* Deadbanding */
-    public double deadband = 0; // fractional units 0 - 1 
+    public double deadband = 0; // fractional units 0 - 1
     public double rotationDeadband = 0; // fractionaln units 0 -1
 
     public SwerveConfig withPigeon2Id(int id) {

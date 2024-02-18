@@ -4,7 +4,6 @@ import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
-import frc.robot.pilot.PilotCommands;
 import frc.spectrumLib.Gamepad;
 
 public class Operator extends Gamepad {

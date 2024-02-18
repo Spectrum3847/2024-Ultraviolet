@@ -26,7 +26,6 @@ import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 import org.littletonrobotics.junction.Logger;
 
-
 public class Swerve implements Subsystem {
     public final SwerveConfig config;
     private final Drivetrain drivetrain;
@@ -34,7 +33,7 @@ public class Swerve implements Subsystem {
     private double OdometryUpdateFrequency = 250;
     private double targetHeading = 0;
     private ReadWriteLock m_stateLock = new ReentrantReadWriteLock();
-    
+
     private SwerveModuleState[] Setpoints = new SwerveModuleState[] {};
 
     public Swerve() {

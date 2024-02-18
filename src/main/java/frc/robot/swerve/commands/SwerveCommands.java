@@ -13,7 +13,8 @@ import java.util.function.Supplier;
 public class SwerveCommands {
     private static Swerve swerve = Robot.swerve;
     /** Velocity deadband applied to the swerve control request */
-    private static DoubleSupplier requestDeadband = () -> (swerve.config.deadband * swerve.config.maxVelocity);
+    private static DoubleSupplier requestDeadband =
+            () -> (swerve.config.deadband * swerve.config.maxVelocity);
 
     public static void setupDefaultCommand() {
         swerve.setDefaultCommand(PilotCommands.pilotDrive());
@@ -31,7 +32,13 @@ public class SwerveCommands {
             DoubleSupplier rotationalRate,
             BooleanSupplier isFieldOriented,
             BooleanSupplier isOpenLoop) {
-        return Drive.run(velocityX, velocityY, rotationalRate, requestDeadband, isFieldOriented, isOpenLoop)
+        return Drive.run(
+                        velocityX,
+                        velocityY,
+                        rotationalRate,
+                        requestDeadband,
+                        isFieldOriented,
+                        isOpenLoop)
                 .withName("Swerve.Drive")
                 .ignoringDisable(true);
     }

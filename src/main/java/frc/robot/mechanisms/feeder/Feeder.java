@@ -19,6 +19,9 @@ public class Feeder extends Mechanism {
         public double launchEject = 1000;
         public double feedToAmp = -3000;
 
+        /* Rotations config */
+        public double addedFeedRotations = 0;
+
         /* Percentage Feeder Output */
         public double slowFeederPercentage = 0.15; // TODO: configure
 
@@ -77,6 +80,15 @@ public class Feeder extends Mechanism {
     public void periodic() {}
 
     /* Control methods: see method in lambda for more information */
+
+    /**
+     * Runs the feeder a certain amount of revolutions forward from it's current position.
+     *
+     * @param position position in revolutions
+     */
+    public Command runAddPosition(double position) {
+        return run(() -> setMMPosition(position)).withName("Feeder.runAddPosition");
+    }
 
     /**
      * Runs the feeder at a given velocity

@@ -60,7 +60,10 @@ public class RobotCommands {
     public static Command dummyIntake() {
         return IntakeCommands.intake()
                 .until(() -> Robot.feeder.getMotorVelocity() > 0)
-                .andThen(PilotCommands.rumble(1, 0.5));
+                .andThen(
+                        PilotCommands.rumble(1, 1),
+                        FeederCommands.addFeedRevolutions()
+                                .withTimeout(0.5)); // add a .until to the feed revolutions later
     }
 
     public static Command onDemandLaunching() {
