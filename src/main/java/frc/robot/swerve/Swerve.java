@@ -56,7 +56,7 @@ public class Swerve implements Subsystem {
                 break;
             case SIM: // runs in simulation
                 OdometryUpdateFrequency = 50;
-                config = NOTEBLOCK2023.config;
+                config = PM2024.config;
                 break;
             default:
                 config = PM2024.config;
