@@ -3,8 +3,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.mechanisms.amptrap.AmpTrap;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
 import frc.robot.mechanisms.climber.ClimberCommands;
+import frc.robot.mechanisms.elevator.Elevator;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
 import frc.robot.mechanisms.feeder.FeederCommands;
 import frc.robot.mechanisms.intake.IntakeCommands;
@@ -20,7 +22,7 @@ import frc.robot.pilot.PilotCommands;
 public class RobotCommands {
 
     public static Command feed() {
-        return new ConditionalCommand(new InstantCommand(), laserCanFeed(), Robot.feeder::hasNote);
+        return new ConditionalCommand(new InstantCommand(), laserCanFeed(), Robot.feeder.lasercan::hasNote);
     }
 
     //     public static Command laserCanFeed3() {
@@ -74,7 +76,7 @@ public class RobotCommands {
 
     public static Command feedToAmp() {
         return FeederCommands.feedToAmp()
-                .alongWith(AmpTrapCommands.score())
+                .alongWith(AmpTrapCommands.score()).until(Robot.ampTrap.lasercan::midNote).andThen(ElevatorCommands.amp().withTimeout(1))
                 .withName("RobotCommands.feedToAmp");
     }
 
@@ -82,6 +84,10 @@ public class RobotCommands {
         return FeederCommands.eject()
                 .alongWith(AmpTrapCommands.eject(), IntakeCommands.eject())
                 .withName("RobotCommands.eject");
+    }
+
+    public static Command score() {
+        return new ConditionalCommand(FeederCommands.launchEject(), AmpTrapCommands.score(), () -> Robot.elevator.getMotorPosition() < 5);
     }
 
     public static Command intake() {

@@ -36,6 +36,19 @@ public class LaserCan {
         setTimingBudget(timingBudget); // Can only set ms to 20, 33, 50, and 100
     }
 
+    /* Internal Lasercan methods */
+    public boolean hasNote() {
+        return getDistance() < 300;
+    }
+
+    public boolean midNote() {
+        return Math.abs(getDistance()) - 10 <= 0;
+    }
+
+    public boolean endNote() {
+        return getDistance() > 250;
+    }
+
     /* Helper methods for constructors */
 
     public void setShortRange() {

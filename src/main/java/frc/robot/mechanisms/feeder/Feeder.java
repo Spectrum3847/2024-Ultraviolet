@@ -59,21 +59,9 @@ public class Feeder extends Mechanism {
         lasercan = new LaserCan(0);
     }
 
-    @AutoLogOutput(key = "LaserCan/Measurement")
+    @AutoLogOutput(key = "Feeder/LaserCan-Measurement")
     public int getLaserCanDistance() {
         return lasercan.getDistance();
-    }
-
-    public boolean hasNote() {
-        return getLaserCanDistance() < 300;
-    }
-
-    public boolean midNote() {
-        return Math.abs(getLaserCanDistance()) - 10 <= 0;
-    }
-
-    public boolean endNote() {
-        return getLaserCanDistance() > 250;
     }
 
     @Override
