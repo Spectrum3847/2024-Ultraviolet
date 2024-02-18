@@ -11,7 +11,7 @@ public class IntakeCommands {
     }
 
     public static Command runFull() {
-        return intake.runVelocity(intake.config.maxSpeed).withName("Intake.runFull");
+        return intake.runVelocityTorqueCurrentFOC(intake.config.maxSpeed).withName("Intake.runFull");
     }
 
     public static Command runTestin() {
@@ -20,7 +20,7 @@ public class IntakeCommands {
     }
 
     public static Command runVelocityTestin() {
-        return intake.runVelocity(intake.config.testVelocity).withName("Intake.testVelocity");
+        return intake.runVelocityTorqueCurrentFOC(intake.config.testVelocity).withName("Intake.testVelocity");
     }
 
     public static Command slowIntake() {
@@ -33,7 +33,7 @@ public class IntakeCommands {
     }
 
     public static Command eject() {
-        return intake.runVelocity(intake.config.eject).withName("Intake.eject");
+        return intake.runVelocityTorqueCurrentFOC(intake.config.eject).withName("Intake.eject");
     }
 
     public static Command coastMode() {

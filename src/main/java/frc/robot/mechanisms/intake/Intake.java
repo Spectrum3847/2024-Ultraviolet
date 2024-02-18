@@ -61,7 +61,7 @@ public class Intake extends Mechanism {
      * @param velocity in revolutions per minute
      */
     public Command runVelocity(double velocity) {
-        return run(() -> setVelocityTorqueCurrentFOC(Conversions.RPMtoRPS(velocity)))
+        return run(() -> setVelocity(Conversions.RPMtoRPS(velocity)))
                 .withName("Intake.runVelocity");
     }
 
