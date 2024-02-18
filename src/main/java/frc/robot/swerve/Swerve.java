@@ -55,7 +55,7 @@ public class Swerve implements Subsystem {
                 break;
             case SIM: // runs in simulation
                 OdometryUpdateFrequency = 50;
-                config = NOTEBLOCK2023.config;
+                config = PM2024.config;
                 break;
             default:
                 DriverStation.reportError("Could not match robot to swerve config; defaulting to PM2024 swerve config", false);
