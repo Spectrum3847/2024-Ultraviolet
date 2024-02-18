@@ -1,5 +1,8 @@
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.auton.Auton;
@@ -220,6 +223,9 @@ public class Robot extends LoggedRobot {
         try {
             RobotTelemetry.print("!!! Teleop Init Starting !!! ");
             resetCommandsAndButtons();
+
+            //flip pilot's forward based on what alliance robot is
+            swerve.setDriverPerspective(Rotation2d.fromDegrees(DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ? 0 : 180));
 
             RobotTelemetry.print("!!! Teleop Init Complete !!! ");
         } catch (Throwable t) {

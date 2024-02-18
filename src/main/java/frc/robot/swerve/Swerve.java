@@ -26,6 +26,7 @@ import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 import org.littletonrobotics.junction.Logger;
 
+
 public class Swerve implements Subsystem {
     public final SwerveConfig config;
     private final Drivetrain drivetrain;
@@ -33,6 +34,7 @@ public class Swerve implements Subsystem {
     private double OdometryUpdateFrequency = 250;
     private double targetHeading = 0;
     private ReadWriteLock m_stateLock = new ReentrantReadWriteLock();
+    
     private SwerveModuleState[] Setpoints = new SwerveModuleState[] {};
 
     public Swerve() {
@@ -134,6 +136,19 @@ public class Swerve implements Subsystem {
 
     public double getTargetHeading() {
         return targetHeading;
+    }
+
+    /*Temporary Method */
+    public void setBlueAllianceRotation() {
+        setDriverPerspective(Rotation2d.fromDegrees(0));
+    }
+
+    public void setRedAllianceRotation() {
+        setDriverPerspective(Rotation2d.fromDegrees(180));
+    }
+
+    public void setDriverPerspective(Rotation2d perspective) {
+        drivetrain.setDriverPerspective(perspective);
     }
 
     /**

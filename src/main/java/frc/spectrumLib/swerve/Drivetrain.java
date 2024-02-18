@@ -6,6 +6,8 @@ import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrain;
+
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.LinearFilter;
@@ -336,6 +338,19 @@ public class Drivetrain {
             m_stateLock.writeLock().lock();
 
             m_fieldRelativeOffset = getState().Pose.getRotation();
+        } finally {
+            m_stateLock.writeLock().unlock();
+        }
+    }
+
+    /** Blue alliance sees forward as 0 degrees (toward red alliance wall)
+     * Red alliance sees forward as 180 degrees (toward blue alliance wall)
+    */
+    public void setDriverPerspective(Rotation2d rotation) {
+        try {
+            m_stateLock.writeLock().lock();
+
+            m_fieldRelativeOffset = rotation;
         } finally {
             m_stateLock.writeLock().unlock();
         }
