@@ -229,6 +229,19 @@ public abstract class Gamepad extends SubsystemBase {
     }
 
     /**
+     * Run a command while a button/trigger is held down. Also runs a command for 1.5s when the
+     * button/trigger is released.
+     *
+     * @param trigger
+     * @param runCommand
+     * @param endCommand
+     */
+    public void runWithEndSequence(Trigger trigger, Command runCommand, Command endCommand) {
+        trigger.whileTrue(runCommand);
+        trigger.onFalse(endCommand.withTimeout(1.5));
+    }
+
+    /**
      * Returns a new Command object that combines the given command with a rumble command. The
      * rumble command has a rumble strength of 1 and a duration of 0.5 seconds. The name of the
      * returned command is set to the name of the given command.

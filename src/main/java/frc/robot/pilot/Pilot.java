@@ -65,7 +65,12 @@ public class Pilot extends Gamepad {
         controller.x().and(noBumpers()).whileTrue(ElevatorCommands.amp());
         controller.x().and(leftBumperOnly()).whileTrue(ElevatorCommands.home());
 
-        controller.rightBumper().whileTrue(FeederCommands.launchEject());
+        // controller.rightBumper().whileTrue(FeederCommands.launchEject());
+        // controller.rightBumper().onFalse(LauncherCommands.stopMotors());
+        runWithEndSequence(
+                controller.rightBumper(),
+                FeederCommands.launchEject(),
+                LauncherCommands.stopMotors());
 
         rightStick().and(leftBumperOnly()).whileTrue(PilotCommands.manualPivot());
 
