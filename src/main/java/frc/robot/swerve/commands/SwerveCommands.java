@@ -17,7 +17,6 @@ public class SwerveCommands {
 
     public static void setupDefaultCommand() {
         swerve.setDefaultCommand(PilotCommands.pilotDrive());
-        // swerve.setDefaultCommand(SwerveCommands.Xbrake());
     }
 
     /** Turn the swerve wheels to an X to prevent the robot from moving */

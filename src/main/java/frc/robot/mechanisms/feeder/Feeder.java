@@ -1,7 +1,7 @@
 package frc.robot.mechanisms.feeder;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.spectrumLib.lasercan.LaserCanUtil;
+import frc.spectrumLib.lasercan.LaserCan;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
 import frc.spectrumLib.util.Conversions;
@@ -45,7 +45,7 @@ public class Feeder extends Mechanism {
     }
 
     public FeederConfig config;
-    public LaserCanUtil lasercan;
+    public LaserCan lasercan;
 
     public Feeder(boolean attached) {
         super(attached);
@@ -53,7 +53,7 @@ public class Feeder extends Mechanism {
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
         }
 
-        lasercan = new LaserCanUtil(0);
+        lasercan = new LaserCan(0);
     }
 
     @AutoLogOutput(key = "LaserCan/Measurement")
@@ -74,9 +74,7 @@ public class Feeder extends Mechanism {
     }
 
     @Override
-    public void periodic() {
-        // System.out.println("MEASUREMENT: " + lasercan.getDistance());
-    }
+    public void periodic() {}
 
     /* Control methods: see method in lambda for more information */
 
