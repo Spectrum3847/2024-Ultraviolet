@@ -14,9 +14,9 @@ public class Feeder extends Mechanism {
         public double maxSpeed = 5000; // TODO: configure
         public double feed = 4000; // TODO: configure
         public double testFeed = 250;
-        public double intake = 250;
+        public double intake = 200;
         public double eject = -3000; // TODO: configure
-        public double launchEject = 500;
+        public double launchEject = 1000;
         public double feedToAmp = -3000;
 
         /* Percentage Feeder Output */
@@ -26,8 +26,8 @@ public class Feeder extends Mechanism {
         public double testBackPercent = -0.5;
 
         /* Feeder config values */
-        public double currentLimit = 12;
-        public double threshold = 20;
+        public double currentLimit = 30;
+        public double threshold = 40;
         public double velocityKp = 0.156152;
         public double velocityKv = 0.12;
         public double velocityKs = 0.24;
@@ -37,7 +37,7 @@ public class Feeder extends Mechanism {
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
             configGearRatio(12 / 30); // TODO: configure
-            configSupplyCurrentLimit(currentLimit, threshold, false);
+            configSupplyCurrentLimit(currentLimit, threshold, true);
             configNeutralBrakeMode(true);
             configCounterClockwise_Positive(); // TODO: configure
             configMotionMagic(51, 205, 0);

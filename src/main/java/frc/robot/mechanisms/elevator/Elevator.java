@@ -27,7 +27,7 @@ public class Elevator extends Mechanism {
         public final double positionKp = 0.86; // 20 FOC // 10 Regular
         public final double positionKv = 0.013; // .12 FOC // .15 regular
         public final double currentLimit = 30;
-        public final double threshold = 30;
+        public final double threshold = 40;
 
         public ElevatorConfig() {
             super("Elevator", 52, "3847");

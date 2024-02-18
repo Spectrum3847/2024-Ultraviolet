@@ -12,13 +12,18 @@ import frc.spectrumLib.util.Conversions;
 public class LaunchTest extends Command {
     double leftLaunchSpeed = 0;
     double rightLaunchSpeed = 0;
-
     double defaultValue = 0;
+
+    boolean rumblePilot;
+
+    private static LeftLauncher leftLauncher = Robot.leftLauncher;
+    private static RightLauncher rightLauncher = Robot.rightLauncher;
     /** Creates a new CubeLaunchTest. */
     public LaunchTest(double configValue) {
         defaultValue = configValue;
+        rumblePilot = false;
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(Robot.leftLauncher, Robot.rightLauncher);
+        addRequirements(leftLauncher, rightLauncher);
     }
 
     // Called when the command is initially scheduled.
@@ -26,13 +31,21 @@ public class LaunchTest extends Command {
     public void initialize() {
         leftLaunchSpeed = SmartDashboard.getNumber("leftLaunchSpeed", defaultValue);
         rightLaunchSpeed = SmartDashboard.getNumber("rightLaunchSpeed", defaultValue);
+        rumblePilot = false;
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        Robot.leftLauncher.setVelocityTorqueCurrentFOC(Conversions.RPMtoRPS(leftLaunchSpeed));
-        Robot.rightLauncher.setVelocityTorqueCurrentFOC(Conversions.RPMtoRPS(rightLaunchSpeed));
+        leftLauncher.setVelocityTorqueCurrentFOC(Conversions.RPMtoRPS(leftLaunchSpeed));
+        rightLauncher.setVelocityTorqueCurrentFOC(Conversions.RPMtoRPS(rightLaunchSpeed));
+
+        if (!rumblePilot
+                && ((leftLauncher.getMotorVelocityInRPM() >= leftLaunchSpeed - 200)
+                        || (rightLauncher.getMotorVelocityInRPM() >= rightLaunchSpeed - 200))) {
+            rumblePilot = true;
+            Robot.pilot.rumbleCommand(1, 1).withName("LaunchRumble").schedule();
+        }
     }
 
     // Called once the command ends or is interrupted.

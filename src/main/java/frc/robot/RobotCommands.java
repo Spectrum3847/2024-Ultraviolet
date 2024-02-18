@@ -10,6 +10,7 @@ import frc.robot.mechanisms.feeder.FeederCommands;
 import frc.robot.mechanisms.intake.IntakeCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.mechanisms.pivot.PivotCommands;
+import frc.robot.pilot.PilotCommands;
 
 /**
  * This class is used for commands that use multiple subsystems and don't directly call a gamepad.
@@ -51,15 +52,20 @@ public class RobotCommands {
     //     }
 
     public static Command laserCanFeed() {
-        return IntakeCommands.intake()
-                .alongWith(AmpTrapCommands.slowIntake(), FeederCommands.slowFeed())
+        return IntakeCommands.intake().alongWith(AmpTrapCommands.slowIntake())
         // .until(() -> Robot.feeder.midNote())
         ;
     }
 
+    public static Command dummyIntake() {
+        return IntakeCommands.intake()
+                .until(() -> Robot.feeder.getMotorVelocity() > 0)
+                .andThen(PilotCommands.rumble(1, 0.5));
+    }
+
     public static Command onDemandLaunching() {
         return LauncherCommands.runOnDemandVelocity()
-                .alongWith(PivotCommands.onDemandPivot())
+                // .alongWith(PivotCommands.onDemandPivot())
                 .withName("RobotCommands.onDemandLaunching");
     }
 
@@ -100,6 +106,8 @@ public class RobotCommands {
     }
 
     public static Command subwooferReady() {
-        return LauncherCommands.runOnDemandVelocity().withName("RobotCommands.subwooferReady");
+        return LauncherCommands.runOnDemandVelocity()
+                .alongWith(PivotCommands.subwoofer())
+                .withName("RobotCommands.subwooferReady");
     }
 }

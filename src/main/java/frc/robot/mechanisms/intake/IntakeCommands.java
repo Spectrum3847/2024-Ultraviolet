@@ -29,11 +29,11 @@ public class IntakeCommands {
     }
 
     public static Command intake() {
-        return intake.runVelocity(intake.config.intake).withName("Intake.intake");
+        return intake.runVelocityTorqueCurrentFOC(intake.config.intake).withName("Intake.intake");
     }
 
     public static Command eject() {
-        return intake.runPercentage(intake.config.ejectPercentage).withName("Intake.eject");
+        return intake.runVelocity(intake.config.eject).withName("Intake.eject");
     }
 
     public static Command coastMode() {

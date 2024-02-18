@@ -170,6 +170,10 @@ public abstract class Mechanism implements Subsystem {
             this.voltageCompSaturation = 12.0;
             this.id = new CanDeviceId(id, canbus);
             talonConfig = new TalonFXConfiguration();
+
+            /* Put default config settings for all mechanisms here */
+            talonConfig.HardwareLimitSwitch.ForwardLimitEnable = false;
+            talonConfig.HardwareLimitSwitch.ReverseLimitEnable = false;
         }
 
         public void applyTalonConfig(TalonFX talon) {

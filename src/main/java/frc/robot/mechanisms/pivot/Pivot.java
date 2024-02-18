@@ -12,7 +12,6 @@ public class Pivot extends Mechanism {
 
         /* Pivot constants in motor rotations */
         public final double maxRotation = 33.6;
-        // happen
         public final double minRotation = 0;
 
         /* Pivot positions in percentage of max rotation || 0 is vertical? */
@@ -25,8 +24,8 @@ public class Pivot extends Mechanism {
         public final double zeroSpeed = -0.2;
 
         /* Intake config values */
-        public double currentLimit = 5;
-        public double threshold = 5;
+        public double currentLimit = 30;
+        public double threshold = 40;
         public double velocityKp = 0.8;
         public double velocityKv = 0.013;
         public double velocityKs = 0;

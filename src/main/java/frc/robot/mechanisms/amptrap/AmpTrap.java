@@ -24,8 +24,8 @@ public class AmpTrap extends Mechanism {
         public double testBackPercent = -0.50;
 
         /* AmpTrap config values */
-        public double currentLimit = 12;
-        public double threshold = 20;
+        public double currentLimit = 30;
+        public double threshold = 40;
         public double velocityKp = 0.156152;
         public double velocityKv = 0.12;
         public double velocityKs = 0.24;
@@ -35,7 +35,7 @@ public class AmpTrap extends Mechanism {
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
             configGearRatio(12 / 30); // TODO: configure
-            configSupplyCurrentLimit(currentLimit, threshold, false);
+            configSupplyCurrentLimit(currentLimit, threshold, true);
             configNeutralBrakeMode(true);
             configCounterClockwise_Positive(); // TODO: configure
             configMotionMagic(51, 205, 0);

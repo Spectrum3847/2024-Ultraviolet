@@ -81,6 +81,11 @@ public class Drive implements Request {
         double toApplyY = VelocityY;
         double toApplyOmega = RotationalRate;
 
+        if (Math.sqrt(toApplyX * toApplyX + toApplyY * toApplyY) < 0.6) {
+            toApplyX = 0;
+            toApplyY = 0;
+        }
+
         ChassisSpeeds speeds;
         if (IsFieldOriented) {
             speeds =

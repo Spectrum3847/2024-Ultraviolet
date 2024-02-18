@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
 import frc.spectrumLib.util.Conversions;
+import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.AutoLogOutput;
 
 public class Intake extends Mechanism {
@@ -13,25 +14,27 @@ public class Intake extends Mechanism {
         public double maxSpeed = 5000; // TODO: configure
         public double intake = 2000; // TODO: configure
         public double testVelocity = 3000;
+        public double eject = -2000;
 
         /* Percentage Intake Output */
         public double ejectPercentage = -0.5; // TODO: configure
         public double slowIntakePercentage = 0.06; // TODO: configure
-        public double testIntakePercentage = 1;
+        public double testIntakePercentage = 0.7;
 
         /* Intake config values */
-        public double currentLimit = 12;
-        public double threshold = 20;
-        public double velocityKp = 0.156152;
-        public double velocityKv = 0.12;
-        public double velocityKs = 0.24;
+        public double currentLimit = 30;
+        public double threshold = 40;
+        public double velocityKp = 12; // 0.156152;
+        public double velocityKv = 0.2; // 0.12;
+        public double velocityKs = 14;
 
         public IntakeConfig() {
             super("Intake", 60, "3847");
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
             configGearRatio(12 / 30); // TODO: configure
-            configSupplyCurrentLimit(currentLimit, threshold, false);
+            configSupplyCurrentLimit(currentLimit, threshold, true);
+            configStatorCurrentLimit(30, true);
             configNeutralBrakeMode(true);
             configClockwise_Positive(); // TODO: configure
             configMotionMagic(51, 205, 0);
@@ -58,8 +61,19 @@ public class Intake extends Mechanism {
      * @param velocity in revolutions per minute
      */
     public Command runVelocity(double velocity) {
-        return run(() -> setVelocity(Conversions.RPMtoRPS(velocity)))
+        return run(() -> setVelocityTorqueCurrentFOC(Conversions.RPMtoRPS(velocity)))
                 .withName("Intake.runVelocity");
+    }
+
+    /**
+     * Run the left launcher at given velocity in TorqueCurrentFOC mode
+     *
+     * @param percent
+     * @return
+     */
+    public Command runVelocityTorqueCurrentFOC(double velocity) {
+        return run(() -> setVelocityTorqueCurrentFOC(Conversions.RPMtoRPS(velocity)))
+                .withName("Intake.runVelocityFOC");
     }
 
     /**
@@ -69,6 +83,11 @@ public class Intake extends Mechanism {
      */
     public Command runPercentage(double percent) {
         return run(() -> setPercentOutput(percent)).withName("Intake.runPercentage");
+    }
+
+    public Command runManualOutput(DoubleSupplier percentSupplier) {
+        return run(() -> setPercentOutput(percentSupplier.getAsDouble()))
+                .withName("Intake.runManualOutput");
     }
 
     /**

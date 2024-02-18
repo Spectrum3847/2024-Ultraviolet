@@ -115,4 +115,8 @@ public class PilotCommands {
     public static Command manualPivot() {
         return pivot.runManualOutput(() -> -pilot.controller.getRightY() * 0.5);
     }
+
+    public static Command manualIntake() {
+        return Robot.intake.runManualOutput(() -> -pilot.controller.getRightY());
+    }
 }
