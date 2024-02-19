@@ -3,10 +3,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.mechanisms.amptrap.AmpTrap;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
 import frc.robot.mechanisms.climber.ClimberCommands;
-import frc.robot.mechanisms.elevator.Elevator;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
 import frc.robot.mechanisms.feeder.FeederCommands;
 import frc.robot.mechanisms.intake.IntakeCommands;
@@ -22,7 +20,8 @@ import frc.robot.pilot.PilotCommands;
 public class RobotCommands {
 
     public static Command feed() {
-        return new ConditionalCommand(new InstantCommand(), laserCanFeed(), Robot.feeder.lasercan::hasNote);
+        return new ConditionalCommand(
+                new InstantCommand(), laserCanFeed(), Robot.feeder.lasercan::hasNote);
     }
 
     //     public static Command laserCanFeed3() {
@@ -63,9 +62,10 @@ public class RobotCommands {
         return IntakeCommands.intake()
                 .until(() -> Robot.feeder.getMotorVelocity() > 0)
                 .andThen(
-                        PilotCommands.rumble(1, 1),
-                        FeederCommands.addFeedRevolutions()
-                                .withTimeout(0.5)); // add a .until to the feed revolutions later
+                        PilotCommands.rumble(1, 0.5)
+                                // FeederCommands.addFeedRevolutions()
+                                .withTimeout(0.5));
+        // ); // add a .until to the feed revolutions later
     }
 
     public static Command onDemandLaunching() {
@@ -75,9 +75,14 @@ public class RobotCommands {
     }
 
     public static Command feedToAmp() {
-        return FeederCommands.feedToAmp()
-                .alongWith(AmpTrapCommands.score()).until(Robot.ampTrap.lasercan::midNote).andThen(ElevatorCommands.amp().withTimeout(1))
+        return FeederCommands.launchEject()
+                .withTimeout(0.3)
+                .andThen(FeederCommands.feedToAmp().alongWith(AmpTrapCommands.score()))
                 .withName("RobotCommands.feedToAmp");
+        // return
+        // .until(Robot.ampTrap.lasercan::midNote)
+        // .andThen(ElevatorCommands.amp().withTimeout(1))
+        // .withName("RobotCommands.feedToAmp");
     }
 
     public static Command eject() {
@@ -86,8 +91,18 @@ public class RobotCommands {
                 .withName("RobotCommands.eject");
     }
 
+    // public static Command score() {
+    //     return new ConditionalCommand(
+    //             FeederCommands.launchEject(),
+    //             AmpTrapCommands.score(),
+    //             () -> Robot.elevator.getMotorPosition() < 5);
+    // }
+
     public static Command score() {
-        return new ConditionalCommand(FeederCommands.launchEject(), AmpTrapCommands.score(), () -> Robot.elevator.getMotorPosition() < 5);
+        return new ConditionalCommand(
+                FeederCommands.launchEject(),
+                RobotCommands.feedToAmp(),
+                () -> Robot.elevator.getMotorPosition() < 15);
     }
 
     public static Command intake() {

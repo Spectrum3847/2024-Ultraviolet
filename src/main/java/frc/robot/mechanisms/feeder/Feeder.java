@@ -20,7 +20,7 @@ public class Feeder extends Mechanism {
         public double feedToAmp = -3000;
 
         /* Rotations config */
-        public double addedFeedRotations = 0;
+        public double addedFeedRotations = 3;
 
         /* Percentage Feeder Output */
         public double slowFeederPercentage = 0.15; // TODO: configure

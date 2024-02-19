@@ -42,7 +42,7 @@ public class Swerve implements Subsystem {
 
         // Choose the correct swerve configuration
         switch (Robot.config.getRobotType()) {
-            case PM: 
+            case PM:
                 config = PM2024.config;
                 break;
             case ALPHA:

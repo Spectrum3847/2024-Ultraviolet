@@ -39,7 +39,7 @@ public class Pivot extends Mechanism {
             configNeutralBrakeMode(true);
             configClockwise_Positive(); // TODO: configure
             configReverseSoftLimit(minRotation, true);
-            configForwardSoftLimit(maxRotation, false);
+            configForwardSoftLimit(maxRotation, true);
             configMotionMagic(51, 205, 0);
         }
     }
@@ -50,7 +50,7 @@ public class Pivot extends Mechanism {
         super(attached);
         if (attached) {
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
-            motor.setPosition(config.maxRotation);
+            // motor.setPosition(config.maxRotation);
         }
 
         SmartDashboard.putNumber("pivotPercent", config.test);

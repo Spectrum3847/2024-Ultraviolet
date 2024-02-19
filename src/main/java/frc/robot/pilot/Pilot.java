@@ -4,7 +4,6 @@ import frc.robot.Robot;
 import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
-import frc.robot.mechanisms.feeder.FeederCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.swerve.commands.SwerveCommands;
 import frc.spectrumLib.Gamepad;
@@ -15,7 +14,8 @@ public class Pilot extends Gamepad {
         public static final String name = "Pilot";
         public static final int port = 0;
 
-        public static final double slowModeScalor = 0.5;
+        public static final double slowModeScalor = 0.2;
+        public static final double turboModeScalor = 1;
 
         public final double leftStickDeadzone = 0.1;
         public final double leftStickExp = 2.0;
@@ -24,11 +24,12 @@ public class Pilot extends Gamepad {
         public final double triggersDeadzone = 0.1;
         public final double triggersExp = 2.0;
         public final double triggersScalor = Robot.swerve.config.maxAngularVelocity;
-        public final double rotationScalor = 0.8;
+        public final double rotationScalor = 0.25; // original was 0.8
     }
 
     public PilotConfig config;
     private boolean isSlowMode = false;
+    private boolean isTurboMode = false;
     private boolean isFieldOriented = true;
     private ExpCurve LeftStickCurve;
     private ExpCurve TriggersCurve;
@@ -65,7 +66,7 @@ public class Pilot extends Gamepad {
         controller.x().and(leftBumperOnly()).whileTrue(ElevatorCommands.home());
 
         // controller.rightBumper().whileTrue(FeederCommands.launchEject());
-        // controller.rightBumper().onFalse(LauncherCommands.stopMotors());
+        // // controller.rightBumper().onFalse(LauncherCommands.stopMotors());
         // runWithEndSequence(
         //         controller.rightBumper(),
         //         FeederCommands.launchEject(),
@@ -74,6 +75,8 @@ public class Pilot extends Gamepad {
                 controller.rightBumper(),
                 RobotCommands.score(),
                 LauncherCommands.stopMotors().alongWith(ElevatorCommands.home()));
+
+        controller.rightStick().whileTrue(PilotCommands.turboMode());
 
         rightStick().and(leftBumperOnly()).whileTrue(PilotCommands.manualPivot());
 
@@ -132,6 +135,10 @@ public class Pilot extends Gamepad {
         this.isSlowMode = isSlowMode;
     }
 
+    public void setTurboMode(boolean isTurboMode) {
+        this.isTurboMode = isTurboMode;
+    }
+
     public void setFieldOriented(boolean isFieldOriented) {
         this.isFieldOriented = isFieldOriented;
     }
@@ -166,6 +173,8 @@ public class Pilot extends Gamepad {
         double ccwPositive = TriggersCurve.calculate(getTwist());
         if (isSlowMode) {
             ccwPositive *= Math.abs(PilotConfig.slowModeScalor);
+        } else if (isTurboMode) {
+            ccwPositive *= Math.abs(PilotConfig.turboModeScalor);
         } else {
             ccwPositive *= config.rotationScalor;
         }

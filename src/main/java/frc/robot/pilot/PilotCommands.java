@@ -29,7 +29,7 @@ public class PilotCommands {
         return SwerveCommands.Drive(
                         () -> pilot.getDriveFwdPositive(),
                         () -> pilot.getDriveLeftPositive(),
-                        () -> -pilot.getDriveCCWPositive() * 0.5,
+                        () -> -pilot.getDriveCCWPositive(),
                         () -> pilot.getFieldOriented(), // true is field oriented
                         () -> true)
                 .withName("Swerve.PilotDrive");
@@ -97,6 +97,14 @@ public class PilotCommands {
      */
     public static Command slowMode() {
         return Commands.startEnd(() -> pilot.setSlowMode(true), () -> pilot.setSlowMode(false));
+    }
+
+    /**
+     * Command that can be used to turn on the turbo mode. Turbo mode modifies CCW methods, we don't
+     * want these to require the pilot subsystem
+     */
+    public static Command turboMode() {
+        return Commands.startEnd(() -> pilot.setTurboMode(true), () -> pilot.setTurboMode(false));
     }
 
     /**
