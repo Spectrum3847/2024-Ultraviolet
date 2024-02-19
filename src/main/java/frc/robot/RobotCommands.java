@@ -76,13 +76,19 @@ public class RobotCommands {
 
     public static Command feedToAmp() {
         return FeederCommands.launchEject()
-                .withTimeout(0.3)
+                .withTimeout(0.15)
                 .andThen(FeederCommands.feedToAmp().alongWith(AmpTrapCommands.score()))
                 .withName("RobotCommands.feedToAmp");
-        // return
-        // .until(Robot.ampTrap.lasercan::midNote)
-        // .andThen(ElevatorCommands.amp().withTimeout(1))
-        // .withName("RobotCommands.feedToAmp");
+
+        /* With lasercan */
+        // return FeederCommands.launchEject()
+        //         .withTimeout(0.15)
+        //         .andThen(
+        //                 FeederCommands.feedToAmp()
+        //                         .alongWith(AmpTrapCommands.score())
+        //                         .until(Robot.ampTrap.lasercan::bigMidNote))
+        //         .andThen(ElevatorCommands.amp().withTimeout(1))
+        //         .withName("RobotCommands.feedToAmp");
     }
 
     public static Command eject() {
@@ -133,5 +139,11 @@ public class RobotCommands {
         return LauncherCommands.runOnDemandVelocity()
                 .alongWith(PivotCommands.subwoofer())
                 .withName("RobotCommands.subwooferReady");
+    }
+
+    public static Command podiumReady() {
+        return LauncherCommands.runOnDemandVelocity()
+                .alongWith(PivotCommands.podium())
+                .withName("RobotCommands.podium");
     }
 }

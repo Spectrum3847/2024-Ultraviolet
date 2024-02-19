@@ -59,7 +59,13 @@ public class Pilot extends Gamepad {
         controller.b().and(noBumpers()).whileTrue(RobotCommands.feedToAmp());
         controller.b().and(leftBumperOnly()).onTrue(RobotCommands.subwooferReady());
 
-        controller.y().and(noBumpers()).whileTrue(RobotCommands.eject());
+        controller
+                .y()
+                .and(noBumpers())
+                .whileTrue(
+                        PilotCommands
+                                .speakerAimingDrive()); // if you want this to be only speaker tag,
+        // just check for ID 4 in method OR cover up amp apriltag
         controller.y().and(leftBumperOnly()).onTrue(RobotCommands.onDemandLaunching());
 
         controller.x().and(noBumpers()).whileTrue(ElevatorCommands.amp());

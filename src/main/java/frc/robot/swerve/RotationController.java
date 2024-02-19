@@ -29,12 +29,12 @@ public class RotationController {
                         constraints);
 
         controller.enableContinuousInput(-Math.PI, Math.PI);
-        controller.setTolerance(Math.PI / 180);
+        controller.setTolerance((Math.PI / 180));
 
         // These are currently magic number and need to be put into SwerveConfig
         holdController =
                 new PIDController(
-                        10.5, 3,
+                        7, 0,
                         0); // TODO: these probably have to be found again; most likely why robot
         // rotation is slightly oscillating in heading lock
 

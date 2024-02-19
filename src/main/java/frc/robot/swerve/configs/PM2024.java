@@ -35,7 +35,7 @@ public class PM2024 {
     private static final SlotGains driveGains = new SlotGains(0.4, 0, 0, 0, 0);
 
     /*Rotation Controller*/
-    private static final double kPRotationController = 7.0;
+    private static final double kPRotationController = 3;
     private static final double kIRotationController = 0.0;
     private static final double kDRotationController = 0.0;
 

@@ -1,7 +1,7 @@
 package frc.robot.mechanisms.amptrap;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.spectrumLib.lasercan.LaserCan;
+import frc.spectrumLib.lasercan.LaserCanUtil;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
 import frc.spectrumLib.util.Conversions;
@@ -44,7 +44,7 @@ public class AmpTrap extends Mechanism {
     }
 
     public AmpTrapConfig config;
-    public LaserCan lasercan;
+    public LaserCanUtil lasercan;
 
     public AmpTrap(boolean attached) {
         super(attached);
@@ -52,7 +52,7 @@ public class AmpTrap extends Mechanism {
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
         }
 
-        lasercan = new LaserCan(1);
+        lasercan = new LaserCanUtil(1);
     }
 
     @AutoLogOutput(key = "AmpTrap/LaserCan-Measurement")

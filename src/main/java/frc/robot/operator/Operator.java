@@ -38,6 +38,8 @@ public class Operator extends Gamepad {
         controller.x().and(noBumpers()).whileTrue(ElevatorCommands.amp());
         controller.x().and(leftBumperOnly()).whileTrue(ElevatorCommands.home());
 
+        controller.leftBumper().and(rightTriggerOnly()).onTrue(RobotCommands.podiumReady());
+
         rightStick().and(leftBumperOnly()).whileTrue(OperatorCommands.manualPivot());
 
         // manual output commands (map joystick to raw -1 to 1 output on motor): manualAmpTrap,
