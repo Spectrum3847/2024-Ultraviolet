@@ -25,6 +25,7 @@ public class Vision extends SubsystemBase {
 
         /* AprilTag Heights (meters) */
         public static final double speakerTagHeight = 1.45;
+        public static final int speakerTagID = 4;
 
         /* Vision Command Configs */
         public static final class AlignToNote extends CommandConfig {
@@ -100,7 +101,7 @@ public class Vision extends SubsystemBase {
      * @return The angle in degrees to rotate the robot towards the speaker.
      */
     public double getOffsetToSpeaker() {
-        return Robot.swerve.getRotation().getDegrees() - speakerLL.getHorizontalOffset();
+        return Robot.swerve.getRotation().getDegrees() - ((speakerLL.getClosestTagID() == VisionConfig.speakerTagID) ? speakerLL.getHorizontalOffset() : 0);
     }
 
     public double getDistanceToSpeaker() {
