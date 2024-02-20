@@ -3,6 +3,7 @@ package frc.robot.swerve;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import frc.robot.RobotTelemetry;
 import frc.spectrumLib.swerve.config.SwerveConfig;
 
 /**
@@ -34,7 +35,7 @@ public class RotationController {
         // These are currently magic number and need to be put into SwerveConfig
         holdController =
                 new PIDController(
-                        7, 0,
+                        0, 0,
                         0); // TODO: these probably have to be found again; most likely why robot
         // rotation is slightly oscillating in heading lock
 
@@ -43,10 +44,19 @@ public class RotationController {
     }
 
     public double calculate(double goalRadians) {
-        double calculatedValue =
-                controller.calculate(swerve.getRotation().getRadians(), goalRadians);
+        double measurement = swerve.getRotation().getRadians();
+        double calculatedValue = controller.calculate(measurement, goalRadians);
+        RobotTelemetry.print(
+                "RotationControllerOutput: "
+                        + calculatedValue
+                        + " Measure: "
+                        + measurement
+                        + " Goal: "
+                        + goalRadians
+                        + " max: "
+                        + config.maxAngularVelocity);
         if (atSetpoint()) {
-            return calculateHold(goalRadians);
+            return 0; // calculateHold(goalRadians);
         } else {
             return calculatedValue;
         }

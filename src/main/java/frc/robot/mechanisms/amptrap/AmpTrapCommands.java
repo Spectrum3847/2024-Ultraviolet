@@ -23,6 +23,10 @@ public class AmpTrapCommands {
         return ampTrap.runVelocity(ampTrap.config.intake).withName("AmpTrap.intake");
     }
 
+    public static Command ampReady() {
+        return ampTrap.runVelocity(ampTrap.config.ampReady).withName("AmpTrap.ampReady");
+    }
+
     public static Command score() {
         return ampTrap.runVelocity(ampTrap.config.score).withName("AmpTrap.score");
     }

@@ -58,13 +58,11 @@ public class RobotCommands {
         ;
     }
 
-    public static Command dummyIntake() {
+    public static Command IntakeWithMotorSensor() {
         return IntakeCommands.intake()
-                .until(() -> Robot.feeder.getMotorVelocity() > 0)
-                .andThen(
-                        PilotCommands.rumble(1, 0.5)
-                                // FeederCommands.addFeedRevolutions()
-                                .withTimeout(0.5));
+                .until(() -> Robot.feeder.getMotorVelocity() > 0.01)
+                .andThen(PilotCommands.rumble(1, 0.5));
+        // FeederCommands.addFeedRevolutions().withTimeout(0.15 )));
         // ); // add a .until to the feed revolutions later
     }
 
@@ -75,9 +73,11 @@ public class RobotCommands {
     }
 
     public static Command feedToAmp() {
-        return FeederCommands.launchEject()
-                .withTimeout(0.15)
-                .andThen(FeederCommands.feedToAmp().alongWith(AmpTrapCommands.score()))
+        return AmpTrapCommands.score()
+                .alongWith(
+                        FeederCommands.launchEject()
+                                .withTimeout(0.15)
+                                .andThen(FeederCommands.feedToAmp()))
                 .withName("RobotCommands.feedToAmp");
 
         /* With lasercan */
@@ -89,6 +89,17 @@ public class RobotCommands {
         //                         .until(Robot.ampTrap.lasercan::bigMidNote))
         //         .andThen(ElevatorCommands.amp().withTimeout(1))
         //         .withName("RobotCommands.feedToAmp");
+    }
+
+    public static Command ampReady() {
+        return FeederCommands.launchEject()
+                .withTimeout(0.1)
+                .andThen(FeederCommands.feedToAmp())
+                .alongWith(AmpTrapCommands.ampReady())
+                .until(() -> Robot.ampTrap.hasNote())
+                .andThen(
+                        AmpTrapCommands.stopMotor()
+                                .alongWith(FeederCommands.stopMotor(), ElevatorCommands.amp()));
     }
 
     public static Command eject() {
@@ -105,10 +116,11 @@ public class RobotCommands {
     // }
 
     public static Command score() {
-        return new ConditionalCommand(
-                FeederCommands.launchEject(),
-                RobotCommands.feedToAmp(),
-                () -> Robot.elevator.getMotorPosition() < 15);
+        return FeederCommands.launchEject().alongWith(AmpTrapCommands.score());
+        // return new ConditionalCommand(
+        //         FeederCommands.launchEject(),
+        //         RobotCommands.feedToAmp(),
+        //         () -> Robot.elevator.getMotorPosition() < 15);
     }
 
     public static Command intake() {

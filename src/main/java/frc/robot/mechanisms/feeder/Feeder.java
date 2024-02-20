@@ -17,10 +17,11 @@ public class Feeder extends Mechanism {
         public double intake = 200;
         public double eject = -3000; // TODO: configure
         public double launchEject = 1000;
-        public double feedToAmp = -3000;
+        public double feedToAmp =
+                -3500; // Needs to be greater than or equal to ampReady roller speed
 
         /* Rotations config */
-        public double addedFeedRotations = 3;
+        public double addedFeedRotations = 2;
 
         /* Percentage Feeder Output */
         public double slowFeederPercentage = 0.15; // TODO: configure
@@ -72,10 +73,11 @@ public class Feeder extends Mechanism {
     /**
      * Runs the feeder a certain amount of revolutions forward from it's current position.
      *
-     * @param position position in revolutions
+     * @param revolutions position in revolutions
      */
-    public Command runAddPosition(double position) {
-        return run(() -> setMMPosition(position)).withName("Feeder.runAddPosition");
+    public Command runAddPosition(double revolutions) {
+        return run(() -> setMMPosition(getMotorPosition() + revolutions))
+                .withName("Feeder.runAddPosition");
     }
 
     /**
@@ -123,6 +125,13 @@ public class Feeder extends Mechanism {
     public double getMotorVelocity() {
         if (attached) {
             return motor.getVelocity().getValueAsDouble();
+        }
+        return 0;
+    }
+
+    public double getMotorPosition() {
+        if (attached) {
+            return motor.getPosition().getValueAsDouble();
         }
         return 0;
     }

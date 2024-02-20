@@ -53,10 +53,16 @@ public class Pilot extends Gamepad {
     /*  A, B, X, Y, Left Bumper, Right Bumper = Buttons 1 to 6 in simualation */
     public void setupTeleopButtons() {
 
-        controller.a().and(noBumpers()).whileTrue(RobotCommands.dummyIntake());
-        controller.a().and(leftBumperOnly()).whileTrue(LauncherCommands.stopMotors());
+        controller.a().and(noBumpers()).whileTrue(RobotCommands.IntakeWithMotorSensor());
+        controller
+                .a()
+                .and(leftBumperOnly())
+                .whileTrue(LauncherCommands.stopMotors().alongWith(RobotCommands.eject()));
 
-        controller.b().and(noBumpers()).whileTrue(RobotCommands.feedToAmp());
+        controller
+                .b()
+                .and(noBumpers())
+                .whileTrue(RobotCommands.ampReady()); // RobotCommands.feedToAmp());
         controller.b().and(leftBumperOnly()).onTrue(RobotCommands.subwooferReady());
 
         controller
@@ -110,8 +116,10 @@ public class Pilot extends Gamepad {
                 .whileTrue(PilotCommands.pilotDrive());
 
         // Use the right stick to set a cardinal direction to aim at
-        rightXTrigger(ThresholdType.ABS_GREATER_THAN, 0.5)
-                .and(rightYTrigger(ThresholdType.ABS_GREATER_THAN, 0.5))
+        (leftBumperOnly().negate())
+                .and(
+                        rightXTrigger(ThresholdType.ABS_GREATER_THAN, 0.5)
+                                .or(rightYTrigger(ThresholdType.ABS_GREATER_THAN, 0.5)))
                 .whileTrue(PilotCommands.stickSteerDrive());
     };
 

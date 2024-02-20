@@ -22,22 +22,23 @@ public class PM2024 {
     private static final double backWheelBaseInches = 8.375;
     private static final double trueWheelBaseInches = frontWheelBaseInches + backWheelBaseInches;
     private static final double trackWidthInches = 11.875;
+    private static final double trueTrackWidthInches = trackWidthInches * 2;
     private static final double kDriveGearRatio = 6.746;
     private static final double kSteerGearRatio = 21.428;
 
     // Tuning Config
     // Estimated at first, then fudge-factored to make odom match record
     private static final double kWheelRadiusInches = 2;
-    private static final double speedAt12VoltsMps = 6;
+    private static final double speedAt12VoltsMps = 5.8;
 
     private static final double slipCurrent = 80;
     private static final SlotGains steerGains = new SlotGains(100, 0, 0.05, 0, 0);
     private static final SlotGains driveGains = new SlotGains(0.4, 0, 0, 0, 0);
 
     /*Rotation Controller*/
-    private static final double kPRotationController = 3;
+    private static final double kPRotationController = 7.5;
     private static final double kIRotationController = 0.0;
-    private static final double kDRotationController = 0.0;
+    private static final double kDRotationController = 0.6;
 
     /*Profiling Configs*/
     private static final double maxVelocity = speedAt12VoltsMps;
@@ -45,7 +46,7 @@ public class PM2024 {
     private static final double maxAngularVelocity =
             maxVelocity
                     / Units.inchesToMeters(
-                            Math.hypot(wheelBaseInches / 2.0, trackWidthInches / 2.0));
+                            Math.hypot(trueWheelBaseInches / 2.0, trueTrackWidthInches / 2.0));
     private static final double maxAngularAcceleration = Math.pow(maxAngularVelocity, 2);
 
     // Device Setup

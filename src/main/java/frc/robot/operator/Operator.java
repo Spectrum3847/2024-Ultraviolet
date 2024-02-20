@@ -26,10 +26,10 @@ public class Operator extends Gamepad {
     /*  A, B, X, Y, Left Bumper, Right Bumper = Buttons 1 to 6 in simualation */
     public void setupTeleopButtons() {
         // dummy driver practice
-        controller.a().and(noBumpers()).whileTrue(RobotCommands.dummyIntake());
+        controller.a().and(noBumpers()).whileTrue(RobotCommands.IntakeWithMotorSensor());
         controller.a().and(leftBumperOnly()).whileTrue(LauncherCommands.stopMotors());
 
-        controller.b().and(noBumpers()).whileTrue(RobotCommands.feedToAmp());
+        controller.b().and(noBumpers()).whileTrue(RobotCommands.ampReady());
         controller.b().and(leftBumperOnly()).onTrue(RobotCommands.subwooferReady());
 
         controller.y().and(noBumpers()).whileTrue(RobotCommands.eject());

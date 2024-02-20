@@ -14,7 +14,8 @@ public class AmpTrap extends Mechanism {
         public double maxSpeed = 5000; // TODO: configure
         public double intake = 250; // TODO: configure
         public double testFeed = 250;
-        public double score = 3000; // TODO: configure
+        public double ampReady = 2500;
+        public double score = 4500; // TODO: configure
         public double launchEject = 500;
         public double eject = -3000;
 
@@ -30,6 +31,8 @@ public class AmpTrap extends Mechanism {
         public double velocityKp = 0.156152;
         public double velocityKv = 0.12;
         public double velocityKs = 0.24;
+
+        public double hasNoteDistance = 55;
 
         public AmpTrapConfig() {
             super("AmpTrap", 51, "rio");
@@ -58,6 +61,10 @@ public class AmpTrap extends Mechanism {
     @AutoLogOutput(key = "AmpTrap/LaserCan-Measurement")
     public int getLaserCanDistance() {
         return lasercan.getDistance();
+    }
+
+    public boolean hasNote() {
+        return getLaserCanDistance() < config.hasNoteDistance;
     }
 
     @Override
