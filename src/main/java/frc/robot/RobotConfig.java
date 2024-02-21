@@ -13,6 +13,7 @@ public final class RobotConfig {
     public final String NOTEBLOCK2023SERIAL = ""; // TODO: find
     public final String MUSICDISC2023SERIAL = ""; // TODO: find
     public final String XRAY2023SERIAL = ""; // TODO: find
+    public final String PHOTON2024SERIAL =""; //TODO: find
 
     /* Deprecated */
     public final String ALPHA2024MAC = "00:80:2F:38:D1:DA"; // This is Alpha MAC
@@ -53,6 +54,15 @@ public final class RobotConfig {
             case ALPHA:
                 break;
             case PM:
+            case PHOTON: 
+                intakeAttached = true;
+                ampTrapAttached = false;
+                elevatorAttached = false;
+                feederAttached = true;
+                climberAttached = false;
+                pivotAttached = true;
+                leftLauncherAttached = true;
+                rightLauncherAttached = true;
                 break;
             case XRAY:
                 intakeAttached = false;
@@ -88,7 +98,11 @@ public final class RobotConfig {
         } else if (rioSerial.equals(MUSICDISC2023SERIAL)) {
             robotType = RobotType.MUSICDISC;
             RobotTelemetry.print("Robot Type: MUSICDISC");
-        } else {
+        } else if (rioSerial.equals(PHOTON2024SERIAL)){
+            robotType = RobotType.PHOTON;
+            RobotTelemetry.print("Robot Type: PHOTON 2024");
+        }
+         else {
             robotType = RobotType.ALPHA;
             RobotTelemetry.print("Robot Type: ALPHA 2024");
         }
@@ -105,6 +119,7 @@ public final class RobotConfig {
         MUSICDISC,
         NOTEBLOCK,
         XRAY,
-        SIM
+        SIM,
+        PHOTON
     }
 }
