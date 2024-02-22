@@ -40,6 +40,8 @@ public class Auton extends SubsystemBase {
         autonChooser.addOption("5 Meter", new PathPlannerAuto("5 Meter Auto")); // Runs full Auto
 
         autonChooser.addOption("Front 5", new PathPlannerAuto("Front 5")); // Runs full Auto
+        autonChooser.addOption(
+                "Test Front 5", new PathPlannerAuto("Test Front 5")); // Runs full Auto
 
         autonChooser.addOption(
                 "Test Swerve",

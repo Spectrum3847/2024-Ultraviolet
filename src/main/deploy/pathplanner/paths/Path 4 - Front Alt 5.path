@@ -48,16 +48,16 @@
     },
     {
       "anchor": {
-        "x": 3.45,
-        "y": 5.7
+        "x": 2.398297032328396,
+        "y": 5.551362870733224
       },
       "prevControl": {
-        "x": 3.9069032300833544,
-        "y": 5.891766320483061
+        "x": 2.8552002624117496,
+        "y": 5.743129191216285
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "GP 5 Shoot - Front Alt 5"
+      "linkedName": "GP 5 Shoot - Front 5"
     }
   ],
   "rotationTargets": [],
@@ -65,7 +65,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.0,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

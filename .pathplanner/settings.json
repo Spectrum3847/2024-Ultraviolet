@@ -1,12 +1,12 @@
 {
-  "robotWidth": 0.9,
+  "robotWidth": 0.74,
   "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
     "Amp Side Paths",
     "Front Paths",
     "PID Config Paths",
-    "Source Side Paths"
+    "Test Front Paths"
   ],
   "autoFolders": [
     "Amp Side Autos",
@@ -15,7 +15,7 @@
     "PID Config Autos"
   ],
   "defaultMaxVel": 4.0,
-  "defaultMaxAccel": 3.4,
+  "defaultMaxAccel": 3.5,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
   "maxModuleSpeed": 4.5

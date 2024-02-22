@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.9,
+        "x": 1.42,
         "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9999999999999998,
+        "x": 1.5199999999999998,
         "y": 5.55
       },
       "isLocked": false,
-      "linkedName": "GP 1 Shoot - Front Alt 5"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.704660137103249,
+        "x": 1.89,
         "y": 5.55
       },
       "prevControl": {
-        "x": 2.6046601371032487,
+        "x": 1.7899999999999998,
         "y": 5.55
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "GP 2 Shoot - Front Alt 5"
+      "linkedName": "GP 1 - Test Front"
     }
   ],
   "rotationTargets": [],
@@ -33,7 +33,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.0,
-    "maxAcceleration": 3.5,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -43,10 +43,10 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Front Paths",
+  "folder": "Test Front Paths",
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
