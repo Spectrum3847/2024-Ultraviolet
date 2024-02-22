@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.42,
-      "y": 4.1
+      "x": 1.23,
+      "y": 4.11
     },
-    "rotation": 180.0
+    "rotation": -45.0
   },
   "command": {
     "type": "sequential",
@@ -14,19 +14,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Front Path 1"
+            "pathName": "Path 1 - Front 5"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Front Piece 5 Shoot Path"
+            "pathName": "Path 2 - Front 5"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Front Piece 6 Path"
+            "pathName": "Path 3 - Front 5"
           }
         }
       ]
