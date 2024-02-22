@@ -66,6 +66,9 @@ public class Swerve implements Subsystem {
         drivetrain = new Drivetrain(config, OdometryUpdateFrequency);
 
         rotationController = new RotationController(this);
+
+        // setVisionMeasurementStdDevs(null); //TODO: add
+
         RobotTelemetry.print("Swerve Subsystem Initialized: ");
     }
 
@@ -85,6 +88,14 @@ public class Swerve implements Subsystem {
 
         // Log Odometry Pose
         Logger.recordOutput("Odometry/Robot", getPose());
+        // Log Vision Pose
+        Logger.recordOutput("Vision/Pose", Robot.vision.speakerLL.getAlliancePose().toPose2d());
+
+        // Integrate Vision with Odometry
+        // if(Robot.vision.getVisionPose().isPresent()) {
+        //     addVisionMeasurement(Robot.vision.getVisionPose().get(),
+        // Robot.vision.getVisionPoseTimestamp());
+        // }
     }
 
     @Override

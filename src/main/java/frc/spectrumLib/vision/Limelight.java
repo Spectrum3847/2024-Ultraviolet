@@ -3,8 +3,6 @@ package frc.spectrumLib.vision;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.vision.Vision.VisionConfig;
 import frc.spectrumLib.vision.LimelightHelpers.LimelightResults;
@@ -85,18 +83,19 @@ public class Limelight {
 
     /* ::: Pose Retrieval ::: */
 
+    /** @return the corresponding LL Pose3d for the alliance in DriverStation.java */
+    public Pose3d getAlliancePose() {
+        return LimelightHelpers.getBotPose3d_wpiBlue(
+                CAMERA_NAME); // 2024: all alliances use blue as 0,0
+    }
+
     /**
-     * @return the corresponding LL Pose3d for the alliance in DriverStation.java. Will default to
-     *     blue if invalid alliance.
+     * Returns the latency of the pose estimation from the Limelight camera.
+     *
+     * @return The latency of the pose estimation in seconds.
      */
-    private Pose3d getAlliancePose() {
-        if (DriverStation.getAlliance().get() == Alliance.Blue) {
-            return LimelightHelpers.getBotPose3d_wpiBlue(CAMERA_NAME);
-        } else if (DriverStation.getAlliance().get() == Alliance.Red) {
-            return LimelightHelpers.getBotPose3d_wpiRed(CAMERA_NAME);
-        }
-        DriverStation.reportWarning("Invalid Team", false);
-        return LimelightHelpers.getBotPose3d_wpiBlue(CAMERA_NAME); // send blue by default
+    public double getPoseLatency() {
+        return Units.millisecondsToSeconds(LimelightHelpers.getBotPose_wpiBlue(CAMERA_NAME)[6]);
     }
 
     /*
@@ -147,9 +146,9 @@ public class Limelight {
         }
     }
 
-
     /**
      * Set LL LED's to blink
+     *
      * @return
      */
     public void blinkLEDs() {

@@ -1,8 +1,6 @@
 package frc.robot.swerve.commands;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Robot;
@@ -117,7 +115,7 @@ public class SwerveCommands {
         return swerve.runOnce(() -> swerve.reorient(angle)).withName("Swerve.reorient");
     }
 
-    //do not use this
+    // do not use this
     // public static Command smartReorient(double angle) {
     //     return swerve.runOnce(
     //                     () -> {

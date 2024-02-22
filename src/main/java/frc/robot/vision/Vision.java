@@ -1,11 +1,13 @@
 package frc.robot.vision;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
-import frc.robot.vision.Vision.CommandConfig;
 import frc.spectrumLib.vision.Limelight;
 import frc.spectrumLib.vision.Limelight.PhysicalConfig;
+import java.util.Optional;
 
 public class Vision extends SubsystemBase {
     public static final class VisionConfig {
@@ -28,6 +30,13 @@ public class Vision extends SubsystemBase {
         /* AprilTag Heights (meters) */
         public static final double speakerTagHeight = 1.45;
         public static final int speakerTagID = 4;
+
+        /* Pose Estimation Constants */
+        public static final double VISION_REJECT_DISTANCE = 2.3;
+        // Increase these numbers to trust global measurements from vision less.
+        public static final double VISION_STD_DEV_X = 1;
+        public static final double VISION_STD_DEV_Y = 1;
+        public static final double VISION_STD_DEV_THETA = 1;
 
         /* Vision Command Configs */
         public static final class AlignToNote extends CommandConfig {
@@ -83,6 +92,29 @@ public class Vision extends SubsystemBase {
     @Override
     public void periodic() {}
 
+    public Optional<Pose2d> getVisionPose() {
+        Pose2d visionPose = speakerLL.getAlliancePose().toPose2d();
+
+        // if no camera, return empty
+        if (!speakerLL.isCameraConnected()) return Optional.empty();
+        // if vision pose is too far off current, ignore it
+        if (Robot.swerve.getPose().getTranslation().getDistance(visionPose.getTranslation())
+                < VisionConfig.VISION_REJECT_DISTANCE) {
+            return Optional.of(visionPose);
+        }
+
+        return Optional.empty();
+    }
+
+    public double getVisionPoseTimestamp() {
+        return Timer.getFPGATimestamp() - speakerLL.getPoseLatency();
+    }
+
+    // we are resetting gyro angle as well?
+    public void resetPoseWithVision() {
+        // add more fallback logic here
+        Robot.swerve.resetPose(speakerLL.getAlliancePose().toPose2d());
+    }
     /**
      * Calculates the required rotation for the robot to align with a note, based on the current
      * orientation of the robot and the note's positional offset from the camera's center. The
@@ -127,15 +159,18 @@ public class Vision extends SubsystemBase {
         speakerLL.setLimelightPipeline(pipeline);
     }
 
-    /** Set both LLs to blink  */
+    /** Set both LLs to blink */
     public Command blinkLimelights() {
-        return startEnd(() -> {
-            noteLL.blinkLEDs();
-            speakerLL.blinkLEDs();
-        }, () -> {
-            noteLL.setLEDMode(false);
-            speakerLL.setLEDMode(false);
-        }).withName("Vision.blinkLimelights");
+        return startEnd(
+                        () -> {
+                            noteLL.blinkLEDs();
+                            speakerLL.blinkLEDs();
+                        },
+                        () -> {
+                            noteLL.setLEDMode(false);
+                            speakerLL.setLEDMode(false);
+                        })
+                .withName("Vision.blinkLimelights");
     }
 
     public static class CommandConfig {

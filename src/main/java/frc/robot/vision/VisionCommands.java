@@ -23,4 +23,9 @@ public class VisionCommands {
     public static Command blinkLimelights() {
         return vision.blinkLimelights().withName("VisionCommands.blinkLimelights");
     }
+
+    public static Command resetPoseWithVision() {
+        return vision.run(vision::resetPoseWithVision)
+                .withName("VisionCommands.resetPoseWithVision");
+    }
 }

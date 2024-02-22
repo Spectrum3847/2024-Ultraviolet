@@ -109,7 +109,6 @@ public class Pilot extends Gamepad {
                 .and(leftBumperOnly())
                 .whileTrue(rumbleCommand(SwerveCommands.reorientRight()));
 
-
         // Use the pilot drive if we are manually steering the robot
         controller
                 .rightTrigger(config.triggersDeadzone)
