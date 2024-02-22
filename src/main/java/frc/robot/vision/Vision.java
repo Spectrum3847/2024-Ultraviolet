@@ -101,7 +101,10 @@ public class Vision extends SubsystemBase {
      * @return The angle in degrees to rotate the robot towards the speaker.
      */
     public double getOffsetToSpeaker() {
-        return Robot.swerve.getRotation().getDegrees() - ((speakerLL.getClosestTagID() == VisionConfig.speakerTagID) ? speakerLL.getHorizontalOffset() : 0);
+        return Robot.swerve.getRotation().getDegrees()
+                - ((speakerLL.getClosestTagID() == VisionConfig.speakerTagID)
+                        ? speakerLL.getHorizontalOffset()
+                        : 0);
     }
 
     public double getDistanceToSpeaker() {

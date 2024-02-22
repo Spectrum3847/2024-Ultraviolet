@@ -8,6 +8,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Robot;
@@ -114,7 +115,39 @@ public class Swerve implements Subsystem {
     }
 
     public void reorient(double angle) {
-        drivetrain.seedFieldRelative(angle);
+        drivetrain.reorient(angle);
+    }
+
+    public void reorientForward() {
+        double angle = 0;
+        if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red) {
+            angle = 180;
+        }
+        drivetrain.reorient(angle);
+    }
+
+    public void reorientLeft() {
+        double angle = 90;
+        if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red) {
+            angle = 270;
+        }
+        drivetrain.reorient(angle);
+    }
+
+    public void reorientRight() {
+        double angle = 180;
+        if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red) {
+            angle = 0;
+        }
+        drivetrain.reorient(angle);
+    }
+
+    public void reorientBack() {
+        double angle = 180;
+        if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red) {
+            angle = 0;
+        }
+        drivetrain.reorient(angle);
     }
 
     public ChassisSpeeds getRobotRelativeSpeeds() {

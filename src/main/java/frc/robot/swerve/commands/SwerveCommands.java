@@ -1,6 +1,8 @@
 package frc.robot.swerve.commands;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Robot;
@@ -113,6 +115,36 @@ public class SwerveCommands {
 
     public static Command reorient(double angle) {
         return swerve.runOnce(() -> swerve.reorient(angle)).withName("Swerve.reorient");
+    }
+
+    //do not use this
+    // public static Command smartReorient(double angle) {
+    //     return swerve.runOnce(
+    //                     () -> {
+    //                         double newAngle =
+    //                                 (DriverStation.getAlliance().orElse(Alliance.Blue)
+    //                                                 == Alliance.Red)
+    //                                         ? angle
+    //                                         : (angle + 180);
+    //                         swerve.reorient(newAngle);
+    //                     })
+    //             .withName("Swerve.smartReorient");
+    // }
+
+    public static Command reorientForward() {
+        return swerve.runOnce(() -> swerve.reorientForward()).withName("Swerve.reorientForward");
+    }
+
+    public static Command reorientLeft() {
+        return swerve.runOnce(() -> swerve.reorientLeft()).withName("Swerve.reorientLeft");
+    }
+
+    public static Command reorientRight() {
+        return swerve.runOnce(() -> swerve.reorientRight()).withName("Swerve.reorientRight");
+    }
+
+    public static Command reorientBack() {
+        return swerve.runOnce(() -> swerve.reorientBack()).withName("Swerve.reorientBack");
     }
     // Swerve Command Options
     // - Drive needs to work with slow mode (this might be done in PilotCommands)
