@@ -20,17 +20,17 @@ public class PM2024 {
     private static final double backWheelBaseInches = 8.375;
     private static final double trueWheelBaseInches = frontWheelBaseInches + backWheelBaseInches;
     private static final double trackWidthInches = 11.875;
-    private static final double kDriveGearRatio = ((50 / 16) * (16 / 28) * (45 / 15));
-    private static final double kSteerGearRatio = (150 / 7);
+    private static final double kDriveGearRatio = 5.35714285714;
+    private static final double kSteerGearRatio = 21.4285714286;
 
     // Tuning Config
     // Estimated at first, then fudge-factored to make odom match record
-    private static final double kWheelRadiusInches = 3.765 / 2;
+    private static final double kWheelRadiusInches = 3.847 / 2;
     private static final double speedAt12VoltsMps = 6;
 
     private static final double slipCurrent = 800;
     private static final SlotGains steerGains = new SlotGains(100, 0, 0.05, 0, 0);
-    private static final SlotGains driveGains = new SlotGains(0, 0, 0, 0, 0.8);
+    private static final SlotGains driveGains = new SlotGains(10, 0, 0.2, 0, 0.85);
 
     /*Rotation Controller*/
     private static final double kPRotationController = 7.0;
