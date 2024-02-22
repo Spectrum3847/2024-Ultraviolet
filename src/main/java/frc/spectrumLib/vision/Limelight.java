@@ -147,6 +147,15 @@ public class Limelight {
         }
     }
 
+
+    /**
+     * Set LL LED's to blink
+     * @return
+     */
+    public void blinkLEDs() {
+        LimelightHelpers.setLEDMode_ForceBlink(CAMERA_NAME);
+    }
+
     /**
      * Checks if the camera is connected by looking for the JSON string returned in NetworkTables.
      */

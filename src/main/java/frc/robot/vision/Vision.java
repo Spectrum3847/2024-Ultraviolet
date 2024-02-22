@@ -1,7 +1,9 @@
 package frc.robot.vision;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
+import frc.robot.vision.Vision.CommandConfig;
 import frc.spectrumLib.vision.Limelight;
 import frc.spectrumLib.vision.Limelight.PhysicalConfig;
 
@@ -123,6 +125,17 @@ public class Vision extends SubsystemBase {
     public void setLimelightPipelines(int pipeline) {
         noteLL.setLimelightPipeline(pipeline);
         speakerLL.setLimelightPipeline(pipeline);
+    }
+
+    /** Set both LLs to blink  */
+    public Command blinkLimelights() {
+        return startEnd(() -> {
+            noteLL.blinkLEDs();
+            speakerLL.blinkLEDs();
+        }, () -> {
+            noteLL.setLEDMode(false);
+            speakerLL.setLEDMode(false);
+        }).withName("Vision.blinkLimelights");
     }
 
     public static class CommandConfig {

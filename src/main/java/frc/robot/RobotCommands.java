@@ -11,6 +11,7 @@ import frc.robot.mechanisms.intake.IntakeCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.mechanisms.pivot.PivotCommands;
 import frc.robot.pilot.PilotCommands;
+import frc.robot.vision.VisionCommands;
 
 /**
  * This class is used for commands that use multiple subsystems and don't directly call a gamepad.
@@ -58,10 +59,10 @@ public class RobotCommands {
         ;
     }
 
-    public static Command IntakeWithMotorSensor() {
+    public static Command intakeWithMotorSensor() {
         return IntakeCommands.intake()
                 .until(() -> Robot.feeder.getMotorVelocity() > 0.01)
-                .andThen(PilotCommands.rumble(1, 0.5));
+                .andThen(PilotCommands.rumble(1, 0.5).alongWith(VisionCommands.blinkLimelights()));
         // FeederCommands.addFeedRevolutions().withTimeout(0.15 )));
         // ); // add a .until to the feed revolutions later
     }
