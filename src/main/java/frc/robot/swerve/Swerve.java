@@ -146,9 +146,9 @@ public class Swerve implements Subsystem {
     }
 
     public void reorientRight() {
-        double angle = 180;
+        double angle = 270;
         if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red) {
-            angle = 0;
+            angle = 90;
         }
         drivetrain.reorient(angle);
     }

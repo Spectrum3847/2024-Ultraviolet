@@ -406,9 +406,9 @@ public class Drivetrain {
             m_stateLock.writeLock().lock();
 
             m_odometry.resetPosition(
-                    Rotation2d.fromDegrees(m_yawGetter.getValue() + degrees),
+                    m_pigeon2.getRotation2d(),
                     m_modulePositions,
-                    m_odometry.getEstimatedPosition());
+                    new Pose2d(0, 0, Rotation2d.fromDegrees(degrees)));
         } finally {
             m_stateLock.writeLock().unlock();
         }
