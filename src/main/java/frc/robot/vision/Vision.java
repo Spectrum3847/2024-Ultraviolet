@@ -1,13 +1,21 @@
 package frc.robot.vision;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 import frc.spectrumLib.vision.Limelight;
 import frc.spectrumLib.vision.Limelight.PhysicalConfig;
 import java.util.Optional;
+import org.littletonrobotics.junction.AutoLogOutput;
 
 public class Vision extends SubsystemBase {
     public static final class VisionConfig {
@@ -31,12 +39,20 @@ public class Vision extends SubsystemBase {
         public static final double speakerTagHeight = 1.45;
         public static final int speakerTagID = 4;
 
+        public static final double FIELD_WIDTH = 8.0136;
+        public static final Translation2d BLUE_SPEAKER = new Translation2d(0.0331, 5.547868);
+        public static final Translation2d RED_SPEAKER =
+                new Translation2d(BLUE_SPEAKER.getX(), FIELD_WIDTH - BLUE_SPEAKER.getY());
+
         /* Pose Estimation Constants */
         public static final double VISION_REJECT_DISTANCE = 2.3;
         // Increase these numbers to trust global measurements from vision less.
         public static final double VISION_STD_DEV_X = 1;
         public static final double VISION_STD_DEV_Y = 1;
         public static final double VISION_STD_DEV_THETA = 1;
+
+        public static final Matrix<N3, N1> visionStdMatrix =
+                VecBuilder.fill(VISION_STD_DEV_X, VISION_STD_DEV_THETA, VISION_REJECT_DISTANCE);
 
         /* Vision Command Configs */
         public static final class AlignToNote extends CommandConfig {
@@ -83,20 +99,33 @@ public class Vision extends SubsystemBase {
                     VisionConfig.speakerDetectorPipeline,
                     VisionConfig.SPEAKER_CONFIG);
 
+    @AutoLogOutput(key = "Vision/integratingPose")
+    public static boolean isPresent = false;
+
     public Vision() {
         setName("Vision");
+
+        SmartDashboard.putBoolean("VisionPresent", Vision.isPresent);
 
         /* Configure Limelight Settings Here */
     }
 
     @Override
-    public void periodic() {}
+    public void periodic() {
+        // Integrate Vision with Odometry
+        if (getVisionPose().isPresent()) {
+            isPresent = true;
+            Robot.swerve.addVisionMeasurement(getVisionPose().get(), getVisionPoseTimestamp());
+        } else {
+            isPresent = false;
+        }
+    }
 
     public Optional<Pose2d> getVisionPose() {
         Pose2d visionPose = speakerLL.getAlliancePose().toPose2d();
 
-        // if no camera, return empty
-        if (!speakerLL.isCameraConnected()) return Optional.empty();
+        // if no camera or no target in view, return empty
+        if (!speakerLL.isCameraConnected() || !speakerLL.targetInView()) return Optional.empty();
         // if vision pose is too far off current, ignore it
         if (Robot.swerve.getPose().getTranslation().getDistance(visionPose.getTranslation())
                 < VisionConfig.VISION_REJECT_DISTANCE) {
@@ -104,6 +133,15 @@ public class Vision extends SubsystemBase {
         }
 
         return Optional.empty();
+    }
+
+    @AutoLogOutput(key = "Vision/AngleToSpeaker")
+    public double getAngleToSpeaker() {
+        Translation2d speakerPosition = VisionConfig.RED_SPEAKER;
+        Translation2d robotPoint = Robot.swerve.getPose().getTranslation();
+
+        return MathUtil.angleModulus(
+                speakerPosition.minus(robotPoint).getAngle().getRadians() + Math.PI);
     }
 
     public double getVisionPoseTimestamp() {
