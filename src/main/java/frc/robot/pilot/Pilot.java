@@ -7,6 +7,7 @@ import frc.robot.RobotTelemetry;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
 import frc.robot.mechanisms.feeder.FeederCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
+import frc.robot.mechanisms.pivot.PivotCommands;
 import frc.robot.swerve.commands.SwerveCommands;
 import frc.spectrumLib.Gamepad;
 import frc.spectrumLib.util.ExpCurve;
@@ -56,7 +57,7 @@ public class Pilot extends Gamepad {
         controller.a().and(noBumpers()).whileTrue(RobotCommands.laserCanFeed());
         controller.a().and(leftBumperOnly()).whileTrue(LauncherCommands.stopMotors());
 
-        controller.b().and(noBumpers()).whileTrue(RobotCommands.feedToAmp());
+        controller.b().and(noBumpers()).whileTrue(PivotCommands.subwoofer());
         controller.b().and(leftBumperOnly()).onTrue(RobotCommands.subwooferReady());
 
         controller.y().and(noBumpers()).whileTrue(RobotCommands.eject());
