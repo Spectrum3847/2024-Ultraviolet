@@ -2,6 +2,7 @@ package frc.spectrumLib;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -119,7 +120,19 @@ public abstract class Gamepad extends SubsystemBase {
         return storedRightStickDirection;
     }
 
-    public double getRightStickCardinals() {
+    /**
+     * Get proper stick angles for each alliance
+     *
+     * @return
+     */
+    public double chooseCardinalDirections() {
+        if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
+            return getBlueAllianceStickCardinals();
+        }
+        return getRedAllianceStickCardinals();
+    }
+
+    public double getBlueAllianceStickCardinals() {
         double stickAngle = getRightStickDirection().getRadians();
         if (stickAngle > -Math.PI / 4 && stickAngle <= Math.PI / 4) {
             return 0;
@@ -129,6 +142,24 @@ public abstract class Gamepad extends SubsystemBase {
             return Math.PI;
         } else {
             return -Math.PI / 2;
+        }
+    }
+
+    /**
+     * Flips the stick direction for the red alliance.
+     *
+     * @return
+     */
+    public double getRedAllianceStickCardinals() {
+        double stickAngle = getRightStickDirection().getRadians();
+        if (stickAngle > -Math.PI / 4 && stickAngle <= Math.PI / 4) {
+            return Math.PI;
+        } else if (stickAngle > Math.PI / 4 && stickAngle <= 3 * Math.PI / 4) {
+            return -Math.PI / 2;
+        } else if (stickAngle > 3 * Math.PI / 4 || stickAngle <= -3 * Math.PI / 4) {
+            return 0;
+        } else {
+            return Math.PI / 2;
         }
     }
 
