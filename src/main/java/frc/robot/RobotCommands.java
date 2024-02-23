@@ -86,7 +86,8 @@ public class RobotCommands {
         //         .andThen(
         //                 FeederCommands.feedToAmp()
         //                         .alongWith(AmpTrapCommands.score())
-        //                         .until(Robot.ampTrap.lasercan::bigMidNote), ElevatorCommands.amp().withTimeout(1))
+        //                         .until(Robot.ampTrap.lasercan::bigMidNote),
+        // ElevatorCommands.amp().withTimeout(1))
         //         .withName("RobotCommands.feedToAmp");
     }
 

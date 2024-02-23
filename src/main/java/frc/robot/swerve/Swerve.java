@@ -15,6 +15,7 @@ import frc.robot.RobotTelemetry;
 import frc.robot.swerve.configs.ALPHA2024;
 import frc.robot.swerve.configs.MUSICDISC2023;
 import frc.robot.swerve.configs.NOTEBLOCK2023;
+import frc.robot.swerve.configs.PHOTON;
 import frc.robot.swerve.configs.PM2024;
 import frc.spectrumLib.swerve.Drivetrain;
 import frc.spectrumLib.swerve.Drivetrain.DriveState;
@@ -44,22 +45,33 @@ public class Swerve implements Subsystem {
         switch (Robot.config.getRobotType()) {
             case PM:
                 config = PM2024.config;
+                System.out.println("Running PM Swerve Config");
                 break;
             case ALPHA:
                 config = ALPHA2024.config;
+                System.out.println("Running ALPHA Swerve Config");
                 break;
             case NOTEBLOCK:
                 config = NOTEBLOCK2023.config;
+                System.out.println("Running NOTEBLOCK Swerve Config");
                 break;
             case MUSICDISC:
                 config = MUSICDISC2023.config;
+                System.out.println("Running MUSICDISC Swerve Config");
+                break;
+            case PHOTON:
+                config = PHOTON.config;
+                System.out.println("Running PHOTON Swerve Config");
                 break;
             case SIM: // runs in simulation
                 OdometryUpdateFrequency = 50;
                 config = PM2024.config;
+                System.out.println("Running SIM with PM Swerve Config");
                 break;
             default:
                 config = PM2024.config;
+                System.out.println(
+                        "Could not match Robot with swerve config: Running PM Swerve Config as default");
                 break;
         }
         drivetrain = new Drivetrain(config, OdometryUpdateFrequency);

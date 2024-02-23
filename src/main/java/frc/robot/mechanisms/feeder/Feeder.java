@@ -43,7 +43,7 @@ public class Feeder extends Mechanism {
             configGearRatio(12 / 30); // TODO: configure
             configSupplyCurrentLimit(currentLimit, threshold, true);
             configNeutralBrakeMode(true);
-            configCounterClockwise_Positive(); // TODO: configure
+            configClockwise_Positive(); // TODO: configure
             configMotionMagic(51, 205, 0);
         }
     }

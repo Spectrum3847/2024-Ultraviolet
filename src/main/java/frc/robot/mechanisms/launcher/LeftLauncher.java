@@ -25,9 +25,9 @@ public class LeftLauncher extends Mechanism {
         /* LeftLauncher config values */
         public double currentLimit = 60;
         public double threshold = 80;
-        public double velocityKp = 12; // 0.156152;
-        public double velocityKv = 0.2; // 0.12;
-        public double velocityKs = 14;
+        public double velocityKp = 0.156152;
+        public double velocityKv = 0.12;
+        public double velocityKs = 0.24;
 
         public LeftLauncherConfig() {
             super("LeftLauncher", 42, "3847");

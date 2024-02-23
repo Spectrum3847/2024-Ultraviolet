@@ -13,7 +13,7 @@ public final class RobotConfig {
     public final String NOTEBLOCK2023SERIAL = ""; // TODO: find
     public final String MUSICDISC2023SERIAL = ""; // TODO: find
     public final String XRAY2023SERIAL = ""; // TODO: find
-    public final String PHOTON2024SERIAL =""; //TODO: find
+    public final String PHOTON2024SERIAL = "032B4BB3";
 
     /* Deprecated */
     public final String ALPHA2024MAC = "00:80:2F:38:D1:DA"; // This is Alpha MAC
@@ -54,7 +54,7 @@ public final class RobotConfig {
             case ALPHA:
                 break;
             case PM:
-            case PHOTON: 
+            case PHOTON:
                 intakeAttached = true;
                 ampTrapAttached = false;
                 elevatorAttached = false;
@@ -98,11 +98,10 @@ public final class RobotConfig {
         } else if (rioSerial.equals(MUSICDISC2023SERIAL)) {
             robotType = RobotType.MUSICDISC;
             RobotTelemetry.print("Robot Type: MUSICDISC");
-        } else if (rioSerial.equals(PHOTON2024SERIAL)){
+        } else if (rioSerial.equals(PHOTON2024SERIAL)) {
             robotType = RobotType.PHOTON;
             RobotTelemetry.print("Robot Type: PHOTON 2024");
-        }
-         else {
+        } else {
             robotType = RobotType.ALPHA;
             RobotTelemetry.print("Robot Type: ALPHA 2024");
         }
