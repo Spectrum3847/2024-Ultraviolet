@@ -12,7 +12,7 @@ public class Climber extends Mechanism {
     public class ClimberConfig extends Config {
 
         /* Climber constants in rotations */
-        public final double maxHeight = 147;
+        public final double maxHeight = 114;
         public final double minHeight = 0.5;
 
         /* Climber positions in rotations */
@@ -30,8 +30,8 @@ public class Climber extends Mechanism {
         public final double zeroSpeed = -0.2;
         public final double positionKp = 0.86; // 20 FOC // 10 Regular
         public final double positionKv = 0.013; // .12 FOC // .15 regular
-        public final double currentLimit = 30;
-        public final double threshold = 30;
+        public final double currentLimit = 20;
+        public final double threshold = 20;
 
         public ClimberConfig() {
             super("Climber", 53, "3847");

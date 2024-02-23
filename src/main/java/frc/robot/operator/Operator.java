@@ -2,6 +2,7 @@ package frc.robot.operator;
 
 import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
+import frc.robot.mechanisms.climber.ClimberCommands;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.spectrumLib.Gamepad;
@@ -58,10 +59,10 @@ public class Operator extends Gamepad {
         // leftXTrigger(ThresholdType.GREATER_THAN, 0).whileTrue();
 
         // controller.rightBumper().whileTrue(RobotCommands.feedToAmp());
-        // controller.povUp().and(leftBumperOnly()).whileTrue(ClimberCommands.topClimb());
-        // controller.povDown().and(leftBumperOnly()).whileTrue(ClimberCommands.midClimb());
-        // controller.povLeft().and(leftBumperOnly()).whileTrue(ElevatorCommands.fullExtend());
-        // controller.povRight().and(leftBumperOnly()).whileTrue(ClimberCommands.botClimb());
+        controller.povUp().and(leftBumperOnly()).whileTrue(ClimberCommands.topClimb());
+        controller.povDown().and(leftBumperOnly()).whileTrue(ClimberCommands.midClimb());
+        controller.povLeft().and(leftBumperOnly()).whileTrue(ElevatorCommands.fullExtend());
+        controller.povRight().and(leftBumperOnly()).whileTrue(ClimberCommands.botClimb());
     };
 
     /** Setup the Buttons for Disabled mode. */
