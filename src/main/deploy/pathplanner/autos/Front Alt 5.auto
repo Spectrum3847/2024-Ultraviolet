@@ -1,0 +1,43 @@
+{
+  "version": 1.0,
+  "startingPose": null,
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path 1 - Front Alt 5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path 2 - Front Alt 5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path 3 - Front 5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path 4 - Front 5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path 5 - Front 5"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Front Autos",
+  "choreoAuto": false
+}

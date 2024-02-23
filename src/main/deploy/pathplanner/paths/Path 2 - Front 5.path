@@ -12,7 +12,7 @@
         "y": 4.11
       },
       "isLocked": false,
-      "linkedName": "Front 5 - GP 1"
+      "linkedName": "Front 5 - GP 2"
     },
     {
       "anchor": {
@@ -41,15 +41,15 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Front 5 - GP 2"
+      "linkedName": "Front 5 - GP 3"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 3.4,
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
