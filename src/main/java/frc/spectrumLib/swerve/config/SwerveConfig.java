@@ -22,6 +22,10 @@ public class SwerveConfig {
     public double maxAngularVelocity = Math.PI * 2;
     public double maxAngularAcceleration = Math.pow(maxAngularVelocity, 2);
 
+    /* Deadbanding */
+    public double deadband = 0; // fractional units 0 - 1
+    public double rotationDeadband = 0; // fractionaln units 0 -1
+
     public SwerveConfig withPigeon2Id(int id) {
         this.Pigeon2Id = id;
         return this;
@@ -58,6 +62,12 @@ public class SwerveConfig {
         this.maxAccel = maxAccel;
         this.maxAngularVelocity = maxAngularVelocity;
         this.maxAngularAcceleration = maxAngularAcceleration;
+        return this;
+    }
+
+    public SwerveConfig withDeadbandConfig(double deadband, double rotationDeadband) {
+        this.deadband = deadband;
+        this.rotationDeadband = rotationDeadband;
         return this;
     }
 }
