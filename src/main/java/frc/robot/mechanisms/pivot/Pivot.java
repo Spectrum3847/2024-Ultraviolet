@@ -11,9 +11,9 @@ public class Pivot extends Mechanism {
     public class PivotConfig extends Config {
 
         /* Pivot constants in motor rotations */
-        public final double maxRotation = 0; // starting at max pos
+        public final double maxRotation = -23; // starting at max pos
         // happen
-        public final double minRotation = 23; // max motor rotations down
+        public final double minRotation = 0; // max motor rotations down
 
         /* Pivot positions in angle measure(degrees) || 0 is min/flat */
         // 70% - max angle, 0% - min angle, these numbers are based on position
@@ -41,7 +41,7 @@ public class Pivot extends Mechanism {
             configSupplyCurrentLimit(currentLimit, threshold, true);
             configNeutralBrakeMode(true);
             configCounterClockwise_Positive(); // TODO: configure
-            configReverseSoftLimit(minRotation, true);
+            configReverseSoftLimit(minRotation, false);
             configForwardSoftLimit(maxRotation, false);
             configMotionMagic(51, 205, 0);
         }
