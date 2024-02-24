@@ -2,6 +2,7 @@ package frc.robot.operator;
 
 import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
+import frc.robot.leds.LEDsCommands;
 import frc.robot.mechanisms.climber.ClimberCommands;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
@@ -43,6 +44,8 @@ public class Operator extends Gamepad {
 
         rightStick().and(leftBumperOnly()).whileTrue(OperatorCommands.manualPivot());
 
+        bothBumpers().whileTrue(LEDsCommands.solidGreenLED());
+
         // manual output commands (map joystick to raw -1 to 1 output on motor): manualAmpTrap,
         // manualClimber, manualElevator, manualFeeder, manualIntake, manualPivot, manualLauncher
 
@@ -68,6 +71,8 @@ public class Operator extends Gamepad {
     /** Setup the Buttons for Disabled mode. */
     public void setupDisabledButtons() {
         // This is just for training, most robots will have different buttons during disabled
+        controller.a().whileTrue(LEDsCommands.chase(4));
+        bothBumpers().whileTrue(LEDsCommands.chase(4));
 
         controller.b().toggleOnTrue(RobotCommands.coastModeMechanisms());
     };

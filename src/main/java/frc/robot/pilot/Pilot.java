@@ -3,6 +3,7 @@ package frc.robot.pilot;
 import frc.robot.Robot;
 import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
+import frc.robot.leds.LEDsCommands;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.swerve.commands.SwerveCommands;
@@ -128,6 +129,7 @@ public class Pilot extends Gamepad {
     public void setupDisabledButtons() {
         // This is just for training, most robots will have different buttons during disabled
         // setupTeleopButtons();
+        controller.a().whileTrue(LEDsCommands.solidWhiteLED());
 
         controller.b().toggleOnTrue(RobotCommands.coastModeMechanisms());
     };
