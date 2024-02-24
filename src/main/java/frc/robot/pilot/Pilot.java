@@ -74,7 +74,7 @@ public class Pilot extends Gamepad {
         // just check for ID 4 in method OR cover up amp apriltag
         controller.y().and(leftBumperOnly()).onTrue(RobotCommands.onDemandLaunching());
 
-        controller.x().and(noBumpers()).whileTrue(ElevatorCommands.amp());
+        controller.x().and(noBumpers()).onTrue(RobotCommands.ampReady8515());
         controller.x().and(leftBumperOnly()).whileTrue(ElevatorCommands.home());
 
         // controller.rightBumper().whileTrue(FeederCommands.launchEject());

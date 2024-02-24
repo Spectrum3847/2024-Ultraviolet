@@ -61,7 +61,8 @@ public class RobotCommands {
     public static Command IntakeWithMotorSensor() {
         return IntakeCommands.intake()
                 .until(() -> Robot.feeder.getMotorVelocity() > 0.01)
-                .andThen(PilotCommands.rumble(1, 0.5));
+                .andThen(PilotCommands.rumble(1, 0.5))
+                .andThen(FeederCommands.feeder()).withTimeout(0.25);
         // FeederCommands.addFeedRevolutions().withTimeout(0.15 )));
         // ); // add a .until to the feed revolutions later
     }
@@ -100,6 +101,12 @@ public class RobotCommands {
                 .andThen(
                         AmpTrapCommands.stopMotor()
                                 .alongWith(FeederCommands.stopMotor(), ElevatorCommands.amp()));
+    }
+
+    public static Command ampReady8515() {
+        return LauncherCommands.runOnDemandVelocity()
+                .alongWith(PivotCommands.ampScore()
+                .withName("RobotCommands.ampReady8515"));
     }
 
     public static Command eject() {

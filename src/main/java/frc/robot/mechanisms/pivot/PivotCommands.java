@@ -40,6 +40,10 @@ public class PivotCommands {
         return pivot.runPosition(pivot.config.halfScore).withName("Pivot.halfScore");
     }
 
+    public static Command ampScore() {
+        return pivot.runPosition(pivot.config.amp).withName("Pivot.amp");
+    }
+
     public static Command subwoofer() {
         return pivot.runPosition(pivot.config.subwoofer).withName("Pivot.subwoofer");
     }
