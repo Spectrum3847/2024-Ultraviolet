@@ -1,6 +1,7 @@
 package frc.robot.leds;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.RobotTelemetry;
 import frc.robot.leds.LEDsConfig.Section;
@@ -144,6 +145,18 @@ public class LEDs extends SpectrumLEDs {
                                 % colors.size();
                 colorIndex = colors.size() - 1 - colorIndex;
                 setLED(i, colors.get(colorIndex), priority);
+            }
+        }
+    }
+
+    public void defaultPattern() {
+        if (getUpdate()) {
+            if (DriverStation.isDisabled()) {
+                solid(Section.FULL, Color.kWhite, 0);
+            } else if (DriverStation.isAutonomousEnabled()) {
+                strobe(Section.FULL, Color.kOrange, 0.5, 0);
+            } else {
+                breath(Section.FULL, Color.kWhite, Color.kPurple, 1, 0);
             }
         }
     }

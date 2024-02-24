@@ -15,12 +15,11 @@ public class LEDsCommands {
 
     /** Specific Commands */
     public static Command defaultCommand() {
-        return leds.run(
-                        () -> {
-                            rainbow(Section.FULL, LEDsConfig.length / 2, 2, 0).execute();
-                        })
-                .ignoringDisable(true)
-                .withName("LEDs.default");
+        return leds.run(leds::defaultPattern).ignoringDisable(true).withName("LEDs.default");
+    }
+
+    public static Command solidWhiteLED() {
+        return LEDsCommands.solid(Section.FULL, Color.kWhite, 1).withName("LEDs.solidWhiteLED");
     }
 
     public static Command solidPurpleLED() {
@@ -29,7 +28,7 @@ public class LEDsCommands {
     }
 
     public static Command strobeOrangeLED() {
-        return LEDsCommands.strobe(Section.QUARTER_HIGH, Color.kOrange, 0.5, 2)
+        return LEDsCommands.strobe(Section.FULL, Color.kOrange, 0.5, 2)
                 .withName("LEDs.strobeOrangeLED");
     }
 
