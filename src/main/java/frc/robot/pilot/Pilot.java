@@ -62,20 +62,26 @@ public class Pilot extends Gamepad {
         controller
                 .b()
                 .and(noBumpers())
-                .whileTrue(RobotCommands.ampReady()); // RobotCommands.feedToAmp());
-        controller.b().and(leftBumperOnly()).onTrue(RobotCommands.subwooferReady());
+                .whileTrue(RobotCommands.subwooferReady()); // RobotCommands.feedToAmp());
+        controller.b().and(leftBumperOnly()).onTrue(RobotCommands.podiumReady()); // change to podium ready
 
-        controller
-                .y()
-                .and(noBumpers())
-                .whileTrue(
-                        PilotCommands
-                                .speakerAimingDrive()); // if you want this to be only speaker tag,
-        // just check for ID 4 in method OR cover up amp apriltag
-        controller.y().and(leftBumperOnly()).onTrue(RobotCommands.onDemandLaunching());
+        //y - amp ready
+        controller.y().and(noBumpers()).whileTrue(RobotCommands.ampReady8515());
 
-        controller.x().and(noBumpers()).onTrue(RobotCommands.ampReady8515());
-        controller.x().and(leftBumperOnly()).whileTrue(ElevatorCommands.home());
+        //x - home
+        controller.x().and(noBumpers()).whileTrue(RobotCommands.home());
+
+
+        // controller
+        //         .y()
+        //         .and(noBumpers())
+        //         .whileTrue(
+        //                 PilotCommands
+        //                         .speakerAimingDrive()); // if you want this to be only speaker tag,
+        // // just check for ID 4 in method OR cover up amp apriltag
+        // controller.y().and(leftBumperOnly()).onTrue(RobotCommands.onDemandLaunching());
+
+        // controller.x().and(leftBumperOnly()).whileTrue(ElevatorCommands.home());
 
         // controller.rightBumper().whileTrue(FeederCommands.launchEject());
         // // controller.rightBumper().onFalse(LauncherCommands.stopMotors());
