@@ -156,7 +156,7 @@ public class LEDs extends SpectrumLEDs {
         if (getUpdate()) {
             // DS check takes priority
             if (!DriverStation.isDSAttached()) {
-                strobe(Section.FULL, Color.kOrange, 1, defaultPriority);
+                strobe(Section.FULL, Color.kOrangeRed, 1, defaultPriority);
             } else if (DriverStation.isDisabled()) {
                 // solid(Section.FULL, Color.kWhite, defaultPriority);
                 ombre(Section.FULL, new Color(130, 103, 185), Color.kWhite, defaultPriority);
