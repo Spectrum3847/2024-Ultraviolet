@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.auton.Auton;
 import frc.robot.leds.LEDs;
 import frc.robot.leds.LEDsCommands;
@@ -32,6 +33,8 @@ import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
+
+import com.pathplanner.lib.commands.PathPlannerAuto;
 
 public class Robot extends LoggedRobot {
     public static RobotConfig config;
@@ -162,6 +165,10 @@ public class Robot extends LoggedRobot {
 
         resetCommandsAndButtons();
 
+        
+        Command autonInitCommand = new PathPlannerAuto("1 Meter Auto").ignoringDisable(true);
+        autonInitCommand.schedule();
+
         RobotTelemetry.print("### Disabled Init Complete ### ");
     }
 
@@ -184,7 +191,7 @@ public class Robot extends LoggedRobot {
         try {
             RobotTelemetry.print("@@@ Auton Init Starting @@@ ");
             resetCommandsAndButtons();
-            Command autonCommand = Auton.getAutonomousCommand();
+            Command autonCommand = new WaitCommand(0.01).andThen(Auton.getAutonomousCommand());
 
             if (autonCommand != null) {
                 autonCommand.schedule();
