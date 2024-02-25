@@ -3,8 +3,9 @@ package frc.robot.pilot;
 import frc.robot.Robot;
 import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
-import frc.robot.mechanisms.elevator.ElevatorCommands;
+import frc.robot.mechanisms.feeder.FeederCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
+import frc.robot.mechanisms.pivot.PivotCommands;
 import frc.robot.swerve.commands.SwerveCommands;
 import frc.spectrumLib.Gamepad;
 import frc.spectrumLib.util.ExpCurve;
@@ -53,7 +54,8 @@ public class Pilot extends Gamepad {
     /*  A, B, X, Y, Left Bumper, Right Bumper = Buttons 1 to 6 in simualation */
     public void setupTeleopButtons() {
 
-        controller.a().and(noBumpers()).whileTrue(RobotCommands.IntakeWithMotorSensor());
+        controller.a().and(noBumpers()).whileTrue((RobotCommands.intake()));
+        controller.a().and(noBumpers()).onFalse(FeederCommands.feeder().withTimeout(0.05));
         controller
                 .a()
                 .and(leftBumperOnly())
@@ -69,7 +71,10 @@ public class Pilot extends Gamepad {
                 .onTrue(RobotCommands.podiumReady()); // change to podium ready
 
         // y - amp ready
-        controller.y().and(noBumpers()).whileTrue(RobotCommands.ampReady8515());
+        controller
+                .y()
+                .and(noBumpers().or(rightBumperOnly()))
+                .whileTrue(RobotCommands.ampReady8515());
 
         // x - home
         controller.x().and(noBumpers()).whileTrue(RobotCommands.home());
@@ -93,9 +98,9 @@ public class Pilot extends Gamepad {
         //         FeederCommands.launchEject(),
         //         LauncherCommands.stopMotors());
         runWithEndSequence(
-                controller.rightBumper(),
-                RobotCommands.score(),
-                LauncherCommands.stopMotors().alongWith(ElevatorCommands.home()));
+                controller.rightBumper(), RobotCommands.score(), LauncherCommands.stopMotors());
+
+        rightBumperOnly().onFalse(PivotCommands.home());
 
         controller.rightStick().whileTrue(PilotCommands.turboMode());
 

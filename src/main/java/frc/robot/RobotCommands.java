@@ -106,7 +106,7 @@ public class RobotCommands {
 
     public static Command ampReady8515() {
         return PivotCommands.ampScore()
-                .andThen(LauncherCommands.runAmpVelocity())
+                .alongWith(LauncherCommands.runAmpVelocity())
                 .withName("RobotCommands.ampReady8515");
     }
 
@@ -136,9 +136,7 @@ public class RobotCommands {
     }
 
     public static Command intake() {
-        return IntakeCommands.intake()
-                .alongWith(AmpTrapCommands.intake(), FeederCommands.intake())
-                .withName("RobotCommands.intake");
+        return IntakeCommands.intake().withName("RobotCommands.intake");
     }
 
     public static Command launchEject() {
@@ -160,9 +158,7 @@ public class RobotCommands {
     }
 
     public static Command subwooferReady() {
-        return LauncherCommands.runOnDemandVelocity()
-                .alongWith(PivotCommands.subwoofer())
-                .withName("RobotCommands.subwooferReady");
+        return LauncherCommands.runOnDemandVelocity().withName("RobotCommands.subwooferReady");
     }
 
     public static Command podiumReady() {

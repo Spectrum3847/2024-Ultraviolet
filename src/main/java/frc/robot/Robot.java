@@ -34,8 +34,6 @@ import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
-import com.pathplanner.lib.commands.PathPlannerAuto;
-
 public class Robot extends LoggedRobot {
     public static RobotConfig config;
     public static RobotTelemetry telemetry;
@@ -164,10 +162,6 @@ public class Robot extends LoggedRobot {
         RobotTelemetry.print("### Disabled Init Starting ### ");
 
         resetCommandsAndButtons();
-
-        
-        Command autonInitCommand = new PathPlannerAuto("1 Meter Auto").ignoringDisable(true);
-        autonInitCommand.schedule();
 
         RobotTelemetry.print("### Disabled Init Complete ### ");
     }
