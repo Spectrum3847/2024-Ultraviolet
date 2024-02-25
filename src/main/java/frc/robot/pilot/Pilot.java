@@ -63,11 +63,11 @@ public class Pilot extends Gamepad {
 
         controller
                 .b()
-                .and(noBumpers())
+                .and(noBumpers().or(rightBumperOnly()))
                 .whileTrue(RobotCommands.subwooferReady()); // RobotCommands.feedToAmp());
         controller
                 .b()
-                .and(leftBumperOnly())
+                .and(leftBumperOnly().or(bothBumpers()))
                 .onTrue(RobotCommands.podiumReady()); // change to podium ready
 
         // y - amp ready
