@@ -165,7 +165,7 @@ public class Pivot extends Mechanism {
 
     // /* Helper */
     public double angleToRotation(double angle) {
-        return config.maxRotation * angle/config.maxAngle;
+        return config.minRotation * angle/config.maxAngle;
     }
 
     @Override
