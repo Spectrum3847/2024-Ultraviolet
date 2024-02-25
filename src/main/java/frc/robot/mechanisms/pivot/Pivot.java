@@ -23,8 +23,8 @@ public class Pivot extends Mechanism {
         public final int podium = 55;
         public final int autoLaunchPreload = 75;
         public final int autoLaunch2 =
-                70; // works for GP2/GP3/GP5/GP6 in Front 5 and GP2/GP4/5 in Front 5 Alt
-        public final int autoLaunch3 = 65; // works for GP4 in Front 5 and GP3 in Front 5 Alt
+                65; // works for GP2/GP3/GP5/GP6 in Front 5 and GP2/GP4/5 in Front 5 Alt
+        public final int autoLaunch3 = 60; // works for GP4 in Front 5 and GP3 in Front 5 Alt
 
         public final double zeroSpeed = -0.2;
 

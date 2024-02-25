@@ -18,9 +18,21 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "launch"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Path 2 - Test Front"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launch"
           }
         },
         {
@@ -30,9 +42,21 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "launch"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Path 4 - Test Front"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launch"
           }
         },
         {
@@ -42,9 +66,21 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "launch"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Path 5 - Front Alt 5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launch"
           }
         }
       ]
