@@ -11,7 +11,7 @@ public class Pivot extends Mechanism {
     public class PivotConfig extends Config {
 
         /* Pivot constants in motor rotations */
-        public final double maxRotation = 43.5 * 3; // furthest it goes up, also is amp score
+        public final double maxRotation = 43.5*25*3/36; // furthest it goes up, also is amp score
         public final double minRotation = 0;
 
         /* Pivot positions in percentage of max rotation || 0 is vertical? */
