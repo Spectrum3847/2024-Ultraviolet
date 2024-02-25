@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 
 public class PivotTest extends Command {
-    double pivotPercent = 0;
+    double pivotAngle = 0;
 
     double defaultValue = 0;
     /** Creates a new CubePivotTest. */
@@ -22,13 +22,13 @@ public class PivotTest extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        pivotPercent = SmartDashboard.getNumber("pivotPercent", defaultValue);
+        pivotAngle = SmartDashboard.getNumber("pivotAngle", defaultValue);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        Robot.pivot.setMMPosition(Robot.pivot.percentToRotation(pivotPercent));
+        Robot.pivot.setMMPosition(Robot.pivot.angleToRotation(pivotAngle));
     }
 
     // Called once the command ends or is interrupted.

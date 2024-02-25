@@ -11,16 +11,20 @@ public class Pivot extends Mechanism {
     public class PivotConfig extends Config {
 
         /* Pivot constants in motor rotations */
-        public final double maxRotation = 23;
+        public final double maxRotation = 0; // starting at max pos
         // happen
-        public final double minRotation = 0;
+        public final double minRotation = -23; // max motor rotations down
+        public final double maxAngle = 70;
+        public final double minAngle = 0;
 
-        /* Pivot positions in percentage of max rotation || 0 is vertical? */
-        public final int score = 80;
-        public final int halfScore = 50;
-        public final int test = 65;
-        public final int home = 0;
-        public final int subwoofer = 65;
+        /* Pivot positions in angle measure(degrees) || 0 is min/flat */
+        // 70% - max angle, 0% - min angle, these numbers are based on position
+        public final double score = 56;
+        public final double halfScore = 35;
+        public final double test = 45.5;
+        public final double home = 0;
+        public final double fullangle = 70;
+        public final double subwoofer = 45.5;
 
         public final double zeroSpeed = -0.2;
 
@@ -40,7 +44,7 @@ public class Pivot extends Mechanism {
             configNeutralBrakeMode(true);
             configCounterClockwise_Positive(); // TODO: configure
             configReverseSoftLimit(minRotation, true);
-            configForwardSoftLimit(maxRotation, false);
+            configForwardSoftLimit(maxRotation, true);
             configMotionMagic(51, 205, 0);
         }
     }
@@ -62,11 +66,12 @@ public class Pivot extends Mechanism {
     /**
      * Sets the intake motor to a specified position.
      *
-     * @param percent percentage of max rotation (0 is vertical). Note that the percentage is not
-     *     [-1,1] but rather [-100,100]
+     * @param angle angle of max degrees (70 is max). Note that the angle measure will be between 0
+     *     and 70
      */
-    public Command runPosition(double percent) {
-        return run(() -> setMMPosition(percentToRotation(percent))).withName("Pivot.runPercent");
+    public Command runPosition(double angle) {
+        return run(() -> setMMPosition(angleToRotation(config.maxAngle - angle)))
+                .withName("Pivot.runAngle");
     }
 
     /**
@@ -76,8 +81,8 @@ public class Pivot extends Mechanism {
      * @param percent percentage of max rotation (0 is vertical). Note that the percentage is not
      *     [-1,1] but rather [-100,100]
      */
-    public Command runFOCPosition(double percent) {
-        return run(() -> setMMPositionFOC(percentToRotation(percent))).withName("Pivot.runPercent");
+    public Command runFOCPosition(double angle) {
+        return run(() -> setMMPositionFOC(angleToRotation(config.maxAngle - angle))).withName("Pivot.runPercent");
     }
 
     /**
@@ -149,18 +154,18 @@ public class Pivot extends Mechanism {
         return 0;
     }
 
-    /** Returns the position of the motor as a percentage of max rotation */
-    @AutoLogOutput(key = "Pivot/Motor Position (percent)")
+    /** Returns the position of the motor as a angle of max angle */
+    @AutoLogOutput(key = "Pivot/Motor Position (angle)")
     public double getMotorPercentAngle() {
         if (attached) {
-            return motor.getPosition().getValueAsDouble() / config.maxRotation * 100;
+            return motor.getPosition().getValueAsDouble() / config.maxRotation * 70;
         }
         return 0;
     }
 
-    /* Helper */
-    public double percentToRotation(double percent) {
-        return config.maxRotation * (percent / 100);
+    // /* Helper */
+    public double angleToRotation(double angle) {
+        return config.minRotation * angle/config.maxAngle;
     }
 
     @Override
