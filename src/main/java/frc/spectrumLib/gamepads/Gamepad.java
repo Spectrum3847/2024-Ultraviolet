@@ -1,12 +1,11 @@
-package frc.spectrumLib;
+package frc.spectrumLib.gamepads;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.RobotTelemetry;
 import java.util.function.DoubleSupplier;
@@ -15,7 +14,7 @@ public abstract class Gamepad extends SubsystemBase {
 
     public boolean configured = false;
     private boolean printed = false;
-    public CommandXboxController controller;
+    public SpectrumController controller;
     private Rotation2d storedLeftStickDirection = new Rotation2d();
     private Rotation2d storedRightStickDirection = new Rotation2d();
 
@@ -24,9 +23,12 @@ public abstract class Gamepad extends SubsystemBase {
      *
      * @param port The port the gamepad is plugged into
      * @param name The name of the gamepad
+     * @param isXbox Xbox or PS5 controller
+     * @param emulatedPS5Port emulated port for PS5 controller so we can rumble PS5 controllers.
      */
-    public Gamepad(String name, int port) {
-        controller = new CommandXboxController(port);
+    public Gamepad(String name, int port, boolean isXbox, int emulatedPS5Port) {
+        super(name);
+        controller = new SpectrumController(port, isXbox, emulatedPS5Port);
     }
 
     @Override
@@ -119,7 +121,20 @@ public abstract class Gamepad extends SubsystemBase {
         return storedRightStickDirection;
     }
 
-    public double getRightStickCardinals() {
+    /**
+     * Get proper stick angles for each alliance
+     *
+     * @return
+     */
+    public double chooseCardinalDirections() {
+        // hotfix
+        if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
+            return getRedAllianceStickCardinals();
+        }
+        return getBlueAllianceStickCardinals();
+    }
+
+    public double getBlueAllianceStickCardinals() {
         double stickAngle = getRightStickDirection().getRadians();
         if (stickAngle > -Math.PI / 4 && stickAngle <= Math.PI / 4) {
             return 0;
@@ -129,6 +144,24 @@ public abstract class Gamepad extends SubsystemBase {
             return Math.PI;
         } else {
             return -Math.PI / 2;
+        }
+    }
+
+    /**
+     * Flips the stick direction for the red alliance.
+     *
+     * @return
+     */
+    public double getRedAllianceStickCardinals() {
+        double stickAngle = getRightStickDirection().getRadians();
+        if (stickAngle > -Math.PI / 4 && stickAngle <= Math.PI / 4) {
+            return Math.PI;
+        } else if (stickAngle > Math.PI / 4 && stickAngle <= 3 * Math.PI / 4) {
+            return -Math.PI / 2;
+        } else if (stickAngle > 3 * Math.PI / 4 || stickAngle <= -3 * Math.PI / 4) {
+            return 0;
+        } else {
+            return Math.PI / 2;
         }
     }
 
@@ -219,8 +252,7 @@ public abstract class Gamepad extends SubsystemBase {
     }
 
     private void rumble(double leftIntensity, double rightIntensity) {
-        controller.getHID().setRumble(RumbleType.kLeftRumble, leftIntensity);
-        controller.getHID().setRumble(RumbleType.kRightRumble, rightIntensity);
+        controller.rumbleController(leftIntensity, rightIntensity);
     }
 
     /** Command that can be used to rumble the pilot controller */

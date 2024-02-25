@@ -3,17 +3,25 @@ package frc.robot.pilot;
 import frc.robot.Robot;
 import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
+import frc.robot.leds.LEDsCommands;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.swerve.commands.SwerveCommands;
 import frc.robot.vision.VisionCommands;
-import frc.spectrumLib.Gamepad;
+import frc.spectrumLib.gamepads.Gamepad;
 import frc.spectrumLib.util.ExpCurve;
 
 public class Pilot extends Gamepad {
     public class PilotConfig {
         public static final String name = "Pilot";
         public static final int port = 0;
+        /**
+         * in order to run a PS5 controller, you must use DS4Windows to emulate a XBOX controller as
+         * well and move the controller to emulatedPS5Port
+         */
+        public static final boolean isXbox = true;
+
+        public static final int emulatedPS5Port = 4;
 
         public static final double slowModeScalor = 0.2;
         public static final double turboModeScalor = 1;
@@ -37,7 +45,7 @@ public class Pilot extends Gamepad {
 
     /** Create a new Pilot with the default name and port. */
     public Pilot() {
-        super(PilotConfig.name, PilotConfig.port);
+        super(PilotConfig.name, PilotConfig.port, PilotConfig.isXbox, PilotConfig.emulatedPS5Port);
         config = new PilotConfig();
 
         // Curve objects that we use to configure the controller axis ojbects
@@ -55,16 +63,10 @@ public class Pilot extends Gamepad {
     public void setupTeleopButtons() {
 
         controller.a().and(noBumpers()).whileTrue(RobotCommands.intakeWithMotorSensor());
-        // controller
-        //         .a()
-        //         .and(leftBumperOnly())
-        //         .whileTrue(LauncherCommands.stopMotors().alongWith(RobotCommands.eject()));
         controller
                 .a()
                 .and(leftBumperOnly())
-                .whileTrue(
-                        LauncherCommands.stopMotors()
-                                .alongWith(VisionCommands.resetPoseWithVision()));
+                .whileTrue(LauncherCommands.stopMotors().alongWith(RobotCommands.eject()));
 
         controller
                 .b()
@@ -91,28 +93,29 @@ public class Pilot extends Gamepad {
         //         FeederCommands.launchEject(),
         //         LauncherCommands.stopMotors());
         runWithEndSequence(
-                controller.rightBumper(),
+                rightBumperOnly(),
                 RobotCommands.score(),
                 LauncherCommands.stopMotors().alongWith(ElevatorCommands.home()));
+        controller.leftBumper().and(controller.rightBumper()).whileTrue(RobotCommands.score());
 
         controller.rightStick().whileTrue(PilotCommands.turboMode());
 
         rightStick().and(leftBumperOnly()).whileTrue(PilotCommands.manualPivot());
 
         controller
-                .povUp()
+                .upDpad()
                 .and(leftBumperOnly())
                 .whileTrue(rumbleCommand(SwerveCommands.reorientForward()));
         controller
-                .povLeft()
+                .leftDpad()
                 .and(leftBumperOnly())
                 .whileTrue(rumbleCommand(SwerveCommands.reorientLeft()));
         controller
-                .povDown()
+                .downDpad()
                 .and(leftBumperOnly())
                 .whileTrue(rumbleCommand(SwerveCommands.reorientBack()));
         controller
-                .povRight()
+                .rightDpad()
                 .and(leftBumperOnly())
                 .whileTrue(rumbleCommand(SwerveCommands.reorientRight()));
 
@@ -134,6 +137,8 @@ public class Pilot extends Gamepad {
     public void setupDisabledButtons() {
         // This is just for training, most robots will have different buttons during disabled
         // setupTeleopButtons();
+        controller.a().whileTrue(LEDsCommands.solidWhiteLED());
+        controller.a().whileTrue(PilotCommands.rumble(1, 0.5).ignoringDisable(true));
 
         controller.b().toggleOnTrue(RobotCommands.coastModeMechanisms());
     };

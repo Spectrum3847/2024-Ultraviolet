@@ -159,4 +159,8 @@ public class RobotCommands {
                 .alongWith(PivotCommands.podium())
                 .withName("RobotCommands.podium");
     }
+
+    public static Command topClimb() {
+        return ClimberCommands.topClimb().alongWith(PivotCommands.home());
+    }
 }

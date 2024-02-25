@@ -18,9 +18,9 @@ public class Pivot extends Mechanism {
         public final int score = 65;
         public final int halfScore = 50;
         public final int test = 65;
-        public final int home = 0;
-        public final int subwoofer = 76;
-        public final int podium = 70;
+        public final int home = 1;
+        public final double subwoofer = 80.5;
+        public final int podium = 55;
 
         public final double zeroSpeed = -0.2;
 

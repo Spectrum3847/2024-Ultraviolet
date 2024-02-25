@@ -10,6 +10,7 @@ public final class RobotConfig {
 
     public final String ALPHA2024SERIAL = "032B1F69";
     public final String PM2024SERIAL = "03223839";
+    public final String ULTRAVIOLET2024SERIAL = "0329AD07";
     public final String NOTEBLOCK2023SERIAL = ""; // TODO: find
     public final String MUSICDISC2023SERIAL = ""; // TODO: find
     public final String XRAY2023SERIAL = ""; // TODO: find
@@ -54,6 +55,8 @@ public final class RobotConfig {
                 break;
             case PM:
                 break;
+            case ULTRAVIOLET:
+                break;
             case XRAY:
                 intakeAttached = false;
                 ampTrapAttached = false;
@@ -76,6 +79,9 @@ public final class RobotConfig {
         if (Robot.isSimulation()) {
             robotType = RobotType.SIM;
             RobotTelemetry.print("Robot Type: Simulation");
+        } else if (rioSerial.equals(ULTRAVIOLET2024SERIAL)) {
+            robotType = RobotType.ULTRAVIOLET;
+            RobotTelemetry.print("Robot Type: ULTRAVIOLET 2024");
         } else if (rioSerial.equals(ALPHA2024SERIAL)) {
             robotType = RobotType.ALPHA;
             RobotTelemetry.print("Robot Type: ALPHA 2024");
@@ -102,6 +108,7 @@ public final class RobotConfig {
     public enum RobotType {
         ALPHA,
         PM,
+        ULTRAVIOLET,
         MUSICDISC,
         NOTEBLOCK,
         XRAY,
