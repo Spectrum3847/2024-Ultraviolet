@@ -7,13 +7,14 @@ import frc.robot.leds.LEDsCommands;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.swerve.commands.SwerveCommands;
-import frc.spectrumLib.Gamepad;
+import frc.spectrumLib.gamepads.Gamepad;
 import frc.spectrumLib.util.ExpCurve;
 
 public class Pilot extends Gamepad {
     public class PilotConfig {
         public static final String name = "Pilot";
         public static final int port = 0;
+        public static final boolean isXbox = true;
 
         public static final double slowModeScalor = 0.2;
         public static final double turboModeScalor = 1;
@@ -37,7 +38,7 @@ public class Pilot extends Gamepad {
 
     /** Create a new Pilot with the default name and port. */
     public Pilot() {
-        super(PilotConfig.name, PilotConfig.port);
+        super(PilotConfig.name, PilotConfig.port, PilotConfig.isXbox);
         config = new PilotConfig();
 
         // Curve objects that we use to configure the controller axis ojbects
@@ -95,19 +96,19 @@ public class Pilot extends Gamepad {
         rightStick().and(leftBumperOnly()).whileTrue(PilotCommands.manualPivot());
 
         controller
-                .povUp()
+                .upDpad()
                 .and(leftBumperOnly())
                 .whileTrue(rumbleCommand(SwerveCommands.reorientForward()));
         controller
-                .povLeft()
+                .leftDpad()
                 .and(leftBumperOnly())
                 .whileTrue(rumbleCommand(SwerveCommands.reorientLeft()));
         controller
-                .povDown()
+                .downDpad()
                 .and(leftBumperOnly())
                 .whileTrue(rumbleCommand(SwerveCommands.reorientBack()));
         controller
-                .povRight()
+                .rightDpad()
                 .and(leftBumperOnly())
                 .whileTrue(rumbleCommand(SwerveCommands.reorientRight()));
 

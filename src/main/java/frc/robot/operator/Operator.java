@@ -6,19 +6,20 @@ import frc.robot.leds.LEDsCommands;
 import frc.robot.mechanisms.climber.ClimberCommands;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
-import frc.spectrumLib.Gamepad;
+import frc.spectrumLib.gamepads.Gamepad;
 
 public class Operator extends Gamepad {
     public class OperatorConfig {
         public static final String name = "Operator";
         public static final int port = 1;
+        public static final boolean isXbox = true;
     }
 
     public OperatorConfig config;
 
     /** Create a new Operator with the default name and port. */
     public Operator() {
-        super(OperatorConfig.name, OperatorConfig.port);
+        super(OperatorConfig.name, OperatorConfig.port, OperatorConfig.isXbox);
         config = new OperatorConfig();
 
         RobotTelemetry.print("Operator Subsystem Initialized: ");
@@ -62,10 +63,10 @@ public class Operator extends Gamepad {
         // leftXTrigger(ThresholdType.GREATER_THAN, 0).whileTrue();
 
         // controller.rightBumper().whileTrue(RobotCommands.feedToAmp());
-        controller.povUp().and(leftBumperOnly()).whileTrue(RobotCommands.topClimb());
-        controller.povDown().and(leftBumperOnly()).whileTrue(ClimberCommands.midClimb());
-        controller.povLeft().and(leftBumperOnly()).whileTrue(ElevatorCommands.fullExtend());
-        controller.povRight().and(leftBumperOnly()).whileTrue(ClimberCommands.botClimb());
+        controller.upDpad().and(leftBumperOnly()).whileTrue(RobotCommands.topClimb());
+        controller.downDpad().and(leftBumperOnly()).whileTrue(ClimberCommands.midClimb());
+        controller.leftDpad().and(leftBumperOnly()).whileTrue(ElevatorCommands.fullExtend());
+        controller.rightDpad().and(leftBumperOnly()).whileTrue(ClimberCommands.botClimb());
     };
 
     /** Setup the Buttons for Disabled mode. */

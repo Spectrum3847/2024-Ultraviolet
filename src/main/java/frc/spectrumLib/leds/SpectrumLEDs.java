@@ -36,12 +36,12 @@ public class SpectrumLEDs extends SubsystemBase {
     }
 
     public void periodic() {
-        // Have our LEDs calculate only every other cycle
+        // // Have our LEDs calculate only every other cycle
         if (counter % 5 == 0) {
             time = counter * 0.02;
             update = true;
         } else if ((counter - 1) % 5 == 0) {
-            leds.setData(buffer.getLEDBuffer());
+            // leds.setData(buffer.getLEDBuffer());
         } else {
             update = false;
         }
@@ -49,6 +49,8 @@ public class SpectrumLEDs extends SubsystemBase {
         if (counter > 500) {
             counter = 0;
         }
+
+        leds.setData(buffer.getLEDBuffer());
     }
 
     public void resetPriority() {

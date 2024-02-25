@@ -1,4 +1,4 @@
-package frc.spectrumLib;
+package frc.spectrumLib.gamepads;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.RobotTelemetry;
 import java.util.function.DoubleSupplier;
@@ -16,7 +15,7 @@ public abstract class Gamepad extends SubsystemBase {
 
     public boolean configured = false;
     private boolean printed = false;
-    public CommandXboxController controller;
+    public SpectrumController controller;
     private Rotation2d storedLeftStickDirection = new Rotation2d();
     private Rotation2d storedRightStickDirection = new Rotation2d();
 
@@ -25,9 +24,11 @@ public abstract class Gamepad extends SubsystemBase {
      *
      * @param port The port the gamepad is plugged into
      * @param name The name of the gamepad
+     * @param isXbox Xbox or PS5 controller
      */
-    public Gamepad(String name, int port) {
-        controller = new CommandXboxController(port);
+    public Gamepad(String name, int port, boolean isXbox) {
+        super(name);
+        controller = new SpectrumController(port, isXbox);
     }
 
     @Override
