@@ -16,7 +16,7 @@ public class Operator extends Gamepad {
          * in order to run a PS5 controller, you must use DS4Windows to emulate a XBOX controller as
          * well and move the controller to emulatedPS5Port
          */
-        public static final boolean isXbox = false;
+        public static final boolean isXbox = true;
 
         public static final int emulatedPS5Port = 5;
     }
