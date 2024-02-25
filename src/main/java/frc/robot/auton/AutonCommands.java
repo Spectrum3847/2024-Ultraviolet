@@ -54,8 +54,8 @@ public class AutonCommands {
                 .alongWith(AmpTrapCommands.stopMotor(), FeederCommands.stopMotor());
     }
 
-    public static Command launchReady1() {
-        return PivotCommands.autoLaunch1()
+    public static Command launchReadyPreload() {
+        return PivotCommands.autoLaunchPreload()
                 .alongWith(LauncherCommands.subwoofer())
                 .withName("RobotCommands.subwooferReady");
     }
@@ -68,18 +68,6 @@ public class AutonCommands {
 
     public static Command launchReady3() {
         return PivotCommands.autoLaunch3()
-                .alongWith(LauncherCommands.subwoofer())
-                .withName("RobotCommands.subwooferReady");
-    }
-
-    public static Command launchReady4() {
-        return PivotCommands.autoLaunch4()
-                .alongWith(LauncherCommands.subwoofer())
-                .withName("RobotCommands.subwooferReady");
-    }
-
-    public static Command launchReady5() {
-        return PivotCommands.autoLaunch5()
                 .alongWith(LauncherCommands.subwoofer())
                 .withName("RobotCommands.subwooferReady");
     }

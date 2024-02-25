@@ -48,16 +48,16 @@
     },
     {
       "anchor": {
-        "x": 2.398297032328396,
-        "y": 5.551362870733224
+        "x": 2.6412213123771426,
+        "y": 5.55
       },
       "prevControl": {
-        "x": 2.8552002624117496,
-        "y": 5.743129191216285
+        "x": 3.0981245424604964,
+        "y": 5.741766320483061
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "GP 5 Shoot - Front 5"
+      "linkedName": "GP 2 - Test Front"
     }
   ],
   "rotationTargets": [],

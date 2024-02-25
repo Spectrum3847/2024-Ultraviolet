@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.398297032328396,
-        "y": 5.551362870733224
+        "x": 2.6412213123771426,
+        "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.17239438604228,
-        "y": 5.859175821812821
+        "x": 3.415318666091027,
+        "y": 5.857812951079596
       },
       "isLocked": false,
-      "linkedName": "GP 5 Shoot - Front 5"
+      "linkedName": "GP 2 - Test Front"
     },
     {
       "anchor": {
@@ -64,16 +64,16 @@
     },
     {
       "anchor": {
-        "x": 2.398297032328396,
-        "y": 5.551362870733224
+        "x": 2.6412213123771426,
+        "y": 5.55
       },
       "prevControl": {
-        "x": 3.3271232268376605,
-        "y": 5.8978580320116665
+        "x": 3.5700475068864073,
+        "y": 5.896495161278442
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "GP 5 Shoot - Front 5"
+      "linkedName": "GP 2 - Test Front"
     }
   ],
   "rotationTargets": [

@@ -11,27 +11,25 @@ public class Pivot extends Mechanism {
     public class PivotConfig extends Config {
 
         /* Pivot constants in motor rotations */
-        public final double maxRotation = 23;
-        // happen
+        public final double maxRotation = 33.6;
         public final double minRotation = 0;
 
         /* Pivot positions in percentage of max rotation || 0 is vertical? */
-        public final int score = 80;
+        public final int score = 65;
         public final int halfScore = 50;
         public final int test = 65;
-        public final int home = 0;
-        public final int subwoofer = 65;
-        public final int autoLaunch1 = 74;
-        public final int autoLaunch2 = 77;
-        public final int autoLaunch3 = 70;
-        public final int autoLaunch4 = 63;
-        public final int autoLaunch5 = 67;
+        public final int home = 1;
+        public final double subwoofer = 80.5;
+        public final int podium = 55;
+        public final int autoLaunchPreload = 75;
+        public final int autoLaunch2 = 70; //works for GP2/GP3/GP5/GP6 in Front 5 and GP2/GP4/5 in Front 5 Alt
+        public final int autoLaunch3 = 65; //works for GP4 in Front 5 and GP3 in Front 5 Alt
 
         public final double zeroSpeed = -0.2;
 
         /* Intake config values */
-        public double currentLimit = 5;
-        public double threshold = 5;
+        public double currentLimit = 30;
+        public double threshold = 40;
         public double velocityKp = 0.8;
         public double velocityKv = 0.013;
         public double velocityKs = 0;
@@ -43,9 +41,9 @@ public class Pivot extends Mechanism {
             configGearRatio(1); // TODO: configure
             configSupplyCurrentLimit(currentLimit, threshold, true);
             configNeutralBrakeMode(true);
-            configCounterClockwise_Positive(); // TODO: configure
+            configClockwise_Positive(); // TODO: configure
             configReverseSoftLimit(minRotation, true);
-            configForwardSoftLimit(maxRotation, false);
+            configForwardSoftLimit(maxRotation, true);
             configMotionMagic(51, 205, 0);
         }
     }

@@ -44,8 +44,8 @@ public class PivotCommands {
         return pivot.runPosition(pivot.config.subwoofer).withName("Pivot.subwoofer");
     }
 
-    public static Command autoLaunch1() {
-        return pivot.runPosition(pivot.config.autoLaunch1).withName("Pivot.subwoofer");
+    public static Command autoLaunchPreload() {
+        return pivot.runPosition(pivot.config.autoLaunchPreload).withName("Pivot.subwoofer");
     }
 
     public static Command autoLaunch2() {
@@ -54,14 +54,6 @@ public class PivotCommands {
 
     public static Command autoLaunch3() {
         return pivot.runPosition(pivot.config.autoLaunch3).withName("Pivot.subwoofer");
-    }
-
-    public static Command autoLaunch4() {
-        return pivot.runPosition(pivot.config.autoLaunch4).withName("Pivot.subwoofer");
-    }
-
-    public static Command autoLaunch5() {
-        return pivot.runPosition(pivot.config.autoLaunch5).withName("Pivot.subwoofer");
     }
 
     public static Command stopMotor() {
