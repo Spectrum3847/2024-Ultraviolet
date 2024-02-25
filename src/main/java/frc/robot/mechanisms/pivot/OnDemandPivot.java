@@ -9,11 +9,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 
 public class OnDemandPivot extends Command {
-    double percentage = 0;
-    double defaultPercent = 0;
+    double angle = 0;
+    double defaultAngle = 0;
     /** Creates a new CubeLaunchTest. */
     public OnDemandPivot(double configValue) {
-        defaultPercent = configValue;
+        defaultAngle = configValue;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(Robot.pivot);
     }
@@ -21,13 +21,13 @@ public class OnDemandPivot extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        percentage = SmartDashboard.getNumber("pivotPercent", defaultPercent);
+        angle = SmartDashboard.getNumber("pivotAngle", defaultAngle);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        Robot.pivot.setMMPosition(Robot.pivot.percentToRotation(percentage));
+        Robot.pivot.setMMPosition(Robot.pivot.angleToRotation(angle));
     }
 
     // Called once the command ends or is interrupted.

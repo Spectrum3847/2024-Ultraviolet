@@ -11,17 +11,19 @@ public class Pivot extends Mechanism {
     public class PivotConfig extends Config {
 
         /* Pivot constants in motor rotations */
-        public final double maxRotation = -23; // starting at max pos
+        public final double maxRotation = 0; // starting at max pos
         // happen
-        public final double minRotation = 0; // max motor rotations down
+        public final double minRotation = -23; // max motor rotations down
+        public final double maxAngle = 70;
+        public final double minAngle = 0;
 
         /* Pivot positions in angle measure(degrees) || 0 is min/flat */
         // 70% - max angle, 0% - min angle, these numbers are based on position
-        public final int score = 56;
-        public final int halfScore = 35;
+        public final double score = 56;
+        public final double halfScore = 35;
         public final double test = 45.5;
-        public final int home = 0;
-        public final int fullangle = 70;
+        public final double home = 0;
+        public final double fullangle = 70;
         public final double subwoofer = 45.5;
 
         public final double zeroSpeed = -0.2;
@@ -41,8 +43,8 @@ public class Pivot extends Mechanism {
             configSupplyCurrentLimit(currentLimit, threshold, true);
             configNeutralBrakeMode(true);
             configCounterClockwise_Positive(); // TODO: configure
-            configReverseSoftLimit(minRotation, false);
-            configForwardSoftLimit(maxRotation, false);
+            configReverseSoftLimit(minRotation, true);
+            configForwardSoftLimit(maxRotation, true);
             configMotionMagic(51, 205, 0);
         }
     }
@@ -68,7 +70,7 @@ public class Pivot extends Mechanism {
      *     and 70
      */
     public Command runPosition(double angle) {
-        return run(() -> setMMPosition(percentToRotation((70 - angle) / 70 * 100)))
+        return run(() -> setMMPosition(angleToRotation(config.maxAngle - angle)))
                 .withName("Pivot.runAngle");
     }
 
@@ -79,8 +81,8 @@ public class Pivot extends Mechanism {
      * @param percent percentage of max rotation (0 is vertical). Note that the percentage is not
      *     [-1,1] but rather [-100,100]
      */
-    public Command runFOCPosition(double percent) {
-        return run(() -> setMMPositionFOC(percentToRotation(percent))).withName("Pivot.runPercent");
+    public Command runFOCPosition(double angle) {
+        return run(() -> setMMPositionFOC(angleToRotation(config.maxAngle - angle))).withName("Pivot.runPercent");
     }
 
     /**
@@ -161,9 +163,9 @@ public class Pivot extends Mechanism {
         return 0;
     }
 
-    /* Helper */
-    public double percentToRotation(double percent) {
-        return config.maxRotation * (percent / 100);
+    // /* Helper */
+    public double angleToRotation(double angle) {
+        return config.maxRotation * angle/config.maxAngle;
     }
 
     @Override
