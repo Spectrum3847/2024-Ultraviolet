@@ -127,10 +127,11 @@ public abstract class Gamepad extends SubsystemBase {
      * @return
      */
     public double chooseCardinalDirections() {
+        // hotfix
         if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
-            return getBlueAllianceStickCardinals();
+            return getRedAllianceStickCardinals();
         }
-        return getRedAllianceStickCardinals();
+        return getBlueAllianceStickCardinals();
     }
 
     public double getBlueAllianceStickCardinals() {
