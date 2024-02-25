@@ -10,10 +10,10 @@ import frc.spectrumLib.swerve.config.SwerveConfig;
 public class PHOTON {
 
     // Angle Offsets: from cancoder Absolute Position No Offset, opposite sign
-    private static final double kFrontLeftCANcoderOffset = 0.336426;
-    private static final double kFrontRightCANncoderOffset = -0.031006;
-    private static final double kBackLeftCANcoderOffset = -0.323730;
-    private static final double kBackRightCANcoderOffset = 0.492188;
+    private static final double kFrontLeftCANcoderOffset = 0.265625;
+    private static final double kFrontRightCANncoderOffset = 0.088623;
+    private static final double kBackLeftCANcoderOffset = -0.042969;
+    private static final double kBackRightCANcoderOffset = 0.486084;
 
     // Physical Config
     private static final double wheelBaseInches = 21.5;
@@ -28,7 +28,7 @@ public class PHOTON {
 
     // Tuning Config
     // Estimated at first, then fudge-factored to make odom match record
-    private static final double kWheelRadiusInches = 2;
+    private static final double kWheelRadiusInches = 3.965 / 2;
     private static final double speedAt12VoltsMps = 5.8;
 
     private static final double slipCurrent = 80;

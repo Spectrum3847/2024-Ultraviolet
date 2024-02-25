@@ -106,8 +106,8 @@ public class RobotCommands {
 
     public static Command ampReady8515() {
         return PivotCommands.ampScore()
-            .andThen(LauncherCommands.runAmpVelocity())
-            .withName("RobotCommands.ampReady8515");
+                .andThen(LauncherCommands.runAmpVelocity())
+                .withName("RobotCommands.ampReady8515");
     }
 
     public static Command eject() {
