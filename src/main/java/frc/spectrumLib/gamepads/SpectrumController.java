@@ -1,6 +1,7 @@
 package frc.spectrumLib.gamepads;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -15,14 +16,16 @@ public class SpectrumController {
     private CommandXboxController xboxController;
     private CommandPS5Controller ps5Controller;
     private CommandGenericHID abstractedController;
+    private CommandXboxController emulatedController;
 
-    public SpectrumController(int port, boolean isXbox) {
+    public SpectrumController(int port, boolean isXbox, int emulatedPort) {
         this.isXbox = isXbox;
         if (isXbox) {
             xboxController = new CommandXboxController(port);
             abstractedController = xboxController;
         } else {
             ps5Controller = new CommandPS5Controller(port);
+            emulatedController = new CommandXboxController(emulatedPort);
             abstractedController = ps5Controller;
         }
     }
@@ -131,6 +134,11 @@ public class SpectrumController {
     }
 
     public GenericHID getHID() {
-        return (isXbox) ? xboxController.getHID() : ps5Controller.getHID();
+        return (isXbox) ? xboxController.getHID() : emulatedController.getHID();
+    }
+
+    public void rumbleController(double leftIntensity, double rightIntensity) {
+        getHID().setRumble(RumbleType.kLeftRumble, leftIntensity);
+        getHID().setRumble(RumbleType.kRightRumble, rightIntensity);
     }
 }

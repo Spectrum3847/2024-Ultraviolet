@@ -12,14 +12,24 @@ public class Operator extends Gamepad {
     public class OperatorConfig {
         public static final String name = "Operator";
         public static final int port = 1;
-        public static final boolean isXbox = true;
+        /**
+         * in order to run a PS5 controller, you must use DS4Windows to emulate a XBOX controller as
+         * well and move the controller to emulatedPS5Port
+         */
+        public static final boolean isXbox = false;
+
+        public static final int emulatedPS5Port = 5;
     }
 
     public OperatorConfig config;
 
     /** Create a new Operator with the default name and port. */
     public Operator() {
-        super(OperatorConfig.name, OperatorConfig.port, OperatorConfig.isXbox);
+        super(
+                OperatorConfig.name,
+                OperatorConfig.port,
+                OperatorConfig.isXbox,
+                OperatorConfig.emulatedPS5Port);
         config = new OperatorConfig();
 
         RobotTelemetry.print("Operator Subsystem Initialized: ");

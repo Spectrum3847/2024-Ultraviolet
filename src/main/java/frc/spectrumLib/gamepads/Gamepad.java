@@ -3,7 +3,6 @@ package frc.spectrumLib.gamepads;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -25,10 +24,11 @@ public abstract class Gamepad extends SubsystemBase {
      * @param port The port the gamepad is plugged into
      * @param name The name of the gamepad
      * @param isXbox Xbox or PS5 controller
+     * @param emulatedPS5Port emulated port for PS5 controller so we can rumble PS5 controllers.
      */
-    public Gamepad(String name, int port, boolean isXbox) {
+    public Gamepad(String name, int port, boolean isXbox, int emulatedPS5Port) {
         super(name);
-        controller = new SpectrumController(port, isXbox);
+        controller = new SpectrumController(port, isXbox, emulatedPS5Port);
     }
 
     @Override
@@ -252,8 +252,7 @@ public abstract class Gamepad extends SubsystemBase {
     }
 
     private void rumble(double leftIntensity, double rightIntensity) {
-        controller.getHID().setRumble(RumbleType.kLeftRumble, leftIntensity);
-        controller.getHID().setRumble(RumbleType.kRightRumble, rightIntensity);
+        controller.rumbleController(leftIntensity, rightIntensity);
     }
 
     /** Command that can be used to rumble the pilot controller */

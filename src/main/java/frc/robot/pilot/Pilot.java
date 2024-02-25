@@ -14,7 +14,13 @@ public class Pilot extends Gamepad {
     public class PilotConfig {
         public static final String name = "Pilot";
         public static final int port = 0;
+        /**
+         * in order to run a PS5 controller, you must use DS4Windows to emulate a XBOX controller as
+         * well and move the controller to emulatedPS5Port
+         */
         public static final boolean isXbox = true;
+
+        public static final int emulatedPS5Port = 4;
 
         public static final double slowModeScalor = 0.2;
         public static final double turboModeScalor = 1;
@@ -38,7 +44,7 @@ public class Pilot extends Gamepad {
 
     /** Create a new Pilot with the default name and port. */
     public Pilot() {
-        super(PilotConfig.name, PilotConfig.port, PilotConfig.isXbox);
+        super(PilotConfig.name, PilotConfig.port, PilotConfig.isXbox, PilotConfig.emulatedPS5Port);
         config = new PilotConfig();
 
         // Curve objects that we use to configure the controller axis ojbects
@@ -131,6 +137,7 @@ public class Pilot extends Gamepad {
         // This is just for training, most robots will have different buttons during disabled
         // setupTeleopButtons();
         controller.a().whileTrue(LEDsCommands.solidWhiteLED());
+        controller.a().whileTrue(PilotCommands.rumble(1, 0.5).ignoringDisable(true));
 
         controller.b().toggleOnTrue(RobotCommands.coastModeMechanisms());
     };
