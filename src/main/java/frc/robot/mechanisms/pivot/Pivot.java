@@ -154,11 +154,11 @@ public class Pivot extends Mechanism {
         return 0;
     }
 
-    /** Returns the position of the motor as a percentage of max rotation */
-    @AutoLogOutput(key = "Pivot/Motor Position (percent)")
+    /** Returns the position of the motor as a angle of max angle */
+    @AutoLogOutput(key = "Pivot/Motor Position (angle)")
     public double getMotorPercentAngle() {
         if (attached) {
-            return motor.getPosition().getValueAsDouble() / config.maxRotation * 100;
+            return motor.getPosition().getValueAsDouble() / config.maxRotation * 70;
         }
         return 0;
     }
