@@ -17,6 +17,7 @@ import frc.robot.swerve.configs.ALPHA2024;
 import frc.robot.swerve.configs.MUSICDISC2023;
 import frc.robot.swerve.configs.NOTEBLOCK2023;
 import frc.robot.swerve.configs.PM2024;
+import frc.robot.swerve.configs.ULTRAVIOLET2024;
 import frc.spectrumLib.swerve.Drivetrain;
 import frc.spectrumLib.swerve.Drivetrain.DriveState;
 import frc.spectrumLib.swerve.Request;
@@ -48,6 +49,9 @@ public class Swerve implements Subsystem {
                 break;
             case ALPHA:
                 config = ALPHA2024.config;
+                break;
+            case ULTRAVIOLET:
+                config = ULTRAVIOLET2024.config;
                 break;
             case NOTEBLOCK:
                 config = NOTEBLOCK2023.config;
