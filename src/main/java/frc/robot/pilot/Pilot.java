@@ -98,9 +98,9 @@ public class Pilot extends Gamepad {
         //         FeederCommands.launchEject(),
         //         LauncherCommands.stopMotors());
         runWithEndSequence(
-                controller.rightBumper(), RobotCommands.score(), LauncherCommands.stopMotors());
-
-        rightBumperOnly().onFalse(PivotCommands.home());
+                controller.rightBumper(),
+                RobotCommands.score(),
+                LauncherCommands.stopMotors().alongWith(PivotCommands.home()));
 
         controller.rightStick().whileTrue(PilotCommands.turboMode());
 

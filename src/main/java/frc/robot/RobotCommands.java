@@ -158,7 +158,9 @@ public class RobotCommands {
     }
 
     public static Command subwooferReady() {
-        return LauncherCommands.runOnDemandVelocity().withName("RobotCommands.subwooferReady");
+        return LauncherCommands.runOnDemandVelocity()
+                .alongWith(PivotCommands.subwoofer())
+                .withName("RobotCommands.subwooferReady");
     }
 
     public static Command podiumReady() {
