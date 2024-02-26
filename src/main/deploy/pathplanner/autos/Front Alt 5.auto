@@ -20,6 +20,12 @@
         {
           "type": "path",
           "data": {
+            "pathName": "Path 3 - Front Alt 5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
             "pathName": "Path 3 - Front 5"
           }
         },

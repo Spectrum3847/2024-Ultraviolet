@@ -4,6 +4,8 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.mechanisms.launcher.LauncherCommands;
+import frc.robot.mechanisms.pivot.PivotCommands;
 
 public class AutonCommands {
     public static Command followSinglePath(String PathName) {
@@ -14,6 +16,12 @@ public class AutonCommands {
         return AutoBuilder.followPath(path);
     }
 
+public static Command launchReadyPreload() {
+        return PivotCommands.autoLaunchPreload()
+                .alongWith(LauncherCommands.subwoofer())
+                .withName("RobotCommands.subwooferReady");
+    }
+    
     public static Command trackNote() {
         return new InstantCommand(
                         () -> {

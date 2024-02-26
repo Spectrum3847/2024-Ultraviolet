@@ -15,7 +15,7 @@ public class Pivot extends Mechanism {
                 43.5 * 3 * 25 / 36; // furthest it goes up, also is amp score
         public final double minRotation = 0;
 
-        /* Pivot positions in percentage of max rotation || 0 is vertical? */
+        /* Pivot positions in percentage of max rotation || 0 is horizontal */
         public final int score = 65;
         public final int halfScore = 50;
         public final int test = 65;
@@ -23,6 +23,9 @@ public class Pivot extends Mechanism {
         public final int subwoofer = 10;
         public final int podium = 36;
         public final int amp = 100; // confirmed
+        public final int autoLaunch2 = 70; // works for GP2/GP3/GP5/GP6 in Front 5 and GP2/GP4/5 in Front 5 Alt
+        public final int autoLaunch3 = 65; // works for GP4 in Front 5 and GP3 in Front 5 Alt
+
 
         public final double zeroSpeed = -0.2;
 
