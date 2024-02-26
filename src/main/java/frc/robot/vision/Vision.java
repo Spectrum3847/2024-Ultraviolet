@@ -4,6 +4,8 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
@@ -121,6 +123,60 @@ public class Vision extends SubsystemBase {
         }
     }
 
+    /**
+     * REQUIRES ACCURATE POSE ESTIMATION. Uses trigonometric functions to calculate the angle
+     * between the robot heading and the angle required to face the hybrid spot. Will return 0 if
+     * the robot cannot see an apriltag.
+     *
+     * @param hybridSpot 0-8 representing the 9 different hybrid spots for launching cubes to hybrid
+     *     nodes
+     * @return angle between robot heading and hybrid spot in degrees
+     */
+    public double getThetaToHybrid() {
+        // if (getVisionPose().get().getX() == 0 && getVisionPose().get().getY() == 0) {
+        //     DriverStation.reportWarning(
+        //             "Vision cannot localize! Move camera in view of a tag", false);
+        // }
+        // Transform2d transform = getTransformToHybrid();
+        // double hyp = Math.hypot(transform.getX(), transform.getY());
+        // double beta = Math.toDegrees(Math.asin(transform.getX() / hyp));
+        // // double headingInScope; -- may have to get rotation in scope of -180 to 180 if using
+        // gryo
+        // double omega = Robot.swerve.getPose().getRotation().getDegrees() + 90;
+        // double theta = 360 - (omega + beta);
+        // /* if theta is greater than 360 subtract 360 so you dont turn over a full rotation */
+        // // if (theta > 360) {
+        // //     theta -= 360;
+        // //     // System.out.println("needed new theta: " + theta);
+        // // }
+
+        // // aimingPrintDebug(transform, hyp, beta, omega, theta);
+        // System.out.println("Aiming at node " + theta);
+
+        double angleBetweenRobotAndStage =
+                VisionConfig.RED_SPEAKER
+                        .minus(Robot.swerve.getPose().getTranslation())
+                        .getAngle()
+                        .getRadians();
+
+        return angleBetweenRobotAndStage; // this is the predictable offset behind the
+        // chargestation. The error seems to
+        // be predictable probably meaning the trig is wrong
+    }
+
+    /**
+     * Helper function for {@link Vision#getThetaToHybrid}
+     *
+     * @param hybridSpot 0-8 representing the 9 different hybrid spots for launching cubes to hybrid
+     *     nodes
+     * @return Transform2d representing the x and y distance components between the robot and the
+     *     hybrid spot
+     */
+    private Transform2d getTransformToHybrid() {
+        Pose2d hybridPose = new Pose2d(VisionConfig.RED_SPEAKER, new Rotation2d(Math.PI));
+        return Robot.swerve.getPose().minus(hybridPose);
+    }
+
     public Optional<Pose2d> getVisionPose() {
         Pose2d visionPose = speakerLL.getAlliancePose().toPose2d();
 
@@ -129,7 +185,7 @@ public class Vision extends SubsystemBase {
         // if vision pose is too far off current, ignore it
         if (Robot.swerve.getPose().getTranslation().getDistance(visionPose.getTranslation())
                 < VisionConfig.VISION_REJECT_DISTANCE) {
-            return Optional.of(visionPose);
+            return Optional.of(new Pose2d(visionPose.getTranslation(), Robot.swerve.getRotation()));
         }
 
         return Optional.empty();

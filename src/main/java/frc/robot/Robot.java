@@ -34,7 +34,6 @@ import frc.spectrumLib.util.CrashTracker;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
-import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 public class Robot extends LoggedRobot {
     public static RobotConfig config;
@@ -301,8 +300,8 @@ public class Robot extends LoggedRobot {
         Logger.addDataReceiver(new NT4Publisher()); // Running a physics simulator, log to NT
 
         if (!Robot.isSimulation()) {
-            Logger.addDataReceiver(
-                    new WPILOGWriter("/U")); // Running on a real robot, log to a USB stick
+            // Logger.addDataReceiver(
+            //         new WPILOGWriter("/U")); // Running on a real robot, log to a USB stick
         }
 
         // Start AdvantageKit logger
