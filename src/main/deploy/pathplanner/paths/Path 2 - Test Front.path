@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.0,
-        "y": 0.0
+        "x": 1.89,
+        "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.1,
-        "y": 0.0
+        "x": 1.9999999999999996,
+        "y": 5.55
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "GP 1 - Test Front"
     },
     {
       "anchor": {
-        "x": 5.0,
-        "y": 0.0
+        "x": 2.6412213123771426,
+        "y": 5.55
       },
       "prevControl": {
-        "x": 4.9,
-        "y": 0.0
+        "x": 2.5412213123771434,
+        "y": 5.55
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "GP 2 - Test Front"
     }
   ],
   "rotationTargets": [],
@@ -33,20 +33,20 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.0,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "PID Config Paths",
+  "folder": "Test Front Paths",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 180.0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

@@ -3,87 +3,81 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.723227597998695,
-        "y": 6.897503785653034
+        "x": 2.7,
+        "y": 6.9
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.8789833350459673,
-        "y": 7.055075110041569
+        "x": 3.8557557370472724,
+        "y": 7.057571324388536
       },
       "isLocked": false,
-      "linkedName": "Front 5 - GP 4"
+      "linkedName": "GP 4 - Front 5"
     },
     {
       "anchor": {
-        "x": 8.0,
-        "y": 7.4
+        "x": 7.05,
+        "y": 7.35
       },
       "prevControl": {
-        "x": 7.651341177329473,
-        "y": 7.686620873707816
+        "x": 6.701341177329473,
+        "y": 7.636620873707815
       },
       "nextControl": {
-        "x": 8.463490608524964,
-        "y": 7.0189797173257595
+        "x": 7.3986588226705265,
+        "y": 7.063379126292184
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.477400964156465,
-        "y": 6.425580821227124
+        "x": 4.928113579332866,
+        "y": 6.22443332819313
       },
       "prevControl": {
-        "x": 6.455548564890268,
-        "y": 6.633492512044882
+        "x": 6.069381398887052,
+        "y": 6.5952537214430675
       },
       "nextControl": {
-        "x": 4.363323973462929,
-        "y": 6.18877644664962
+        "x": 3.9770570630377144,
+        "y": 5.915416333818183
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.58,
-        "y": 5.55
+        "x": 2.398297032328396,
+        "y": 5.551362870733224
       },
       "prevControl": {
-        "x": 3.3381713198994514,
-        "y": 5.766620377115189
+        "x": 2.962438171116078,
+        "y": 5.692019054188835
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "GP 5 Shoot - Front 5"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.7,
-      "rotationDegrees": 0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Front Paths",
   "previewStartingState": {
-    "rotation": 0.0,
+    "rotation": 180.0,
     "velocity": 0
   },
   "useDefaultConstraints": true
