@@ -16,12 +16,6 @@ public class AutonCommands {
         return AutoBuilder.followPath(path);
     }
 
-public static Command launchReadyPreload() {
-        return PivotCommands.autoLaunchPreload()
-                .alongWith(LauncherCommands.subwoofer())
-                .withName("RobotCommands.subwooferReady");
-    }
-    
     public static Command trackNote() {
         return new InstantCommand(
                         () -> {
@@ -50,5 +44,22 @@ public static Command launchReadyPreload() {
                             System.out.println("Stopping Tracking");
                         })
                 .withName("AutonCommands.stopTracking");
+    }
+    public static Command launchReadyPreload() {
+        return PivotCommands.autoLaunchPreload()
+                .alongWith(LauncherCommands.subwoofer())
+                .withName("RobotCommands.subwooferReady");
+    }
+
+    public static Command launchReady2() {
+        return PivotCommands.autoLaunch2()
+                .alongWith(LauncherCommands.subwoofer())
+                .withName("RobotCommands.subwooferReady");
+    }
+
+    public static Command launchReady3() {
+        return PivotCommands.autoLaunch3()
+                .alongWith(LauncherCommands.subwoofer())
+                .withName("RobotCommands.subwooferReady");
     }
 }

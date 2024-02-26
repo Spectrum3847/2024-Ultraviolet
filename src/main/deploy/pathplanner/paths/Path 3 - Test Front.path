@@ -37,11 +37,11 @@
       },
       "prevControl": {
         "x": 1.9682679836209052,
-        "y": 4.18421807781684
+        "y": 4.1842180778168405
       },
       "nextControl": {
-        "x": 2.5987688340595136,
-        "y": 4.084356553495977
+        "x": 2.6777839013071247,
+        "y": 4.071841796292757
       },
       "isLocked": false,
       "linkedName": "GP 2 - Front 5"
@@ -62,7 +62,42 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "stopIntake",
+      "waypointRelativePos": 2.15,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "stopIntake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "launcherReady2",
+      "waypointRelativePos": 2.25,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "launchReadyPreload"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 4.0,
     "maxAcceleration": 4.0,
@@ -75,7 +110,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Test Front Paths",
+  "folder": null,
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0

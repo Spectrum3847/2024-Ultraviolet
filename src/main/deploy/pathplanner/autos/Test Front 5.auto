@@ -18,9 +18,21 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "score"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Path 2 - Test Front"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "score"
           }
         },
         {
@@ -30,9 +42,21 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "score"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Path 4 - Test Front"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "score"
           }
         },
         {
@@ -42,9 +66,21 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "score"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Path 5 - Front Alt 5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "score"
           }
         }
       ]
