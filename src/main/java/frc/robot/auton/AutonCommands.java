@@ -47,19 +47,19 @@ public class AutonCommands {
     }
     public static Command launchReadyPreload() {
         return PivotCommands.autoLaunchPreload()
-                .alongWith(LauncherCommands.subwoofer())
+                .alongWith(LauncherCommands.autonlaunch())
                 .withName("RobotCommands.subwooferReady");
     }
 
     public static Command launchReady2() {
         return PivotCommands.autoLaunch2()
-                .alongWith(LauncherCommands.subwoofer())
+                .alongWith(LauncherCommands.autonlaunch())
                 .withName("RobotCommands.subwooferReady");
     }
 
     public static Command launchReady3() {
         return PivotCommands.autoLaunch3()
-                .alongWith(LauncherCommands.subwoofer())
+                .alongWith(LauncherCommands.autonlaunch())
                 .withName("RobotCommands.subwooferReady");
     }
 }

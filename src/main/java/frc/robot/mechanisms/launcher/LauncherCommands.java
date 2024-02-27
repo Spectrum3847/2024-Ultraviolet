@@ -44,6 +44,11 @@ public class LauncherCommands {
                 .withName("Launcher.subwoofer");
     }
 
+    public static Command autonlaunch() {
+        return runLauncherVelocities(leftLauncher.config.autonspin, rightLauncher.config.autonspin)
+                .withName("Launcher.autonspin");
+    }
+
     public static Command slowLaunchPercent() {
         return runLauncherPercentages(
                         leftLauncher.config.slowLeftLauncherPercentage,
