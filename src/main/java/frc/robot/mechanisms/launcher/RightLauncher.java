@@ -16,6 +16,7 @@ public class RightLauncher extends Mechanism {
         public double launch = 4000; // TODO: configure
         public double testVelocity = 4500;
         public double subwoofer = 4500;
+        public double ampVelocity = 2250;
         public double autonspin = 5200;
 
         /* Percentage RightLauncher Output */

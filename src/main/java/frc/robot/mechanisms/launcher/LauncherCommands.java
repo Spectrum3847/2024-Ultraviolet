@@ -21,7 +21,8 @@ public class LauncherCommands {
     }
 
     public static Command runAmpVelocity() {
-        return new LaunchTest(leftLauncher.config.ampVelocity).withName("Launcher.runAmpVelocity");
+        return runLauncherVelocities(leftLauncher.config.ampVelocity, rightLauncher.config.ampVelocity)
+                .withName("Launcher.runAmpVelocity");
     }
 
     public static Command runTest() {
