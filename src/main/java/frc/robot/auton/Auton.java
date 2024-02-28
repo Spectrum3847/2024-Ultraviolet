@@ -29,29 +29,16 @@ public class Auton extends SubsystemBase {
 
     // A chooser for autonomous commands
     public static void setupSelectors() {
-        // autonChooser.setDefaultOption("4 Piece Middle", new PathPlannerAuto("4 Piece Middle"));
-        // autonChooser.addOption("4 Piece Front", new PathPlannerAuto("4 Piece Front"));
-
-        // autonChooser.addOption(
-        //         "Example Path", FollowSinglePath.getSinglePath("Example Path")); // Runs single
-        // Path
         autonChooser.addOption("1 Meter", new PathPlannerAuto("1 Meter Auto")); // Runs full Auto
         autonChooser.addOption("3 Meter", new PathPlannerAuto("3 Meter Auto")); // Runs full Auto
         autonChooser.addOption("5 Meter", new PathPlannerAuto("5 Meter Auto")); // Runs full Auto
 
         autonChooser.addOption(
-                "Test Front 5", new PathPlannerAuto("Test Front 5")); // Runs full Auto
+                "Front 5", new PathPlannerAuto("Front 5")); // Runs full Auto
         autonChooser.addOption(
-                "Test Front Alt 5", new PathPlannerAuto("Test Front Alt 5")); // Runs full Auto
-
+                "Front Alt 5", new PathPlannerAuto("Front Alt 5")); // Runs full Auto
         autonChooser.addOption(
-                "Test Swerve",
-                SwerveCommands.Drive(
-                        () -> 0.1,
-                        () -> 0,
-                        () -> 1,
-                        () -> true, // true is field oriented
-                        () -> true)); // Runs full Auto
+                "Front 4", new PathPlannerAuto("Front 4")); // Runs full Auto
 
         SmartDashboard.putData("Auto Chooser", autonChooser);
     }
