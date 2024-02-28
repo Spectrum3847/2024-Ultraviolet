@@ -31,6 +31,8 @@ public class PM2024 {
     private static final double slipCurrent = 800;
     private static final SlotGains steerGains = new SlotGains(100, 0, 0, 0, 0);
     private static final SlotGains driveGains = new SlotGains(8, 0, 0.1, 0, 0.8);
+    private static final double deadband = 0.1;
+    private static final double rotationDeadband = 0.1;
 
     /*Rotation Controller*/
     private static final double kPRotationController = 7.0;
@@ -123,5 +125,5 @@ public class PM2024 {
                     .withRotationGains(
                             kPRotationController, kIRotationController, kDRotationController)
                     .withProfilingConfigs(
-                            maxVelocity, maxAccel, maxAngularVelocity, maxAngularAcceleration);
+                            maxVelocity, maxAccel, maxAngularVelocity, maxAngularAcceleration).withDeadbandConfig(deadband, rotationDeadband);;
 }

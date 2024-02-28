@@ -3,75 +3,61 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.996002046260407,
-        "y": 4.1
+        "x": 1.89,
+        "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9322428932210527,
-        "y": 4.1
+        "x": 1.9999999999999996,
+        "y": 5.55
       },
       "isLocked": false,
-      "linkedName": "GP 1 Shoot - Front 5"
+      "linkedName": "GP 1 - Test Front"
     },
     {
       "anchor": {
-        "x": 2.6,
-        "y": 4.1
+        "x": 2.6412213123771426,
+        "y": 5.55
       },
       "prevControl": {
-        "x": 2.499951183790112,
-        "y": 4.1
-      },
-      "nextControl": {
-        "x": 2.7000488162098883,
-        "y": 4.1
-      },
-      "isLocked": false,
-      "linkedName": "GP 2 - Front 5"
-    },
-    {
-      "anchor": {
-        "x": 1.8528728448199805,
-        "y": 5.03323212095903
-      },
-      "prevControl": {
-        "x": 1.8528728448199805,
-        "y": 4.78323212095903
-      },
-      "nextControl": {
-        "x": 1.8528728448199805,
-        "y": 5.28323212095903
-      },
-      "isLocked": false,
-      "linkedName": "GP 2 Shoot - Front 5"
-    },
-    {
-      "anchor": {
-        "x": 2.5,
-        "y": 5.7
-      },
-      "prevControl": {
-        "x": 2.5,
-        "y": 5.374185707301792
+        "x": 2.5412213123771434,
+        "y": 5.55
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "GP 3 - Front 5"
+      "linkedName": "GP 2 - Test Front"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 1.0,
-      "rotationDegrees": 180.0,
-      "rotateFast": true
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "launchReady",
+      "waypointRelativePos": 0.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "launchReady2"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "home"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 4.0,
-    "maxAcceleration": 3.5,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -83,8 +69,8 @@
   "reversed": false,
   "folder": "Front Paths",
   "previewStartingState": {
-    "rotation": 145.0,
+    "rotation": 180.0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
