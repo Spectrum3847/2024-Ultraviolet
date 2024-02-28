@@ -117,7 +117,7 @@ public class RobotCommands {
     }
 
     public static Command home() {
-        return PivotCommands.home().alongWith();
+        return PivotCommands.home();
     }
 
     // public static Command score() {

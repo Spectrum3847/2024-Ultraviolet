@@ -28,7 +28,7 @@ public class PHOTON {
 
     // Tuning Config
     // Estimated at first, then fudge-factored to make odom match record
-    private static final double kWheelRadiusInches = 3.965 / 2;
+    private static final double kWheelRadiusInches = 3.875 / 2;
     private static final double speedAt12VoltsMps = 5.8;
 
     private static final double slipCurrent = 80;
