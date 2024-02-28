@@ -48,6 +48,10 @@ public class PivotCommands {
         return pivot.runPosition(pivot.config.podium).withName("Pivot.podium");
     }
 
+    public static Command ampWing() {
+        return pivot.runPosition(pivot.config.ampWing).withName("Pivot.ampWing");
+    }
+
     public static Command coastMode() {
         return pivot.coastMode();
     }

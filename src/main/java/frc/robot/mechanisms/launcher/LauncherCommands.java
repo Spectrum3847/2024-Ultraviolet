@@ -40,6 +40,10 @@ public class LauncherCommands {
                 .withName("Launcher.subwoofer");
     }
 
+    public static Command deepShot() {
+        return runLauncherVelocities(5400);
+    }
+
     public static Command eject() {
         return runLauncherVelocities(-2000, -2000).withName("Launcher.eject");
     }
@@ -59,6 +63,10 @@ public class LauncherCommands {
 
     public static Command stopMotors() {
         return stopLeftMotor().alongWith(stopRightMotor()).withName("Launcher.stopMotor");
+    }
+
+    public static Command runLauncherVelocities(double velocity) {
+        return runLauncherVelocities(velocity, velocity);
     }
 
     public static Command runLauncherVelocities(double leftVelocity, double rightVelocity) {

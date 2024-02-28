@@ -75,6 +75,26 @@ public class PilotCommands {
                 .withName("Swerve.PilotSpeakerAimingDrive");
     }
 
+    public static Command podiumAimingDrive() {
+        return SwerveCommands.aimDrive(
+                        () -> pilot.getDriveFwdPositive(),
+                        () -> pilot.getDriveLeftPositive(),
+                        () -> Units.degreesToRadians(40),
+                        () -> pilot.getFieldOriented(), // true is field oriented
+                        () -> true)
+                .withName("Swerve.PilotSpeakerAimingDrive");
+    }
+
+    public static Command AmpWingAimingDrive() {
+        return SwerveCommands.aimDrive(
+                        () -> pilot.getDriveFwdPositive(),
+                        () -> pilot.getDriveLeftPositive(),
+                        () -> Units.degreesToRadians(0),
+                        () -> pilot.getFieldOriented(), // true is field oriented
+                        () -> true)
+                .withName("Swerve.PilotSpeakerAimingDrive");
+    }
+
     /**
      * Drive the robot using left stick and control orientation using the right stick Only Cardinal
      * directions are allowed

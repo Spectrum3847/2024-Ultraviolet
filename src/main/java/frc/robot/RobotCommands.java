@@ -156,9 +156,15 @@ public class RobotCommands {
     }
 
     public static Command podiumReady() {
-        return LauncherCommands.runOnDemandVelocity()
-                .alongWith(PivotCommands.podium())
+        return LauncherCommands.deepShot()
+                .alongWith(PivotCommands.podium(), PilotCommands.podiumAimingDrive())
                 .withName("RobotCommands.podium");
+    }
+
+    public static Command AmpWingReady() {
+        return LauncherCommands.deepShot()
+                .alongWith(PivotCommands.ampWing(), PilotCommands.AmpWingAimingDrive())
+                .withName("RobotCommands.ampWing");
     }
 
     public static Command topClimb() {

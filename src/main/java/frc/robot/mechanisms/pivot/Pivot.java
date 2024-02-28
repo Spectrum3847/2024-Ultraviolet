@@ -21,6 +21,7 @@ public class Pivot extends Mechanism {
         public final int home = 1;
         public final double subwoofer = 80.5;
         public final int podium = 55;
+        public final double ampWing = 41;
 
         public final double zeroSpeed = -0.2;
 
