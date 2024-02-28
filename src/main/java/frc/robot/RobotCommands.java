@@ -60,9 +60,9 @@ public class RobotCommands {
 
     public static Command IntakeWithMotorSensor() {
         return IntakeCommands.intake()
+                .alongWith(FeederCommands.feeder())
                 .until(() -> Robot.feeder.getMotorVelocity() > 0.01)
                 .andThen(PilotCommands.rumble(1, 0.5))
-                .andThen(FeederCommands.feeder())
                 .withTimeout(0.25);
         // FeederCommands.addFeedRevolutions().withTimeout(0.15 )));
         // ); // add a .until to the feed revolutions later

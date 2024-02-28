@@ -51,11 +51,6 @@ public class AutonCommands {
                         })
                 .withName("AutonCommands.stopTracking");
     }
-    public static Command launchReadyPreload() {
-        return PivotCommands.autoLaunchPreload()
-                .alongWith(LauncherCommands.autonlaunch())
-                .withName("RobotCommands.subwooferReady");
-    }
 
     public static Command launchReady2() {
         return PivotCommands.autoLaunch2()

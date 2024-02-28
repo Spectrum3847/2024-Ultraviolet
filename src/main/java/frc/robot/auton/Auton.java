@@ -1,6 +1,5 @@
 package frc.robot.auton;
 
-import com.fasterxml.jackson.databind.util.Named;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -15,11 +14,9 @@ import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
 import frc.robot.auton.config.AutonConfig;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
-import frc.robot.mechanisms.feeder.Feeder;
 import frc.robot.mechanisms.feeder.FeederCommands;
 import frc.robot.mechanisms.intake.IntakeCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
-import frc.robot.mechanisms.pivot.PivotCommands;
 import frc.robot.swerve.commands.SwerveCommands;
 
 public class Auton extends SubsystemBase {
@@ -65,7 +62,7 @@ public class Auton extends SubsystemBase {
         NamedCommands.registerCommand("feeder", FeederCommands.feeder().withTimeout(0.1));
         NamedCommands.registerCommand("score", RobotCommands.score().withTimeout(0.3));
 
-         /* Stop Commands */
+        /* Stop Commands */
         NamedCommands.registerCommand("stopTracking", AutonCommands.stopTracking());
         NamedCommands.registerCommand("stopIntake", IntakeCommands.stopMotor());
         NamedCommands.registerCommand("stopFeeder", FeederCommands.stopMotor());
