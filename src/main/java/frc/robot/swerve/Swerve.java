@@ -15,6 +15,7 @@ import frc.robot.RobotTelemetry;
 import frc.robot.swerve.configs.ALPHA2024;
 import frc.robot.swerve.configs.MUSICDISC2023;
 import frc.robot.swerve.configs.NOTEBLOCK2023;
+import frc.robot.swerve.configs.PHOTON;
 import frc.robot.swerve.configs.PM2024;
 import frc.spectrumLib.swerve.Drivetrain;
 import frc.spectrumLib.swerve.Drivetrain.DriveState;
@@ -43,6 +44,9 @@ public class Swerve implements Subsystem {
         switch (Robot.config.getRobotType()) {
             case PM:
                 config = PM2024.config;
+                break;
+            case PHOTON:
+                config = PHOTON.config;
                 break;
             case ALPHA:
                 config = ALPHA2024.config;
