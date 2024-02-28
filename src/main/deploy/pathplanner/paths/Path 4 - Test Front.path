@@ -28,17 +28,11 @@
       "linkedName": "GP 4 - Front 5"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": 180.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "launcherReady",
+      "name": "launcherReady3",
       "waypointRelativePos": 1.0,
       "command": {
         "type": "parallel",
@@ -49,22 +43,11 @@
               "data": {
                 "name": "launchReady3"
               }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "stopIntake",
-      "waypointRelativePos": 1.0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
+            },
             {
               "type": "named",
               "data": {
-                "name": "stopIntake"
+                "name": "home"
               }
             }
           ]
@@ -73,8 +56,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

@@ -26,6 +26,8 @@ public class AutonConfig {
     public static final double maxModuleSpeed = 4.5;
     public static final double driveBaseRadius = 0.4;
 
+    public static Boolean autonInitCommandRun = false;
+
     public static HolonomicPathFollowerConfig AutonPathFollowerConfig =
             new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely
                     // live in your Constants class

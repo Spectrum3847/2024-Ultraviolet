@@ -33,7 +33,7 @@
   "eventMarkers": [
     {
       "name": "launchReady",
-      "waypointRelativePos": 1.0,
+      "waypointRelativePos": 0.0,
       "command": {
         "type": "parallel",
         "data": {
@@ -43,18 +43,14 @@
               "data": {
                 "name": "launchReady2"
               }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "home"
+              }
             }
           ]
-        }
-      }
-    },
-    {
-      "name": "stopIntake",
-      "waypointRelativePos": 1.0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": []
         }
       }
     }

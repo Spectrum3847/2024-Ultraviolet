@@ -40,20 +40,8 @@ public class PivotCommands {
         return pivot.runPosition(pivot.config.halfScore).withName("Pivot.halfScore");
     }
 
-    public static Command ampScore() {
-        return pivot.runPosition(pivot.config.amp).withName("Pivot.amp");
-    }
-
     public static Command subwoofer() {
         return pivot.runPosition(pivot.config.subwoofer).withName("Pivot.subwoofer");
-    }
-
-    public static Command podium() {
-        return pivot.runPosition(pivot.config.podium).withName("Pivot.podium");
-    }
-
-    public static Command coastMode() {
-        return pivot.coastMode();
     }
 
     public static Command autoLaunchPreload() {
@@ -66,5 +54,13 @@ public class PivotCommands {
 
     public static Command autoLaunch3() {
         return pivot.runPosition(pivot.config.autoLaunch3).withName("Pivot.subwoofer");
+    }
+
+    public static Command stopMotor() {
+        return pivot.runStop().withName("Pivot.stopMotor");
+    }
+
+    public static Command coastMode() {
+        return pivot.coastMode();
     }
 }

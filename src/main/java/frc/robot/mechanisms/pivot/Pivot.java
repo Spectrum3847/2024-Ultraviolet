@@ -11,21 +11,20 @@ public class Pivot extends Mechanism {
     public class PivotConfig extends Config {
 
         /* Pivot constants in motor rotations */
-        public final double maxRotation =
-                43.5 * 3 * 25 / 36; // furthest it goes up, also is amp score
+        public final double maxRotation = 33.6;
         public final double minRotation = 0;
 
-        /* Pivot positions in percentage of max rotation || 0 is horizontal */
+        /* Pivot positions in percentage of max rotation || 0 is vertical? */
         public final int score = 65;
         public final int halfScore = 50;
         public final int test = 65;
-        public final int home = 0;
-        public final int subwoofer = 10;
-        public final int podium = 36;
-        public final int amp = 100; // confirmed
+        public final int home = 1;
+        public final double subwoofer = 80.5;
+        public final int podium = 55;
+        public final int autoLaunchPreload = 16;
         public final int autoLaunch2 =
-                70; // works for GP2/GP3/GP5/GP6 in Front 5 and GP2/GP4/5 in Front 5 Alt
-        public final int autoLaunch3 = 65; // works for GP4 in Front 5 and GP3 in Front 5 Alt
+                22; // works for GP2/GP3/GP5/GP6 in Front 5 and GP2/GP4/5 in Front 5 Alt
+        public final int autoLaunch3 = 36; // works for GP4 in Front 5 and GP3 in Front 5 Alt
 
         public final double zeroSpeed = -0.2;
 
@@ -56,7 +55,6 @@ public class Pivot extends Mechanism {
         super(attached);
         if (attached) {
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
-            // motor.setPosition(config.maxRotation);
         }
 
         SmartDashboard.putNumber("pivotPercent", config.test);

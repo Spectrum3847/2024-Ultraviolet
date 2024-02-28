@@ -64,7 +64,7 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "New Event Marker",
+      "name": "feed",
       "waypointRelativePos": 1.25,
       "command": {
         "type": "sequential",
@@ -73,13 +73,36 @@
             {
               "type": "named",
               "data": {
-                "name": "stopIntake"
+                "name": null
               }
             },
             {
               "type": "named",
               "data": {
+                "name": null
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "launchReady2",
+      "waypointRelativePos": 0.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
                 "name": "launchReady2"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "home"
               }
             }
           ]
@@ -88,8 +111,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

@@ -16,8 +16,9 @@ public class RightLauncher extends Mechanism {
         public double launch = 4000; // TODO: configure
         public double testVelocity = 4500;
         public double subwoofer = 4500;
-        public double ampVelocity = 2250;
-        public double autonspin = 5200;
+        public double launchReadyPreload = 4500;
+        public double launchReady2 = 4500;
+        public double launchReady3 = 4500;
 
         /* Percentage RightLauncher Output */
         public double slowRightLauncherPercentage = 0.06; // TODO: configure
@@ -25,20 +26,20 @@ public class RightLauncher extends Mechanism {
         public double testBackPercent = -0.5;
 
         /* RightLauncher config values */
-        public double currentLimit = 60;
+        public double currentLimit = 40;
         public double threshold = 80;
-        public double velocityKp = 0.156152;
-        public double velocityKv = 0.12;
-        public double velocityKs = 0.24;
+        public double velocityKp = 12; // 0.156152;
+        public double velocityKv = 0.2; // 0.12;
+        public double velocityKs = 14;
 
         public RightLauncherConfig() {
             super("RightLauncher", 43, "3847");
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
             configGearRatio(1 / 2); // TODO: configure
-            configSupplyCurrentLimit(currentLimit, threshold, true);
+            configSupplyCurrentLimit(currentLimit, threshold, false);
             configNeutralBrakeMode(true);
-            configCounterClockwise_Positive(); // TODO: configure
+            configClockwise_Positive(); // TODO: configure
             configMotionMagic(51, 205, 0);
         }
     }
