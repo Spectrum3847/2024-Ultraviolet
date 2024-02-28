@@ -44,6 +44,14 @@ public class PivotCommands {
         return pivot.runPosition(pivot.config.subwoofer).withName("Pivot.subwoofer");
     }
 
+    public static Command ampScore() {
+        return pivot.runPosition(pivot.config.amp).withName("Pivot.amp");
+    }
+
+    public static Command podium() {
+        return pivot.runPosition(pivot.config.podium).withName("Pivot.podium");
+    }
+
     public static Command autoLaunchPreload() {
         return pivot.runPosition(pivot.config.autoLaunchPreload).withName("Pivot.subwoofer");
     }

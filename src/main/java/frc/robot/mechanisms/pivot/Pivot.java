@@ -11,16 +11,18 @@ public class Pivot extends Mechanism {
     public class PivotConfig extends Config {
 
         /* Pivot constants in motor rotations */
-        public final double maxRotation = 33.6;
+        public final double maxRotation =
+                43.5 * 3 * 25 / 36; // furthest it goes up, also is amp score
         public final double minRotation = 0;
 
-        /* Pivot positions in percentage of max rotation || 0 is vertical? */
+        /* Pivot positions in percentage of max rotation || 0 is horizontal */
         public final int score = 65;
         public final int halfScore = 50;
         public final int test = 65;
-        public final int home = 1;
-        public final double subwoofer = 80.5;
-        public final int podium = 55;
+        public final int home = 0;
+        public final int subwoofer = 10;
+        public final int podium = 36;
+        public final int amp = 100; // confirmed
         public final int autoLaunchPreload = 16;
         public final int autoLaunch2 =
                 22; // works for GP2/GP3/GP5/GP6 in Front 5 and GP2/GP4/5 in Front 5 Alt

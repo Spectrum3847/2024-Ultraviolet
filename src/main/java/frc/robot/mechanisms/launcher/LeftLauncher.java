@@ -15,6 +15,7 @@ public class LeftLauncher extends Mechanism {
         public double maxSpeed = 5000; // TODO: configure
         public double launch = 4000; // TODO: configure
         public double testVelocity = 4500;
+        public double ampVelocity = 2250;
         public double subwoofer = 4500;
         public double launchReadyPreload = 4500;
         public double launchReady2 = 4500;

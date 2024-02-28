@@ -31,6 +31,12 @@ public class LauncherCommands {
                 .withName("Launcher.runFull");
     }
 
+    public static Command runAmpVelocity() {
+        return runLauncherVelocities(
+                        leftLauncher.config.ampVelocity, rightLauncher.config.ampVelocity)
+                .withName("Launcher.runAmpVelocity");
+    }
+
     public static Command launch() {
         return runLauncherVelocities(leftLauncher.config.launch, rightLauncher.config.launch)
                 .withName("Launcher.launch");
