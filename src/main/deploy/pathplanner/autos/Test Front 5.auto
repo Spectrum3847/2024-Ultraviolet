@@ -18,9 +18,27 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "score1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "intake"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Path 2 - Test Front"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "score2"
           }
         },
         {
@@ -30,9 +48,21 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "score1"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Path 4 - Test Front"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "score3"
           }
         },
         {
@@ -42,9 +72,9 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Path 5 - Front Alt 5"
+            "name": "score2"
           }
         }
       ]

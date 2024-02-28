@@ -41,6 +41,11 @@ public class LauncherCommands {
                 .withName("Launcher.subwoofer");
     }
 
+    public static Command launchReadyPreload() {
+        return runLauncherVelocities(
+                leftLauncher.config.launchReadyPreload, rightLauncher.config.launchReadyPreload);
+    }
+
     public static Command slowLaunchPercent() {
         return runLauncherPercentages(
                         leftLauncher.config.slowLeftLauncherPercentage,

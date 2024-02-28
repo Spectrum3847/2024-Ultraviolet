@@ -57,18 +57,38 @@ public class AutonCommands {
     public static Command launchReadyPreload() {
         return PivotCommands.autoLaunchPreload()
                 .alongWith(LauncherCommands.subwoofer())
-                .withName("RobotCommands.subwooferReady");
+                .withName("RobotCommands.launchReadyPreload");
     }
 
     public static Command launchReady2() {
-        return PivotCommands.autoLaunch2()
-                .alongWith(LauncherCommands.subwoofer())
-                .withName("RobotCommands.subwooferReady");
+        return (LauncherCommands.subwoofer()).withName("RobotCommands.launchReady2");
     }
 
     public static Command launchReady3() {
-        return PivotCommands.autoLaunch3()
-                .alongWith(LauncherCommands.subwoofer())
-                .withName("RobotCommands.subwooferReady");
+        return (LauncherCommands.subwoofer()).withName("RobotCommands.launchReady3");
+    }
+
+    public static Command pivotReadyPreload() {
+        return PivotCommands.autoLaunchPreload().withName("RobotCommands.pivotReadyPreload");
+    }
+
+    public static Command pivotReady2() {
+        return PivotCommands.autoLaunch2().withName("RobotCommands.pivotReady2");
+    }
+
+    public static Command pivotReady3() {
+        return PivotCommands.autoLaunch3().withName("RobotCommands.pivotReady3");
+    }
+
+    public static Command score1() {
+        return FeederCommands.feeder().alongWith(AutonCommands.pivotReadyPreload());
+    }
+
+    public static Command score2() {
+        return FeederCommands.feeder().alongWith(AutonCommands.pivotReady2());
+    }
+
+    public static Command score3() {
+        return FeederCommands.feeder().alongWith(AutonCommands.pivotReady3());
     }
 }
