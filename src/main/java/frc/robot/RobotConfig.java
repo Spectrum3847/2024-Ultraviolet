@@ -81,8 +81,7 @@ public final class RobotConfig {
         } else if (rioSerial.equals(PM2024SERIAL)) {
             robotType = RobotType.PM;
             RobotTelemetry.print("Robot Type: PM 2024");
-        }
-         else if (rioSerial.equals(NOTEBLOCK2023SERIAL)) {
+        } else if (rioSerial.equals(NOTEBLOCK2023SERIAL)) {
             robotType = RobotType.NOTEBLOCK;
             RobotTelemetry.print("Robot Type: NOTEBLOCK");
         } else if (rioSerial.equals(MUSICDISC2023SERIAL)) {
