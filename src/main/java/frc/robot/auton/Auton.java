@@ -18,7 +18,6 @@ import frc.robot.mechanisms.feeder.FeederCommands;
 import frc.robot.mechanisms.intake.IntakeCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.mechanisms.pivot.PivotCommands;
-import frc.robot.swerve.commands.SwerveCommands;
 
 public class Auton extends SubsystemBase {
     public static final SendableChooser<Command> autonChooser = new SendableChooser<>();
