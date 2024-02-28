@@ -59,10 +59,7 @@ public class PilotCommands {
         return SwerveCommands.aimDrive(
                         () -> pilot.getDriveFwdPositive(),
                         () -> pilot.getDriveLeftPositive(),
-                        () ->
-                                // Units.degreesToRadians(
-                                Robot.swerve.getRotation().getRadians()
-                                        + Robot.vision.getThetaToHybrid() // or
+                        () -> Robot.vision.getThetaToSpeaker() // or
                         // Robot.swerve.getRotation()?
                         ,
                         () -> pilot.getFieldOriented(), // true is field oriented

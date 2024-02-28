@@ -13,7 +13,9 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.FieldConstants;
 import frc.robot.Robot;
+import frc.robot.RobotTelemetry;
 import frc.spectrumLib.vision.Limelight;
 import frc.spectrumLib.vision.Limelight.PhysicalConfig;
 import java.util.Optional;
@@ -47,14 +49,14 @@ public class Vision extends SubsystemBase {
                 new Translation2d(BLUE_SPEAKER.getX(), FIELD_WIDTH - BLUE_SPEAKER.getY());
 
         /* Pose Estimation Constants */
-        public static final double VISION_REJECT_DISTANCE = 2.3;
+        public static final double VISION_REJECT_DISTANCE = 20000; // 2.3;
         // Increase these numbers to trust global measurements from vision less.
-        public static final double VISION_STD_DEV_X = 1;
-        public static final double VISION_STD_DEV_Y = 1;
-        public static final double VISION_STD_DEV_THETA = 1;
+        public static final double VISION_STD_DEV_X = 0;
+        public static final double VISION_STD_DEV_Y = 0;
+        public static final double VISION_STD_DEV_THETA = 99999999;
 
         public static final Matrix<N3, N1> visionStdMatrix =
-                VecBuilder.fill(VISION_STD_DEV_X, VISION_STD_DEV_THETA, VISION_REJECT_DISTANCE);
+                VecBuilder.fill(VISION_STD_DEV_X, VISION_STD_DEV_Y, VISION_STD_DEV_THETA);
 
         /* Vision Command Configs */
         public static final class AlignToNote extends CommandConfig {
@@ -117,7 +119,11 @@ public class Vision extends SubsystemBase {
         // Integrate Vision with Odometry
         if (getVisionPose().isPresent()) {
             isPresent = true;
-            Robot.swerve.addVisionMeasurement(getVisionPose().get(), getVisionPoseTimestamp());
+            Pose2d botpose = getVisionPose().get();
+            Pose2d poseWithGyro =
+                    new Pose2d(botpose.getX(), botpose.getY(), Robot.swerve.getRotation());
+            RobotTelemetry.print("Updating BotPose: " + botpose.getX() + ":" + botpose.getY());
+            Robot.swerve.addVisionMeasurement(poseWithGyro, getVisionPoseTimestamp());
         } else {
             isPresent = false;
         }
@@ -132,7 +138,7 @@ public class Vision extends SubsystemBase {
      *     nodes
      * @return angle between robot heading and hybrid spot in degrees
      */
-    public double getThetaToHybrid() {
+    public double getThetaToSpeaker() {
         // if (getVisionPose().get().getX() == 0 && getVisionPose().get().getY() == 0) {
         //     DriverStation.reportWarning(
         //             "Vision cannot localize! Move camera in view of a tag", false);
@@ -153,13 +159,17 @@ public class Vision extends SubsystemBase {
         // // aimingPrintDebug(transform, hyp, beta, omega, theta);
         // System.out.println("Aiming at node " + theta);
 
-        double angleBetweenRobotAndStage =
-                VisionConfig.RED_SPEAKER
-                        .minus(Robot.swerve.getPose().getTranslation())
-                        .getAngle()
-                        .getRadians();
+        Translation2d redspeaker =
+                new Translation2d(
+                        FieldConstants.Speaker.centerSpeakerOpening.toTranslation2d().getX(),
+                        FieldConstants.fieldLength
+                                - FieldConstants.Speaker.centerSpeakerOpening
+                                        .toTranslation2d()
+                                        .getY());
+        double angleBetweenRobotAndSpeakers =
+                redspeaker.minus(Robot.swerve.getPose().getTranslation()).getAngle().getRadians();
 
-        return angleBetweenRobotAndStage; // this is the predictable offset behind the
+        return angleBetweenRobotAndSpeakers + Math.PI; // this is the predictable offset behind the
         // chargestation. The error seems to
         // be predictable probably meaning the trig is wrong
     }
