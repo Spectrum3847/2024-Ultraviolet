@@ -17,6 +17,7 @@ public class LeftLauncher extends Mechanism {
         public double testVelocity = 4500;
         public double ampVelocity = 2250;
         public double subwoofer = 4500;
+        public double autonspin = 5200;
 
         /* Percentage LeftLauncher Output */
         public double slowLeftLauncherPercentage = 0.06; // TODO: configure

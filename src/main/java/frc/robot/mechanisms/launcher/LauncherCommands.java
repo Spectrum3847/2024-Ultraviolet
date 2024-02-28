@@ -21,7 +21,8 @@ public class LauncherCommands {
     }
 
     public static Command runAmpVelocity() {
-        return new LaunchTest(leftLauncher.config.ampVelocity).withName("Launcher.runAmpVelocity");
+        return runLauncherVelocities(leftLauncher.config.ampVelocity, rightLauncher.config.ampVelocity)
+                .withName("Launcher.runAmpVelocity");
     }
 
     public static Command runTest() {
@@ -42,6 +43,11 @@ public class LauncherCommands {
     public static Command subwoofer() {
         return runLauncherVelocities(leftLauncher.config.subwoofer, rightLauncher.config.subwoofer)
                 .withName("Launcher.subwoofer");
+    }
+
+    public static Command autonlaunch() {
+        return runLauncherVelocities(leftLauncher.config.autonspin, rightLauncher.config.autonspin)
+                .withName("Launcher.autonspin");
     }
 
     public static Command slowLaunchPercent() {

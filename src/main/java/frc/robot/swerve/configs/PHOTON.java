@@ -33,7 +33,7 @@ public class PHOTON {
 
     private static final double slipCurrent = 80;
     private static final SlotGains steerGains = new SlotGains(100, 0, 0.05, 0, 0);
-    private static final SlotGains driveGains = new SlotGains(8, 0, 0, 0, 0.8);
+    private static final SlotGains driveGains = new SlotGains(8, 0, 0.1, 0, 0.8);
 
     /*Rotation Controller*/
     private static final double kPRotationController = 7.5;

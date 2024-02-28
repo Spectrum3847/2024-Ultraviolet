@@ -51,4 +51,21 @@ public class AutonCommands {
                         })
                 .withName("AutonCommands.stopTracking");
     }
+    public static Command launchReadyPreload() {
+        return PivotCommands.autoLaunchPreload()
+                .alongWith(LauncherCommands.autonlaunch())
+                .withName("RobotCommands.subwooferReady");
+    }
+
+    public static Command launchReady2() {
+        return PivotCommands.autoLaunch2()
+                .alongWith(LauncherCommands.autonlaunch())
+                .withName("RobotCommands.subwooferReady");
+    }
+
+    public static Command launchReady3() {
+        return PivotCommands.autoLaunch3()
+                .alongWith(LauncherCommands.autonlaunch())
+                .withName("RobotCommands.subwooferReady");
+    }
 }
