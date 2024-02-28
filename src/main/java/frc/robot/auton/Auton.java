@@ -39,9 +39,10 @@ public class Auton extends SubsystemBase {
         autonChooser.addOption("3 Meter", new PathPlannerAuto("3 Meter Auto")); // Runs full Auto
         autonChooser.addOption("5 Meter", new PathPlannerAuto("5 Meter Auto")); // Runs full Auto
 
-        autonChooser.addOption("Front 5", new PathPlannerAuto("Front 5")); // Runs full Auto
         autonChooser.addOption(
                 "Test Front 5", new PathPlannerAuto("Test Front 5")); // Runs full Auto
+        autonChooser.addOption(
+                "Test Front Alt 5", new PathPlannerAuto("Test Front Alt 5")); // Runs full Auto
 
         autonChooser.addOption(
                 "Test Swerve",
@@ -63,12 +64,8 @@ public class Auton extends SubsystemBase {
         NamedCommands.registerCommand("launchReadyPreload", AutonCommands.launchReadyPreload());
         NamedCommands.registerCommand("launchReady2", AutonCommands.launchReady2());
         NamedCommands.registerCommand("launchReady3", AutonCommands.launchReady3());
-        NamedCommands.registerCommand("intake", RobotCommands.intake());
-        NamedCommands.registerCommand("feed", FeederCommands.feeder().withTimeout(.2));
-        NamedCommands.registerCommand("score1", AutonCommands.score1().withTimeout(0.8));
-        NamedCommands.registerCommand("score2", AutonCommands.score2().withTimeout(0.8));
-        NamedCommands.registerCommand("score3", AutonCommands.score3().withTimeout(0.8));
-        NamedCommands.registerCommand("home", PivotCommands.home());
+        NamedCommands.registerCommand("smartIntake", RobotCommands.laserCanFeed());
+        NamedCommands.registerCommand("launch", FeederCommands.runFull().withTimeout(0.3));
 
         /* Stop Commands */
         NamedCommands.registerCommand("stopTracking", AutonCommands.stopTracking());

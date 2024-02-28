@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.auton.Auton;
+import frc.robot.auton.config.AutonConfig;
 import frc.robot.leds.LEDs;
 import frc.robot.leds.LEDsCommands;
 import frc.robot.mechanisms.amptrap.AmpTrap;
@@ -55,7 +56,6 @@ public class Robot extends LoggedRobot {
     public static LEDs leds;
     public static Pilot pilot;
     public static Operator operator;
-    // public static Auton auton;
 
     /**
      * This method cancels all commands and returns subsystems to their default commands and the
@@ -164,8 +164,11 @@ public class Robot extends LoggedRobot {
 
         resetCommandsAndButtons();
 
-        Command autonInitCommand = new PathPlannerAuto("1 Meter Auto").ignoringDisable(true);
-        autonInitCommand.schedule();
+        if (AutonConfig.autonInitCommandRun == false) {
+            Command autonInitCommand = new PathPlannerAuto("1 Meter Auto").ignoringDisable(true);
+            autonInitCommand.schedule();
+            AutonConfig.autonInitCommandRun = true;
+        }
 
         RobotTelemetry.print("### Disabled Init Complete ### ");
     }
