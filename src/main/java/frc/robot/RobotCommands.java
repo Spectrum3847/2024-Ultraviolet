@@ -105,7 +105,8 @@ public class RobotCommands {
 
     public static Command eject() {
         return FeederCommands.eject()
-                .alongWith(AmpTrapCommands.eject(), IntakeCommands.eject())
+                .alongWith(
+                        AmpTrapCommands.eject(), IntakeCommands.eject(), LauncherCommands.eject())
                 .withName("RobotCommands.eject");
     }
 

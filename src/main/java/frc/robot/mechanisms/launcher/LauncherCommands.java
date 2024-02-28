@@ -40,6 +40,10 @@ public class LauncherCommands {
                 .withName("Launcher.subwoofer");
     }
 
+    public static Command eject() {
+        return runLauncherVelocities(-2000, -2000).withName("Launcher.eject");
+    }
+
     public static Command slowLaunchPercent() {
         return runLauncherPercentages(
                         leftLauncher.config.slowLeftLauncherPercentage,

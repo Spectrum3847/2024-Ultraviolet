@@ -17,7 +17,7 @@ public class SwerveCommands {
             () -> (swerve.config.deadband * swerve.config.maxVelocity);
 
     public static void setupDefaultCommand() {
-        swerve.setDefaultCommand(PilotCommands.pilotDrive());
+        swerve.setDefaultCommand(PilotCommands.headingLockDrive());
     }
 
     /** Turn the swerve wheels to an X to prevent the robot from moving */
