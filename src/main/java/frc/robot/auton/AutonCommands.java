@@ -16,12 +16,12 @@ public class AutonCommands {
         return AutoBuilder.followPath(path);
     }
 
-public static Command launchReadyPreload() {
+    public static Command launchReadyPreload() {
         return PivotCommands.autoLaunchPreload()
                 .alongWith(LauncherCommands.subwoofer())
                 .withName("RobotCommands.subwooferReady");
     }
-    
+
     public static Command trackNote() {
         return new InstantCommand(
                         () -> {

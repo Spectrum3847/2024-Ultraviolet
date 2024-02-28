@@ -56,7 +56,6 @@ public class Auton extends SubsystemBase {
         NamedCommands.registerCommand("stopTracking", AutonCommands.stopTracking());
         NamedCommands.registerCommand("intake", RobotCommands.intake().withTimeout(.5));
         NamedCommands.registerCommand("score", RobotCommands.score().withTimeout(0.3));
-
     }
 
     // Subsystem Documentation:

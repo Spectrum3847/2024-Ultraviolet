@@ -55,6 +55,7 @@ public class PivotCommands {
     public static Command coastMode() {
         return pivot.coastMode();
     }
+
     public static Command autoLaunchPreload() {
         return pivot.runPosition(pivot.config.subwoofer).withName("Pivot.subwoofer");
     }
