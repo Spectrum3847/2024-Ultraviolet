@@ -15,9 +15,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.FieldConstants;
 import frc.robot.Robot;
-import frc.robot.RobotTelemetry;
 import frc.spectrumLib.vision.Limelight;
 import frc.spectrumLib.vision.Limelight.PhysicalConfig;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.littletonrobotics.junction.AutoLogOutput;
 
@@ -51,8 +51,8 @@ public class Vision extends SubsystemBase {
         /* Pose Estimation Constants */
         public static final double VISION_REJECT_DISTANCE = 20000; // 2.3;
         // Increase these numbers to trust global measurements from vision less.
-        public static final double VISION_STD_DEV_X = 0;
-        public static final double VISION_STD_DEV_Y = 0;
+        public static final double VISION_STD_DEV_X = 0.5;
+        public static final double VISION_STD_DEV_Y = 0.5;
         public static final double VISION_STD_DEV_THETA = 99999999;
 
         public static final Matrix<N3, N1> visionStdMatrix =
@@ -118,12 +118,16 @@ public class Vision extends SubsystemBase {
     public void periodic() {
         // Integrate Vision with Odometry
         if (getVisionPose().isPresent()) {
-            isPresent = true;
-            Pose2d botpose = getVisionPose().get();
-            Pose2d poseWithGyro =
-                    new Pose2d(botpose.getX(), botpose.getY(), Robot.swerve.getRotation());
-            RobotTelemetry.print("Updating BotPose: " + botpose.getX() + ":" + botpose.getY());
-            Robot.swerve.addVisionMeasurement(poseWithGyro, getVisionPoseTimestamp());
+            try {
+                Pose2d botpose = getVisionPose().get();
+                isPresent = true;
+                Pose2d poseWithGyro =
+                        new Pose2d(botpose.getX(), botpose.getY(), Robot.swerve.getRotation());
+                Robot.swerve.addVisionMeasurement(poseWithGyro, getVisionPoseTimestamp());
+            } catch (NoSuchElementException e) {
+
+            }
+
         } else {
             isPresent = false;
         }
@@ -161,15 +165,15 @@ public class Vision extends SubsystemBase {
 
         Translation2d redspeaker =
                 new Translation2d(
-                        FieldConstants.Speaker.centerSpeakerOpening.toTranslation2d().getX(),
                         FieldConstants.fieldLength
                                 - FieldConstants.Speaker.centerSpeakerOpening
                                         .toTranslation2d()
-                                        .getY());
+                                        .getX(),
+                        FieldConstants.Speaker.centerSpeakerOpening.toTranslation2d().getY());
         double angleBetweenRobotAndSpeakers =
                 redspeaker.minus(Robot.swerve.getPose().getTranslation()).getAngle().getRadians();
 
-        return angleBetweenRobotAndSpeakers + Math.PI; // this is the predictable offset behind the
+        return angleBetweenRobotAndSpeakers; // this is the predictable offset behind the
         // chargestation. The error seems to
         // be predictable probably meaning the trig is wrong
     }
