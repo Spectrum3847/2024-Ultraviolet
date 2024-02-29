@@ -32,7 +32,7 @@ public class Pilot extends Gamepad {
         public final double triggersDeadzone = 0.1;
         public final double triggersExp = 2.0;
         public final double triggersScalor = Robot.swerve.config.maxAngularVelocity;
-        public final double rotationScalor = 0.25; // original was 0.8
+        public final double rotationScalor = 0.35; // original was 0.8
     }
 
     public PilotConfig config;
@@ -76,12 +76,12 @@ public class Pilot extends Gamepad {
                 .whileTrue(RobotCommands.podiumReady()); // if you want this to be only speaker tag,
         // just check for ID 4 in method OR cover up amp apriltag
         controller
-                .y()
+                .x()
                 .and(leftBumperOnly().or(bothBumpers()))
                 .whileTrue(RobotCommands.AmpWingReady());
 
         controller
-                .x()
+                .y()
                 .and(noBumpers().or(rightBumperOnly()))
                 .whileTrue(RobotCommands.subwooferReady());
         controller.x().and(leftBumperOnly()).whileTrue(ElevatorCommands.home());
