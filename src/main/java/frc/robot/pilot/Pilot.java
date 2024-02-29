@@ -4,6 +4,7 @@ import frc.robot.Robot;
 import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
 import frc.robot.mechanisms.feeder.FeederCommands;
+import frc.robot.mechanisms.intake.IntakeCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.mechanisms.pivot.PivotCommands;
 import frc.robot.swerve.commands.SwerveCommands;
@@ -59,7 +60,9 @@ public class Pilot extends Gamepad {
         controller
                 .a()
                 .and(leftBumperOnly())
-                .whileTrue(LauncherCommands.stopMotors().alongWith(RobotCommands.eject()));
+                .whileTrue(
+                        LauncherCommands.runLauncherPercentages(-.4, -.4)
+                                .alongWith(RobotCommands.eject()));
 
         controller
                 .b()
@@ -82,7 +85,12 @@ public class Pilot extends Gamepad {
         runWithEndSequence(
                 controller.rightBumper(),
                 RobotCommands.score(),
-                LauncherCommands.stopMotors().alongWith(PivotCommands.home()));
+                LauncherCommands.runLauncherPercentages(0, 0)
+                        .alongWith(
+                                PivotCommands.home(),
+                                FeederCommands.stopMotor(),
+                                IntakeCommands.stopMotor()),
+                2.5);
 
         controller.rightStick().whileTrue(PilotCommands.turboMode());
 

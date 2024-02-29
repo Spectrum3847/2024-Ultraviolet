@@ -7,7 +7,7 @@ public class FeederCommands {
     private static Feeder feeder = Robot.feeder;
 
     public static void setupDefaultCommand() {
-        feeder.setDefaultCommand(stopMotor().withName("Feeder.default"));
+        feeder.setDefaultCommand(stop().withName("Feeder.default"));
     }
 
     public static Command runFull() {
@@ -16,6 +16,10 @@ public class FeederCommands {
 
     public static Command slowFeed() {
         return feeder.runPercentage(feeder.config.slowFeederPercentage).withName("Feeder.slowFeed");
+    }
+
+    public static Command stop() {
+        return feeder.runPercentage(0).withName("Feeder.slowFeed");
     }
 
     public static Command addFeedRevolutions() {

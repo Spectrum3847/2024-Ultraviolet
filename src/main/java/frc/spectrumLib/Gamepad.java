@@ -245,8 +245,21 @@ public abstract class Gamepad extends SubsystemBase {
      * @param endCommand
      */
     public void runWithEndSequence(Trigger trigger, Command runCommand, Command endCommand) {
-        trigger.whileTrue(runCommand);
-        trigger.onFalse(endCommand.withTimeout(1.5));
+        runWithEndSequence(trigger, runCommand, endCommand, 1.5);
+    }
+
+    /**
+     * Run a command while a button/trigger is held down. Also runs a command for 1.5s when the
+     * button/trigger is released.
+     *
+     * @param trigger
+     * @param runCommand
+     * @param endCommand
+     */
+    public void runWithEndSequence(
+            Trigger trigger, Command runCommand, Command endCommand, double timeout) {
+        trigger.onTrue(runCommand);
+        trigger.onFalse(endCommand.withTimeout(timeout));
     }
 
     /**
