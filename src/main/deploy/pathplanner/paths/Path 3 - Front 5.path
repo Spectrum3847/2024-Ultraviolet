@@ -3,65 +3,99 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.5,
-        "y": 5.7
+        "x": 2.6412213123771426,
+        "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4972696424814798,
-        "y": 5.910671665054784
+        "x": 2.0590966881957202,
+        "y": 5.061539442550155
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "GP 2 - Test Front"
     },
     {
       "anchor": {
-        "x": 1.8528728448199805,
-        "y": 6.4037664856321195
+        "x": 1.7928480303312817,
+        "y": 4.50075404173259
       },
       "prevControl": {
-        "x": 1.8490096475047955,
-        "y": 6.108386697596594
+        "x": 1.7928480303312817,
+        "y": 4.7007540417325915
       },
       "nextControl": {
-        "x": 1.8567961331834226,
-        "y": 6.703740830882538
+        "x": 1.7928480303312817,
+        "y": 4.340754041732592
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.7,
-        "y": 6.9
+        "x": 2.5,
+        "y": 4.1
       },
       "prevControl": {
-        "x": 2.2684787376723348,
-        "y": 6.687322341866047
+        "x": 1.9682679836209052,
+        "y": 4.1842180778168405
+      },
+      "nextControl": {
+        "x": 2.6777839013071247,
+        "y": 4.071841796292757
+      },
+      "isLocked": false,
+      "linkedName": "GP 2 - Front 5"
+    },
+    {
+      "anchor": {
+        "x": 1.89,
+        "y": 5.55
+      },
+      "prevControl": {
+        "x": 2.063840328649483,
+        "y": 5.198581113719757
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "GP 4 - Front 5"
+      "linkedName": "GP 1 - Test Front"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 1.0,
-      "rotationDegrees": 180.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "launcherReady2",
+      "waypointRelativePos": 0.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "launchReadyPreload"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "home"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -155.0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
@@ -70,5 +104,5 @@
     "rotation": 180.0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

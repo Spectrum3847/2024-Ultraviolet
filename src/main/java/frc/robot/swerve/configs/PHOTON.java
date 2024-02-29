@@ -28,7 +28,7 @@ public class PHOTON {
 
     // Tuning Config
     // Estimated at first, then fudge-factored to make odom match record
-    private static final double kWheelRadiusInches = 3.965 / 2;
+    private static final double kWheelRadiusInches = 3.9 / 2;
     private static final double speedAt12VoltsMps = 5.8;
 
     private static final double slipCurrent = 80;
@@ -48,6 +48,8 @@ public class PHOTON {
                     / Units.inchesToMeters(
                             Math.hypot(trueWheelBaseInches / 2.0, trueTrackWidthInches / 2.0));
     private static final double maxAngularAcceleration = Math.pow(maxAngularVelocity, 2);
+    private static final double deadband = 0.1;
+    private static final double rotationDeadband = 0.1;
 
     // Device Setup
     private static final String kCANbusName = "3847";
@@ -128,5 +130,6 @@ public class PHOTON {
                     .withRotationGains(
                             kPRotationController, kIRotationController, kDRotationController)
                     .withProfilingConfigs(
-                            maxVelocity, maxAccel, maxAngularVelocity, maxAngularAcceleration);
+                            maxVelocity, maxAccel, maxAngularVelocity, maxAngularAcceleration)
+                    .withDeadbandConfig(deadband, rotationDeadband);;
 }

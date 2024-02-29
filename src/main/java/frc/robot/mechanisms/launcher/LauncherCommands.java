@@ -20,12 +20,6 @@ public class LauncherCommands {
                 .withName("Launcher.onDemandVelocity");
     }
 
-    public static Command runAmpVelocity() {
-        return runLauncherVelocities(
-                        leftLauncher.config.ampVelocity, rightLauncher.config.ampVelocity)
-                .withName("Launcher.runAmpVelocity");
-    }
-
     public static Command runTest() {
         return runLauncherVelocities(
                         leftLauncher.config.testVelocity, rightLauncher.config.testVelocity)
@@ -33,7 +27,14 @@ public class LauncherCommands {
     }
 
     public static Command runFull() {
-        return runLauncherPercentages(1, 1).withName("Launcher.runFull");
+        return runLauncherVelocities(leftLauncher.config.maxSpeed, rightLauncher.config.maxSpeed)
+                .withName("Launcher.runFull");
+    }
+
+    public static Command runAmpVelocity() {
+        return runLauncherVelocities(
+                        leftLauncher.config.ampVelocity, rightLauncher.config.ampVelocity)
+                .withName("Launcher.runAmpVelocity");
     }
 
     public static Command launch() {
@@ -46,9 +47,9 @@ public class LauncherCommands {
                 .withName("Launcher.subwoofer");
     }
 
-    public static Command autonlaunch() {
-        return runLauncherVelocities(leftLauncher.config.autonspin, rightLauncher.config.autonspin)
-                .withName("Launcher.autonspin");
+    public static Command launchReadyPreload() {
+        return runLauncherVelocities(
+                leftLauncher.config.launchReadyPreload, rightLauncher.config.launchReadyPreload);
     }
 
     public static Command slowLaunchPercent() {

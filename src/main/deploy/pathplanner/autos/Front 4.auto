@@ -3,7 +3,7 @@
   "startingPose": {
     "position": {
       "x": 1.42,
-      "y": 4.1
+      "y": 5.55
     },
     "rotation": 180.0
   },
@@ -14,7 +14,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "Path 1 - Front 5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path 2 - Front 5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path 3 - Front 5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path 4 - Front 5"
           }
         }
       ]

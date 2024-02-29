@@ -68,6 +68,7 @@ public class Drive implements Request {
      * <p>This is in radians per second
      */
     public double RotationalRate = 0;
+
     /** The allowable deadband of the request. */
     public double Deadband = 0;
     /** The rotational deadband of the request. */
@@ -87,14 +88,6 @@ public class Drive implements Request {
         double toApplyY = VelocityY;
         double toApplyOmega = RotationalRate;
         if (Math.sqrt(toApplyX * toApplyX + toApplyY * toApplyY) < Deadband) {
-            toApplyX = 0;
-            toApplyY = 0;
-        }
-        if (Math.abs(toApplyOmega) < RotationalDeadband) {
-            toApplyOmega = 0;
-        }
-
-        if (Math.sqrt(toApplyX * toApplyX + toApplyY * toApplyY) < 0.6) {
             toApplyX = 0;
             toApplyY = 0;
         }
@@ -129,6 +122,16 @@ public class Drive implements Request {
         return this;
     }
 
+    public Drive withVelocityY(double velocityY) {
+        this.VelocityY = velocityY;
+        return this;
+    }
+
+    public Drive withRotationalRate(double rotationalRate) {
+        this.RotationalRate = rotationalRate;
+        return this;
+    }
+
     /**
      * Sets the allowable deadband of the request.
      *
@@ -137,16 +140,6 @@ public class Drive implements Request {
      */
     public Drive withDeadband(double deadband) {
         this.Deadband = deadband;
-        return this;
-    }
-
-    public Drive withVelocityY(double velocityY) {
-        this.VelocityY = velocityY;
-        return this;
-    }
-
-    public Drive withRotationalRate(double rotationalRate) {
-        this.RotationalRate = rotationalRate;
         return this;
     }
 

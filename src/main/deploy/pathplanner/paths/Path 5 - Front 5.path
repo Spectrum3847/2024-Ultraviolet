@@ -3,69 +3,69 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.6412213123771426,
-        "y": 5.55
+        "x": 2.7,
+        "y": 6.9
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.0590966881957202,
-        "y": 5.061539442550155
+        "x": 3.098477879236698,
+        "y": 6.934862297099063
       },
       "isLocked": false,
-      "linkedName": "GP 2 - Test Front"
+      "linkedName": "GP 4 - Front 5"
     },
     {
       "anchor": {
-        "x": 1.7928480303312817,
-        "y": 4.50075404173259
+        "x": 8.0,
+        "y": 7.24
       },
       "prevControl": {
-        "x": 1.7928480303312817,
-        "y": 4.7007540417325915
+        "x": 7.650284317344363,
+        "y": 7.523194175972427
       },
       "nextControl": {
-        "x": 1.7928480303312817,
-        "y": 4.340754041732592
+        "x": 8.349715682655637,
+        "y": 6.956805824027573
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.5,
-        "y": 4.1
+        "x": 5.222098376844087,
+        "y": 6.355952842869203
       },
       "prevControl": {
-        "x": 1.9682679836209052,
-        "y": 4.1842180778168405
+        "x": 5.67081201515069,
+        "y": 6.471999473465737
       },
       "nextControl": {
-        "x": 2.6777839013071247,
-        "y": 4.071841796292757
+        "x": 4.786323812760625,
+        "y": 6.243252524571758
       },
       "isLocked": false,
-      "linkedName": "GP 2 - Front 5"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.89,
+        "x": 2.6412213123771426,
         "y": 5.55
       },
       "prevControl": {
-        "x": 2.063840328649483,
-        "y": 5.198581113719757
+        "x": 3.0981245424604964,
+        "y": 5.741766320483061
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "GP 1 - Test Front"
+      "linkedName": "GP 2 - Test Front"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "stopIntake",
-      "waypointRelativePos": 2.15,
+      "name": "launchReady2",
+      "waypointRelativePos": 0.0,
       "command": {
         "type": "parallel",
         "data": {
@@ -73,24 +73,13 @@
             {
               "type": "named",
               "data": {
-                "name": "stopIntake"
+                "name": "launchReady2"
               }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "launcherReady2",
-      "waypointRelativePos": 2.25,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
+            },
             {
               "type": "named",
               "data": {
-                "name": "launchReadyPreload"
+                "name": "home"
               }
             }
           ]
@@ -99,8 +88,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 2.0,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -110,10 +99,10 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Front Paths",
   "previewStartingState": {
-    "rotation": 180.0,
+    "rotation": -145.0,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

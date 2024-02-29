@@ -1,8 +1,11 @@
 package frc.robot;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.auton.Auton;
+import frc.robot.auton.config.AutonConfig;
 import frc.robot.leds.LEDs;
 import frc.robot.leds.LEDsCommands;
 import frc.robot.mechanisms.amptrap.AmpTrap;
@@ -39,6 +42,7 @@ public class Robot extends LoggedRobot {
 
     /** Create a single static instance of all of your subsystems */
     public static Swerve swerve;
+
     public static Intake intake;
     public static AmpTrap ampTrap;
     public static Elevator elevator;
@@ -48,11 +52,10 @@ public class Robot extends LoggedRobot {
     public static LeftLauncher leftLauncher;
     public static RightLauncher rightLauncher;
     public static Vision vision;
-    // public static Auton auton;
+    public static Auton auton;
     public static LEDs leds;
     public static Pilot pilot;
     public static Operator operator;
-    // public static Auton auton;
 
     /**
      * This method cancels all commands and returns subsystems to their default commands and the
@@ -95,7 +98,7 @@ public class Robot extends LoggedRobot {
             leftLauncher = new LeftLauncher(config.leftLauncherAttached);
             rightLauncher = new RightLauncher(config.rightLauncherAttached);
             vision = new Vision();
-            // auton = new Auton();
+            auton = new Auton();
             pilot = new Pilot();
             operator = new Operator();
             leds = new LEDs();
@@ -161,6 +164,12 @@ public class Robot extends LoggedRobot {
 
         resetCommandsAndButtons();
 
+        if (AutonConfig.autonInitCommandRun == false) {
+            Command autonInitCommand = new PathPlannerAuto("1 Meter Auto").ignoringDisable(true);
+            autonInitCommand.schedule();
+            AutonConfig.autonInitCommandRun = true;
+        }
+
         RobotTelemetry.print("### Disabled Init Complete ### ");
     }
 
@@ -183,11 +192,11 @@ public class Robot extends LoggedRobot {
         try {
             RobotTelemetry.print("@@@ Auton Init Starting @@@ ");
             resetCommandsAndButtons();
-            Command autonCommand = new WaitCommand(0.01); // .andThen(Auton.getAutonomousCommand());
+            Command autonCommand = new WaitCommand(0.01).andThen(Auton.getAutonomousCommand());
 
             if (autonCommand != null) {
                 autonCommand.schedule();
-                // Auton.startAutonTimer();
+                Auton.startAutonTimer();
             } else {
                 RobotTelemetry.print("No Auton Command Found");
             }

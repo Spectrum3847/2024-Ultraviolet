@@ -18,11 +18,11 @@ public class Pilot extends Gamepad {
         public static final double slowModeScalor = 0.2;
         public static final double turboModeScalor = 1;
 
-        public final double leftStickDeadzone = 0.1;
+        public final double leftStickDeadzone = 0;
         public final double leftStickExp = 2.0;
         public final double leftStickScalor = Robot.swerve.config.maxVelocity;
 
-        public final double triggersDeadzone = 0.1;
+        public final double triggersDeadzone = 0;
         public final double triggersExp = 2.0;
         public final double triggersScalor = Robot.swerve.config.maxAngularVelocity;
         public final double rotationScalor = 0.25; // original was 0.8
@@ -79,24 +79,6 @@ public class Pilot extends Gamepad {
         // x - home
         controller.x().and(noBumpers()).whileTrue(RobotCommands.home());
 
-        // controller
-        //         .y()
-        //         .and(noBumpers())
-        //         .whileTrue(
-        //                 PilotCommands
-        //                         .speakerAimingDrive()); // if you want this to be only speaker
-        // tag,
-        // // just check for ID 4 in method OR cover up amp apriltag
-        // controller.y().and(leftBumperOnly()).onTrue(RobotCommands.onDemandLaunching());
-
-        // controller.x().and(leftBumperOnly()).whileTrue(ElevatorCommands.home());
-
-        // controller.rightBumper().whileTrue(FeederCommands.launchEject());
-        // // controller.rightBumper().onFalse(LauncherCommands.stopMotors());
-        // runWithEndSequence(
-        //         controller.rightBumper(),
-        //         FeederCommands.launchEject(),
-        //         LauncherCommands.stopMotors());
         runWithEndSequence(
                 controller.rightBumper(),
                 RobotCommands.score(),

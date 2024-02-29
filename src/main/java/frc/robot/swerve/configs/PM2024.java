@@ -16,37 +16,34 @@ public class PM2024 {
     private static final double kBackRightCANcoderOffset = 0.492188;
 
     // Physical Config
-    private static final double wheelBaseInches = 21.5;
-
     private static final double frontWheelBaseInches = 11.875;
     private static final double backWheelBaseInches = 8.375;
     private static final double trueWheelBaseInches = frontWheelBaseInches + backWheelBaseInches;
     private static final double trackWidthInches = 11.875;
-    private static final double trueTrackWidthInches = trackWidthInches * 2;
-    private static final double kDriveGearRatio = 6.746;
-    private static final double kSteerGearRatio = 21.428;
+    private static final double kDriveGearRatio = 5.35714285714;
+    private static final double kSteerGearRatio = 21.4285714286;
 
     // Tuning Config
     // Estimated at first, then fudge-factored to make odom match record
-    private static final double kWheelRadiusInches = 2;
-    private static final double speedAt12VoltsMps = 5.8;
+    private static final double kWheelRadiusInches = 3.7937 / 2; // Updated for VexIQ Pro Wheels
+    private static final double speedAt12VoltsMps = 6;
 
-    private static final double slipCurrent = 80;
-    private static final SlotGains steerGains = new SlotGains(100, 0, 0.05, 0, 0);
-    private static final SlotGains driveGains = new SlotGains(0.4, 0, 0, 0, 0);
+    private static final double slipCurrent = 800;
+    private static final SlotGains steerGains = new SlotGains(100, 0, 0, 0, 0);
+    private static final SlotGains driveGains = new SlotGains(8, 0, 0.1, 0, 0.8);
+    private static final double deadband = 0.1;
+    private static final double rotationDeadband = 0.1;
 
     /*Rotation Controller*/
-    private static final double kPRotationController = 7.5;
+    private static final double kPRotationController = 7.0;
     private static final double kIRotationController = 0.0;
-    private static final double kDRotationController = 0.6;
+    private static final double kDRotationController = 0.0;
 
     /*Profiling Configs*/
     private static final double maxVelocity = speedAt12VoltsMps;
     private static final double maxAccel = maxVelocity * 1.5; // take 1/2 sec to get to max speed.
     private static final double maxAngularVelocity =
-            maxVelocity
-                    / Units.inchesToMeters(
-                            Math.hypot(trueWheelBaseInches / 2.0, trueTrackWidthInches / 2.0));
+            maxVelocity / Units.inchesToMeters(Math.hypot(trueWheelBaseInches, trackWidthInches));
     private static final double maxAngularAcceleration = Math.pow(maxAngularVelocity, 2);
 
     // Device Setup
@@ -128,5 +125,6 @@ public class PM2024 {
                     .withRotationGains(
                             kPRotationController, kIRotationController, kDRotationController)
                     .withProfilingConfigs(
-                            maxVelocity, maxAccel, maxAngularVelocity, maxAngularAcceleration);
+                            maxVelocity, maxAccel, maxAngularVelocity, maxAngularAcceleration)
+                    .withDeadbandConfig(deadband, rotationDeadband);;
 }

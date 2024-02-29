@@ -17,7 +17,7 @@ import frc.robot.mechanisms.amptrap.AmpTrapCommands;
 import frc.robot.mechanisms.feeder.FeederCommands;
 import frc.robot.mechanisms.intake.IntakeCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
-import frc.robot.swerve.commands.SwerveCommands;
+import frc.robot.mechanisms.pivot.PivotCommands;
 
 public class Auton extends SubsystemBase {
     public static final SendableChooser<Command> autonChooser = new SendableChooser<>();
@@ -28,26 +28,13 @@ public class Auton extends SubsystemBase {
 
     // A chooser for autonomous commands
     public static void setupSelectors() {
-        // autonChooser.setDefaultOption("4 Piece Middle", new PathPlannerAuto("4 Piece Middle"));
-        // autonChooser.addOption("4 Piece Front", new PathPlannerAuto("4 Piece Front"));
-
-        // autonChooser.addOption(
-        //         "Example Path", FollowSinglePath.getSinglePath("Example Path")); // Runs single
-        // Path
         autonChooser.addOption("1 Meter", new PathPlannerAuto("1 Meter Auto")); // Runs full Auto
         autonChooser.addOption("3 Meter", new PathPlannerAuto("3 Meter Auto")); // Runs full Auto
         autonChooser.addOption("5 Meter", new PathPlannerAuto("5 Meter Auto")); // Runs full Auto
 
+        autonChooser.addOption("Front 5", new PathPlannerAuto("Front 5")); // Runs full Auto
+        autonChooser.addOption("Front Alt 5", new PathPlannerAuto("Front Alt 5")); // Runs full Auto
         autonChooser.addOption("Front 4", new PathPlannerAuto("Front 4")); // Runs full Auto
-
-        autonChooser.addOption(
-                "Test Swerve",
-                SwerveCommands.Drive(
-                        () -> 0.1,
-                        () -> 0,
-                        () -> 1,
-                        () -> true, // true is field oriented
-                        () -> true)); // Runs full Auto
 
         SmartDashboard.putData("Auto Chooser", autonChooser);
     }
@@ -57,17 +44,20 @@ public class Auton extends SubsystemBase {
         // Register Named Commands
         NamedCommands.registerCommand("alignToSpeaker", AutonCommands.trackSpeaker());
         NamedCommands.registerCommand("alignToNote", AutonCommands.trackNote());
-        NamedCommands.registerCommand("stopTracking", AutonCommands.stopTracking());
-        NamedCommands.registerCommand("intake", RobotCommands.intake());
-        NamedCommands.registerCommand("feeder", FeederCommands.feeder().withTimeout(0.1));
-        NamedCommands.registerCommand("score", RobotCommands.score().withTimeout(0.3));
+        NamedCommands.registerCommand("launchReadyPreload", AutonCommands.launchReadyPreload());
+        NamedCommands.registerCommand("launchReady2", AutonCommands.launchReady2());
+        NamedCommands.registerCommand("launchReady3", AutonCommands.launchReady3());
+        NamedCommands.registerCommand("smartIntake", RobotCommands.laserCanFeed());
+        NamedCommands.registerCommand("launch", FeederCommands.runFull().withTimeout(0.3));
 
         /* Stop Commands */
         NamedCommands.registerCommand("stopTracking", AutonCommands.stopTracking());
+        NamedCommands.registerCommand("stopSmartIntake", AutonCommands.stopFeed());
         NamedCommands.registerCommand("stopIntake", IntakeCommands.stopMotor());
         NamedCommands.registerCommand("stopFeeder", FeederCommands.stopMotor());
         NamedCommands.registerCommand("stopAmpTrap", AmpTrapCommands.stopMotor());
         NamedCommands.registerCommand("stopLauncher", LauncherCommands.stopMotors());
+        NamedCommands.registerCommand("stopPivot", PivotCommands.stopMotor());
     }
 
     // Subsystem Documentation:

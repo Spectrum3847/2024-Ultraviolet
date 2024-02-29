@@ -23,11 +23,10 @@ public class Pivot extends Mechanism {
         public final int subwoofer = 10;
         public final int podium = 36;
         public final int amp = 100; // confirmed
-        public final int autoLaunchPreload =
-                10; // works for GP2/GP3/GP5/GP6 in Front 5 and GP2/GP4/5 in Front 5 Alt
+        public final int autoLaunchPreload = 16;
         public final int autoLaunch2 =
-                70; // works for GP2/GP3/GP5/GP6 in Front 5 and GP2/GP4/5 in Front 5 Alt
-        public final int autoLaunch3 = 65; // works for GP4 in Front 5 and GP3 in Front 5 Alt
+                22; // works for GP2/GP3/GP5/GP6 in Front 5 and GP2/GP4/5 in Front 5 Alt
+        public final int autoLaunch3 = 36; // works for GP4 in Front 5 and GP3 in Front 5 Alt
 
         public final double zeroSpeed = -0.2;
 
@@ -58,7 +57,6 @@ public class Pivot extends Mechanism {
         super(attached);
         if (attached) {
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
-            // motor.setPosition(config.maxRotation);
         }
 
         SmartDashboard.putNumber("pivotPercent", config.test);

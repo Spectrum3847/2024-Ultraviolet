@@ -17,7 +17,9 @@ public class LeftLauncher extends Mechanism {
         public double testVelocity = 4500;
         public double ampVelocity = 2250;
         public double subwoofer = 4500;
-        public double autonspin = 5200;
+        public double launchReadyPreload = 4500;
+        public double launchReady2 = 4500;
+        public double launchReady3 = 4500;
 
         /* Percentage LeftLauncher Output */
         public double slowLeftLauncherPercentage = 0.06; // TODO: configure
@@ -36,7 +38,7 @@ public class LeftLauncher extends Mechanism {
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
             configGearRatio(1 / 2); // TODO: configure
-            configSupplyCurrentLimit(currentLimit, threshold, true);
+            configSupplyCurrentLimit(currentLimit, threshold, false);
             configNeutralBrakeMode(true);
             configCounterClockwise_Positive(); // TODO: configure
             configMotionMagic(51, 205, 0);
