@@ -28,7 +28,7 @@ public class PHOTON {
 
     // Tuning Config
     // Estimated at first, then fudge-factored to make odom match record
-    private static final double kWheelRadiusInches = 3.875 / 2;
+    private static final double kWheelRadiusInches = 3.9 / 2;
     private static final double speedAt12VoltsMps = 5.8;
 
     private static final double slipCurrent = 80;
@@ -130,5 +130,6 @@ public class PHOTON {
                     .withRotationGains(
                             kPRotationController, kIRotationController, kDRotationController)
                     .withProfilingConfigs(
-                            maxVelocity, maxAccel, maxAngularVelocity, maxAngularAcceleration).withDeadbandConfig(deadband, rotationDeadband);;
+                            maxVelocity, maxAccel, maxAngularVelocity, maxAngularAcceleration)
+                    .withDeadbandConfig(deadband, rotationDeadband);;
 }

@@ -40,7 +40,7 @@ public class RightLauncher extends Mechanism {
             configGearRatio(1 / 2); // TODO: configure
             configSupplyCurrentLimit(currentLimit, threshold, false);
             configNeutralBrakeMode(true);
-            configClockwise_Positive(); // TODO: configure
+            configCounterClockwise_Positive(); // TODO: configure
             configMotionMagic(51, 205, 0);
         }
     }
