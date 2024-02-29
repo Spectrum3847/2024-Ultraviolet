@@ -41,7 +41,7 @@
             {
               "type": "named",
               "data": {
-                "name": "launchReadyPreload"
+                "name": "launchReady"
               }
             }
           ]

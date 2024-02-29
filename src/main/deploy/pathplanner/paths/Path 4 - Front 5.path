@@ -32,8 +32,8 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "launcherReady3",
-      "waypointRelativePos": 1.0,
+      "name": "launcherReady",
+      "waypointRelativePos": 0.0,
       "command": {
         "type": "parallel",
         "data": {
@@ -41,7 +41,7 @@
             {
               "type": "named",
               "data": {
-                "name": "launchReady3"
+                "name": "launchReady"
               }
             },
             {

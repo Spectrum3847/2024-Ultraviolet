@@ -42,13 +42,12 @@ public class Auton extends SubsystemBase {
     // Setup the named commands
     public static void setupNamedCommands() {
         // Register Named Commands
-        NamedCommands.registerCommand("alignToSpeaker", AutonCommands.trackSpeaker());
-        NamedCommands.registerCommand("alignToNote", AutonCommands.trackNote());
-        NamedCommands.registerCommand("launchReadyPreload", AutonCommands.launchReadyPreload());
-        NamedCommands.registerCommand("launchReady2", AutonCommands.launchReady2());
-        NamedCommands.registerCommand("launchReady3", AutonCommands.launchReady3());
-        NamedCommands.registerCommand("smartIntake", RobotCommands.laserCanFeed());
-        NamedCommands.registerCommand("launch", FeederCommands.runFull().withTimeout(0.3));
+        NamedCommands.registerCommand("launchReady", AutonCommands.launchReady());
+        NamedCommands.registerCommand("intake", RobotCommands.intake());
+        NamedCommands.registerCommand("score1", AutonCommands.score1().withTimeout(.8));
+        NamedCommands.registerCommand("score2", AutonCommands.score2().withTimeout(.8));
+        NamedCommands.registerCommand("score3", AutonCommands.score3().withTimeout(.8));
+        NamedCommands.registerCommand("home", getAutonomousCommand());
 
         /* Stop Commands */
         NamedCommands.registerCommand("stopTracking", AutonCommands.stopTracking());
