@@ -88,7 +88,7 @@ public class Pilot extends Gamepad {
                 LauncherCommands.runLauncherPercentages(0, 0)
                         .alongWith(
                                 PivotCommands.home(),
-                                FeederCommands.stopMotor(),
+                                FeederCommands.stop(),
                                 IntakeCommands.stopMotor()),
                 2.5);
 

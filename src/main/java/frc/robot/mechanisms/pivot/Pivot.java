@@ -35,7 +35,7 @@ public class Pivot extends Mechanism {
         public double threshold = 40;
         public double velocityKp = 0.8;
         public double velocityKv = 0.013;
-        public double velocityKs = 0;
+        public double velocityKs = 0.5;
 
         public PivotConfig() {
             super("Pivot", 41, "3847");
@@ -47,7 +47,7 @@ public class Pivot extends Mechanism {
             configClockwise_Positive(); // TODO: configure
             configReverseSoftLimit(minRotation, true);
             configForwardSoftLimit(maxRotation, true);
-            configMotionMagic(51, 205, 0);
+            configMotionMagic(100, 205, 0);
         }
     }
 
