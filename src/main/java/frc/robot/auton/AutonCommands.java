@@ -70,6 +70,10 @@ public class AutonCommands {
         return PivotCommands.autoLaunch3().withName("RobotCommands.pivotReady3");
     }
 
+    public static Command pivotReadySub(){
+        return PivotCommands.autoLaunchSub().withName("RobotCommands.pivotReadyySub");
+    }
+
     public static Command score1() {
         return FeederCommands.feeder().alongWith(AutonCommands.pivotReadyPreload());
     }
@@ -80,5 +84,9 @@ public class AutonCommands {
 
     public static Command score3() {
         return FeederCommands.feeder().alongWith(AutonCommands.pivotReady3());
+    }
+
+    public static Command scoreSub() {
+        return FeederCommands.feeder().alongWith(AutonCommands.pivotReadySub());
     }
 }

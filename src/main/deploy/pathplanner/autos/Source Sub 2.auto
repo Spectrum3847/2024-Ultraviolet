@@ -1,0 +1,43 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.7349619937780567,
+      "y": 4.414105890887179
+    },
+    "rotation": 120.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "launchReady"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "scoreSub"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path 1 - Source Sub 2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "scoreSub"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Source Side Autos",
+  "choreoAuto": false
+}
