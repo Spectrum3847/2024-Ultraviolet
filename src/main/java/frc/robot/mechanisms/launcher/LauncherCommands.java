@@ -38,8 +38,7 @@ public class LauncherCommands {
     }
 
     public static Command eject() {
-        return runLauncherPercentages(-.4, -.4)
-                .withName("Launcher.ejectSequence");
+        return runLauncherPercentages(-.4, -.4).withName("Launcher.ejectSequence");
     }
 
     public static Command launch() {

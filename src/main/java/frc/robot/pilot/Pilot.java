@@ -60,9 +60,7 @@ public class Pilot extends Gamepad {
         controller
                 .a()
                 .and(leftBumperOnly())
-                .whileTrue(
-                        LauncherCommands.eject()
-                                .alongWith(RobotCommands.eject()));
+                .whileTrue(LauncherCommands.eject().alongWith(RobotCommands.eject()));
 
         controller
                 .b()
