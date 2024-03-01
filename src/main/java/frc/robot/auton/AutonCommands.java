@@ -78,11 +78,11 @@ public class AutonCommands {
 
     public static Command score1() {
         return ((FeederCommands.feeder().alongWith(AutonCommands.pivotReadyPreload()))
-                        .withTimeout(.2))
+                        .withTimeout(.05))
                 .andThen(
                         (FeederCommands.stop()
                                 .alongWith(AutonCommands.pivotReadyPreload())
-                                .withTimeout(0.3)))
+                                .withTimeout(0.4)))
                 .andThen(
                         (FeederCommands.feeder().alongWith(AutonCommands.pivotReadyPreload()))
                                 .withTimeout(.3))
@@ -90,11 +90,11 @@ public class AutonCommands {
     }
 
     public static Command score2() {
-        return ((FeederCommands.feeder().alongWith(AutonCommands.pivotReady2())).withTimeout(.2))
+        return ((FeederCommands.feeder().alongWith(AutonCommands.pivotReady2())).withTimeout(.05))
                 .andThen(
                         (FeederCommands.stop()
                                 .alongWith(AutonCommands.pivotReady2())
-                                .withTimeout(0.3)))
+                                .withTimeout(0.4)))
                 .andThen(
                         (FeederCommands.feeder().alongWith(AutonCommands.pivotReady2()))
                                 .withTimeout(.3))
@@ -102,11 +102,11 @@ public class AutonCommands {
     }
 
     public static Command score3() {
-        return ((FeederCommands.feeder().alongWith(AutonCommands.pivotReady3())).withTimeout(.2))
+        return ((FeederCommands.feeder().alongWith(AutonCommands.pivotReady3())).withTimeout(.05))
                 .andThen(
                         (FeederCommands.stop()
                                 .alongWith(AutonCommands.pivotReady3())
-                                .withTimeout(0.3)))
+                                .withTimeout(0.4)))
                 .andThen(
                         (FeederCommands.feeder().alongWith(AutonCommands.pivotReady3()))
                                 .withTimeout(.3))
@@ -114,11 +114,11 @@ public class AutonCommands {
     }
 
     public static Command scoreSub() {
-        return ((FeederCommands.feeder().alongWith(AutonCommands.pivotReadySub())).withTimeout(.2))
+        return ((FeederCommands.feeder().alongWith(AutonCommands.pivotReadySub())).withTimeout(.05))
                 .andThen(
                         (FeederCommands.stop()
                                 .alongWith(AutonCommands.pivotReadySub())
-                                .withTimeout(0.3)))
+                                .withTimeout(0.4)))
                 .andThen(
                         (FeederCommands.feeder().alongWith(AutonCommands.pivotReadySub()))
                                 .withTimeout(.3))

@@ -23,9 +23,9 @@ public class Pivot extends Mechanism {
         public final int subwoofer = 10;
         public final int podium = 36;
         public final int amp = 100; // confirmed
-        public final int autoLaunchPreload = 16;
+        public final int autoLaunchPreload = 23;
         public final int autoLaunch2 =
-                22; // works for GP2/GP3/GP5/GP6 in Front 5 and GP2/GP4/5 in Front 5 Alt
+                27; // works for GP2/GP3/GP5/GP6 in Front 5 and GP2/GP4/5 in Front 5 Alt
         public final int autoLaunch3 = 36; // works for GP4 in Front 5 and GP3 in Front 5 Alt
 
         public final double zeroSpeed = -0.2;
