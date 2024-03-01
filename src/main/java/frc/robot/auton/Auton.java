@@ -59,7 +59,7 @@ public class Auton extends SubsystemBase {
         NamedCommands.registerCommand("stopTracking", AutonCommands.stopTracking());
         NamedCommands.registerCommand("stopSmartIntake", AutonCommands.stopFeed());
         NamedCommands.registerCommand("stopIntake", IntakeCommands.stopMotor());
-        NamedCommands.registerCommand("stopFeeder", FeederCommands.stopMotor());
+        NamedCommands.registerCommand("stopFeeder", FeederCommands.stop());
         NamedCommands.registerCommand("stopAmpTrap", AmpTrapCommands.stopMotor());
         NamedCommands.registerCommand("stopLauncher", LauncherCommands.stopMotors());
         NamedCommands.registerCommand("stopPivot", PivotCommands.stopMotor());

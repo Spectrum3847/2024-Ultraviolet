@@ -24,12 +24,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "stopFeeder"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Path 2 - Front 5"
@@ -39,12 +33,6 @@
           "type": "named",
           "data": {
             "name": "score2"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "stopFeeder"
           }
         },
         {
@@ -60,12 +48,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "stopFeeder"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Path 4 - Front 5"
@@ -75,12 +57,6 @@
           "type": "named",
           "data": {
             "name": "score3"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "stopFeeder"
           }
         },
         {

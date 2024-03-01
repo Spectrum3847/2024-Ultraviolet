@@ -85,7 +85,8 @@ public class AutonCommands {
                                 .withTimeout(0.3)))
                 .andThen(
                         (FeederCommands.feeder().alongWith(AutonCommands.pivotReadyPreload()))
-                                .withTimeout(.3));
+                                .withTimeout(.3))
+                .andThen(FeederCommands.stop().withTimeout(0.01));
     }
 
     public static Command score2() {
@@ -96,7 +97,8 @@ public class AutonCommands {
                                 .withTimeout(0.3)))
                 .andThen(
                         (FeederCommands.feeder().alongWith(AutonCommands.pivotReady2()))
-                                .withTimeout(.3));
+                                .withTimeout(.3))
+                .andThen(FeederCommands.stop().withTimeout(0.01));
     }
 
     public static Command score3() {
@@ -107,7 +109,8 @@ public class AutonCommands {
                                 .withTimeout(0.3)))
                 .andThen(
                         (FeederCommands.feeder().alongWith(AutonCommands.pivotReady3()))
-                                .withTimeout(.3));
+                                .withTimeout(.3))
+                .andThen(FeederCommands.stop().withTimeout(0.01));
     }
 
     public static Command scoreSub() {
@@ -118,6 +121,7 @@ public class AutonCommands {
                                 .withTimeout(0.3)))
                 .andThen(
                         (FeederCommands.feeder().alongWith(AutonCommands.pivotReadySub()))
-                                .withTimeout(.3));
+                                .withTimeout(.3))
+                .andThen(FeederCommands.stop().withTimeout(0.01));
     }
 }

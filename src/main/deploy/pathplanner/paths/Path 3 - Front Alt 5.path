@@ -71,18 +71,12 @@
       }
     },
     {
-      "name": "stopFeeder",
+      "name": "intake",
       "waypointRelativePos": 0,
       "command": {
         "type": "parallel",
         "data": {
           "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "stopFeeder"
-              }
-            },
             {
               "type": "named",
               "data": {
