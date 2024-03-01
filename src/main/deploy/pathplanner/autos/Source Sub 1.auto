@@ -2,42 +2,36 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.42,
-      "y": 5.55
+      "x": 0.7349619937780567,
+      "y": 4.414105890887179
     },
-    "rotation": 180.0
+    "rotation": 120.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Path 1 - Front 5"
+            "name": "launchReady"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "score1"
+            "name": "scoreSub"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Path 2 - Front 5"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "score2"
+            "pathName": "Path 1 - Source Sub 1"
           }
         }
       ]
     }
   },
-  "folder": "Front Autos",
+  "folder": "Source Side Autos",
   "choreoAuto": false
 }

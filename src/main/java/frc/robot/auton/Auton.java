@@ -28,15 +28,17 @@ public class Auton extends SubsystemBase {
 
     // A chooser for autonomous commands
     public static void setupSelectors() {
-        autonChooser.addOption("1 Meter", new PathPlannerAuto("1 Meter Auto")); // Runs full Auto
-        autonChooser.addOption("3 Meter", new PathPlannerAuto("3 Meter Auto")); // Runs full Auto
-        autonChooser.addOption("5 Meter", new PathPlannerAuto("5 Meter Auto")); // Runs full Auto
+        // autonChooser.addOption("1 Meter", new PathPlannerAuto("1 Meter Auto")); // Runs full Auto
+        // autonChooser.addOption("3 Meter", new PathPlannerAuto("3 Meter Auto")); // Runs full Auto
+        // autonChooser.addOption("5 Meter", new PathPlannerAuto("5 Meter Auto")); // Runs full Auto
 
         autonChooser.addOption("Front 5", new PathPlannerAuto("Front 5")); // Runs full Auto
         autonChooser.addOption("Front Alt 5", new PathPlannerAuto("Front Alt 5")); // Runs full Auto
-        autonChooser.addOption("Front 4", new PathPlannerAuto("Front 4")); // Runs full Auto
-        autonChooser.addOption("Source Sub 1", new PathPlannerAuto("Source Sub 1"));
-        autonChooser.addOption("Source Sub 2", new PathPlannerAuto("Source Sub 2"));
+        // autonChooser.addOption("Front 4", new PathPlannerAuto("Front 4")); // Runs full Auto
+        // autonChooser.addOption("Source Sub 1", new PathPlannerAuto("Source Sub 1")); // Runs full
+        // Auto
+        // autonChooser.addOption("Source Sub 2", new PathPlannerAuto("Source Sub 2")); // Runs full
+        // Auto
 
         SmartDashboard.putData("Auto Chooser", autonChooser);
     }
@@ -46,8 +48,8 @@ public class Auton extends SubsystemBase {
         // Register Named Commands
         NamedCommands.registerCommand("launchReady", AutonCommands.launchReady());
         NamedCommands.registerCommand("intake", RobotCommands.intake());
-        NamedCommands.registerCommand("score1", AutonCommands.score1().withTimeout(.8));
-        NamedCommands.registerCommand("score2", AutonCommands.score2().withTimeout(.8));
+        NamedCommands.registerCommand("score1", AutonCommands.score1());
+        NamedCommands.registerCommand("score2", AutonCommands.score2());
         NamedCommands.registerCommand("score3", AutonCommands.score3().withTimeout(.8));
         NamedCommands.registerCommand("scoreSub", AutonCommands.scoreSub().withTimeout(.8));
         NamedCommands.registerCommand("home", PivotCommands.home());

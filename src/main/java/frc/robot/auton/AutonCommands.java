@@ -70,7 +70,7 @@ public class AutonCommands {
         return PivotCommands.autoLaunch3().withName("RobotCommands.pivotReady3");
     }
 
-    public static Command pivotReadySub(){
+    public static Command pivotReadySub() {
         return PivotCommands.autoLaunchSub().withName("RobotCommands.pivotReadyySub");
     }
 
