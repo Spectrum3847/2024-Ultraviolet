@@ -37,6 +37,11 @@ public class LauncherCommands {
                 .withName("Launcher.runAmpVelocity");
     }
 
+    public static Command eject() {
+        return runLauncherPercentages(-.4, -.4)
+                .withName("Launcher.ejectSequence");
+    }
+
     public static Command launch() {
         return runLauncherVelocities(leftLauncher.config.launch, rightLauncher.config.launch)
                 .withName("Launcher.launch");

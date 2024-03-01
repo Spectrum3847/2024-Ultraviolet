@@ -20,13 +20,13 @@
         {
           "type": "named",
           "data": {
-            "name": "score1"
+            "name": "launchReady"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "intake"
+            "name": "score1"
           }
         },
         {
@@ -39,30 +39,6 @@
           "type": "named",
           "data": {
             "name": "score2"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Path 3 - Front 5"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "score1"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Path 4 - Front 5"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "score3"
           }
         }
       ]
