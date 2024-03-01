@@ -12,11 +12,12 @@
   "autoFolders": [
     "Amp Side Autos",
     "Front Autos",
-    "Source Side Autos",
-    "PID Config Autos"
+    "Simple Autos",
+    "PID Config Autos",
+    "Source Side Autos"
   ],
-  "defaultMaxVel": 2.0,
-  "defaultMaxAccel": 2.0,
+  "defaultMaxVel": 4.0,
+  "defaultMaxAccel": 3.2,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
   "maxModuleSpeed": 4.5

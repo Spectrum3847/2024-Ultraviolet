@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7349619937780567,
-        "y": 4.414105890887179
+        "x": 1.4544511034765757,
+        "y": 1.58
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.4544511034765757,
-        "y": 3.632725244870508
+        "x": 2.572485092226471,
+        "y": 1.58
       },
       "isLocked": false,
-      "linkedName": "Source Sub Start"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.2338327726234497,
-        "y": 1.7372969451270976
+        "x": 3.9146396721231236,
+        "y": 1.58
       },
       "prevControl": {
-        "x": 2.506607220885162,
-        "y": 2.4413131707460796
+        "x": 2.393949039548569,
+        "y": 1.58
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,18 +30,7 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": []
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 2.0,
     "maxAcceleration": 2.0,
@@ -50,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 120.0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Simple Paths",
   "previewStartingState": {
-    "rotation": 120.0,
+    "rotation": 180.0,
     "velocity": 0
   },
   "useDefaultConstraints": false

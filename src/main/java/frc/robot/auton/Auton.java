@@ -34,11 +34,12 @@ public class Auton extends SubsystemBase {
 
         autonChooser.addOption("Front 5", new PathPlannerAuto("Front 5")); // Runs full Auto
         autonChooser.addOption("Front Alt 5", new PathPlannerAuto("Front Alt 5")); // Runs full Auto
-        // autonChooser.addOption("Front 4", new PathPlannerAuto("Front 4")); // Runs full Auto
-        // autonChooser.addOption("Source Sub 1", new PathPlannerAuto("Source Sub 1")); // Runs full
-        // Auto
-        // autonChooser.addOption("Source Sub 2", new PathPlannerAuto("Source Sub 2")); // Runs full
-        // Auto
+        autonChooser.addOption("Mobility", new PathPlannerAuto("Mobility")); // Runs full Auto
+        autonChooser.addOption("Front 4", new PathPlannerAuto("Front 4")); // Runs full Auto
+        autonChooser.addOption(
+                "Preload Mobility", new PathPlannerAuto("Preload Mobility")); // Runs full Auto
+        autonChooser.addOption(
+                "Source Sub 2", new PathPlannerAuto("Source Sub 2")); // Runs full Auto
 
         SmartDashboard.putData("Auto Chooser", autonChooser);
     }
@@ -50,8 +51,8 @@ public class Auton extends SubsystemBase {
         NamedCommands.registerCommand("intake", RobotCommands.intake());
         NamedCommands.registerCommand("score1", AutonCommands.score1());
         NamedCommands.registerCommand("score2", AutonCommands.score2());
-        NamedCommands.registerCommand("score3", AutonCommands.score3().withTimeout(.8));
-        NamedCommands.registerCommand("scoreSub", AutonCommands.scoreSub().withTimeout(.8));
+        NamedCommands.registerCommand("score3", AutonCommands.score3());
+        NamedCommands.registerCommand("scoreSub", AutonCommands.scoreSub());
         NamedCommands.registerCommand("home", PivotCommands.home());
 
         /* Stop Commands */

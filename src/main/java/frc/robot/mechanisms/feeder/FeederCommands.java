@@ -49,7 +49,7 @@ public class FeederCommands {
     }
 
     public static Command stopMotor() {
-        return feeder.runStop().withName("Feeder.stopMotor");
+        return feeder.runStop().withTimeout(0.01).withName("Feeder.stopMotor");
     }
 
     public static Command testForward() {

@@ -55,7 +55,9 @@ public class AutonCommands {
     }
 
     public static Command launchReady() {
-        return LauncherCommands.subwoofer().withName("RobotCommands.launchReadyPreload");
+        return LauncherCommands.subwoofer()
+                .withTimeout(0.3)
+                .withName("RobotCommands.launchReadyPreload");
     }
 
     public static Command pivotReadyPreload() {
@@ -75,18 +77,47 @@ public class AutonCommands {
     }
 
     public static Command score1() {
-        return FeederCommands.feeder().alongWith(AutonCommands.pivotReadyPreload());
+        return ((FeederCommands.feeder().alongWith(AutonCommands.pivotReadyPreload()))
+                        .withTimeout(.2))
+                .andThen(
+                        (FeederCommands.stop()
+                                .alongWith(AutonCommands.pivotReadyPreload())
+                                .withTimeout(0.3)))
+                .andThen(
+                        (FeederCommands.feeder().alongWith(AutonCommands.pivotReadyPreload()))
+                                .withTimeout(.3));
     }
 
     public static Command score2() {
-        return FeederCommands.feeder().alongWith(AutonCommands.pivotReady2());
+        return ((FeederCommands.feeder().alongWith(AutonCommands.pivotReady2())).withTimeout(.2))
+                .andThen(
+                        (FeederCommands.stop()
+                                .alongWith(AutonCommands.pivotReady2())
+                                .withTimeout(0.3)))
+                .andThen(
+                        (FeederCommands.feeder().alongWith(AutonCommands.pivotReady2()))
+                                .withTimeout(.3));
     }
 
     public static Command score3() {
-        return FeederCommands.feeder().alongWith(AutonCommands.pivotReady3());
+        return ((FeederCommands.feeder().alongWith(AutonCommands.pivotReady3())).withTimeout(.2))
+                .andThen(
+                        (FeederCommands.stop()
+                                .alongWith(AutonCommands.pivotReady3())
+                                .withTimeout(0.3)))
+                .andThen(
+                        (FeederCommands.feeder().alongWith(AutonCommands.pivotReady3()))
+                                .withTimeout(.3));
     }
 
     public static Command scoreSub() {
-        return FeederCommands.feeder().alongWith(AutonCommands.pivotReadySub());
+        return ((FeederCommands.feeder().alongWith(AutonCommands.pivotReadySub())).withTimeout(.2))
+                .andThen(
+                        (FeederCommands.stop()
+                                .alongWith(AutonCommands.pivotReadySub())
+                                .withTimeout(0.3)))
+                .andThen(
+                        (FeederCommands.feeder().alongWith(AutonCommands.pivotReadySub()))
+                                .withTimeout(.3));
     }
 }

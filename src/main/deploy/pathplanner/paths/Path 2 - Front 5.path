@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.89,
+        "x": 1.7948545532264122,
         "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9999999999999996,
+        "x": 1.9048545532264118,
         "y": 5.55
       },
       "isLocked": false,
@@ -55,7 +55,7 @@
       }
     },
     {
-      "name": "Intake",
+      "name": "intake",
       "waypointRelativePos": 0,
       "command": {
         "type": "parallel",
@@ -74,7 +74,7 @@
   ],
   "globalConstraints": {
     "maxVelocity": 4.0,
-    "maxAcceleration": 4.0,
+    "maxAcceleration": 3.2,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -89,5 +89,5 @@
     "rotation": 180.0,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }
