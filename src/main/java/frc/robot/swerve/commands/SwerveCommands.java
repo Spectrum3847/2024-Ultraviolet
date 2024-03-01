@@ -114,6 +114,22 @@ public class SwerveCommands {
     public static Command reorient(double angle) {
         return swerve.runOnce(() -> swerve.reorient(angle)).withName("Swerve.reorient");
     }
+
+    public static Command reorientForward() {
+        return swerve.runOnce(() -> swerve.reorientForward()).withName("Swerve.reorientForward");
+    }
+
+    public static Command reorientLeft() {
+        return swerve.runOnce(() -> swerve.reorientLeft()).withName("Swerve.reorientLeft");
+    }
+
+    public static Command reorientRight() {
+        return swerve.runOnce(() -> swerve.reorientRight()).withName("Swerve.reorientRight");
+    }
+
+    public static Command reorientBack() {
+        return swerve.runOnce(() -> swerve.reorientBack()).withName("Swerve.reorientBack");
+    }
     // Swerve Command Options
     // - Drive needs to work with slow mode (this might be done in PilotCommands)
 }

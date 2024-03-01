@@ -97,19 +97,19 @@ public class Pilot extends Gamepad {
         controller
                 .povUp()
                 .and(leftBumperOnly())
-                .whileTrue(rumbleCommand(SwerveCommands.reorient(0)));
+                .whileTrue(rumbleCommand(SwerveCommands.reorientForward()));
         controller
                 .povLeft()
                 .and(leftBumperOnly())
-                .whileTrue(rumbleCommand(SwerveCommands.reorient(90)));
+                .whileTrue(rumbleCommand(SwerveCommands.reorientLeft()));
         controller
                 .povDown()
                 .and(leftBumperOnly())
-                .whileTrue(rumbleCommand(SwerveCommands.reorient(180)));
+                .whileTrue(rumbleCommand(SwerveCommands.reorientBack()));
         controller
                 .povRight()
                 .and(leftBumperOnly())
-                .whileTrue(rumbleCommand(SwerveCommands.reorient(270)));
+                .whileTrue(rumbleCommand(SwerveCommands.reorientRight()));
 
         // Use the pilot drive if we are manually steering the robot
         controller

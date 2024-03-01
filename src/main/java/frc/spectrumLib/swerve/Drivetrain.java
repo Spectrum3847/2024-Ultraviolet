@@ -397,6 +397,27 @@ public class Drivetrain {
     }
 
     /**
+     * Only reset pose angle, not pose location
+     *
+     * @param offsetDegrees
+     */
+    public void reorient(double degrees) {
+        try {
+            m_stateLock.writeLock().lock();
+
+            m_odometry.resetPosition(
+                    m_pigeon2.getRotation2d(),
+                    m_modulePositions,
+                    new Pose2d(
+                            m_odometry.getEstimatedPosition().getX(),
+                            m_odometry.getEstimatedPosition().getY(),
+                            Rotation2d.fromDegrees(degrees)));
+        } finally {
+            m_stateLock.writeLock().unlock();
+        }
+    }
+
+    /**
      * Takes the specified location and makes it the current pose for field-relative maneuvers
      *
      * @param location Pose to make the current pose at.
