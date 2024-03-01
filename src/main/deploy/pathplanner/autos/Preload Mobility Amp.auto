@@ -3,7 +3,7 @@
   "startingPose": {
     "position": {
       "x": 0.7194891096985188,
-      "y": 6.68861985057927
+      "y": 6.704092734658809
     },
     "rotation": -120.0
   },
@@ -24,15 +24,15 @@
           }
         },
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "Path 1 - Amp Sub 2"
+            "waitTime": 11.0
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "scoreSub"
+            "pathName": "Path 1 - Amp Sub 1"
           }
         }
       ]

@@ -4,105 +4,42 @@
     {
       "anchor": {
         "x": 0.7194891096985188,
-        "y": 6.68861985057927
+        "y": 6.704092734658809
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.663335038550339,
-        "y": 6.711829176698578
-      },
-      "isLocked": false,
-      "linkedName": "Amp Sub Start"
-    },
-    {
-      "anchor": {
-        "x": 2.754173366157771,
-        "y": 7.013550416249569
-      },
-      "prevControl": {
-        "x": 2.6515673231600703,
-        "y": 6.731642630013796
-      },
-      "nextControl": {
-        "x": 2.8545827280022955,
-        "y": 7.28942287061925
+        "x": 1.9341105099422546,
+        "y": 6.858821575454189
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 0.7194891096985188,
-        "y": 6.68861985057927
+        "x": 3.976531208441276,
+        "y": 7.222434351323333
       },
       "prevControl": {
-        "x": 1.0194891096985181,
-        "y": 6.68861985057927
+        "x": 2.4558405758667208,
+        "y": 7.222434351323333
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Amp Sub Start"
+      "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 1.0,
-      "rotationDegrees": 180.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "launchReady",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "launchReady"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "home"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "intake",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "intake"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 1.0,
-    "maxAcceleration": 1.0,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 3.2,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -120.0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,

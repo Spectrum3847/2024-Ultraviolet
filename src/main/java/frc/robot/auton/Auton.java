@@ -36,10 +36,15 @@ public class Auton extends SubsystemBase {
         autonChooser.addOption("Front Alt 5", new PathPlannerAuto("Front Alt 5")); // Runs full Auto
         autonChooser.addOption("Mobility", new PathPlannerAuto("Mobility")); // Runs full Auto
         autonChooser.addOption("Front 4", new PathPlannerAuto("Front 4")); // Runs full Auto
-        autonChooser.addOption("Source Sub 2", new PathPlannerAuto("Source Sub 2")); // Runs full Auto
+        autonChooser.addOption(
+                "Source Sub 2", new PathPlannerAuto("Source Sub 2")); // Runs full Auto
         autonChooser.addOption("Amp Sub 2", new PathPlannerAuto("Amp Sub 2")); // Runs full Auto
-        autonChooser.addOption("Preload Mobility", new PathPlannerAuto("Preload Mobility")); // Runs full Auto
-
+        autonChooser.addOption(
+                "Preload Mobility Source",
+                new PathPlannerAuto("Preload Mobility Source")); // Runs full Auto
+        autonChooser.addOption(
+                "Preload Mobility Amp",
+                new PathPlannerAuto("Preload Mobility Amp")); // Runs full Auto
 
         SmartDashboard.putData("Auto Chooser", autonChooser);
     }
