@@ -120,6 +120,10 @@ public class RobotCommands {
         return PivotCommands.home();
     }
 
+    public static Command climb() {
+        return PivotCommands.climb();
+    }
+
     // public static Command score() {
     //     return new ConditionalCommand(
     //             FeederCommands.launchEject(),
@@ -167,5 +171,13 @@ public class RobotCommands {
         return LauncherCommands.runOnDemandVelocity()
                 .alongWith(PivotCommands.podium())
                 .withName("RobotCommands.podium");
+    }
+
+    public static Command intake8515() {
+        return IntakeCommands.intake()
+                .until(() -> (Robot.feeder.getMotorVelocity() > 0.01))
+                .andThen(FeederCommands.feeder())
+                .alongWith(IntakeCommands.stopMotor())
+                .withTimeout(0.3);
     }
 }

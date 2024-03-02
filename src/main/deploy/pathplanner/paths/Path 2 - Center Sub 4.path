@@ -8,24 +8,56 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.197149539294401,
-        "y": 5.74477392172745
+        "x": 1.9596447241267456,
+        "y": 5.570644728793549
       },
       "isLocked": false,
       "linkedName": "Test Start"
     },
     {
       "anchor": {
-        "x": 8.0,
-        "y": 7.44
+        "x": 2.0733664666580967,
+        "y": 4.64619915208025
       },
       "prevControl": {
-        "x": 7.2954648435021845,
-        "y": 7.206961467243795
+        "x": 2.0733664666580967,
+        "y": 4.94619915208025
+      },
+      "nextControl": {
+        "x": 2.0733664666580967,
+        "y": 4.34619915208025
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.59,
+        "y": 4.1
+      },
+      "prevControl": {
+        "x": 2.1662037711353253,
+        "y": 4.1046482092964185
+      },
+      "nextControl": {
+        "x": 2.889981956979109,
+        "y": 4.096709789218927
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.36,
+        "y": 5.55
+      },
+      "prevControl": {
+        "x": 1.96,
+        "y": 5.55
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Test Start"
     }
   ],
   "rotationTargets": [],
@@ -68,12 +100,12 @@
   ],
   "globalConstraints": {
     "maxVelocity": 4.0,
-    "maxAcceleration": 4.0,
+    "maxAcceleration": 2.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 2.0,
+    "velocity": 0,
     "rotation": 180.0,
     "rotateFast": false
   },
@@ -83,5 +115,5 @@
     "rotation": 180.0,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

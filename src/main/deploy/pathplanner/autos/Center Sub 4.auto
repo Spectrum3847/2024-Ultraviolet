@@ -26,7 +26,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path 1 - Test"
+            "pathName": "Path 1 - Center Sub 4"
           }
         },
         {
@@ -38,7 +38,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path 2 - Test"
+            "pathName": "Path 2 - Center Sub 4"
           }
         },
         {
@@ -50,7 +50,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path 3 - Test"
+            "pathName": "Path 3 - Center Sub 4"
           }
         },
         {
@@ -62,7 +62,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path 4 - Test"
+            "pathName": "Path 4 - Center Sub 4"
           }
         }
       ]

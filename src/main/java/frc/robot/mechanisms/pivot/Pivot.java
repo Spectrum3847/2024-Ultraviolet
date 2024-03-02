@@ -27,6 +27,7 @@ public class Pivot extends Mechanism {
         public final int autoLaunch2 =
                 27; // works for GP2/GP3/GP5/GP6 in Front 5 and GP2/GP4/5 in Front 5 Alt
         public final int autoLaunch3 = 36; // works for GP4 in Front 5 and GP3 in Front 5 Alt
+        public final int climb = 120;
 
         public final double zeroSpeed = -0.2;
 
@@ -46,7 +47,7 @@ public class Pivot extends Mechanism {
             configNeutralBrakeMode(true);
             configClockwise_Positive(); // TODO: configure
             configReverseSoftLimit(minRotation, true);
-            configForwardSoftLimit(maxRotation + 2.0, true);
+            configForwardSoftLimit(maxRotation + 20.0, true);
             configMotionMagic(100, 205, 0);
         }
     }

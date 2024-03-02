@@ -20,6 +20,10 @@ public class PivotCommands {
         return pivot.runPosition(pivot.config.home).withName("Pivot.home");
     }
 
+    public static Command climb() {
+        return pivot.runPosition(pivot.config.climb).withName("Pivot.climb");
+    }
+
     public static Command percentage() {
         return pivot.runManualOutput(0.1);
     }

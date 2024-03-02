@@ -1,0 +1,37 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.7194891096985188,
+      "y": 6.68861985057927
+    },
+    "rotation": -120.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "launchReady"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "scoreSub"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Preload Score"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Event Test Autos",
+  "choreoAuto": false
+}
