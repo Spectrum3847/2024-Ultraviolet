@@ -114,14 +114,25 @@ public class AutonCommands {
     }
 
     public static Command scoreSub() {
-        return ((FeederCommands.feeder().alongWith(AutonCommands.pivotReadySub())).withTimeout(.05))
+        return ((FeederCommands.feeder().alongWith(AutonCommands.pivotReadySub()))
+                        .withTimeout(.125))
                 .andThen(
                         (FeederCommands.stop()
                                 .alongWith(AutonCommands.pivotReadySub())
                                 .withTimeout(0.4)))
                 .andThen(
                         (FeederCommands.feeder().alongWith(AutonCommands.pivotReadySub()))
-                                .withTimeout(.2))
+                                .withTimeout(1))
+                .andThen(FeederCommands.stop().withTimeout(0.01));
+    }
+
+    public static Command preloadScoreSub() {
+        return FeederCommands.stop()
+                .alongWith(AutonCommands.pivotReadySub())
+                .withTimeout(0.4)
+                .andThen(
+                        (FeederCommands.feeder().alongWith(AutonCommands.pivotReadySub()))
+                                .withTimeout(1))
                 .andThen(FeederCommands.stop().withTimeout(0.01));
     }
 }

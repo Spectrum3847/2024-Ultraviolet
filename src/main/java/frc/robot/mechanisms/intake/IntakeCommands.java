@@ -43,6 +43,6 @@ public class IntakeCommands {
     }
 
     public static Command stopMotor() {
-        return intake.runStop().withName("Intake.stopMotor");
+        return intake.runStop().withTimeout(0.01).withName("Intake.stopMotor");
     }
 }
