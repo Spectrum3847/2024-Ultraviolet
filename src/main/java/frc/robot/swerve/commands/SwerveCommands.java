@@ -144,6 +144,16 @@ public class SwerveCommands {
     public static Command reorientBack() {
         return swerve.runOnce(() -> swerve.reorientBack()).withName("Swerve.reorientBack");
     }
+
+    /**
+     * Temporarily sets the swerve modules to coast mode. The configuration is applied when the
+     * command is started and reverted when the command is ended.
+     */
+    public static Command coastMode() {
+        return swerve.startEnd(() -> swerve.setCoastMode(), () -> swerve.setBrakeMode())
+                .ignoringDisable(true)
+                .withName("Swerve.coastMode");
+    }
     // Swerve Command Options
     // - Drive needs to work with slow mode (this might be done in PilotCommands)
 }

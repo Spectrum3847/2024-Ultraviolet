@@ -48,7 +48,7 @@ public abstract class Mechanism implements Subsystem {
     }
 
     /** Sets the mechanism position of the motor to 0 */
-    public void zeroMotor() {
+    public void tareMotor() {
         if (attached) {
             setMotorPosition(0);
         }
@@ -142,6 +142,14 @@ public abstract class Mechanism implements Subsystem {
     public void setBrakeMode(boolean isInBrake) {
         if (attached) {
             config.configNeutralBrakeMode(isInBrake);
+            config.applyTalonConfig(motor);
+        }
+    }
+
+    public void toggleReverseSoftLimit(boolean enabled) {
+        if (attached) {
+            double threshold = config.talonConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold;
+            config.configReverseSoftLimit(threshold, enabled);
             config.applyTalonConfig(motor);
         }
     }

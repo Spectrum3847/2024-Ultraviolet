@@ -11,15 +11,12 @@ public class Intake extends Mechanism {
     public class IntakeConfig extends Config {
 
         /* Revolutions per min Intake Output */
-        public double maxSpeed = 5000; // TODO: configure
-        public double intake = 2000; // 2000
-        public double testVelocity = 3000;
+        public double maxSpeed = 5000;
+        public double intake = 2000;
         public double eject = -2000;
 
         /* Percentage Intake Output */
-        public double ejectPercentage = -0.5; // TODO: configure
-        public double slowIntakePercentage = 0.06; // TODO: configure
-        public double testIntakePercentage = 0.7;
+        public double slowIntakePercentage = 0.06;
 
         /* Intake config values */
         public double currentLimit = 30;
@@ -32,11 +29,11 @@ public class Intake extends Mechanism {
             super("Intake", 60, "3847");
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
-            configGearRatio(12 / 30); // TODO: configure
+            configGearRatio(12 / 30);
             configSupplyCurrentLimit(currentLimit, threshold, true);
             configStatorCurrentLimit(30, true);
             configNeutralBrakeMode(true);
-            configClockwise_Positive(); // TODO: configure
+            configClockwise_Positive();
             configMotionMagic(51, 205, 0);
         }
     }

@@ -15,21 +15,6 @@ public class IntakeCommands {
                 .withName("Intake.runFull");
     }
 
-    public static Command runTestin() {
-        return intake.runPercentage(intake.config.testIntakePercentage)
-                .withName("Intake.testIntake");
-    }
-
-    public static Command runVelocityTestin() {
-        return intake.runVelocityTorqueCurrentFOC(intake.config.testVelocity)
-                .withName("Intake.testVelocity");
-    }
-
-    public static Command slowIntake() {
-        return intake.runPercentage(intake.config.slowIntakePercentage)
-                .withName("Intake.slowIntake");
-    }
-
     public static Command intake() {
         return intake.runVelocityTorqueCurrentFOC(intake.config.intake).withName("Intake.intake");
     }

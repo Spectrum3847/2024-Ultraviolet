@@ -14,18 +14,16 @@ public class Pivot extends Mechanism {
         public final double maxRotation = 33.6;
         public final double minRotation = 0;
 
-        /* Pivot positions in percentage of max rotation || 0 is vertical? */
-        public final int score = 65;
-        public final int halfScore = 50;
-        public final int test = 65;
-        public final int home = 1;
+        /* Pivot positions in percentage of max rotation || 0 is horizontal */
+        public final double score = 65;
+        public final double home = 1;
         public final double subwoofer = 80.5;
-        public final int podium = 55;
+        public final double podium = 55;
         public final double ampWing = 41;
-        public final int autoLaunchPreload = 75;
-        public final int autoLaunch2 =
+        public final double autoLaunchPreload = 75;
+        public final double autoLaunch2 =
                 65; // works for GP2/GP3/GP5/GP6 in Front 5 and GP2/GP4/5 in Front 5 Alt
-        public final int autoLaunch3 = 60; // works for GP4 in Front 5 and GP3 in Front 5 Alt
+        public final double autoLaunch3 = 60; // works for GP4 in Front 5 and GP3 in Front 5 Alt
 
         public final double zeroSpeed = -0.2;
 
@@ -40,10 +38,10 @@ public class Pivot extends Mechanism {
             super("Pivot", 41, "3847");
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
-            configGearRatio(1); // TODO: configure
+            configGearRatio(1);
             configSupplyCurrentLimit(currentLimit, threshold, true);
             configNeutralBrakeMode(true);
-            configClockwise_Positive(); // TODO: configure
+            configClockwise_Positive();
             configReverseSoftLimit(minRotation, true);
             configForwardSoftLimit(maxRotation, true);
             configMotionMagic(51, 205, 0);
@@ -59,7 +57,7 @@ public class Pivot extends Mechanism {
             // motor.setPosition(config.maxRotation);
         }
 
-        SmartDashboard.putNumber("pivotPercent", config.test);
+        SmartDashboard.putNumber("pivotPercent", config.score);
     }
 
     @Override
@@ -100,11 +98,7 @@ public class Pivot extends Mechanism {
                 .withName("Pivot.runPercentage");
     }
 
-    /**
-     * Stops the intake motor.
-     *
-     * @return
-     */
+    /** Stops the intake motor. */
     public Command runStop() {
         return run(() -> stop()).withName("Pivot.stop");
     }
@@ -117,7 +111,7 @@ public class Pivot extends Mechanism {
 
     /* Custom Commands */
     /** Holds the position of the pivot. */
-    public Command runHoldPivot() { // TODO: review; inline custom commands vs. seperate class
+    public Command runHoldPivot() {
         return new Command() {
             double holdPosition = 0; // rotations
 

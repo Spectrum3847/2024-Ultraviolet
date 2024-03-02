@@ -173,18 +173,21 @@ public abstract class Gamepad extends SubsystemBase {
     //     }
 
     // }
-    // public double idk (double[] outputs, double stickAngle, int segments){ ///need three parameters?, output array and current stickAngle in Radians, segments wanted
-    //     double[] newoutputs = new double[segments]; //create copy of array with the rotated values
+    // public double idk (double[] outputs, double stickAngle, int segments){ ///need three
+    // parameters?, output array and current stickAngle in Radians, segments wanted
+    //     double[] newoutputs = new double[segments]; //create copy of array with the rotated
+    // values
     //     for (int i=0; i < segments; i++){ // loops for the length of outputs
     //         newoutputs[i] = outputs[i] + Math.PI/segments; /// shifts circle
     //     }
     //     for (int i=0; i< segments; i++){
-    //         if (stickAngle > outputs[i] && stickAngle <= outputs[(i+1)%segments]){ ///if the given stickAngle is between two of the other angles
+    //         if (stickAngle > outputs[i] && stickAngle <= outputs[(i+1)%segments]){ ///if the
+    // given stickAngle is between two of the other angles
     //             ///The %segments should account for the circle looping around?
     //             return outputs[(i+1)%segments];// shoudl be the desired angle output
     //         }
     //     }
-        
+
     // }
 
     public double getRightStickMagnitude() {

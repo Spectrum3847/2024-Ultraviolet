@@ -51,24 +51,25 @@ public class AutonCommands {
 
     public static Command stopFeed() {
         return IntakeCommands.stopMotor()
-                .alongWith(AmpTrapCommands.stopMotor(), FeederCommands.stopMotor());
+                .alongWith(AmpTrapCommands.stopMotor(), FeederCommands.stopMotor())
+                .withName("AutonCommands.stopFeed");
     }
 
     public static Command launchReadyPreload() {
         return PivotCommands.autoLaunchPreload()
                 .alongWith(LauncherCommands.subwoofer())
-                .withName("RobotCommands.subwooferReady");
+                .withName("AutonCommands.launchReadyPreload");
     }
 
     public static Command launchReady2() {
         return PivotCommands.autoLaunch2()
                 .alongWith(LauncherCommands.subwoofer())
-                .withName("RobotCommands.subwooferReady");
+                .withName("AutonCommands.launchReady2");
     }
 
     public static Command launchReady3() {
         return PivotCommands.autoLaunch3()
                 .alongWith(LauncherCommands.subwoofer())
-                .withName("RobotCommands.subwooferReady");
+                .withName("AutonCommands.launchReady3");
     }
 }

@@ -93,9 +93,6 @@ public class Climber extends Mechanism {
         return run(() -> setPercentOutput(percentSupplier.getAsDouble()));
     }
 
-    // TODO: review; having commands in the climber class would mean you are calling climber
-    // commands from
-    // two different places
     public Command runStop() {
         return run(() -> stop()).withName("Climber.runStop");
     }
@@ -113,7 +110,7 @@ public class Climber extends Mechanism {
     /* Custom Commands */
 
     /** Holds the position of the climber. */
-    public Command holdPosition() { // TODO: review; inline custom commands vs. seperate class
+    public Command holdPosition() {
         return new Command() {
             double holdPosition = 0; // rotations
 
@@ -133,9 +130,7 @@ public class Climber extends Mechanism {
             public void execute() {
                 double currentPosition = getMotorPosition();
                 if (Math.abs(holdPosition - currentPosition) <= 5) {
-                    setMMPosition(
-                            holdPosition); // TODO: add: change mode depending on current control
-                    // mode
+                    setMMPosition(holdPosition);
                 } else {
                     DriverStation.reportError(
                             "ClimberHoldPosition tried to go too far away from current position. Current Position: "
@@ -153,27 +148,16 @@ public class Climber extends Mechanism {
         };
     }
 
-    // TODO: review; inline vs custom command
-    // TODO: fix: will not work currently
     public Command zeroClimberRoutine() {
-        return new FunctionalCommand( // TODO: refresh config in order to modify soft limits
-                        () ->
-                                config.configReverseSoftLimit(
-                                        config.talonConfig
-                                                .SoftwareLimitSwitch
-                                                .ReverseSoftLimitThreshold,
-                                        false),
-                        () -> setPercentOutput(config.zeroSpeed),
+        return new FunctionalCommand(
+                        () -> toggleReverseSoftLimit(false), // init
+                        () -> setPercentOutput(config.zeroSpeed), // execute
                         (b) -> {
-                            zeroMotor();
-                            config.configReverseSoftLimit(
-                                    config.talonConfig
-                                            .SoftwareLimitSwitch
-                                            .ReverseSoftLimitThreshold,
-                                    true);
+                            tareMotor();
+                            toggleReverseSoftLimit(true); // end
                         },
-                        () -> false,
-                        this)
+                        () -> false, // isFinished
+                        this) // requirement
                 .withName("Climber.zeroClimberRoutine");
     }
 

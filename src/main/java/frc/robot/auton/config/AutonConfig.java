@@ -14,8 +14,6 @@ import frc.robot.swerve.commands.ApplyChassisSpeeds;
 import java.util.Optional;
 
 public class AutonConfig {
-    // TODO: Check if required commands work
-    // TODO: Check if PID and other constants are correct
 
     public static final double kTranslationP = 5;
     public static final double kTranslationI = 0.0;
@@ -26,7 +24,7 @@ public class AutonConfig {
     public static final double maxModuleSpeed = 4.5;
     public static final double driveBaseRadius = 0.4;
 
-    public static Boolean autonInitCommandRun = false;
+    public static boolean commandInit = false;
 
     public static HolonomicPathFollowerConfig AutonPathFollowerConfig =
             new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely

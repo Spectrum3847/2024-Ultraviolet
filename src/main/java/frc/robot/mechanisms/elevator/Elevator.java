@@ -12,15 +12,14 @@ public class Elevator extends Mechanism {
     public class ElevatorConfig extends Config {
 
         /* Elevator constants in rotations */
-        public final double maxHeight = 29.8; // TODO: configure
-        public final double minHeight = 0; // TODO: configure
+        public final double maxHeight = 29.8;
+        public final double minHeight = 0;
 
         /* Elevator positions in rotations */
         public double fullExtend = maxHeight;
         public double home = minHeight;
-        public double amp = 20; // TODO: configure
-        public double trap = 5; // TODO: configure
-        public double startingMotorPos = -0.15;
+        public double amp = 20;
+        public double trap = 5;
 
         /* Elevator config settings */
         public final double zeroSpeed = -0.2;
@@ -89,9 +88,6 @@ public class Elevator extends Mechanism {
         return runPercentage(percentSupplier.getAsDouble());
     }
 
-    // TODO: review; having commands in the elevator class would mean you are calling elevator
-    // commands from
-    // two different places
     public Command runStop() {
         return run(() -> stop()).withName("Elevator.runStop");
     }
@@ -109,7 +105,7 @@ public class Elevator extends Mechanism {
     /* Custom Commands */
 
     /** Holds the position of the elevator. */
-    public Command holdPosition() { // TODO: review; inline custom commands vs. seperate class
+    public Command holdPosition() {
         return new Command() {
             double holdPosition = 0; // rotations
 
@@ -129,9 +125,7 @@ public class Elevator extends Mechanism {
             public void execute() {
                 double currentPosition = getMotorPosition();
                 if (Math.abs(holdPosition - currentPosition) <= 5) {
-                    setMMPosition(
-                            holdPosition); // TODO: add: change mode depending on current control
-                    // mode
+                    setMMPosition(holdPosition);
                 } else {
                     DriverStation.reportError(
                             "ElevatorHoldPosition tried to go too far away from current position. Current Position: "
@@ -149,27 +143,16 @@ public class Elevator extends Mechanism {
         };
     }
 
-    // TODO: review; inline vs custom command
-    // TODO: fix: will not work currently
     public Command zeroElevatorRoutine() {
-        return new FunctionalCommand( // TODO: refresh config in order to modify soft limits
-                        () ->
-                                config.configReverseSoftLimit(
-                                        config.talonConfig
-                                                .SoftwareLimitSwitch
-                                                .ReverseSoftLimitThreshold,
-                                        false),
-                        () -> setPercentOutput(config.zeroSpeed),
+        return new FunctionalCommand(
+                        () -> toggleReverseSoftLimit(false), // init
+                        () -> setPercentOutput(config.zeroSpeed), // execute
                         (b) -> {
-                            zeroMotor();
-                            config.configReverseSoftLimit(
-                                    config.talonConfig
-                                            .SoftwareLimitSwitch
-                                            .ReverseSoftLimitThreshold,
-                                    true);
+                            tareMotor();
+                            toggleReverseSoftLimit(true); // end
                         },
-                        () -> false,
-                        this)
+                        () -> false, // isFinished
+                        this) // requirement
                 .withName("Elevator.zeroElevatorRoutine");
     }
 

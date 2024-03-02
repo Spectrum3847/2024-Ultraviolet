@@ -1,6 +1,9 @@
 package frc.robot.vision;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.interpolation.InterpolatingTreeMap;
+import edu.wpi.first.math.interpolation.Interpolator;
+import edu.wpi.first.math.interpolation.InverseInterpolator;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -83,8 +86,13 @@ public class Vision extends SubsystemBase {
                     VisionConfig.speakerDetectorPipeline,
                     VisionConfig.SPEAKER_CONFIG);
 
+    /* Interpolator */
+    public InterpolatingTreeMap<Double, Double> treeMap =
+            new InterpolatingTreeMap<>(InverseInterpolator.forDouble(), Interpolator.forDouble());
+
     public Vision() {
         setName("Vision");
+        addTreeMapData();
 
         /* Configure Limelight Settings Here */
     }
@@ -171,6 +179,22 @@ public class Vision extends SubsystemBase {
                             speakerLL.setLEDMode(false);
                         })
                 .withName("Vision.blinkLimelights");
+    }
+
+    /**
+     * Interpolates a pivot angle from the treemap based on how far the robot is away from the
+     * speaker.
+     *
+     * @return
+     */
+    public double getAngleFromMap() {
+        return treeMap.get(
+                Robot.swerve.getPose().getY()); // TODO: change this to be relative from the speaker
+    }
+
+    /** Tree Map Data: key - distance (meters), value - pivot angle (degrees) */
+    public void addTreeMapData() {
+        treeMap.put(0.0, 0.0);
     }
 
     public static class CommandConfig {

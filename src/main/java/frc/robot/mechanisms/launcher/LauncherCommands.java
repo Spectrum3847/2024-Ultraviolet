@@ -3,7 +3,6 @@ package frc.robot.mechanisms.launcher;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 
-// TODO: the usage will slightly change later
 public class LauncherCommands {
     private static LeftLauncher leftLauncher = Robot.leftLauncher;
     private static RightLauncher rightLauncher = Robot.rightLauncher;
@@ -16,18 +15,8 @@ public class LauncherCommands {
     /* Launch Commands */
 
     public static Command runOnDemandVelocity() {
-        return new LaunchTest(leftLauncher.config.testVelocity)
+        return new OnDemandLaunch(leftLauncher.config.testVelocity)
                 .withName("Launcher.onDemandVelocity");
-    }
-
-    public static Command runTest() {
-        return runLauncherVelocities(
-                        leftLauncher.config.testVelocity, rightLauncher.config.testVelocity)
-                .withName("Launcher.runTest");
-    }
-
-    public static Command runFull() {
-        return runLauncherPercentages(1, 1).withName("Launcher.runFull");
     }
 
     public static Command launch() {
@@ -41,18 +30,13 @@ public class LauncherCommands {
     }
 
     public static Command deepShot() {
-        return runLauncherVelocities(5400);
+        return runLauncherVelocities(leftLauncher.config.deepShot, rightLauncher.config.deepShot)
+                .withName("Launcher.deepShot");
     }
 
     public static Command eject() {
-        return runLauncherVelocities(-2000, -2000).withName("Launcher.eject");
-    }
-
-    public static Command slowLaunchPercent() {
-        return runLauncherPercentages(
-                        leftLauncher.config.slowLeftLauncherPercentage,
-                        rightLauncher.config.slowRightLauncherPercentage)
-                .withName("Launcher.slowLaunchPercent");
+        return runLauncherVelocities(leftLauncher.config.eject, rightLauncher.config.eject)
+                .withName("Launcher.eject");
     }
 
     public static Command coastMode() {
@@ -91,15 +75,5 @@ public class LauncherCommands {
 
     public static Command stopRightMotor() {
         return rightLauncher.runStop().withName("RightLauncher.stopMotor");
-    }
-
-    public static Command LeftLauncherTest() {
-        return leftLauncher.runPercentage(leftLauncher.config.testForwardPercent);
-    }
-
-    public static Command runVelocityTestin() {
-        return runLauncherVelocities(
-                        leftLauncher.config.testVelocity, rightLauncher.config.testVelocity)
-                .withName("Launcher.runTestVelocity");
     }
 }

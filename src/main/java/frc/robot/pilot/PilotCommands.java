@@ -85,7 +85,7 @@ public class PilotCommands {
                 .withName("Swerve.PilotSpeakerAimingDrive");
     }
 
-    public static Command AmpWingAimingDrive() {
+    public static Command ampWingAimingDrive() {
         return SwerveCommands.aimDrive(
                         () -> pilot.getDriveFwdPositive(),
                         () -> pilot.getDriveLeftPositive(),

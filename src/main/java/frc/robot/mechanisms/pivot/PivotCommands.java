@@ -13,32 +13,14 @@ public class PivotCommands {
     /* Misc Positions */
 
     public static Command onDemandPivot() {
-        return new OnDemandPivot(pivot.config.test).withName("Pivot.onDemandPivot");
+        return new OnDemandPivot(pivot.config.score).withName("Pivot.onDemandPivot");
     }
 
     public static Command home() {
         return pivot.runPosition(pivot.config.home).withName("Pivot.home");
     }
 
-    public static Command percentage() {
-        return pivot.runManualOutput(0.1);
-    }
-
-    public static Command negativePercentage() {
-        return pivot.runManualOutput(-0.1);
-    }
-
-    /* Intaking Positions */
-
     /* Scoring Positions */
-
-    public static Command score() {
-        return pivot.runPosition(pivot.config.score).withName("Pivot.score");
-    }
-
-    public static Command halfScore() {
-        return pivot.runPosition(pivot.config.halfScore).withName("Pivot.halfScore");
-    }
 
     public static Command subwoofer() {
         return pivot.runPosition(pivot.config.subwoofer).withName("Pivot.subwoofer");
@@ -52,17 +34,22 @@ public class PivotCommands {
         return pivot.runPosition(pivot.config.ampWing).withName("Pivot.ampWing");
     }
 
+    /* Auto Positions */
+
     public static Command autoLaunchPreload() {
-        return pivot.runPosition(pivot.config.autoLaunchPreload).withName("Pivot.subwoofer");
+        return pivot.runPosition(pivot.config.autoLaunchPreload)
+                .withName("Pivot.autoLaunchPreload");
     }
 
     public static Command autoLaunch2() {
-        return pivot.runPosition(pivot.config.autoLaunch2).withName("Pivot.subwoofer");
+        return pivot.runPosition(pivot.config.autoLaunch2).withName("Pivot.autoLaunch2");
     }
 
     public static Command autoLaunch3() {
-        return pivot.runPosition(pivot.config.autoLaunch3).withName("Pivot.subwoofer");
+        return pivot.runPosition(pivot.config.autoLaunch3).withName("Pivot.autoLaunch3");
     }
+
+    /* Misc */
 
     public static Command stopMotor() {
         return pivot.runStop().withName("Pivot.stopMotor");

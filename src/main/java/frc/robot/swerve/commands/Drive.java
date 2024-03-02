@@ -68,10 +68,6 @@ public class Drive implements Request {
      * <p>This is in radians per second
      */
     public double RotationalRate = 0;
-    /** The allowable deadband of the request. */
-    public double Deadband = 0;
-    /** The rotational deadband of the request. */
-    public double RotationalDeadband = 0;
 
     /** The allowable deadband of the request. */
     public double Deadband = 0;

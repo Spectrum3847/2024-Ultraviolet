@@ -11,6 +11,7 @@ import frc.robot.mechanisms.intake.IntakeCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.mechanisms.pivot.PivotCommands;
 import frc.robot.pilot.PilotCommands;
+import frc.robot.swerve.commands.SwerveCommands;
 import frc.robot.vision.VisionCommands;
 
 /**
@@ -25,36 +26,8 @@ public class RobotCommands {
                 new InstantCommand(), laserCanFeed(), Robot.feeder.lasercan::hasNote);
     }
 
-    //     public static Command laserCanFeed3() {
-    //         return IntakeCommands.intake()
-    //                 .alongWith(AmpTrapCommands.slowIntake(), FeederCommands.slowFeed())
-    //                 .until(() -> Robot.feeder.hasNote())
-    //                 .andThen(
-    //                         AmpTrapCommands.slowEject()
-    //                                 .alongWith(FeederCommands.slowFeedReverse())
-    //                                 .until(() -> !Robot.feeder.hasNote()))
-    //                 .andThen(
-    //                         FeederCommands.slowFeed()
-    //                                 .alongWith(AmpTrapCommands.slowIntake())
-    //                                 .until(() -> Robot.feeder.hasNote()));
-    //     }
-
-    //     public static Command laserCanFeed2() {
-    //         return IntakeCommands.intake()
-    //                 .alongWith(AmpTrapCommands.fastIntake(), FeederCommands.fastFeed())
-    //                 .until(() -> Robot.feeder.hasNote())
-    //                 .andThen(
-    //                         AmpTrapCommands.slowEject()
-    //                                 .alongWith(FeederCommands.slowFeedReverse())
-    //                                 .until(() -> !Robot.feeder.hasNote()))
-    //                 .andThen(
-    //                         FeederCommands.slowFeed()
-    //                                 .alongWith(AmpTrapCommands.slowIntake())
-    //                                 .until(() -> Robot.feeder.hasNote()));
-    //     }
-
     public static Command laserCanFeed() {
-        return IntakeCommands.intake().alongWith(AmpTrapCommands.slowIntake())
+        return IntakeCommands.intake().alongWith(AmpTrapCommands.feed())
         // .until(() -> Robot.feeder.midNote())
         ;
     }
@@ -76,7 +49,7 @@ public class RobotCommands {
     public static Command feedToAmp() {
         return AmpTrapCommands.score()
                 .alongWith(
-                        FeederCommands.launchEject()
+                        FeederCommands.score()
                                 .withTimeout(0.15)
                                 .andThen(FeederCommands.feedToAmp()))
                 .withName("RobotCommands.feedToAmp");
@@ -93,7 +66,7 @@ public class RobotCommands {
     }
 
     public static Command ampReady() {
-        return FeederCommands.launchEject()
+        return FeederCommands.score()
                 .withTimeout(0.1)
                 .andThen(FeederCommands.feedToAmp())
                 .alongWith(AmpTrapCommands.ampReady())
@@ -118,7 +91,7 @@ public class RobotCommands {
     // }
 
     public static Command score() {
-        return FeederCommands.launchEject().alongWith(AmpTrapCommands.score());
+        return FeederCommands.score().alongWith(AmpTrapCommands.score());
         // return new ConditionalCommand(
         //         FeederCommands.launchEject(),
         //         RobotCommands.feedToAmp(),
@@ -131,12 +104,6 @@ public class RobotCommands {
                 .withName("RobotCommands.intake");
     }
 
-    public static Command launchEject() {
-        return AmpTrapCommands.launchEject()
-                .alongWith(FeederCommands.launchEject())
-                .withName("RobotCommands.launchEject");
-    }
-
     public static Command coastModeMechanisms() {
         return AmpTrapCommands.coastMode()
                 .alongWith(
@@ -145,7 +112,8 @@ public class RobotCommands {
                         FeederCommands.coastMode(),
                         IntakeCommands.coastMode(),
                         LauncherCommands.coastMode(),
-                        PivotCommands.coastMode())
+                        PivotCommands.coastMode(),
+                        SwerveCommands.coastMode())
                 .withName("RobotCommands.coastModeMechanisms");
     }
 
@@ -163,7 +131,7 @@ public class RobotCommands {
 
     public static Command AmpWingReady() {
         return LauncherCommands.deepShot()
-                .alongWith(PivotCommands.ampWing(), PilotCommands.AmpWingAimingDrive())
+                .alongWith(PivotCommands.ampWing(), PilotCommands.ampWingAimingDrive())
                 .withName("RobotCommands.ampWing");
     }
 

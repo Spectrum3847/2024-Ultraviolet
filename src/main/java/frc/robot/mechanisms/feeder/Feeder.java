@@ -11,12 +11,10 @@ public class Feeder extends Mechanism {
     public class FeederConfig extends Config {
 
         /* Revolutions per min Feeder Output */
-        public double maxSpeed = 5000; // TODO: configure
-        public double feed = 4000; // TODO: configure
-        public double testFeed = 250;
+        public double maxSpeed = 5000;
         public double intake = 200;
-        public double eject = -3000; // TODO: configure
-        public double launchEject = 1000;
+        public double eject = -3000;
+        public double score = 1000;
         public double feedToAmp =
                 -3500; // Needs to be greater than or equal to ampReady roller speed
 
@@ -24,10 +22,7 @@ public class Feeder extends Mechanism {
         public double addedFeedRotations = 2;
 
         /* Percentage Feeder Output */
-        public double slowFeederPercentage = 0.15; // TODO: configure
-
-        public double testForwardPercent = 1;
-        public double testBackPercent = -0.5;
+        public double slowFeederPercentage = 0.15;
 
         /* Feeder config values */
         public double currentLimit = 30;
@@ -40,10 +35,10 @@ public class Feeder extends Mechanism {
             super("Feeder", 40, "3847");
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
-            configGearRatio(12 / 30); // TODO: configure
+            configGearRatio(12 / 30);
             configSupplyCurrentLimit(currentLimit, threshold, true);
             configNeutralBrakeMode(true);
-            configCounterClockwise_Positive(); // TODO: configure
+            configCounterClockwise_Positive();
             configMotionMagic(51, 205, 0);
         }
     }

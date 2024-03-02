@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 import frc.spectrumLib.util.Conversions;
 
-public class LaunchTest extends Command {
+public class OnDemandLaunch extends Command {
     double leftLaunchSpeed = 0;
     double rightLaunchSpeed = 0;
     double defaultValue = 0;
@@ -19,7 +19,7 @@ public class LaunchTest extends Command {
     private static LeftLauncher leftLauncher = Robot.leftLauncher;
     private static RightLauncher rightLauncher = Robot.rightLauncher;
     /** Creates a new CubeLaunchTest. */
-    public LaunchTest(double configValue) {
+    public OnDemandLaunch(double configValue) {
         defaultValue = configValue;
         rumblePilot = false;
         // Use addRequirements() here to declare subsystem dependencies.

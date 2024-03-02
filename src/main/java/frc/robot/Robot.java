@@ -1,12 +1,12 @@
 package frc.robot;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.auton.Auton;
 import frc.robot.auton.config.AutonConfig;
 import frc.robot.leds.LEDs;
@@ -167,10 +167,10 @@ public class Robot extends LoggedRobot {
 
         resetCommandsAndButtons();
 
-        if (AutonConfig.autonInitCommandRun == false) {
+        if (!AutonConfig.commandInit) {
             Command autonInitCommand = new PathPlannerAuto("1 Meter Auto").ignoringDisable(true);
             autonInitCommand.schedule();
-            AutonConfig.autonInitCommandRun = true;
+            AutonConfig.commandInit = true;
         }
 
         RobotTelemetry.print("### Disabled Init Complete ### ");
@@ -195,7 +195,7 @@ public class Robot extends LoggedRobot {
         try {
             RobotTelemetry.print("@@@ Auton Init Starting @@@ ");
             resetCommandsAndButtons();
-            Command autonCommand = new WaitCommand(0.01).andThen(Auton.getAutonomousCommand());
+            Command autonCommand = Commands.waitSeconds(0.01).andThen(Auton.getAutonomousCommand());
 
             if (autonCommand != null) {
                 autonCommand.schedule();

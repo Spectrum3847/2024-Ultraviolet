@@ -7,18 +7,19 @@ import frc.spectrumLib.mechanism.TalonFXFactory;
 import frc.spectrumLib.util.Conversions;
 import org.littletonrobotics.junction.AutoLogOutput;
 
-// TODO: this will get merged with right launcher into one class later
 public class LeftLauncher extends Mechanism {
     public class LeftLauncherConfig extends Config {
 
         /* Revolutions per min LeftLauncher Output */
-        public double maxSpeed = 5000; // TODO: configure
-        public double launch = 4000; // TODO: configure
+        public double maxSpeed = 5000;
+        public double launch = 4000;
         public double testVelocity = 4500;
         public double subwoofer = 4500;
+        public double deepShot = 5400;
+        public double eject = -2000;
 
         /* Percentage LeftLauncher Output */
-        public double slowLeftLauncherPercentage = 0.06; // TODO: configure
+        public double slowLeftLauncherPercentage = 0.06;
         public double testForwardPercent = -0.5;
         public double testBackPercent = 0.5;
 
@@ -33,10 +34,10 @@ public class LeftLauncher extends Mechanism {
             super("LeftLauncher", 42, "3847");
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
-            configGearRatio(1 / 2); // TODO: configure
+            configGearRatio(1 / 2);
             configSupplyCurrentLimit(currentLimit, threshold, true);
             configNeutralBrakeMode(true);
-            configCounterClockwise_Positive(); // TODO: configure
+            configCounterClockwise_Positive();
             configMotionMagic(51, 205, 0);
         }
     }

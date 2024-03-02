@@ -1,5 +1,6 @@
 package frc.robot.swerve;
 
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -136,6 +137,14 @@ public class Swerve implements Subsystem {
 
     public void reorient(double angle) {
         drivetrain.reorient(angle);
+    }
+
+    public void setBrakeMode() {
+        drivetrain.setSwerveNeutralMode(NeutralModeValue.Brake);
+    }
+
+    public void setCoastMode() {
+        drivetrain.setSwerveNeutralMode(NeutralModeValue.Coast);
     }
 
     public void reorientForward() {

@@ -14,30 +14,17 @@ public class FeederCommands {
         return feeder.runVelocity(feeder.config.maxSpeed).withName("Feeder.runFull");
     }
 
-    public static Command slowFeed() {
-        return feeder.runPercentage(feeder.config.slowFeederPercentage).withName("Feeder.slowFeed");
-    }
-
     public static Command addFeedRevolutions() {
         return feeder.runAddPosition(feeder.config.addedFeedRotations)
                 .withName("Feeder.addFeedRevolutions");
-    }
-
-    public static Command slowFeedReverse() {
-        return feeder.runPercentage(feeder.config.slowFeederPercentage * -1)
-                .withName("Feeder.slowFeedReverse");
-    }
-
-    public static Command feeder() {
-        return feeder.runVelocity(feeder.config.feed).withName("Feeder.feed");
     }
 
     public static Command eject() {
         return feeder.runVelocity(feeder.config.eject).withName("Feeder.eject");
     }
 
-    public static Command launchEject() {
-        return feeder.runVelocity(feeder.config.launchEject).withName("Feeder.launchEject");
+    public static Command score() {
+        return feeder.runVelocity(feeder.config.score).withName("Feeder.score");
     }
 
     public static Command intake() {
@@ -46,14 +33,6 @@ public class FeederCommands {
 
     public static Command stopMotor() {
         return feeder.runStop().withName("Feeder.stopMotor");
-    }
-
-    public static Command testForward() {
-        return feeder.runPercentage(feeder.config.testForwardPercent);
-    }
-
-    public static Command testBack() {
-        return feeder.runPercentage(feeder.config.testBackPercent);
     }
 
     public static Command feedToAmp() {

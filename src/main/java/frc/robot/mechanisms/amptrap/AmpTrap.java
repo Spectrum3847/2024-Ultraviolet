@@ -11,19 +11,15 @@ public class AmpTrap extends Mechanism {
     public class AmpTrapConfig extends Config {
 
         /* Revolutions per min AmpTrap Output */
-        public double maxSpeed = 5000; // TODO: configure
-        public double intake = 250; // TODO: configure
-        public double testFeed = 250;
+        public double maxSpeed = 5000;
+        public double intake = 250;
+        public double feed = 500;
         public double ampReady = 2500;
-        public double score = 4500; // TODO: configure
-        public double launchEject = 500;
+        public double score = 4500;
         public double eject = -3000;
 
         /* Percentage AmpTrap Output */
-        public double slowIntakePercentage = 0.1; // TODO: configure
-
-        public double testForwardPercent = 1;
-        public double testBackPercent = -0.50;
+        public double slowIntakePercentage = 0.1;
 
         /* AmpTrap config values */
         public double currentLimit = 30;
@@ -38,10 +34,10 @@ public class AmpTrap extends Mechanism {
             super("AmpTrap", 51, "rio");
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
-            configGearRatio(12 / 30); // TODO: configure
+            configGearRatio(12 / 30);
             configSupplyCurrentLimit(currentLimit, threshold, true);
             configNeutralBrakeMode(true);
-            configCounterClockwise_Positive(); // TODO: configure
+            configCounterClockwise_Positive();
             configMotionMagic(51, 205, 0);
         }
     }

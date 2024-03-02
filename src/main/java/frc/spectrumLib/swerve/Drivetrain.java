@@ -6,6 +6,7 @@ import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.hal.AllianceStationID;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
@@ -458,6 +459,12 @@ public class Drivetrain {
     public Module getModule(int index) {
         if (index >= Modules.length) return null;
         return Modules[index];
+    }
+
+    public void setSwerveNeutralMode(NeutralModeValue mode) {
+        for (Module module : Modules) {
+            module.setModuleNeutralMode(mode);
+        }
     }
 
     /**

@@ -335,13 +335,27 @@ public class Module {
         return m_cancoder;
     }
 
-    // NEEDS TO BE TESTED
+    // TODO: NEEDS TO BE TESTED
+    public void setModuleNeutralMode(NeutralModeValue mode) {
+        setDriveNeutralMode(mode);
+        setSteerNeutralMode(mode);
+    }
+
     public void setDriveNeutralMode(NeutralModeValue mode) {
-        MotorOutputConfigs configs = new MotorOutputConfigs();
-        m_driveMotor.getConfigurator().refresh(configs);
-        if (configs.NeutralMode != mode) {
-            configs.NeutralMode = mode;
-            m_driveMotor.getConfigurator().apply(configs);
+        MotorOutputConfigs driveConfig = new MotorOutputConfigs();
+        m_driveMotor.getConfigurator().refresh(driveConfig);
+        if (driveConfig.NeutralMode != mode) {
+            driveConfig.NeutralMode = mode;
+            m_driveMotor.getConfigurator().apply(driveConfig);
+        }
+    }
+
+    public void setSteerNeutralMode(NeutralModeValue mode) {
+        MotorOutputConfigs steerConfig = new MotorOutputConfigs();
+        m_steerMotor.getConfigurator().refresh(steerConfig);
+        if (steerConfig.NeutralMode != mode) {
+            steerConfig.NeutralMode = mode;
+            m_driveMotor.getConfigurator().apply(steerConfig);
         }
     }
 }
