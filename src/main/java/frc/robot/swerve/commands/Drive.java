@@ -94,11 +94,6 @@ public class Drive implements Request {
             toApplyOmega = 0;
         }
 
-        if (Math.sqrt(toApplyX * toApplyX + toApplyY * toApplyY) < 0.6) {
-            toApplyX = 0;
-            toApplyY = 0;
-        }
-
         ChassisSpeeds speeds;
         if (IsFieldOriented) {
             speeds =
