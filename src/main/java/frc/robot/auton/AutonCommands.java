@@ -121,7 +121,7 @@ public class AutonCommands {
                                 .withTimeout(0.4)))
                 .andThen(
                         (FeederCommands.feeder().alongWith(AutonCommands.pivotReadySub()))
-                                .withTimeout(.3))
+                                .withTimeout(.2))
                 .andThen(FeederCommands.stop().withTimeout(0.01));
     }
 }

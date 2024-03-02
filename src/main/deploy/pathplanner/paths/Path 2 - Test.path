@@ -3,79 +3,66 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7349619937780567,
-        "y": 4.414105890887179
+        "x": 1.36,
+        "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5008697557151895,
-        "y": 4.096911767256649
+        "x": 1.8490096475047955,
+        "y": 5.566835754812764
       },
       "isLocked": false,
-      "linkedName": "Source Sub Start"
+      "linkedName": "Test Start"
     },
     {
       "anchor": {
-        "x": 2.5684987572033147,
-        "y": 4.112384651336187
+        "x": 2.0,
+        "y": 4.584307615762098
       },
       "prevControl": {
-        "x": 2.2185570943078776,
-        "y": 3.8168783582244847
+        "x": 2.0,
+        "y": 4.884307615762098
       },
       "nextControl": {
-        "x": 2.91663864899292,
-        "y": 4.40636944884741
+        "x": 2.0,
+        "y": 4.284307615762098
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 0.7349619937780567,
-        "y": 4.414105890887179
+        "x": 2.59,
+        "y": 4.1
       },
       "prevControl": {
-        "x": 1.3770866830788857,
-        "y": 4.065965999097574
+        "x": 1.9899999999999998,
+        "y": 4.1
+      },
+      "nextControl": {
+        "x": 2.8899999999999997,
+        "y": 4.1
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.36,
+        "y": 5.55
+      },
+      "prevControl": {
+        "x": 1.8086269199740777,
+        "y": 5.55
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Source Sub Start"
+      "linkedName": "Test Start"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 1.05,
-      "rotationDegrees": 180.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
-    {
-      "name": "launchReady",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "home"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "launchReady"
-              }
-            }
-          ]
-        }
-      }
-    },
     {
       "name": "intake",
       "waypointRelativePos": 0,
@@ -92,24 +79,41 @@
           ]
         }
       }
+    },
+    {
+      "name": "home",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "home"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 1.0,
-    "maxAcceleration": 1.0,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 2.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 120.0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Simple Paths",
+  "folder": "Event Test Autos",
   "previewStartingState": {
-    "rotation": 120.0,
+    "rotation": 180.0,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

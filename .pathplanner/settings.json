@@ -5,19 +5,21 @@
   "pathFolders": [
     "Amp Side Paths",
     "Front Paths",
-    "Simple Paths",
+    "Event Test Autos",
     "PID Config Paths",
+    "Simple Paths",
     "Source Side Paths"
   ],
   "autoFolders": [
     "Amp Side Autos",
     "Front Autos",
-    "Simple Autos",
+    "Event Test Autos",
     "PID Config Autos",
+    "Simple Autos",
     "Source Side Autos"
   ],
   "defaultMaxVel": 4.0,
-  "defaultMaxAccel": 3.2,
+  "defaultMaxAccel": 2.5,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
   "maxModuleSpeed": 4.5

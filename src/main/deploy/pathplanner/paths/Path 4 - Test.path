@@ -3,36 +3,36 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.42,
+        "x": 1.36,
         "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5199999999999998,
-        "y": 5.55
+        "x": 2.197149539294401,
+        "y": 5.74477392172745
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Test Start"
     },
     {
       "anchor": {
-        "x": 1.7948545532264122,
-        "y": 5.55
+        "x": 8.0,
+        "y": 7.44
       },
       "prevControl": {
-        "x": 1.694854553226412,
-        "y": 5.55
+        "x": 7.2954648435021845,
+        "y": 7.206961467243795
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "GP 1 - Test Front"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "launchReady",
+      "name": "intake",
       "waypointRelativePos": 0,
       "command": {
         "type": "parallel",
@@ -41,7 +41,24 @@
             {
               "type": "named",
               "data": {
-                "name": "launchReady"
+                "name": "intake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "home",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "home"
               }
             }
           ]
@@ -51,20 +68,20 @@
   ],
   "globalConstraints": {
     "maxVelocity": 4.0,
-    "maxAcceleration": 2.5,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0,
+    "velocity": 2.0,
     "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Front Paths",
+  "folder": "Event Test Autos",
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

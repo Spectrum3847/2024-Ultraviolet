@@ -1,0 +1,73 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.36,
+      "y": 5.55
+    },
+    "rotation": 180.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "launchReady"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "scoreSub"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path 1 - Test"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "scoreSub"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path 2 - Test"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "scoreSub"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path 3 - Test"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "scoreSub"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path 4 - Test"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Event Test Autos",
+  "choreoAuto": false
+}

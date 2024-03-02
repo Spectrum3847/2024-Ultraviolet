@@ -3,36 +3,52 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.42,
+        "x": 1.36,
         "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5199999999999998,
+        "x": 1.76,
         "y": 5.55
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Test Start"
     },
     {
       "anchor": {
-        "x": 1.7948545532264122,
+        "x": 2.6412213123771426,
         "y": 5.55
       },
       "prevControl": {
-        "x": 1.694854553226412,
+        "x": 2.4412213123771425,
         "y": 5.55
+      },
+      "nextControl": {
+        "x": 2.841221312377143,
+        "y": 5.55
+      },
+      "isLocked": false,
+      "linkedName": "GP 2 - Test Front"
+    },
+    {
+      "anchor": {
+        "x": 1.36,
+        "y": 5.55
+      },
+      "prevControl": {
+        "x": 1.8599858898364332,
+        "y": 5.5462436767351475
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "GP 1 - Test Front"
+      "linkedName": "Test Start"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "launchReady",
+      "name": "intake",
       "waypointRelativePos": 0,
       "command": {
         "type": "parallel",
@@ -41,7 +57,24 @@
             {
               "type": "named",
               "data": {
-                "name": "launchReady"
+                "name": "intake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "home",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "home"
               }
             }
           ]
@@ -61,7 +94,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Front Paths",
+  "folder": "Event Test Autos",
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0

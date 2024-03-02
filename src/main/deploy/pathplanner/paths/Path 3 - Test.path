@@ -3,111 +3,82 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.6412213123771426,
+        "x": 1.36,
         "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.415318666091027,
-        "y": 5.857812951079596
+        "x": 1.36,
+        "y": 5.96
       },
       "isLocked": false,
-      "linkedName": "GP 2 - Test Front"
+      "linkedName": "Test Start"
     },
     {
       "anchor": {
-        "x": 5.477400964156465,
-        "y": 6.533891009783891
+        "x": 1.6942808067094148,
+        "y": 6.61899187222135
       },
       "prevControl": {
-        "x": 4.477400964156465,
-        "y": 6.533891009783891
+        "x": 1.42770121003419,
+        "y": 6.361289064181899
       },
       "nextControl": {
-        "x": 6.477400964156465,
-        "y": 6.533891009783891
-      },
-      "isLocked": false,
-      "linkedName": "GP 4 to 5 - Front Alt 5"
-    },
-    {
-      "anchor": {
-        "x": 7.914380206683707,
-        "y": 5.976867182920521
-      },
-      "prevControl": {
-        "x": 7.454648994225389,
-        "y": 6.2262129252707945
-      },
-      "nextControl": {
-        "x": 8.37083028703008,
-        "y": 5.729301037647913
+        "x": 1.9263700662234184,
+        "y": 6.843352830968775
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.477400964156465,
-        "y": 6.533891009783891
+        "x": 2.7309640400384634,
+        "y": 7.013550416249569
       },
       "prevControl": {
-        "x": 6.477400964156465,
-        "y": 6.533891009783891
+        "x": 2.3310473126530864,
+        "y": 7.005388850384562
       },
       "nextControl": {
-        "x": 4.477400964156465,
-        "y": 6.533891009783891
+        "x": 3.110049699987146,
+        "y": 7.021286858289338
       },
       "isLocked": false,
-      "linkedName": "GP 4 to 5 - Front Alt 5"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.6412213123771426,
-        "y": 5.55
+        "x": 2.1352580029762493,
+        "y": 6.309534190630589
       },
       "prevControl": {
-        "x": 3.5700475068864073,
-        "y": 5.896495161278442
+        "x": 2.3473900373322136,
+        "y": 6.521666224986553
+      },
+      "nextControl": {
+        "x": 1.923125968620285,
+        "y": 6.097402156274624
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.3538773569595783,
+        "y": 5.551362870733224
+      },
+      "prevControl": {
+        "x": 1.5342657609748611,
+        "y": 5.7317512747485075
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "GP 2 - Test Front"
+      "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 1.85,
-      "rotationDegrees": 152.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
-    {
-      "name": "launchReady",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "home"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "launchReady"
-              }
-            }
-          ]
-        }
-      }
-    },
     {
       "name": "intake",
       "waypointRelativePos": 0,
@@ -119,6 +90,23 @@
               "type": "named",
               "data": {
                 "name": "intake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "home",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "home"
               }
             }
           ]
@@ -138,7 +126,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Front Paths",
+  "folder": "Event Test Autos",
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0
