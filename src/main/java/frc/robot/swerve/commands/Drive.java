@@ -73,6 +73,11 @@ public class Drive implements Request {
     /** The rotational deadband of the request. */
     public double RotationalDeadband = 0;
 
+    /** The allowable deadband of the request. */
+    public double Deadband = 0;
+    /** The rotational deadband of the request. */
+    public double RotationalDeadband = 0;
+
     /** True to use open-loop control when driving. */
     public boolean IsOpenLoop = false;
 
@@ -124,6 +129,16 @@ public class Drive implements Request {
         return this;
     }
 
+    public Drive withVelocityY(double velocityY) {
+        this.VelocityY = velocityY;
+        return this;
+    }
+
+    public Drive withRotationalRate(double rotationalRate) {
+        this.RotationalRate = rotationalRate;
+        return this;
+    }
+
     /**
      * Sets the allowable deadband of the request.
      *
@@ -132,16 +147,6 @@ public class Drive implements Request {
      */
     public Drive withDeadband(double deadband) {
         this.Deadband = deadband;
-        return this;
-    }
-
-    public Drive withVelocityY(double velocityY) {
-        this.VelocityY = velocityY;
-        return this;
-    }
-
-    public Drive withRotationalRate(double rotationalRate) {
-        this.RotationalRate = rotationalRate;
         return this;
     }
 

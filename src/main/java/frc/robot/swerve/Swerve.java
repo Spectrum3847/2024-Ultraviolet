@@ -64,6 +64,9 @@ public class Swerve implements Subsystem {
                 config = PM2024.config;
                 break;
             default:
+                DriverStation.reportError(
+                        "Could not match robot to swerve config; defaulting to PM2024 swerve config",
+                        false);
                 config = PM2024.config;
                 break;
         }

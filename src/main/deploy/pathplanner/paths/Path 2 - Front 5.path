@@ -3,32 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.42,
+        "x": 1.996002046260407,
         "y": 4.1
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.52,
+        "x": 1.9322428932210527,
         "y": 4.1
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "GP 1 Shoot - Front 5"
     },
     {
       "anchor": {
-        "x": 2.5,
-        "y": 4.1
-      },
-      "prevControl": {
-        "x": 2.4,
-        "y": 4.1
-      },
-      "nextControl": {
         "x": 2.6,
         "y": 4.1
       },
+      "prevControl": {
+        "x": 2.499951183790112,
+        "y": 4.1
+      },
+      "nextControl": {
+        "x": 2.7000488162098883,
+        "y": 4.1
+      },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "GP 2 - Front 5"
     },
     {
       "anchor": {
@@ -37,14 +37,14 @@
       },
       "prevControl": {
         "x": 1.8528728448199805,
-        "y": 4.6693878616179365
+        "y": 4.78323212095903
       },
       "nextControl": {
         "x": 1.8528728448199805,
-        "y": 5.342696406516392
+        "y": 5.28323212095903
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "GP 2 Shoot - Front 5"
     },
     {
       "anchor": {
@@ -52,52 +52,26 @@
         "y": 5.7
       },
       "prevControl": {
-        "x": 2.5037879097006557,
-        "y": 5.40772866252811
-      },
-      "nextControl": {
-        "x": 2.4972696424814798,
-        "y": 5.910671665054784
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 1.8528728448199805,
-        "y": 6.4037664856321195
-      },
-      "prevControl": {
-        "x": 1.8490096475047955,
-        "y": 6.108386697596594
-      },
-      "nextControl": {
-        "x": 1.8567961331834226,
-        "y": 6.703740830882538
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.55,
-        "y": 6.9952350485752195
-      },
-      "prevControl": {
-        "x": 2.1184787376723344,
-        "y": 6.782557390441266
+        "x": 2.5,
+        "y": 5.374185707301792
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "GP 4"
+      "linkedName": "GP 3 - Front 5"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.0,
+      "rotationDegrees": 180.0,
+      "rotateFast": true
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.0,
-    "maxAcceleration": 3.4,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -109,7 +83,7 @@
   "reversed": false,
   "folder": "Front Paths",
   "previewStartingState": {
-    "rotation": 180.0,
+    "rotation": 145.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

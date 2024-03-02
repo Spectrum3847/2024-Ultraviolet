@@ -12,7 +12,7 @@ public class Intake extends Mechanism {
 
         /* Revolutions per min Intake Output */
         public double maxSpeed = 5000; // TODO: configure
-        public double intake = 2000; // TODO: configure
+        public double intake = 2000; // 2000
         public double testVelocity = 3000;
         public double eject = -2000;
 

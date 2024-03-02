@@ -52,6 +52,22 @@ public class PivotCommands {
         return pivot.runPosition(pivot.config.ampWing).withName("Pivot.ampWing");
     }
 
+    public static Command autoLaunchPreload() {
+        return pivot.runPosition(pivot.config.autoLaunchPreload).withName("Pivot.subwoofer");
+    }
+
+    public static Command autoLaunch2() {
+        return pivot.runPosition(pivot.config.autoLaunch2).withName("Pivot.subwoofer");
+    }
+
+    public static Command autoLaunch3() {
+        return pivot.runPosition(pivot.config.autoLaunch3).withName("Pivot.subwoofer");
+    }
+
+    public static Command stopMotor() {
+        return pivot.runStop().withName("Pivot.stopMotor");
+    }
+
     public static Command coastMode() {
         return pivot.coastMode();
     }

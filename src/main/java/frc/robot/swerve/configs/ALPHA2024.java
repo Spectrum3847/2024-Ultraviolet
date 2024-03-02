@@ -10,14 +10,12 @@ import frc.spectrumLib.swerve.config.SwerveConfig;
 public class ALPHA2024 {
 
     // Angle Offsets: from cancoder Absolute Position No Offset, opposite sign
-    private static final double kFrontLeftCANcoderOffset = 0.336426;
-    private static final double kFrontRightCANncoderOffset = -0.031006;
-    private static final double kBackLeftCANcoderOffset = -0.323730;
-    private static final double kBackRightCANcoderOffset = 0.492188;
+    private static final double kFrontLeftCANcoderOffset = 0.143799;
+    private static final double kFrontRightCANncoderOffset = -0.201172;
+    private static final double kBackLeftCANcoderOffset = 0.212158;
+    private static final double kBackRightCANcoderOffset = 0.279541;
 
     // Physical Config
-    private static final double wheelBaseInches = 21.5;
-
     private static final double frontWheelBaseInches = 11.875;
     private static final double backWheelBaseInches = 8.375;
     private static final double trueWheelBaseInches = frontWheelBaseInches + backWheelBaseInches;
@@ -27,12 +25,13 @@ public class ALPHA2024 {
 
     // Tuning Config
     // Estimated at first, then fudge-factored to make odom match record
-    private static final double kWheelRadiusInches = 2;
+    private static final double kWheelRadiusInches = 3.7937 / 2; // Updated for VexIQ Pro Wheels
     private static final double speedAt12VoltsMps = 6;
 
     private static final double slipCurrent = 80;
-    private static final SlotGains steerGains = new SlotGains(100, 0, 0.05, 0, 0);
-    private static final SlotGains driveGains = new SlotGains(0.4, 0, 0, 0, 0);
+    private static final SlotGains steerGains = new SlotGains(100, 0, 0, 0, 0);
+    private static final SlotGains driveGains = new SlotGains(8, 0, 0.1, 0, 0.8);
+
 
     /*Rotation Controller*/
     private static final double kPRotationController = 7.0;
@@ -43,9 +42,7 @@ public class ALPHA2024 {
     private static final double maxVelocity = speedAt12VoltsMps;
     private static final double maxAccel = maxVelocity * 1.5; // take 1/2 sec to get to max speed.
     private static final double maxAngularVelocity =
-            maxVelocity
-                    / Units.inchesToMeters(
-                            Math.hypot(wheelBaseInches / 2.0, trackWidthInches / 2.0));
+            maxVelocity / Units.inchesToMeters(Math.hypot(trueWheelBaseInches, trackWidthInches));
     private static final double maxAngularAcceleration = Math.pow(maxAngularVelocity, 2);
     private static final double deadband = 0.1;
     private static final double rotationDeadband = 0.1;
@@ -90,9 +87,7 @@ public class ALPHA2024 {
                     .withDriveMotorGains(driveGains)
                     .withSteerMotorGains(steerGains)
                     .withWheelRadius(kWheelRadiusInches)
-                    .withFeedbackSource(steerFeedbackType)
-            //     .withDriveMotorInverted(false)
-            ;
+                    .withFeedbackSource(steerFeedbackType);
 
     public static final ModuleConfig BackLeft =
             DefaultConfig.BackLeft.withCANcoderOffset(kBackLeftCANcoderOffset)

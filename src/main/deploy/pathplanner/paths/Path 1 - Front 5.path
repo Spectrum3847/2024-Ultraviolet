@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.0,
-        "y": 0.0
+        "x": 1.43,
+        "y": 4.1
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.1,
-        "y": 0.0
+        "x": 1.53,
+        "y": 4.1
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Start Pose - Front 5"
     },
     {
       "anchor": {
-        "x": 5.0,
-        "y": 0.0
+        "x": 1.996002046260407,
+        "y": 4.1
       },
       "prevControl": {
-        "x": 4.9,
-        "y": 0.0
+        "x": 1.8960020462604068,
+        "y": 4.1
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "GP 1 Shoot - Front 5"
     }
   ],
   "rotationTargets": [],
@@ -39,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
-    "rotateFast": false
+    "rotation": 145.0,
+    "rotateFast": true
   },
   "reversed": false,
-  "folder": "PID Config Paths",
+  "folder": "Front Paths",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 180.0,
     "velocity": 0
   },
   "useDefaultConstraints": true
