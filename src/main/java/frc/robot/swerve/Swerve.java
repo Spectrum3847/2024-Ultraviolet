@@ -224,6 +224,10 @@ public class Swerve implements Subsystem {
         drivetrain.seedFieldRelative(offsetDegrees);
     }
 
+    public Pose2d convertPoseWithGyro(Pose2d pose) {
+        return new Pose2d(pose.getX(), pose.getY(), getRotation());
+    }
+
     /** This will zero the entire odometry, and place the robot at 0,0 */
     public void zeroOdoemtry() {
         drivetrain.tareEverything();

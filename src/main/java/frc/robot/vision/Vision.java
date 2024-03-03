@@ -19,10 +19,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.crescendo.FieldConstants;
 import frc.robot.Robot;
-import frc.robot.RobotTelemetry;
 import frc.spectrumLib.vision.Limelight;
 import frc.spectrumLib.vision.Limelight.PhysicalConfig;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.littletonrobotics.junction.AutoLogOutput;
 
@@ -54,7 +52,7 @@ public class Vision extends SubsystemBase {
                 new Translation2d(BLUE_SPEAKER.getX(), FIELD_WIDTH - BLUE_SPEAKER.getY());
 
         /* Pose Estimation Constants */
-        public static final double VISION_REJECT_DISTANCE = 20000; // 2.3;
+        public static final double VISION_REJECT_DISTANCE = 2; // 2.3;
         // Increase these numbers to trust global measurements from vision less.
         public static final double VISION_STD_DEV_X = 0.5;
         public static final double VISION_STD_DEV_Y = 0.5;
@@ -96,8 +94,8 @@ public class Vision extends SubsystemBase {
 
         public static final class AlignToAmp extends CommandConfig {
             private AlignToAmp() {
-                configKp(0.04);
-                configTolerance(0.01);
+                configKp(0.4);
+                configTolerance(0);
                 configMaxOutput(Robot.swerve.config.maxVelocity * 0.5);
                 configError(0.3);
                 configPipelineIndex(speakerDetectorPipeline);
@@ -167,24 +165,31 @@ public class Vision extends SubsystemBase {
         SmartDashboard.putBoolean("VisionPresent", Vision.isPresent);
 
         /* Configure Limelight Settings Here */
+        speakerLL.setLEDMode(false);
     }
 
     @Override
     public void periodic() {
         // Integrate Vision with Odometry
-        if (getVisionPose().isPresent()) {
-            try {
-                Pose2d botpose = getVisionPose().get();
-                isPresent = true;
-                Pose2d poseWithGyro =
-                        new Pose2d(botpose.getX(), botpose.getY(), Robot.swerve.getRotation());
-                Robot.swerve.addVisionMeasurement(poseWithGyro, getVisionPoseTimestamp());
-            } catch (NoSuchElementException e) {
-                RobotTelemetry.print("Vision pose not present but tried to access it");
-            }
-        } else {
-            isPresent = false;
-        }
+        // if (getVisionPose().isPresent()) {
+        //     try {
+        //         isPresent = true;
+        //         // force pose to be vision
+        //         if ((Robot.swerve.getPose().getX() <= 0 || Robot.swerve.getPose().getY() <= 0)) {
+        //             resetPoseWithVision();
+        //         }
+
+        //         // integrate vision
+        //         Pose2d botpose = getVisionPose().get();
+        //         Pose2d poseWithGyro = Robot.swerve.convertPoseWithGyro(botpose);
+        //         Robot.swerve.addVisionMeasurement(poseWithGyro, getVisionPoseTimestamp());
+        //         // RobotTelemetry.print("added vision measurement");
+        //     } catch (NoSuchElementException e) {
+        //         RobotTelemetry.print("Vision pose not present but tried to access it");
+        //     }
+        // } else {
+        //     isPresent = false;
+        // }
     }
 
     /**
@@ -217,7 +222,8 @@ public class Vision extends SubsystemBase {
         if (!speakerLL.isCameraConnected() || !speakerLL.targetInView()) return Optional.empty();
         // if vision pose is too far off current, ignore it
         if (Robot.swerve.getPose().getTranslation().getDistance(visionPose.getTranslation())
-                < VisionConfig.VISION_REJECT_DISTANCE) {
+                        < VisionConfig.VISION_REJECT_DISTANCE
+                || (Robot.swerve.getPose().getX() <= 0 || Robot.swerve.getPose().getY() <= 0)) {
             return Optional.of(new Pose2d(visionPose.getTranslation(), Robot.swerve.getRotation()));
         }
 
@@ -253,7 +259,8 @@ public class Vision extends SubsystemBase {
     // we are resetting gyro angle as well?
     public void resetPoseWithVision() {
         // TODO: add more fallback logic here
-        Robot.swerve.resetPose(speakerLL.getAlliancePose().toPose2d());
+        Robot.swerve.resetPose(
+                Robot.swerve.convertPoseWithGyro(speakerLL.getAlliancePose().toPose2d()));
     }
     /**
      * Calculates the required rotation for the robot to align with a note, based on the current
@@ -313,7 +320,7 @@ public class Vision extends SubsystemBase {
                 .withName("Vision.blinkLimelights");
     }
 
-    //TESTING GET RID OF THIS
+    // TESTING GET RID OF THIS
     public Command testBlinkLimelight() {
         return new InstantCommand(() -> speakerLL.blinkLEDs()).withName("blinkLED");
     }

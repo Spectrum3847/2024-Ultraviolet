@@ -8,6 +8,7 @@ import frc.robot.vision.Vision.VisionConfig.AlignToSpeaker;
 import frc.robot.vision.Vision.VisionConfig.AlignToStage;
 import frc.robot.vision.Vision.VisionConfig.DriveToNote;
 import frc.robot.vision.commands.AlignToVisionTarget;
+import frc.robot.vision.commands.AlignWithPose;
 import frc.robot.vision.commands.DriveToVisionTarget;
 
 public class VisionCommands {
@@ -24,9 +25,14 @@ public class VisionCommands {
     }
 
     public static Command alignToAmp() {
-        return new AlignToVisionTarget(
-                AlignToAmp.getConfig(), () -> Robot.pilot.getDriveFwdPositive(), 0);
+        return new AlignWithPose(
+                AlignToAmp.getConfig(), () -> Robot.pilot.getDriveLeftPositive(), 0);
     }
+
+    // public static Command alignToAmp() {
+    //     return new AlignToVisionTarget(
+    //             AlignToAmp.getConfig(), () -> Robot.pilot.getDriveFwdPositive(), 0);
+    // }
 
     public static Command alignToStage() {
         return new AlignToVisionTarget(
