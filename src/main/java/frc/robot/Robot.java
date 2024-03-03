@@ -72,6 +72,8 @@ public class Robot extends LoggedRobot {
         // Reset Config for all gamepads and other button bindings
         pilot.resetConfig();
         operator.resetConfig();
+
+        LEDsCommands.setupLEDTriggers();
     }
 
     /* ROBOT INIT (Initialization) */

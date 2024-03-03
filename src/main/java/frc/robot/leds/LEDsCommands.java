@@ -4,14 +4,21 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Robot;
 import frc.robot.leds.LEDsConfig.Section;
+import frc.robot.vision.Vision;
 
 public class LEDsCommands {
     private static LEDs leds = Robot.leds;
 
     public static void setupDefaultCommand() {
         leds.setDefaultCommand(defaultCommand());
+    }
+
+    public static void setupLEDTriggers() {
+        Trigger visionValid = new Trigger(() -> Vision.isPresent);
+        visionValid.whileTrue(solidGreenLED());
     }
 
     /* Default Command */
