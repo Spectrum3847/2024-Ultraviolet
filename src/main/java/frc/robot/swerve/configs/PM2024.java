@@ -49,6 +49,8 @@ public class PM2024 {
                     / Units.inchesToMeters(
                             Math.hypot(trueWheelBaseInches / 2.0, trueTrackWidthInches / 2.0));
     private static final double maxAngularAcceleration = Math.pow(maxAngularVelocity, 2);
+    private static final double deadband = 0.1;
+    private static final double rotationDeadband = 0.1;
 
     // Device Setup
     private static final String kCANbusName = "3847";
@@ -129,5 +131,6 @@ public class PM2024 {
                     .withRotationGains(
                             kPRotationController, kIRotationController, kDRotationController)
                     .withProfilingConfigs(
-                            maxVelocity, maxAccel, maxAngularVelocity, maxAngularAcceleration);
+                            maxVelocity, maxAccel, maxAngularVelocity, maxAngularAcceleration)
+                    .withDeadbandConfig(deadband, rotationDeadband);
 }
