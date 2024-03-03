@@ -67,14 +67,6 @@ public class Pilot extends Gamepad {
                 .and(leftBumperOnly())
                 .whileTrue(RobotCommands.eject()); // TODO: Intake motor stops?
 
-        // controller.a().and(noBumpers()).whileTrue(VisionCommands.alignToSpeaker());
-        // controller.a().and(noBumpers()).whileTrue(VisionCommands.alignToAmp());
-        // controller.a().and(noBumpers()).whileTrue(VisionCommands.alignToStage()); //uses noteLL
-        
-        // DEBUG:
-        // controller.a().and(noBumpers()).whileTrue(Robot.vision.testBlinkLimelight());
-
-
         controller
                 .b()
                 .and(noBumpers())
