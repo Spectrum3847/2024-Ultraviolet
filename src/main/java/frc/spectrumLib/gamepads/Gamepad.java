@@ -136,16 +136,40 @@ public abstract class Gamepad extends SubsystemBase {
 
     public double getBlueAllianceStickCardinals() {
         double stickAngle = getRightStickDirection().getRadians();
-        if (stickAngle > -Math.PI / 4 && stickAngle <= Math.PI / 4) {
+        if (stickAngle > -Math.PI / 8 && stickAngle <= Math.PI / 8) {
             return 0;
-        } else if (stickAngle > Math.PI / 4 && stickAngle <= 3 * Math.PI / 4) {
+        } else if (stickAngle > Math.PI / 8 && stickAngle <= 3 * Math.PI / 8) {
+            return Math.PI / 4;
+        } else if (stickAngle > 3 * Math.PI / 8 && stickAngle <= 5 * Math.PI / 8) {
             return Math.PI / 2;
-        } else if (stickAngle > 3 * Math.PI / 4 || stickAngle <= -3 * Math.PI / 4) {
-            return Math.PI;
-        } else {
+        } else if (stickAngle > 5 * Math.PI / 8 && stickAngle <= 7 * Math.PI / 8) {
+            return 3 * Math.PI / 4;
+        } // other half of circle
+        else if (stickAngle < -Math.PI / 8 && stickAngle >= -3 * Math.PI / 8) {
+            return -Math.PI / 4;
+        } else if (stickAngle < -3 * Math.PI / 8 && stickAngle >= -5 * Math.PI / 8) {
             return -Math.PI / 2;
+        } else if (stickAngle < -5 * Math.PI / 8 && stickAngle >= -7 * Math.PI / 8) {
+            return -3 * Math.PI / 4;
+        } else {
+            return Math.PI; // greater than 7 * Math.PI / 8 or less than -7 * Math.PI / 8 (bottom of
+            // circle)
         }
     }
+
+    // TODO: simplified but untested
+    // public double getBlueAllianceStickCardinals() {
+    //     double stickAngle = getRightStickDirection().getRadians();
+
+    //     // Normalize angle to be between 0 and 2π
+    //     stickAngle = (stickAngle + 2 * Math.PI) % (2 * Math.PI);
+
+    //     // Round to nearest π/4 (45 degrees) and adjust for direction
+    //     double aimAngle = Math.round(stickAngle / (Math.PI / 4)) * (Math.PI / 4);
+
+    //     // Wrap angle to -π to π
+    //     return MathUtil.angleModulus(aimAngle);
+    // }
 
     /**
      * Flips the stick direction for the red alliance.
@@ -154,16 +178,33 @@ public abstract class Gamepad extends SubsystemBase {
      */
     public double getRedAllianceStickCardinals() {
         double stickAngle = getRightStickDirection().getRadians();
-        if (stickAngle > -Math.PI / 4 && stickAngle <= Math.PI / 4) {
+
+        if (stickAngle > -Math.PI / 8 && stickAngle <= Math.PI / 8) {
             return Math.PI;
-        } else if (stickAngle > Math.PI / 4 && stickAngle <= 3 * Math.PI / 4) {
+        } else if (stickAngle > Math.PI / 8 && stickAngle <= 3 * Math.PI / 8) {
+            return -3 * Math.PI / 4;
+        } else if (stickAngle > 3 * Math.PI / 8 && stickAngle <= 5 * Math.PI / 8) {
             return -Math.PI / 2;
-        } else if (stickAngle > 3 * Math.PI / 4 || stickAngle <= -3 * Math.PI / 4) {
-            return 0;
-        } else {
+        } else if (stickAngle > 5 * Math.PI / 8 && stickAngle <= 7 * Math.PI / 8) {
+            return -Math.PI / 4;
+        } // other half of circle
+        else if (stickAngle < -Math.PI / 8 && stickAngle >= -3 * Math.PI / 8) {
+            return 3 * Math.PI / 4;
+        } else if (stickAngle < -3 * Math.PI / 8 && stickAngle >= -5 * Math.PI / 8) {
             return Math.PI / 2;
+        } else if (stickAngle < -5 * Math.PI / 8 && stickAngle >= -7 * Math.PI / 8) {
+            return Math.PI / 4;
+        } else {
+            return 0; // greater than 7 * Math.PI / 8 or less than -7 * Math.PI / 8 (bottom of
+            // circle)
         }
     }
+
+    // TODO: simplified but untested
+    // public double getRedAllianceStickCardinals() {
+    //     double aimAngle = getBlueAllianceStickCardinals();
+    //     return MathUtil.angleModulus(aimAngle + Math.PI); // Flip the angle
+    // }
 
     // public double getStickSteer(int segments){
     //     double stickAngle = getRightStickDirection().getRadians();

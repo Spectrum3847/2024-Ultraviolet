@@ -17,6 +17,7 @@ public class LeftLauncher extends Mechanism {
         public double subwoofer = 4500;
         public double deepShot = 5400;
         public double eject = -2000;
+        public double dump = 500;
 
         /* Percentage LeftLauncher Output */
         public double slowLeftLauncherPercentage = 0.06;

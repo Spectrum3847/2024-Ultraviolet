@@ -34,25 +34,8 @@ public class PivotCommands {
         return pivot.runPosition(pivot.config.ampWing).withName("Pivot.ampWing");
     }
 
-    /* Auto Positions */
-
-    public static Command autoLaunchPreload() {
-        return pivot.runPosition(pivot.config.autoLaunchPreload)
-                .withName("Pivot.autoLaunchPreload");
-    }
-
-    public static Command autoLaunch2() {
-        return pivot.runPosition(pivot.config.autoLaunch2).withName("Pivot.autoLaunch2");
-    }
-
-    public static Command autoLaunch3() {
-        return pivot.runPosition(pivot.config.autoLaunch3).withName("Pivot.autoLaunch3");
-    }
-
-    /* Misc */
-
-    public static Command stopMotor() {
-        return pivot.runStop().withName("Pivot.stopMotor");
+    public static Command fromAmp() {
+        return pivot.runPosition(pivot.config.fromAmp).withName("Pivot.fromAmp");
     }
 
     public static Command coastMode() {

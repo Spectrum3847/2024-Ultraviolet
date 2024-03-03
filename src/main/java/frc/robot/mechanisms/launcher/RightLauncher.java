@@ -17,6 +17,7 @@ public class RightLauncher extends Mechanism {
         public double subwoofer = 4500;
         public double deepShot = 5400;
         public double eject = -2000;
+        public double dump = 500;
 
         /* Percentage RightLauncher Output */
         public double slowRightLauncherPercentage = 0.06;

@@ -19,6 +19,7 @@ public class Pivot extends Mechanism {
         public final double home = 1;
         public final double subwoofer = 80.5;
         public final double podium = 55;
+        public final double fromAmp = 55;
         public final double ampWing = 41;
         public final double autoLaunchPreload = 75;
         public final double autoLaunch2 =

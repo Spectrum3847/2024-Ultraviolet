@@ -1,6 +1,9 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
@@ -91,11 +94,21 @@ public class RobotCommands {
     // }
 
     public static Command score() {
-        return FeederCommands.score().alongWith(AmpTrapCommands.score());
+        return Commands.either(
+                launchEject(), dump(), () -> Robot.leftLauncher.getMotorVelocityInRPM() > 10);
         // return new ConditionalCommand(
         //         FeederCommands.launchEject(),
         //         RobotCommands.feedToAmp(),
         //         () -> Robot.elevator.getMotorPosition() < 15);
+    }
+
+    public static Command launchEject() {
+        return FeederCommands.launchEject().alongWith(AmpTrapCommands.score());
+    }
+
+    public static Command dump() {
+        return FeederCommands.launchEject()
+                .alongWith(AmpTrapCommands.score(), LauncherCommands.dump());
     }
 
     public static Command intake() {
@@ -135,7 +148,24 @@ public class RobotCommands {
                 .withName("RobotCommands.ampWing");
     }
 
+    public static Command fromAmpReady() {
+        return LauncherCommands.deepShot()
+                .alongWith(PivotCommands.ampWing(), PilotCommands.fromAmpAimingDrive())
+                .withName("RobotCommands.ampWing");
+    }
+
     public static Command topClimb() {
         return ClimberCommands.topClimb().alongWith(PivotCommands.home());
+    }
+
+    /**
+     * @param angle degrees
+     * @return
+     */
+    public static double flipAngleIfBlue(double angle) {
+        if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
+            return 180 - angle;
+        }
+        return angle;
     }
 }
