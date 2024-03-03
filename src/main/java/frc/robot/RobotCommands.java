@@ -150,7 +150,7 @@ public class RobotCommands {
 
     public static Command fromAmpReady() {
         return LauncherCommands.deepShot()
-                .alongWith(PivotCommands.ampWing(), PilotCommands.fromAmpAimingDrive())
+                .alongWith(PivotCommands.fromAmp(), PilotCommands.fromAmpAimingDrive())
                 .withName("RobotCommands.ampWing");
     }
 

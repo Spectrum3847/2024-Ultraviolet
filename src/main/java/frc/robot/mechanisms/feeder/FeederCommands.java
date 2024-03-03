@@ -39,6 +39,10 @@ public class FeederCommands {
         return feeder.runVelocity(feeder.config.feedToAmp).withName("Feeder.feedToAmp");
     }
 
+    public static Command launchEject() {
+        return feeder.runVelocity(feeder.config.launchEject).withName("Feeder.launchEject");
+    }
+
     public static Command coastMode() {
         return feeder.coastMode();
     }

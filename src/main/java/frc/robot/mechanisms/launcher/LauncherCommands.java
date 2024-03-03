@@ -24,6 +24,11 @@ public class LauncherCommands {
                 .withName("Launcher.launch");
     }
 
+    public static Command dump() {
+        return runLauncherVelocities(leftLauncher.config.dump, rightLauncher.config.dump)
+                .withName("Launcher.dump");
+    }
+
     public static Command subwoofer() {
         return runLauncherVelocities(leftLauncher.config.subwoofer, rightLauncher.config.subwoofer)
                 .withName("Launcher.subwoofer");

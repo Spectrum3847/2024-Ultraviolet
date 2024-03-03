@@ -17,6 +17,7 @@ public class Feeder extends Mechanism {
         public double score = 1000;
         public double feedToAmp =
                 -3500; // Needs to be greater than or equal to ampReady roller speed
+        public double launchEject = 1000;
 
         /* Rotations config */
         public double addedFeedRotations = 2;
