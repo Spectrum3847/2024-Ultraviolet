@@ -4,12 +4,12 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.interpolation.InterpolatingTreeMap;
-import edu.wpi.first.math.interpolation.Interpolator;
-import edu.wpi.first.math.interpolation.InverseInterpolator;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.interpolation.InterpolatingTreeMap;
+import edu.wpi.first.math.interpolation.Interpolator;
+import edu.wpi.first.math.interpolation.InverseInterpolator;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.Timer;
@@ -77,6 +77,51 @@ public class Vision extends SubsystemBase {
             }
         }
 
+        public static final class AlignToSpeaker extends CommandConfig {
+            private AlignToSpeaker() {
+                configKp(0.04);
+                configTolerance(0.01);
+                configMaxOutput(Robot.swerve.config.maxVelocity * 0.5);
+                configError(0.3);
+                configPipelineIndex(speakerDetectorPipeline);
+                configLimelight(Robot.vision.speakerLL);
+            }
+
+            public static AlignToSpeaker getConfig() {
+                return new AlignToSpeaker();
+            }
+        }
+
+        public static final class AlignToAmp extends CommandConfig {
+            private AlignToAmp() {
+                configKp(0.04);
+                configTolerance(0.01);
+                configMaxOutput(Robot.swerve.config.maxVelocity * 0.5);
+                configError(0.3);
+                configPipelineIndex(speakerDetectorPipeline);
+                configLimelight(Robot.vision.speakerLL);
+            }
+
+            public static AlignToAmp getConfig() {
+                return new AlignToAmp();
+            }
+        }
+
+        public static final class AlignToStage extends CommandConfig {
+            private AlignToStage() {
+                configKp(0.04);
+                configTolerance(0.01);
+                configMaxOutput(Robot.swerve.config.maxVelocity * 0.5);
+                configError(0.3);
+                configPipelineIndex(speakerDetectorPipeline);
+                configLimelight(Robot.vision.noteLL);
+            }
+
+            public static AlignToStage getConfig() {
+                return new AlignToStage();
+            }
+        }
+
         public static final class DriveToNote extends CommandConfig {
             private DriveToNote() {
                 configKp(0.3);
@@ -109,6 +154,7 @@ public class Vision extends SubsystemBase {
     /* Interpolator */
     public InterpolatingTreeMap<Double, Double> treeMap =
             new InterpolatingTreeMap<>(InverseInterpolator.forDouble(), Interpolator.forDouble());
+
     @AutoLogOutput(key = "Vision/integratingPose")
     public static boolean isPresent = false;
 
@@ -190,8 +236,6 @@ public class Vision extends SubsystemBase {
         return Robot.swerve.getPose().minus(hybridPose);
     }
 
-
-
     @AutoLogOutput(key = "Vision/AngleToSpeaker")
     public double getAngleToSpeaker() {
         Translation2d speakerPosition = VisionConfig.RED_SPEAKER;
@@ -207,7 +251,7 @@ public class Vision extends SubsystemBase {
 
     // we are resetting gyro angle as well?
     public void resetPoseWithVision() {
-        //TODO: add more fallback logic here
+        // TODO: add more fallback logic here
         Robot.swerve.resetPose(speakerLL.getAlliancePose().toPose2d());
     }
     /**

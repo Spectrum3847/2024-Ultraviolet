@@ -62,7 +62,14 @@ public class Pilot extends Gamepad {
     public void setupTeleopButtons() {
 
         controller.a().and(noBumpers()).whileTrue(RobotCommands.intakeWithMotorSensor());
-        controller.a().and(leftBumperOnly()).whileTrue(RobotCommands.eject()); //TODO: Intake motor stops?
+        controller
+                .a()
+                .and(leftBumperOnly())
+                .whileTrue(RobotCommands.eject()); // TODO: Intake motor stops?
+
+        // controller.a().and(noBumpers()).whileTrue(VisionCommands.alignToSpeaker());
+        // controller.a().and(noBumpers()).whileTrue(VisionCommands.alignToAmp());
+        // controller.a().and(noBumpers()).whileTrue(VisionCommands.alignToStage()); //uses noteLL
 
         controller
                 .b()
