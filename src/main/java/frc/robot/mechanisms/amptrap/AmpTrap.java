@@ -64,6 +64,9 @@ public class AmpTrap extends Mechanism {
     }
 
     public boolean hasNote() {
+        if (getLaserCanDistance() < 0) {
+            return false;
+        }
         return getLaserCanDistance() < config.hasNoteDistance;
     }
 

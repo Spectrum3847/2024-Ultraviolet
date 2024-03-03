@@ -90,7 +90,8 @@ public class Vision extends SubsystemBase {
     }
 
     @Override
-    public void periodic() {}
+    public void periodic() {
+    }
 
     public Optional<Pose2d> getVisionPose() {
         Pose2d visionPose = speakerLL.getAlliancePose().toPose2d();

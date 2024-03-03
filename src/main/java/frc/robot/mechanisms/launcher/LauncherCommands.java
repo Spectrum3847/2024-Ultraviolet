@@ -35,7 +35,6 @@ public class LauncherCommands {
                 .withName("Launcher.dump");
     }
 
-
     public static Command launch() {
         return runLauncherVelocities(leftLauncher.config.launch, rightLauncher.config.launch)
                 .withName("Launcher.launch");

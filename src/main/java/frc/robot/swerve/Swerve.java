@@ -94,7 +94,8 @@ public class Swerve implements Subsystem {
         Logger.recordOutput("Odometry/Robot", getPose());
         // Log Vision Pose
         if (!Robot.isSimulation()) {
-            Logger.recordOutput("Vision/Pose", Robot.vision.speakerLL.getAlliancePose().toPose2d());
+            // Logger.recordOutput("Vision/Pose",
+            // Robot.vision.speakerLL.getAlliancePose().toPose2d());
         }
 
         // Integrate Vision with Odometry

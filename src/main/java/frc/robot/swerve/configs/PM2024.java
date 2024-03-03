@@ -131,5 +131,5 @@ public class PM2024 {
                             kPRotationController, kIRotationController, kDRotationController)
                     .withProfilingConfigs(
                             maxVelocity, maxAccel, maxAngularVelocity, maxAngularAcceleration)
-                            .withDeadbandConfig(deadband, rotationDeadband);
+                    .withDeadbandConfig(deadband, rotationDeadband);
 }

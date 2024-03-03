@@ -52,6 +52,10 @@ public class PivotCommands {
         return pivot.runPosition(pivot.config.ampWing).withName("Pivot.ampWing");
     }
 
+    public static Command fromAmp() {
+        return pivot.runPosition(pivot.config.fromAmp).withName("Pivot.fromAmp");
+    }
+
     public static Command coastMode() {
         return pivot.coastMode();
     }

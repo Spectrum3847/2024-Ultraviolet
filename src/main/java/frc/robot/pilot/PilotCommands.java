@@ -4,6 +4,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Robot;
+import frc.robot.RobotCommands;
 import frc.robot.mechanisms.climber.Climber;
 import frc.robot.mechanisms.pivot.Pivot;
 import frc.robot.swerve.commands.SwerveCommands;
@@ -79,7 +80,17 @@ public class PilotCommands {
         return SwerveCommands.aimDrive(
                         () -> pilot.getDriveFwdPositive(),
                         () -> pilot.getDriveLeftPositive(),
-                        () -> Units.degreesToRadians(26),
+                        () -> Units.degreesToRadians(RobotCommands.flipAngleIfBlue(26)),
+                        () -> pilot.getFieldOriented(), // true is field oriented
+                        () -> true)
+                .withName("Swerve.PilotSpeakerAimingDrive");
+    }
+
+    public static Command fromAmpAimingDrive() {
+        return SwerveCommands.aimDrive(
+                        () -> pilot.getDriveFwdPositive(),
+                        () -> pilot.getDriveLeftPositive(),
+                        () -> Units.degreesToRadians(RobotCommands.flipAngleIfBlue(-32)),
                         () -> pilot.getFieldOriented(), // true is field oriented
                         () -> true)
                 .withName("Swerve.PilotSpeakerAimingDrive");
@@ -89,7 +100,7 @@ public class PilotCommands {
         return SwerveCommands.aimDrive(
                         () -> pilot.getDriveFwdPositive(),
                         () -> pilot.getDriveLeftPositive(),
-                        () -> Units.degreesToRadians(0),
+                        () -> Units.degreesToRadians(RobotCommands.flipAngleIfBlue(0)),
                         () -> pilot.getFieldOriented(), // true is field oriented
                         () -> true)
                 .withName("Swerve.PilotSpeakerAimingDrive");
