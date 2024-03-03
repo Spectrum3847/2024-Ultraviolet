@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
@@ -118,23 +119,25 @@ public class RobotCommands {
     // }
 
     public static Command score() {
-        return FeederCommands.launchEject().alongWith(AmpTrapCommands.score());
+        return Commands.either(launchEject(), dump(), () -> Robot.leftLauncher.getMotorVelocityInRPM() > 10);
         // return new ConditionalCommand(
         //         FeederCommands.launchEject(),
         //         RobotCommands.feedToAmp(),
         //         () -> Robot.elevator.getMotorPosition() < 15);
     }
 
+    public static Command launchEject() {
+        return FeederCommands.launchEject().alongWith(AmpTrapCommands.score());
+    }
+
+    public static Command dump() {
+        return FeederCommands.launchEject().alongWith(AmpTrapCommands.score(), LauncherCommands.dump());
+    }
+
     public static Command intake() {
         return IntakeCommands.intake()
                 .alongWith(AmpTrapCommands.intake(), FeederCommands.intake())
                 .withName("RobotCommands.intake");
-    }
-
-    public static Command launchEject() {
-        return AmpTrapCommands.launchEject()
-                .alongWith(FeederCommands.launchEject())
-                .withName("RobotCommands.launchEject");
     }
 
     public static Command coastModeMechanisms() {

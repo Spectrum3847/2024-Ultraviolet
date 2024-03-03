@@ -30,6 +30,12 @@ public class LauncherCommands {
         return runLauncherPercentages(1, 1).withName("Launcher.runFull");
     }
 
+    public static Command dump() {
+        return runLauncherVelocities(leftLauncher.config.dump, rightLauncher.config.dump)
+                .withName("Launcher.dump");
+    }
+
+
     public static Command launch() {
         return runLauncherVelocities(leftLauncher.config.launch, rightLauncher.config.launch)
                 .withName("Launcher.launch");
