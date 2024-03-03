@@ -1,16 +1,28 @@
 package frc.robot.vision;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.interpolation.InterpolatingTreeMap;
 import edu.wpi.first.math.interpolation.Interpolator;
 import edu.wpi.first.math.interpolation.InverseInterpolator;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.crescendo.FieldConstants;
 import frc.robot.Robot;
 import frc.spectrumLib.vision.Limelight;
 import frc.spectrumLib.vision.Limelight.PhysicalConfig;
+import java.util.NoSuchElementException;
 import java.util.Optional;
+import org.littletonrobotics.junction.AutoLogOutput;
 
 public class Vision extends SubsystemBase {
     public static final class VisionConfig {
@@ -34,12 +46,20 @@ public class Vision extends SubsystemBase {
         public static final double speakerTagHeight = 1.45;
         public static final int speakerTagID = 4;
 
+        public static final double FIELD_WIDTH = 8.0136;
+        public static final Translation2d BLUE_SPEAKER = new Translation2d(0.0331, 5.547868);
+        public static final Translation2d RED_SPEAKER =
+                new Translation2d(BLUE_SPEAKER.getX(), FIELD_WIDTH - BLUE_SPEAKER.getY());
+
         /* Pose Estimation Constants */
-        public static final double VISION_REJECT_DISTANCE = 2.3;
+        public static final double VISION_REJECT_DISTANCE = 20000; // 2.3;
         // Increase these numbers to trust global measurements from vision less.
-        public static final double VISION_STD_DEV_X = 1;
-        public static final double VISION_STD_DEV_Y = 1;
-        public static final double VISION_STD_DEV_THETA = 1;
+        public static final double VISION_STD_DEV_X = 0.5;
+        public static final double VISION_STD_DEV_Y = 0.5;
+        public static final double VISION_STD_DEV_THETA = 99999999;
+
+        public static final Matrix<N3, N1> visionStdMatrix =
+                VecBuilder.fill(VISION_STD_DEV_X, VISION_STD_DEV_Y, VISION_STD_DEV_THETA);
 
         /* Vision Command Configs */
         public static final class AlignToNote extends CommandConfig {
@@ -89,29 +109,96 @@ public class Vision extends SubsystemBase {
     /* Interpolator */
     public InterpolatingTreeMap<Double, Double> treeMap =
             new InterpolatingTreeMap<>(InverseInterpolator.forDouble(), Interpolator.forDouble());
+    @AutoLogOutput(key = "Vision/integratingPose")
+    public static boolean isPresent = false;
 
     public Vision() {
         setName("Vision");
         addTreeMapData();
 
+        SmartDashboard.putBoolean("VisionPresent", Vision.isPresent);
+
         /* Configure Limelight Settings Here */
     }
 
     @Override
-    public void periodic() {}
+    public void periodic() {
+        // Integrate Vision with Odometry
+        if (getVisionPose().isPresent()) {
+            try {
+                Pose2d botpose = getVisionPose().get();
+                isPresent = true;
+                Pose2d poseWithGyro =
+                        new Pose2d(botpose.getX(), botpose.getY(), Robot.swerve.getRotation());
+                Robot.swerve.addVisionMeasurement(poseWithGyro, getVisionPoseTimestamp());
+            } catch (NoSuchElementException e) {
+
+            }
+
+        } else {
+            isPresent = false;
+        }
+    }
+
+    /**
+     * REQUIRES ACCURATE POSE ESTIMATION. Uses trigonometric functions to calculate the angle
+     * between the robot heading and the angle required to face the hybrid spot. Will return 0 if
+     * the robot cannot see an apriltag.
+     *
+     * @param hybridSpot 0-8 representing the 9 different hybrid spots for launching cubes to hybrid
+     *     nodes
+     * @return angle between robot heading and hybrid spot in degrees
+     */
+    public double getThetaToSpeaker() {
+        Translation2d redSpeaker =
+                new Translation2d(
+                        FieldConstants.fieldLength
+                                - FieldConstants.Speaker.centerSpeakerOpening
+                                        .toTranslation2d()
+                                        .getX(),
+                        FieldConstants.Speaker.centerSpeakerOpening.toTranslation2d().getY());
+        double angleBetweenRobotAndSpeakers =
+                redSpeaker.minus(Robot.swerve.getPose().getTranslation()).getAngle().getRadians();
+
+        return angleBetweenRobotAndSpeakers;
+    }
 
     public Optional<Pose2d> getVisionPose() {
         Pose2d visionPose = speakerLL.getAlliancePose().toPose2d();
 
-        // if no camera, return empty
-        if (!speakerLL.isCameraConnected()) return Optional.empty();
+        // if no camera or no target in view, return empty
+        if (!speakerLL.isCameraConnected() || !speakerLL.targetInView()) return Optional.empty();
         // if vision pose is too far off current, ignore it
         if (Robot.swerve.getPose().getTranslation().getDistance(visionPose.getTranslation())
                 < VisionConfig.VISION_REJECT_DISTANCE) {
-            return Optional.of(visionPose);
+            return Optional.of(new Pose2d(visionPose.getTranslation(), Robot.swerve.getRotation()));
         }
 
         return Optional.empty();
+    }
+
+    /**
+     * Helper function for {@link Vision#getThetaToHybrid}
+     *
+     * @param hybridSpot 0-8 representing the 9 different hybrid spots for launching cubes to hybrid
+     *     nodes
+     * @return Transform2d representing the x and y distance components between the robot and the
+     *     hybrid spot
+     */
+    private Transform2d getTransformToHybrid() {
+        Pose2d hybridPose = new Pose2d(VisionConfig.RED_SPEAKER, new Rotation2d(Math.PI));
+        return Robot.swerve.getPose().minus(hybridPose);
+    }
+
+
+
+    @AutoLogOutput(key = "Vision/AngleToSpeaker")
+    public double getAngleToSpeaker() {
+        Translation2d speakerPosition = VisionConfig.RED_SPEAKER;
+        Translation2d robotPoint = Robot.swerve.getPose().getTranslation();
+
+        return MathUtil.angleModulus(
+                speakerPosition.minus(robotPoint).getAngle().getRadians() + Math.PI);
     }
 
     public double getVisionPoseTimestamp() {
@@ -120,7 +207,7 @@ public class Vision extends SubsystemBase {
 
     // we are resetting gyro angle as well?
     public void resetPoseWithVision() {
-        // add more fallback logic here
+        //TODO: add more fallback logic here
         Robot.swerve.resetPose(speakerLL.getAlliancePose().toPose2d());
     }
     /**

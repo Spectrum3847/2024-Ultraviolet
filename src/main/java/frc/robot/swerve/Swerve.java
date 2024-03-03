@@ -19,6 +19,7 @@ import frc.robot.swerve.configs.MUSICDISC2023;
 import frc.robot.swerve.configs.NOTEBLOCK2023;
 import frc.robot.swerve.configs.PM2024;
 import frc.robot.swerve.configs.ULTRAVIOLET2024;
+import frc.robot.vision.Vision.VisionConfig;
 import frc.spectrumLib.swerve.Drivetrain;
 import frc.spectrumLib.swerve.Drivetrain.DriveState;
 import frc.spectrumLib.swerve.Request;
@@ -75,8 +76,7 @@ public class Swerve implements Subsystem {
 
         rotationController = new RotationController(this);
 
-        // setVisionMeasurementStdDevs(null); //TODO: add
-
+        setVisionMeasurementStdDevs(VisionConfig.visionStdMatrix);
         RobotTelemetry.print("Swerve Subsystem Initialized: ");
     }
 
@@ -96,16 +96,16 @@ public class Swerve implements Subsystem {
 
         // Log Odometry Pose
         Logger.recordOutput("Odometry/Robot", getPose());
-        // Log Vision Pose
-        if (!Robot.isSimulation()) {
-            Logger.recordOutput("Vision/Pose", Robot.vision.speakerLL.getAlliancePose().toPose2d());
-        }
+        Logger.recordOutput("Odometry/RobotX", getPose().getX());
+        Logger.recordOutput("Odometry/RobotY", getPose().getY());
 
-        // Integrate Vision with Odometry
-        // if(Robot.vision.getVisionPose().isPresent()) {
-        //     addVisionMeasurement(Robot.vision.getVisionPose().get(),
-        // Robot.vision.getVisionPoseTimestamp());
-        // }
+        // Log Vision Pose
+        Logger.recordOutput("Vision/Speaker/Pose", Robot.vision.speakerLL.getAlliancePose().toPose2d());
+        Logger.recordOutput(
+                "Vision/Speaker/PoseX", Robot.vision.speakerLL.getAlliancePose().toPose2d().getX());
+        Logger.recordOutput(
+                "Vision/Speaker/PoseY", Robot.vision.speakerLL.getAlliancePose().toPose2d().getY());
+
     }
 
     @Override

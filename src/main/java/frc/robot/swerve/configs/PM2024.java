@@ -24,8 +24,8 @@ public class PM2024 {
     private static final double trueWheelBaseInches = frontWheelBaseInches + backWheelBaseInches;
     private static final double trackWidthInches = 11.875;
     private static final double trueTrackWidthInches = trackWidthInches * 2;
-    private static final double kDriveGearRatio = 6.746;
-    private static final double kSteerGearRatio = 21.428;
+    private static final double kDriveGearRatio = 150 / 7;
+    private static final double kSteerGearRatio = 50 / 16 * 16 / 28 * 45 / 15;
 
     // Tuning Config
     // Estimated at first, then fudge-factored to make odom match record

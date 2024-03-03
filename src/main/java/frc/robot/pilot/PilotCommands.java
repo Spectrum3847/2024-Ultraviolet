@@ -55,6 +55,16 @@ public class PilotCommands {
                 .withName("Swerve.PilotHeadingLockDrive");
     }
 
+    public static Command aimToRedSpeaker() {
+        return SwerveCommands.aimDrive(
+                        () -> pilot.getDriveFwdPositive(),
+                        () -> pilot.getDriveLeftPositive(),
+                        () -> Robot.vision.getThetaToSpeaker(),
+                        () -> pilot.getFieldOriented(), // true is field oriented
+                        () -> true)
+                .withName("Swerve.aimToRedSpeaker");
+    }
+
     public static Command noteAimingDrive() {
         return SwerveCommands.aimDrive(
                         () -> pilot.getDriveFwdPositive(),
