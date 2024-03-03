@@ -19,10 +19,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.crescendo.FieldConstants;
 import frc.robot.Robot;
-import frc.robot.RobotTelemetry;
 import frc.spectrumLib.vision.Limelight;
 import frc.spectrumLib.vision.Limelight.PhysicalConfig;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.littletonrobotics.junction.AutoLogOutput;
 
@@ -172,19 +170,19 @@ public class Vision extends SubsystemBase {
     @Override
     public void periodic() {
         // Integrate Vision with Odometry
-        if (getVisionPose().isPresent()) {
-            try {
-                Pose2d botpose = getVisionPose().get();
-                isPresent = true;
-                Pose2d poseWithGyro =
-                        new Pose2d(botpose.getX(), botpose.getY(), Robot.swerve.getRotation());
-                Robot.swerve.addVisionMeasurement(poseWithGyro, getVisionPoseTimestamp());
-            } catch (NoSuchElementException e) {
-                RobotTelemetry.print("Vision pose not present but tried to access it");
-            }
-        } else {
-            isPresent = false;
-        }
+        // if (getVisionPose().isPresent()) {
+        //     try {
+        //         Pose2d botpose = getVisionPose().get();
+        //         isPresent = true;
+        //         Pose2d poseWithGyro =
+        //                 new Pose2d(botpose.getX(), botpose.getY(), Robot.swerve.getRotation());
+        //         Robot.swerve.addVisionMeasurement(poseWithGyro, getVisionPoseTimestamp());
+        //     } catch (NoSuchElementException e) {
+        //         RobotTelemetry.print("Vision pose not present but tried to access it");
+        //     }
+        // } else {
+        //     isPresent = false;
+        // }
     }
 
     /**
