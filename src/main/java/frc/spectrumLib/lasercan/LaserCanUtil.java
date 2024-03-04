@@ -39,19 +39,42 @@ public class LaserCanUtil {
 
     /* Internal Lasercan methods */
     public boolean hasNote() {
+        if (getDistance() < 0) {
+            return false;
+        }
         return getDistance() < 300;
     }
 
+    public boolean intakedNote() {
+        if (getDistance() < 0) {
+            return false;
+        }
+        return getDistance() < 400;
+    }
+
     public boolean midNote() {
+        if (getDistance() < 0) {
+            return false;
+        }
         return Math.abs(getDistance()) - 10 <= 0;
     }
 
     public boolean bigMidNote() {
+        if (getDistance() < 0) {
+            return false;
+        }
         return Math.abs(getDistance() - 50) <= 0;
     }
 
     public boolean endNote() {
+        if (getDistance() < 0) {
+            return false;
+        }
         return getDistance() > 250;
+    }
+
+    public boolean validDistance() {
+        return getDistance() >= 0;
     }
 
     /* Helper methods for constructors */

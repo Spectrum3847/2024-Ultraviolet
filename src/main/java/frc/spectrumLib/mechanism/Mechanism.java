@@ -127,6 +127,20 @@ public abstract class Mechanism implements Subsystem {
     }
 
     /**
+     * Closed-loop Position Motion Magic using a slot other than 0
+     *
+     * @param position rotations
+     * @param slot gains slot
+     */
+    public void setMMPosition(double position, int slot) {
+        if (attached) {
+            MotionMagicVoltage mm =
+                    config.mmPositionVoltageSlot.withSlot(slot).withPosition(position);
+            motor.setControl(mm);
+        }
+    }
+
+    /**
      * Open-loop Percent output control with voltage compensation
      *
      * @param percent fractional units between -1 and +1
@@ -165,6 +179,7 @@ public abstract class Mechanism implements Subsystem {
         public MotionMagicTorqueCurrentFOC mmPositionFOC = new MotionMagicTorqueCurrentFOC(0);
         public MotionMagicVelocityVoltage mmVelocityVoltage = new MotionMagicVelocityVoltage(0);
         public MotionMagicVoltage mmPositionVoltage = new MotionMagicVoltage(0);
+        public MotionMagicVoltage mmPositionVoltageSlot = new MotionMagicVoltage(0).withSlot(1);
         public VoltageOut voltageControl = new VoltageOut(0);
         public VelocityVoltage velocityControl = new VelocityVoltage(0);
         public VelocityTorqueCurrentFOC velocityTorqueCurrentFOC = new VelocityTorqueCurrentFOC(0);

@@ -19,15 +19,15 @@ public class Elevator extends Mechanism {
         /* Elevator positions in rotations */
         public double fullExtend = maxHeight;
         public double home = minHeight;
-        public double amp = 20;
+        public double amp = 14;
         public double trap = 5;
 
         /* Elevator config settings */
         public final double zeroSpeed = -0.2;
         public final double positionKp = 0.86; // 20 FOC // 10 Regular
         public final double positionKv = 0.013; // .12 FOC // .15 regular
-        public final double currentLimit = 30;
-        public final double threshold = 40;
+        public final double currentLimit = 20;
+        public final double threshold = 20;
 
         public ElevatorConfig() {
             super("Elevator", 52, "3847");

@@ -71,7 +71,7 @@ public final class RobotConfig {
                 break;
         }
 
-        System.out.println("ROBOT: " + getRobotType());
+        RobotTelemetry.print("ROBOT: " + getRobotType());
     }
 
     /** Set the RobotType based on if simulation or the serial number of the RIO */

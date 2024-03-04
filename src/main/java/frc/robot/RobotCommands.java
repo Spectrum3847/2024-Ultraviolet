@@ -34,12 +34,46 @@ public class RobotCommands {
         ;
     }
 
-    public static Command intakeWithMotorSensor() {
+    // Run the intake for at least 0.4 seconds OR until the lasercan sees the note, (also get pivot
+    // to a good position if it's
+    // too low, and stop it when intaking is done), then rumble and blink
+    public static Command smartIntake() {
         return IntakeCommands.intake()
-                .until(() -> Robot.feeder.getMotorVelocity() > 0.01)
-                .andThen(PilotCommands.rumble(1, 0.5).alongWith(VisionCommands.blinkLimelights()));
-        // FeederCommands.addFeedRevolutions().withTimeout(0.15 )));
-        // ); // add a .until to the feed revolutions later
+                .withTimeout(0.4)
+                .andThen(
+                        IntakeCommands.intake()
+                                .until(Robot.feeder::intakedNote)
+                                .deadlineWith(
+                                        PivotCommands.intake()
+                                                .onlyIf(
+                                                        () ->
+                                                                Robot.pivot.getMotorPercentAngle()
+                                                                        < Robot.pivot
+                                                                                .config
+                                                                                .intake))
+                                .andThen(
+                                        Commands.waitSeconds(0.3),
+                                        IntakeCommands.stopMotor()
+                                                .alongWith(
+                                                        PilotCommands.rumble(1, 0.5)
+                                                                .alongWith(
+                                                                        VisionCommands
+                                                                                .blinkLimelights()))));
+    }
+
+    public static Command feedHome() {
+        return Commands.either(
+                FeederCommands.addFeedRevolutions().onlyIf(Robot.feeder.lasercan::intakedNote),
+                Commands.run(() -> RobotTelemetry.print("No lasercan found; Didn't feed")),
+                Robot.feeder.lasercan::validDistance);
+    }
+
+    public static Command laserFeedHome() {
+        return FeederCommands.slowFeed()
+                .until(() -> !Robot.feeder.intakedNote())
+                .andThen(
+                        FeederCommands.slowEject().until(() -> Robot.feeder.intakedNote()),
+                        FeederCommands.stopMotor());
     }
 
     public static Command onDemandLaunching() {

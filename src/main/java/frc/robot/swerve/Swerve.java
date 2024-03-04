@@ -17,6 +17,7 @@ import frc.robot.RobotTelemetry;
 import frc.robot.swerve.configs.ALPHA2024;
 import frc.robot.swerve.configs.MUSICDISC2023;
 import frc.robot.swerve.configs.NOTEBLOCK2023;
+import frc.robot.swerve.configs.PM2024;
 import frc.robot.swerve.configs.ULTRAVIOLET2024;
 import frc.robot.vision.Vision.VisionConfig;
 import frc.spectrumLib.swerve.Drivetrain;
@@ -46,7 +47,7 @@ public class Swerve implements Subsystem {
         // Choose the correct swerve configuration
         switch (Robot.config.getRobotType()) {
             case PM:
-                config = ULTRAVIOLET2024.config;
+                config = PM2024.config;
                 break;
             case ULTRAVIOLET:
                 config = ULTRAVIOLET2024.config;
@@ -102,9 +103,11 @@ public class Swerve implements Subsystem {
         Logger.recordOutput(
                 "Vision/Speaker/Pose", Robot.vision.speakerLL.getAlliancePose().toPose2d());
         Logger.recordOutput(
-                "Vision/Speaker/PoseX", Robot.vision.speakerLL.getAlliancePose().toPose2d().getX());
+                "Vision/Speaker/PoseX",
+        Robot.vision.speakerLL.getAlliancePose().toPose2d().getX());
         Logger.recordOutput(
-                "Vision/Speaker/PoseY", Robot.vision.speakerLL.getAlliancePose().toPose2d().getY());
+                "Vision/Speaker/PoseY",
+        Robot.vision.speakerLL.getAlliancePose().toPose2d().getY());
     }
 
     @Override

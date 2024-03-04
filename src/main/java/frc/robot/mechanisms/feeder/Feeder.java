@@ -16,12 +16,14 @@ public class Feeder extends Mechanism {
         public double intake = 200;
         public double eject = -3000;
         public double score = 1000;
+        public double slowFeed = 500;
+        public double slowEject = -500;
         public double feedToAmp =
                 -3500; // Needs to be greater than or equal to ampReady roller speed
         public double launchEject = 1000;
 
         /* Rotations config */
-        public double addedFeedRotations = 2;
+        public double addedFeedRotations = 4;
 
         /* Percentage Feeder Output */
         public double slowFeederPercentage = 0.15;
@@ -32,11 +34,15 @@ public class Feeder extends Mechanism {
         public double velocityKp = 0.156152;
         public double velocityKv = 0.12;
         public double velocityKs = 0.24;
+        public double positionKp = 2;
+        public double positionKv = 0.013;
 
         public FeederConfig() {
             super("Feeder", 40, "3847");
-            configPIDGains(0, velocityKp, 0, 0);
-            configFeedForwardGains(velocityKs, velocityKv, 0, 0);
+            configPIDGains(0, velocityKp, 0, 0); // velocity
+            configFeedForwardGains(velocityKs, velocityKv, 0, 0); // velocity
+            configPIDGains(1, positionKp, 0, 0);
+            configFeedForwardGains(1, 0, positionKv, 0, 0);
             configGearRatio(12 / 30);
             configSupplyCurrentLimit(currentLimit, threshold, true);
             configNeutralBrakeMode(true);
@@ -62,6 +68,19 @@ public class Feeder extends Mechanism {
         return lasercan.getDistance();
     }
 
+    /**
+     * fall back to using motor velocity if lasercan is not working/disconnected
+     *
+     * @return
+     */
+    public boolean intakedNote() {
+        if (lasercan.validDistance()) {
+            return lasercan.intakedNote();
+        } else {
+            return getMotorVelocity() > 0.01;
+        }
+    }
+
     @Override
     public void periodic() {}
 
@@ -73,8 +92,7 @@ public class Feeder extends Mechanism {
      * @param revolutions position in revolutions
      */
     public Command runAddPosition(double revolutions) {
-        return run(() -> setMMPosition(getMotorPosition() + revolutions))
-                .withName("Feeder.runAddPosition");
+        return runOnce(this::tareMotor).andThen(run(() -> setMMPosition(revolutions, 1)));
     }
 
     /**
