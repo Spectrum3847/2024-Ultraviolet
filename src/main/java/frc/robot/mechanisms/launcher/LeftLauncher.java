@@ -8,6 +8,7 @@ import frc.spectrumLib.mechanism.TalonFXFactory;
 import frc.spectrumLib.util.Conversions;
 import org.littletonrobotics.junction.AutoLogOutput;
 
+/** Bottom Launcher */
 public class LeftLauncher extends Mechanism {
     public class LeftLauncherConfig extends Config {
 
@@ -17,13 +18,11 @@ public class LeftLauncher extends Mechanism {
         public double testVelocity = 4500;
         public double subwoofer = 4500;
         public double deepShot = 5400;
-        public double eject = -2000;
-        public double dump = 500;
 
         /* Percentage LeftLauncher Output */
-        public double slowLeftLauncherPercentage = 0.06;
-        public double testForwardPercent = -0.5;
-        public double testBackPercent = 0.5;
+        public double slowLeftLauncherPercent = 0.06;
+        public double ejectLauncherPercent = -0.3;
+        public double dumpLuancherPercent = 0.13;
 
         /* LeftLauncher config values */
         public double currentLimit = 60;

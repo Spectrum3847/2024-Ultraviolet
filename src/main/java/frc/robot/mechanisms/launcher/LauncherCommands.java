@@ -26,7 +26,9 @@ public class LauncherCommands {
     }
 
     public static Command dump() {
-        return runLauncherVelocities(leftLauncher.config.dump, rightLauncher.config.dump)
+        return runLauncherPercentages(
+                        leftLauncher.config.dumpLuancherPercent,
+                        rightLauncher.config.dumpLuancherPercent)
                 .withName("Launcher.dump");
     }
 
@@ -41,7 +43,9 @@ public class LauncherCommands {
     }
 
     public static Command eject() {
-        return runLauncherVelocities(leftLauncher.config.eject, rightLauncher.config.eject)
+        return runLauncherPercentages(
+                        leftLauncher.config.ejectLauncherPercent,
+                        rightLauncher.config.ejectLauncherPercent)
                 .withName("Launcher.eject");
     }
 
