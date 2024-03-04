@@ -74,7 +74,7 @@ public class LaserCanUtil {
     }
 
     public boolean closeNote() {
-        if(getDistance() < 0) {
+        if (getDistance() < 0) {
             return false;
         }
         return getDistance() < 60;

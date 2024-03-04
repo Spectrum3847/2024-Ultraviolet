@@ -18,7 +18,9 @@ public class LEDsCommands {
 
     public static void setupLEDTriggers() {
         Trigger visionValid = new Trigger(() -> Vision.isPresent);
+        Trigger noteIntaked = new Trigger(Robot.feeder.lasercan::intakedNote);
         visionValid.whileTrue(solidGreenLED());
+        noteIntaked.whileTrue(whiteBounce());
     }
 
     /* Default Command */
@@ -61,6 +63,17 @@ public class LEDsCommands {
                 Color.kBlack,
                 0.58,
                 0);
+    }
+
+    public static Command whiteBounce() {
+        return bounce(
+                Section.FULL,
+                new Color(255, 255, 255),
+                new Color(205, 205, 205),
+                new Color(155, 155, 155),
+                Color.kBlack,
+                0.58,
+                3);
     }
 
     public static Command strobeOrangeLED() {

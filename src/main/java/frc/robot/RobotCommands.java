@@ -4,8 +4,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
 import frc.robot.mechanisms.climber.ClimberCommands;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
@@ -22,7 +20,6 @@ import frc.robot.vision.VisionCommands;
  * called this MechanismCommands.java
  */
 public class RobotCommands {
-
 
     // Run the intake for at least 0.4 seconds OR until the lasercan sees the note, (also get pivot
     // to a good position if it's
@@ -74,7 +71,8 @@ public class RobotCommands {
 
     public static Command amp() {
         return FeederCommands.score()
-                .withTimeout(0.1).onlyIf(Robot.feeder::noteIsClose)
+                .withTimeout(0.1)
+                .onlyIf(Robot.feeder::noteIsClose)
                 .andThen(FeederCommands.feedToAmp())
                 .alongWith(AmpTrapCommands.amp())
                 .until(() -> Robot.ampTrap.hasNote())

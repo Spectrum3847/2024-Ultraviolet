@@ -5,7 +5,6 @@ import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
 import frc.robot.leds.LEDsCommands;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
-import frc.robot.mechanisms.feeder.FeederCommands;
 import frc.robot.swerve.commands.SwerveCommands;
 import frc.spectrumLib.gamepads.Gamepad;
 import frc.spectrumLib.util.ExpCurve;
@@ -61,16 +60,13 @@ public class Pilot extends Gamepad {
     /*  A, B, X, Y, Left Bumper, Right Bumper = Buttons 1 to 6 in simualation */
     public void setupTeleopButtons() {
 
-        runWithEndSequence(controller.a().and(noBumpers()), RobotCommands.smartIntake(), RobotCommands.feedHome());
-        controller
-                .a()
-                .and(leftBumperOnly())
-                .whileTrue(RobotCommands.eject()); // TODO: Intake motor stops?
+        runWithEndSequence(
+                controller.a().and(noBumpers()),
+                RobotCommands.smartIntake(),
+                RobotCommands.feedHome());
+        controller.a().and(leftBumperOnly()).whileTrue(RobotCommands.eject());
 
-        controller
-                .b()
-                .and(noBumpers())
-                .whileTrue(RobotCommands.amp()); // RobotCommands.feedToAmp());
+        controller.b().and(noBumpers()).whileTrue(RobotCommands.amp());
 
         controller.b().and(leftBumperOnly()).whileTrue(ElevatorCommands.home());
 
@@ -80,7 +76,6 @@ public class Pilot extends Gamepad {
         controller.y().and(noBumpers()).whileTrue(RobotCommands.subwooferShot());
         controller.y().and(leftBumperOnly()).whileTrue(RobotCommands.ampWingShot());
 
-        // just check for ID 4 in method OR cover up amp apriltag
         runWithEndSequence(rightBumperOnly(), RobotCommands.score(), ElevatorCommands.home());
         controller.leftBumper().and(controller.rightBumper()).whileTrue(RobotCommands.score());
 

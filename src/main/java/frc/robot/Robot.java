@@ -272,6 +272,7 @@ public class Robot extends LoggedRobot {
     /** This method is called once when test mode starts */
     public void testInit() {
         try {
+
             RobotTelemetry.print("~~~ Test Init Starting ~~~ ");
             resetCommandsAndButtons();
 

@@ -12,6 +12,7 @@ public class LEDs extends SpectrumLEDs {
     public LEDsConfig config;
 
     public static long countdownStartTimeMS = System.currentTimeMillis();
+    public static double strobeCounter = 0;
 
     public LEDs() {
         super(LEDsConfig.port, LEDsConfig.length);
@@ -58,6 +59,21 @@ public class LEDs extends SpectrumLEDs {
     public void strobe(Section section, Color color, double duration, int priority) {
         if (getUpdate()) {
             boolean on = ((getLEDTime() % duration) / duration) > 0.5;
+            solid(section, on ? color : Color.kBlack, priority);
+        }
+    }
+
+    /** @param frequency in robot cycles */
+    public void customStrobe(Section section, Color color, double frequency, int priority) {
+        if (getUpdate()) {
+            boolean on = false;
+            strobeCounter++;
+            if (strobeCounter >= frequency * 2) {
+                restartStrobeCounter();
+            }
+            if (strobeCounter < frequency) {
+                on = true;
+            }
             solid(section, on ? color : Color.kBlack, priority);
         }
     }
@@ -159,7 +175,7 @@ public class LEDs extends SpectrumLEDs {
                 strobe(Section.FULL, Color.kOrangeRed, 1, defaultPriority);
             } else if (DriverStation.isDisabled()) {
                 // solid(Section.FULL, Color.kWhite, defaultPriority);
-                ombre(Section.FULL, new Color(130, 103, 185), Color.kWhite, defaultPriority);
+                ombre(Section.FULL, LEDsConfig.SPECTRUM_COLOR, Color.kWhite, defaultPriority);
             } else if (DriverStation.isAutonomousEnabled()) {
                 solid(Section.FULL, Color.kBlack, defaultPriority);
             } else if (DriverStation.isTestEnabled()) {
@@ -369,5 +385,9 @@ public class LEDs extends SpectrumLEDs {
     /* Helper */
     public void setCountdownStartTime() {
         countdownStartTimeMS = System.currentTimeMillis();
+    }
+
+    public void restartStrobeCounter() {
+        strobeCounter = 0;
     }
 }
