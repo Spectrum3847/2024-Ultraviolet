@@ -294,6 +294,14 @@ public abstract class Gamepad extends SubsystemBase {
                 });
     }
 
+    public Trigger leftStick() {
+        return new Trigger(
+                () -> {
+                    return Math.abs(controller.getLeftX()) >= 0.1
+                            || Math.abs(controller.getLeftY()) >= 0.1;
+                });   
+    }
+
     private Trigger axisTrigger(ThresholdType t, double threshold, DoubleSupplier v) {
         return new Trigger(
                 () -> {

@@ -39,7 +39,6 @@ public class Operator extends Gamepad {
     /** Setup the Buttons for telop mode. */
     /*  A, B, X, Y, Left Bumper, Right Bumper = Buttons 1 to 6 in simualation */
     public void setupTeleopButtons() {
-        // dummy driver practice
         controller.a().and(noBumpers()).whileTrue(RobotCommands.smartIntake());
         controller.a().and(leftBumperOnly()).whileTrue(LauncherCommands.stopMotors());
 
@@ -55,28 +54,13 @@ public class Operator extends Gamepad {
         controller.leftBumper().and(rightTriggerOnly()).onTrue(RobotCommands.podiumShot());
 
         rightStick().and(leftBumperOnly()).whileTrue(OperatorCommands.manualPivot());
+        leftStick().and(leftBumperOnly()).whileTrue(OperatorCommands.manualClimber());
 
         bothBumpers()
                 .whileTrue(
                         LEDsCommands.solidGreenLED()
                                 .alongWith(VisionCommands.resetPoseWithVision()));
 
-        // manual output commands (map joystick to raw -1 to 1 output on motor): manualAmpTrap,
-        // manualClimber, manualElevator, manualFeeder, manualIntake, manualPivot, manualLauncher
-
-        // controller.a().whileTrue();
-
-        // controller.b().whileTrue();
-
-        // controller.x().toggleOnTrue();
-
-        // controller.y().and(leftBumperOnly()).whileTrue();
-
-        // controller.y().and(rightBumperOnly()).whileTrue();
-
-        // leftXTrigger(ThresholdType.GREATER_THAN, 0).whileTrue();
-
-        // controller.rightBumper().whileTrue(RobotCommands.feedToAmp());
         controller.upDpad().and(leftBumperOnly()).whileTrue(RobotCommands.topClimb());
         controller.downDpad().and(leftBumperOnly()).whileTrue(ClimberCommands.midClimb());
         controller.leftDpad().and(leftBumperOnly()).whileTrue(ElevatorCommands.fullExtend());
@@ -85,9 +69,6 @@ public class Operator extends Gamepad {
 
     /** Setup the Buttons for Disabled mode. */
     public void setupDisabledButtons() {
-        // This is just for training, most robots will have different buttons during disabled
-        controller.a().whileTrue(LEDsCommands.chase(4));
-        bothBumpers().whileTrue(LEDsCommands.chase(4));
 
         controller.b().toggleOnTrue(RobotCommands.coastModeMechanisms());
     };
