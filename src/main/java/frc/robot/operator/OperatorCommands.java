@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Robot;
 import frc.robot.mechanisms.climber.Climber;
+import frc.robot.mechanisms.elevator.Elevator;
 import frc.robot.mechanisms.pivot.Pivot;
 import frc.spectrumLib.util.exceptions.KillRobotException;
 
@@ -13,6 +14,7 @@ public class OperatorCommands {
     private static Operator operator = Robot.operator;
     private static Pivot pivot = Robot.pivot;
     private static Climber climber = Robot.climber;
+    private static Elevator elevator = Robot.elevator;
 
     /** Set default command to turn off the rumble */
     public static void setupDefaultCommand() {
@@ -43,5 +45,9 @@ public class OperatorCommands {
 
     public static Command manualClimber() {
         return climber.runPercentage(() -> -operator.controller.getRightY());
+    }
+
+        public static Command manualElevator() {
+        return elevator.runPercentage(() -> -operator.controller.getRightY());
     }
 }

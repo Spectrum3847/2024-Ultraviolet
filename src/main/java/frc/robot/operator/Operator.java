@@ -54,7 +54,7 @@ public class Operator extends Gamepad {
         controller.leftBumper().and(rightTriggerOnly()).onTrue(RobotCommands.podiumShot());
 
         rightStick().and(leftBumperOnly()).whileTrue(OperatorCommands.manualPivot());
-        leftStick().and(leftBumperOnly()).whileTrue(OperatorCommands.manualClimber());
+        leftStick().and(leftBumperOnly()).whileTrue(OperatorCommands.manualElevator());
 
         bothBumpers()
                 .whileTrue(
