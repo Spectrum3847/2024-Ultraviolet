@@ -70,15 +70,15 @@ public class Pilot extends Gamepad {
         controller
                 .b()
                 .and(noBumpers())
-                .whileTrue(RobotCommands.ampReady()); // RobotCommands.feedToAmp());
+                .whileTrue(RobotCommands.amp()); // RobotCommands.feedToAmp());
 
         controller.b().and(leftBumperOnly()).whileTrue(ElevatorCommands.home());
 
-        controller.x().and(noBumpers()).whileTrue(RobotCommands.podiumReady());
-        controller.x().and(leftBumperOnly()).whileTrue(RobotCommands.fromAmpReady());
+        controller.x().and(noBumpers()).whileTrue(RobotCommands.podiumShot());
+        controller.x().and(leftBumperOnly()).whileTrue(RobotCommands.fromAmpShot());
 
-        controller.y().and(noBumpers()).whileTrue(RobotCommands.subwooferReady());
-        controller.y().and(leftBumperOnly()).whileTrue(RobotCommands.AmpWingReady());
+        controller.y().and(noBumpers()).whileTrue(RobotCommands.subwooferShot());
+        controller.y().and(leftBumperOnly()).whileTrue(RobotCommands.ampWingShot());
 
         // just check for ID 4 in method OR cover up amp apriltag
         runWithEndSequence(rightBumperOnly(), RobotCommands.score(), ElevatorCommands.home());

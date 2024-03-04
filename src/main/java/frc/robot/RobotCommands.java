@@ -23,16 +23,6 @@ import frc.robot.vision.VisionCommands;
  */
 public class RobotCommands {
 
-    public static Command feed() {
-        return new ConditionalCommand(
-                new InstantCommand(), laserCanFeed(), Robot.feeder.lasercan::hasNote);
-    }
-
-    public static Command laserCanFeed() {
-        return IntakeCommands.intake().alongWith(AmpTrapCommands.feed())
-        // .until(() -> Robot.feeder.midNote())
-        ;
-    }
 
     // Run the intake for at least 0.4 seconds OR until the lasercan sees the note, (also get pivot
     // to a good position if it's
@@ -82,30 +72,11 @@ public class RobotCommands {
                 .withName("RobotCommands.onDemandLaunching");
     }
 
-    public static Command feedToAmp() {
-        return AmpTrapCommands.score()
-                .alongWith(
-                        FeederCommands.score()
-                                .withTimeout(0.15)
-                                .andThen(FeederCommands.feedToAmp()))
-                .withName("RobotCommands.feedToAmp");
-
-        /* With lasercan */
-        // return FeederCommands.launchEject()
-        //         .withTimeout(0.15)
-        //         .andThen(
-        //                 FeederCommands.feedToAmp()
-        //                         .alongWith(AmpTrapCommands.score())
-        //                         .until(Robot.ampTrap.lasercan::bigMidNote),
-        // ElevatorCommands.amp().withTimeout(1))
-        //         .withName("RobotCommands.feedToAmp");
-    }
-
-    public static Command ampReady() {
+    public static Command amp() {
         return FeederCommands.score()
-                .withTimeout(0.1)
+                .withTimeout(0.1).onlyIf(Robot.feeder::noteIsClose)
                 .andThen(FeederCommands.feedToAmp())
-                .alongWith(AmpTrapCommands.ampReady())
+                .alongWith(AmpTrapCommands.amp())
                 .until(() -> Robot.ampTrap.hasNote())
                 .andThen(
                         AmpTrapCommands.stopMotor()
@@ -119,20 +90,9 @@ public class RobotCommands {
                 .withName("RobotCommands.eject");
     }
 
-    // public static Command score() {
-    //     return new ConditionalCommand(
-    //             FeederCommands.launchEject(),
-    //             AmpTrapCommands.score(),
-    //             () -> Robot.elevator.getMotorPosition() < 5);
-    // }
-
     public static Command score() {
         return Commands.either(
                 launchEject(), dump(), () -> Robot.leftLauncher.getMotorVelocityInRPM() > 10);
-        // return new ConditionalCommand(
-        //         FeederCommands.launchEject(),
-        //         RobotCommands.feedToAmp(),
-        //         () -> Robot.elevator.getMotorPosition() < 15);
     }
 
     public static Command launchEject() {
@@ -174,25 +134,25 @@ public class RobotCommands {
                 .withName("RobotCommands.ensureBrakeMode");
     }
 
-    public static Command subwooferReady() {
+    public static Command subwooferShot() {
         return LauncherCommands.subwoofer()
                 .alongWith(PivotCommands.subwoofer())
                 .withName("RobotCommands.subwooferReady");
     }
 
-    public static Command podiumReady() {
+    public static Command podiumShot() {
         return LauncherCommands.deepShot()
                 .alongWith(PivotCommands.podium(), PilotCommands.podiumAimingDrive())
                 .withName("RobotCommands.podium");
     }
 
-    public static Command AmpWingReady() {
+    public static Command ampWingShot() {
         return LauncherCommands.deepShot()
                 .alongWith(PivotCommands.ampWing(), PilotCommands.ampWingAimingDrive())
                 .withName("RobotCommands.ampWing");
     }
 
-    public static Command fromAmpReady() {
+    public static Command fromAmpShot() {
         return LauncherCommands.deepShot()
                 .alongWith(PivotCommands.fromAmp(), PilotCommands.fromAmpAimingDrive())
                 .withName("RobotCommands.ampWing");
