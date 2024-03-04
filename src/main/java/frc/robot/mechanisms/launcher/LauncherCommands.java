@@ -59,7 +59,7 @@ public class LauncherCommands {
         return leftLauncher
                 .ensureBrakeMode()
                 .alongWith(rightLauncher.ensureBrakeMode())
-                .withName("EnsureBrakeMode");
+                .withName("Launcher.ensureBrakeMode");
     }
 
     /* Helpers */
