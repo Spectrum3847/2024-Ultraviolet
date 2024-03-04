@@ -183,7 +183,7 @@ public class Robot extends LoggedRobot {
 
     /** This method is called once when disabled exits */
     public void disabledExit() {
-        RobotCommands.ensureBrakeMode(); // sets all motors to brake mode if not already
+        RobotCommands.ensureBrakeMode().schedule(); // sets all motors to brake mode if not already
         LEDs.turnOffCoastLEDs(); // turn off coast mode LED in case button was not manually
         // pressed again
 
