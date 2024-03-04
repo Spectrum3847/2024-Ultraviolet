@@ -38,6 +38,10 @@ public class PivotCommands {
         return pivot.runPosition(pivot.config.fromAmp).withName("Pivot.fromAmp");
     }
 
+    public static Command intoAmp() {
+        return pivot.runPosition(pivot.config.intoAmp).withName("Pivot.intoAmp");
+    }
+
     public static Command autoLaunchPreload() {
         return pivot.runPosition(pivot.config.autoLaunchPreload).withName("Pivot.subwoofer");
     }

@@ -27,6 +27,11 @@ public class LauncherCommands {
                 .withName("Launcher.launch");
     }
 
+    public static Command intoAmp() {
+        return runLauncherVelocities(leftLauncher.config.intoAmp, rightLauncher.config.intoAmp)
+                .withName("Launcher.intoAmp");
+    }
+
     public static Command dump() {
         return runLauncherPercentages(
                         leftLauncher.config.dumpLuancherPercent,

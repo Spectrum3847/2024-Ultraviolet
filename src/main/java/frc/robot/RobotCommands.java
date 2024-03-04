@@ -38,7 +38,7 @@ public class RobotCommands {
                                                                                 .config
                                                                                 .intake))
                                 .andThen(
-                                        Commands.waitSeconds(0.3),
+                                        // Commands.waitSeconds(0.3),
                                         IntakeCommands.stopMotor()
                                                 .alongWith(
                                                         PilotCommands.rumble(1, 0.5)
@@ -148,6 +148,12 @@ public class RobotCommands {
         return LauncherCommands.deepShot()
                 .alongWith(PivotCommands.ampWing(), PilotCommands.ampWingAimingDrive())
                 .withName("RobotCommands.ampWing");
+    }
+
+    public static Command intoAmpShot() {
+        return LauncherCommands.intoAmp()
+                .alongWith(PivotCommands.intoAmp())
+                .withName("RobotCommands.intoAmp");
     }
 
     public static Command fromAmpShot() {
