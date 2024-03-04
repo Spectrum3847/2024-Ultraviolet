@@ -47,7 +47,7 @@ public class OperatorCommands {
         return climber.runPercentage(() -> -operator.controller.getRightY());
     }
 
-        public static Command manualElevator() {
+    public static Command manualElevator() {
         return elevator.runPercentage(() -> -operator.controller.getRightY());
     }
 }

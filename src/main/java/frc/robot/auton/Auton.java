@@ -63,6 +63,7 @@ public class Auton extends SubsystemBase {
         NamedCommands.registerCommand("launchReadyPreload", AutonCommands.launchReadyPreload());
         NamedCommands.registerCommand("launchReady2", AutonCommands.launchReady2());
         NamedCommands.registerCommand("launchReady3", AutonCommands.launchReady3());
+        NamedCommands.registerCommand("smartIntake", new PrintCommand("THIS DOES NOT EXIST"));
         NamedCommands.registerCommand("launch", FeederCommands.runFull().withTimeout(0.3));
 
         /* Stop Commands */
