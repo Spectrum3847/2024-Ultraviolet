@@ -13,6 +13,7 @@ public class LEDs extends SpectrumLEDs {
 
     public static long countdownStartTimeMS = System.currentTimeMillis();
     public static double strobeCounter = 0;
+    public static boolean coastModeLED = false;
 
     public LEDs() {
         super(LEDsConfig.port, LEDsConfig.length);
@@ -389,5 +390,13 @@ public class LEDs extends SpectrumLEDs {
 
     public void restartStrobeCounter() {
         strobeCounter = 0;
+    }
+
+    public static void turnOnCoastLEDs() {
+        coastModeLED = true;
+    }
+
+    public static void turnOffCoastLEDs() {
+        coastModeLED = false;
     }
 }

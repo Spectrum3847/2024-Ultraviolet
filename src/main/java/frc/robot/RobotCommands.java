@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.leds.LEDs;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
 import frc.robot.mechanisms.climber.ClimberCommands;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
@@ -116,7 +117,7 @@ public class RobotCommands {
                         FeederCommands.coastMode(),
                         IntakeCommands.coastMode(),
                         LauncherCommands.coastMode(),
-                        PivotCommands.coastMode())
+                        PivotCommands.coastMode(), Commands.startEnd(LEDs::turnOnCoastLEDs, LEDs::turnOffCoastLEDs))
                 .withName("RobotCommands.coastModeMechanisms");
     }
 

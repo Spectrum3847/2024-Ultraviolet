@@ -19,8 +19,10 @@ public class LEDsCommands {
     public static void setupLEDTriggers() {
         Trigger visionValid = new Trigger(() -> Vision.isPresent);
         Trigger noteIntaked = new Trigger(Robot.feeder.lasercan::intakedNote);
+        Trigger coastMode = new Trigger(() -> LEDs.coastModeLED);
         visionValid.whileTrue(solidGreenLED());
         noteIntaked.whileTrue(whiteBounce());
+        coastMode.whileTrue(coastLEDs());
     }
 
     /* Default Command */
@@ -84,6 +86,10 @@ public class LEDsCommands {
     public static Command breathBlueLED() {
         return LEDsCommands.breath(Section.FULL, Color.kBlue, Color.kBlack, 1, 4)
                 .withName("LEDs.breathBlueLED");
+    }
+
+    public static Command coastLEDs() {
+        return LEDsCommands.ombre(Section.FULL, Color.kOrange, Color.kOrangeRed, 5);
     }
 
     /*

@@ -96,11 +96,7 @@ public class LauncherCommands {
                             || rightLauncher.getMotorVelocityInRPM()
                                     >= rightLauncher.getMotorVelocityInRPM() - 50) {
                         Robot.pilot.controller.rumbleController(1, 1);
-                        Robot.leds.customStrobe(
-                            Section.FULL,
-                            LEDsConfig.SPECTRUM_COLOR,
-                            8,
-                            5);
+                        Robot.leds.customStrobe(Section.FULL, LEDsConfig.SPECTRUM_COLOR, 8, 5);
                     }
                 },
                 (b) -> {
