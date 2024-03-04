@@ -14,7 +14,6 @@ import frc.robot.mechanisms.intake.IntakeCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.mechanisms.pivot.PivotCommands;
 import frc.robot.pilot.PilotCommands;
-import frc.robot.swerve.commands.SwerveCommands;
 import frc.robot.vision.VisionCommands;
 
 /**
@@ -125,13 +124,24 @@ public class RobotCommands {
                         FeederCommands.coastMode(),
                         IntakeCommands.coastMode(),
                         LauncherCommands.coastMode(),
-                        PivotCommands.coastMode(),
-                        SwerveCommands.coastMode())
+                        PivotCommands.coastMode())
                 .withName("RobotCommands.coastModeMechanisms");
     }
 
+    public static Command ensureBrakeMode() {
+        return AmpTrapCommands.ensureBrakeMode()
+                .alongWith(
+                        ClimberCommands.ensureBrakeMode(),
+                        ElevatorCommands.ensureBrakeMode(),
+                        FeederCommands.ensureBrakeMode(),
+                        IntakeCommands.ensureBrakeMode(),
+                        LauncherCommands.ensureBrakeMode(),
+                        PivotCommands.ensureBrakeMode())
+                .withName("RobotCommands.ensureBrakeMode");
+    }
+
     public static Command subwooferReady() {
-        return LauncherCommands.runOnDemandVelocity()
+        return LauncherCommands.subwoofer()
                 .alongWith(PivotCommands.subwoofer())
                 .withName("RobotCommands.subwooferReady");
     }

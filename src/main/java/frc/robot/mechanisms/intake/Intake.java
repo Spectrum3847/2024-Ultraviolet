@@ -1,5 +1,6 @@
 package frc.robot.mechanisms.intake;
 
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
@@ -95,6 +96,19 @@ public class Intake extends Mechanism {
         return startEnd(() -> setBrakeMode(false), () -> setBrakeMode(true))
                 .ignoringDisable(true)
                 .withName("Intake.coastMode");
+    }
+
+    /** Sets the motor to brake mode if it is in coast mode */
+    public Command ensureBrakeMode() {
+        return runOnce(
+                        () -> {
+                            setBrakeMode(true);
+                        })
+                .onlyIf(
+                        () ->
+                                attached
+                                        && config.talonConfig.MotorOutput.NeutralMode
+                                                == NeutralModeValue.Coast);
     }
 
     /**

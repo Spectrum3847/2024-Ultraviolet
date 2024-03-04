@@ -57,4 +57,8 @@ public class PivotCommands {
     public static Command stopMotor() {
         return pivot.runStop().withName("Pivot.stop");
     }
+
+    public static Command ensureBrakeMode() {
+        return pivot.ensureBrakeMode();
+    }
 }

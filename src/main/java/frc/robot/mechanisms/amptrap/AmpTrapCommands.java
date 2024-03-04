@@ -41,4 +41,8 @@ public class AmpTrapCommands {
     public static Command coastMode() {
         return ampTrap.coastMode();
     }
+
+    public static Command ensureBrakeMode() {
+        return ampTrap.ensureBrakeMode();
+    }
 }

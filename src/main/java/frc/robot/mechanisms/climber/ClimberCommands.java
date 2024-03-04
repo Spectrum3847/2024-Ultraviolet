@@ -33,4 +33,8 @@ public class ClimberCommands {
     public static Command coastMode() {
         return climber.coastMode();
     }
+
+    public static Command ensureBrakeMode() {
+        return climber.ensureBrakeMode();
+    }
 }

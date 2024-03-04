@@ -1,5 +1,6 @@
 package frc.robot.mechanisms.climber;
 
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
@@ -105,6 +106,19 @@ public class Climber extends Mechanism {
         return startEnd(() -> setBrakeMode(false), () -> setBrakeMode(true))
                 .ignoringDisable(true)
                 .withName("Climber.coastMode");
+    }
+
+    /** Sets the motor to brake mode if it is in coast mode */
+    public Command ensureBrakeMode() {
+        return runOnce(
+                        () -> {
+                            setBrakeMode(true);
+                        })
+                .onlyIf(
+                        () ->
+                                attached
+                                        && config.talonConfig.MotorOutput.NeutralMode
+                                                == NeutralModeValue.Coast);
     }
 
     /* Custom Commands */

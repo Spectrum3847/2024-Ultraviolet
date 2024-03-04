@@ -1,6 +1,7 @@
 package frc.robot.mechanisms.launcher;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import frc.robot.Robot;
 
 public class LauncherCommands {
@@ -48,6 +49,13 @@ public class LauncherCommands {
         return leftLauncher.coastMode().alongWith(rightLauncher.coastMode());
     }
 
+    public static Command ensureBrakeMode() {
+        return leftLauncher
+                .ensureBrakeMode()
+                .alongWith(rightLauncher.ensureBrakeMode())
+                .withName("EnsureBrakeMode");
+    }
+
     /* Helpers */
 
     public static Command stopMotors() {
@@ -61,7 +69,9 @@ public class LauncherCommands {
     public static Command runLauncherVelocities(double leftVelocity, double rightVelocity) {
         return leftLauncher
                 .runVelocity(leftVelocity)
-                .alongWith(rightLauncher.runVelocity(rightVelocity))
+                .alongWith(
+                        rightLauncher.runVelocity(rightVelocity),
+                        sendLauncherFeedback(leftVelocity, rightVelocity))
                 .withName("Launcher.runLauncherVelocities");
     }
 
@@ -70,6 +80,20 @@ public class LauncherCommands {
                 .runPercentage(leftPercentage)
                 .alongWith(rightLauncher.runPercentage(rightPercentage))
                 .withName("Launcher.runLauncherPercentages");
+    }
+
+    public static Command sendLauncherFeedback(double leftVelocity, double rightVelocity) {
+        return new FunctionalCommand(
+                () -> {},
+                () -> {
+                    if (leftLauncher.getMotorVelocityInRPM() >= leftVelocity - 50
+                            || rightLauncher.getMotorVelocityInRPM()
+                                    >= rightLauncher.getMotorVelocityInRPM() - 50) {
+                        Robot.pilot.controller.rumbleController(1, 1);
+                    }
+                },
+                (b) -> Robot.pilot.controller.rumbleController(0, 0),
+                () -> false);
     }
 
     /* Launcher Specific Commands */

@@ -1,5 +1,6 @@
 package frc.robot.mechanisms.pivot;
 
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.spectrumLib.mechanism.Mechanism;
@@ -108,6 +109,19 @@ public class Pivot extends Mechanism {
         return startEnd(() -> setBrakeMode(false), () -> setBrakeMode(true))
                 .ignoringDisable(true)
                 .withName("Pivot.coastMode");
+    }
+
+    /** Sets the motor to brake mode if it is in coast mode */
+    public Command ensureBrakeMode() {
+        return runOnce(
+                        () -> {
+                            setBrakeMode(true);
+                        })
+                .onlyIf(
+                        () ->
+                                attached
+                                        && config.talonConfig.MotorOutput.NeutralMode
+                                                == NeutralModeValue.Coast);
     }
 
     /* Custom Commands */

@@ -46,4 +46,8 @@ public class FeederCommands {
     public static Command coastMode() {
         return feeder.coastMode();
     }
+
+    public static Command ensureBrakeMode() {
+        return feeder.ensureBrakeMode();
+    }
 }

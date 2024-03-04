@@ -29,4 +29,8 @@ public class ElevatorCommands {
     public static Command coastMode() {
         return elevator.coastMode();
     }
+
+    public static Command ensureBrakeMode() {
+        return elevator.ensureBrakeMode();
+    }
 }

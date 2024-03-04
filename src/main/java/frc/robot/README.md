@@ -2,7 +2,7 @@
 
 ## Description
 
-This code is used on our competition and developmental team robots. 
+This code is used on our competition and developmental team robots.
 
 ## Robot Requirements
 

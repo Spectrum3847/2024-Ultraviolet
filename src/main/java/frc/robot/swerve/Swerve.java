@@ -17,7 +17,6 @@ import frc.robot.RobotTelemetry;
 import frc.robot.swerve.configs.ALPHA2024;
 import frc.robot.swerve.configs.MUSICDISC2023;
 import frc.robot.swerve.configs.NOTEBLOCK2023;
-import frc.robot.swerve.configs.PM2024;
 import frc.robot.swerve.configs.ULTRAVIOLET2024;
 import frc.robot.vision.Vision.VisionConfig;
 import frc.spectrumLib.swerve.Drivetrain;
@@ -47,13 +46,13 @@ public class Swerve implements Subsystem {
         // Choose the correct swerve configuration
         switch (Robot.config.getRobotType()) {
             case PM:
-                config = PM2024.config;
-                break;
-            case ALPHA:
-                config = ALPHA2024.config;
+                config = ULTRAVIOLET2024.config;
                 break;
             case ULTRAVIOLET:
                 config = ULTRAVIOLET2024.config;
+                break;
+            case ALPHA:
+                config = ALPHA2024.config;
                 break;
             case NOTEBLOCK:
                 config = NOTEBLOCK2023.config;
@@ -63,13 +62,13 @@ public class Swerve implements Subsystem {
                 break;
             case SIM: // runs in simulation
                 OdometryUpdateFrequency = 50;
-                config = PM2024.config;
+                config = ULTRAVIOLET2024.config;
                 break;
             default:
                 DriverStation.reportError(
                         "Could not match robot to swerve config; defaulting to PM2024 swerve config",
                         false);
-                config = PM2024.config;
+                config = ULTRAVIOLET2024.config;
                 break;
         }
         drivetrain = new Drivetrain(config, OdometryUpdateFrequency);

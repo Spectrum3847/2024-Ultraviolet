@@ -5,7 +5,6 @@ import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
 import frc.robot.leds.LEDsCommands;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
-import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.swerve.commands.SwerveCommands;
 import frc.spectrumLib.gamepads.Gamepad;
 import frc.spectrumLib.util.ExpCurve;
@@ -67,14 +66,6 @@ public class Pilot extends Gamepad {
                 .and(leftBumperOnly())
                 .whileTrue(RobotCommands.eject()); // TODO: Intake motor stops?
 
-        // controller.a().and(noBumpers()).whileTrue(VisionCommands.alignToSpeaker());
-        // controller.a().and(noBumpers()).whileTrue(VisionCommands.alignToAmp());
-        // controller.a().and(noBumpers()).whileTrue(VisionCommands.alignToStage()); //uses noteLL
-        
-        // DEBUG:
-        // controller.a().and(noBumpers()).whileTrue(Robot.vision.testBlinkLimelight());
-
-
         controller
                 .b()
                 .and(noBumpers())
@@ -90,10 +81,7 @@ public class Pilot extends Gamepad {
         controller.y().and(leftBumperOnly()).whileTrue(RobotCommands.AmpWingReady());
 
         // just check for ID 4 in method OR cover up amp apriltag
-        runWithEndSequence(
-                rightBumperOnly(),
-                RobotCommands.score(),
-                LauncherCommands.stopMotors().alongWith(ElevatorCommands.home()));
+        runWithEndSequence(rightBumperOnly(), RobotCommands.score(), ElevatorCommands.home());
         controller.leftBumper().and(controller.rightBumper()).whileTrue(RobotCommands.score());
 
         controller.rightStick().whileTrue(PilotCommands.turboMode());

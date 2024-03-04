@@ -30,4 +30,8 @@ public class IntakeCommands {
     public static Command stopMotor() {
         return intake.runStop().withName("Intake.stopMotor");
     }
+
+    public static Command ensureBrakeMode() {
+        return intake.ensureBrakeMode();
+    }
 }
