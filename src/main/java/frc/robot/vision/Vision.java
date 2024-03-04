@@ -46,11 +46,6 @@ public class Vision extends SubsystemBase {
         public static final double speakerTagHeight = 1.45;
         public static final int speakerTagID = 4;
 
-        public static final double FIELD_WIDTH = 8.0136;
-        public static final Translation2d BLUE_SPEAKER = new Translation2d(0.0331, 5.547868);
-        public static final Translation2d RED_SPEAKER =
-                new Translation2d(BLUE_SPEAKER.getX(), FIELD_WIDTH - BLUE_SPEAKER.getY());
-
         /* Pose Estimation Constants */
         public static final double VISION_REJECT_DISTANCE = 2; // 2.3;
         // Increase these numbers to trust global measurements from vision less.
@@ -230,28 +225,6 @@ public class Vision extends SubsystemBase {
         return Optional.empty();
     }
 
-    /**
-     * Helper function for {@link Vision#getThetaToHybrid}
-     *
-     * @param hybridSpot 0-8 representing the 9 different hybrid spots for launching cubes to hybrid
-     *     nodes
-     * @return Transform2d representing the x and y distance components between the robot and the
-     *     hybrid spot
-     */
-    private Transform2d getTransformToHybrid() {
-        Pose2d hybridPose = new Pose2d(VisionConfig.RED_SPEAKER, new Rotation2d(Math.PI));
-        return Robot.swerve.getPose().minus(hybridPose);
-    }
-
-    @AutoLogOutput(key = "Vision/AngleToSpeaker")
-    public double getAngleToSpeaker() {
-        Translation2d speakerPosition = VisionConfig.RED_SPEAKER;
-        Translation2d robotPoint = Robot.swerve.getPose().getTranslation();
-
-        return MathUtil.angleModulus(
-                speakerPosition.minus(robotPoint).getAngle().getRadians() + Math.PI);
-    }
-
     public double getVisionPoseTimestamp() {
         return Timer.getFPGATimestamp() - speakerLL.getPoseLatency();
     }
@@ -318,11 +291,6 @@ public class Vision extends SubsystemBase {
                             speakerLL.setLEDMode(false);
                         })
                 .withName("Vision.blinkLimelights");
-    }
-
-    // TESTING GET RID OF THIS
-    public Command testBlinkLimelight() {
-        return new InstantCommand(() -> speakerLL.blinkLEDs()).withName("blinkLED");
     }
 
     /**
