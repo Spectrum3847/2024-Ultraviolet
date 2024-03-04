@@ -18,8 +18,7 @@ public class Feeder extends Mechanism {
         public double score = 1000;
         public double slowFeed = 500;
         public double slowEject = -500;
-        public double feedToAmp =
-                -3500; // Needs to be greater than or equal to ampReady roller speed
+        public double feedToAmp = -3500; // Needs to be greater than or equal to amp roller speed
         public double launchEject = 1000;
 
         /* Rotations config */
@@ -63,13 +62,15 @@ public class Feeder extends Mechanism {
         lasercan = new LaserCanUtil(0);
     }
 
+    /* Lasercan */
+
     @AutoLogOutput(key = "Feeder/LaserCan-Measurement")
     public int getLaserCanDistance() {
         return lasercan.getDistance();
     }
 
     /**
-     * fall back to using motor velocity if lasercan is not working/disconnected
+     * Fall back to using motor velocity if lasercan is not working/disconnected
      *
      * @return
      */
@@ -80,6 +81,17 @@ public class Feeder extends Mechanism {
             return getMotorVelocity() > 0.01;
         }
     }
+
+    public boolean noteIsClose() {
+        if (lasercan.validDistance()) {
+            return lasercan.closeNote();
+        } else {
+            return true; // assume that note is being stopped at feeder roller (close to lasercan)
+            // and isn't being automatically fed up
+        }
+    }
+
+    /* Feeder */
 
     @Override
     public void periodic() {}

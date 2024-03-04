@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
-import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
 import frc.robot.auton.config.AutonConfig;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
@@ -64,7 +63,6 @@ public class Auton extends SubsystemBase {
         NamedCommands.registerCommand("launchReadyPreload", AutonCommands.launchReadyPreload());
         NamedCommands.registerCommand("launchReady2", AutonCommands.launchReady2());
         NamedCommands.registerCommand("launchReady3", AutonCommands.launchReady3());
-        NamedCommands.registerCommand("smartIntake", RobotCommands.laserCanFeed());
         NamedCommands.registerCommand("launch", FeederCommands.runFull().withTimeout(0.3));
 
         /* Stop Commands */

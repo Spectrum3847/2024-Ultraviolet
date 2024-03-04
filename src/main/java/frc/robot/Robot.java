@@ -184,6 +184,7 @@ public class Robot extends LoggedRobot {
     /** This method is called once when disabled exits */
     public void disabledExit() {
         RobotCommands.ensureBrakeMode(); // sets all motors to brake mode if not already
+        LEDs.coastModeLED = false; //turn off coast mode LED in case button was not manually pressed again
 
         RobotTelemetry.print("### Disabled Exit### ");
     }
@@ -272,6 +273,7 @@ public class Robot extends LoggedRobot {
     /** This method is called once when test mode starts */
     public void testInit() {
         try {
+
             RobotTelemetry.print("~~~ Test Init Starting ~~~ ");
             resetCommandsAndButtons();
 

@@ -43,8 +43,8 @@ public class Operator extends Gamepad {
         controller.a().and(noBumpers()).whileTrue(RobotCommands.smartIntake());
         controller.a().and(leftBumperOnly()).whileTrue(LauncherCommands.stopMotors());
 
-        controller.b().and(noBumpers()).whileTrue(RobotCommands.ampReady());
-        controller.b().and(leftBumperOnly()).onTrue(RobotCommands.subwooferReady());
+        controller.b().and(noBumpers()).whileTrue(RobotCommands.amp());
+        controller.b().and(leftBumperOnly()).onTrue(RobotCommands.subwooferShot());
 
         controller.y().and(noBumpers()).whileTrue(RobotCommands.eject());
         controller.y().and(leftBumperOnly()).onTrue(RobotCommands.onDemandLaunching());
@@ -52,7 +52,7 @@ public class Operator extends Gamepad {
         controller.x().and(noBumpers()).whileTrue(ElevatorCommands.amp());
         controller.x().and(leftBumperOnly()).whileTrue(ElevatorCommands.home());
 
-        controller.leftBumper().and(rightTriggerOnly()).onTrue(RobotCommands.podiumReady());
+        controller.leftBumper().and(rightTriggerOnly()).onTrue(RobotCommands.podiumShot());
 
         rightStick().and(leftBumperOnly()).whileTrue(OperatorCommands.manualPivot());
 
