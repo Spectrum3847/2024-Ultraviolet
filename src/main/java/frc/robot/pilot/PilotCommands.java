@@ -100,7 +100,7 @@ public class PilotCommands {
         return SwerveCommands.aimDrive(
                         () -> pilot.getDriveFwdPositive(),
                         () -> pilot.getDriveLeftPositive(),
-                        () -> Units.degreesToRadians(RobotCommands.flipAngleIfBlue(-32)),
+                        () -> Units.degreesToRadians(RobotCommands.flipAngleIfBlue(-33)),
                         () -> pilot.getFieldOriented(), // true is field oriented
                         () -> true)
                 .withName("Swerve.PilotSpeakerAimingDrive");
