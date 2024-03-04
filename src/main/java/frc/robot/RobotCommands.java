@@ -1,7 +1,5 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.leds.LEDs;
@@ -117,7 +115,8 @@ public class RobotCommands {
                         FeederCommands.coastMode(),
                         IntakeCommands.coastMode(),
                         LauncherCommands.coastMode(),
-                        PivotCommands.coastMode(), Commands.startEnd(LEDs::turnOnCoastLEDs, LEDs::turnOffCoastLEDs))
+                        PivotCommands.coastMode(),
+                        Commands.startEnd(LEDs::turnOnCoastLEDs, LEDs::turnOffCoastLEDs))
                 .withName("RobotCommands.coastModeMechanisms");
     }
 
@@ -159,16 +158,5 @@ public class RobotCommands {
 
     public static Command topClimb() {
         return ClimberCommands.topClimb().alongWith(PivotCommands.home());
-    }
-
-    /**
-     * @param angle degrees
-     * @return
-     */
-    public static double flipAngleIfBlue(double angle) {
-        if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
-            return 180 - angle;
-        }
-        return angle;
     }
 }

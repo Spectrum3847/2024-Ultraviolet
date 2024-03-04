@@ -34,6 +34,19 @@ public class LEDs extends SpectrumLEDs {
         }
     }
 
+    /** @param endLeds how many leds on each side of the ends of strip should be lit */
+    public void limitedSolid(int endLeds, Color color, int priority) {
+        if (getUpdate()) {
+            if (color != null) {
+                for (int i = Section.FULL.start(); i < Section.FULL.end(); i++) {
+                    if (i <= endLeds || i >= Section.FULL.end() - endLeds) {
+                        setLED(i, color, priority);
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * Sets a percentage of the LEDs to a color
      *
@@ -76,6 +89,14 @@ public class LEDs extends SpectrumLEDs {
                 on = true;
             }
             solid(section, on ? color : Color.kBlack, priority);
+        }
+    }
+
+    /** @param endLeds how many leds on each side of the ends of strip should be lit */
+    public void limitedStrobe(int endLeds, Color color, double duration, int priority) {
+        if (getUpdate()) {
+            boolean on = ((getLEDTime() % duration) / duration) > 0.5;
+            limitedSolid(endLeds, on ? color : Color.kBlack, priority);
         }
     }
 

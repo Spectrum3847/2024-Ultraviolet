@@ -21,7 +21,7 @@ public class LEDsCommands {
         Trigger noteIntaked = new Trigger(Robot.feeder.lasercan::intakedNote);
         Trigger coastMode = new Trigger(() -> LEDs.coastModeLED);
         visionValid.whileTrue(solidGreenLED());
-        noteIntaked.whileTrue(whiteBounce());
+        noteIntaked.whileTrue(intakedNote());
         coastMode.whileTrue(coastLEDs());
     }
 
@@ -45,7 +45,7 @@ public class LEDsCommands {
     }
 
     public static Command solidGreenLED() {
-        return LEDsCommands.solid(Section.FULL, Color.kGreen, 3).withName("LEDs.solidGreenLED");
+        return LEDsCommands.solid(Section.FULL, Color.kGreen, 10).withName("LEDs.solidGreenLED");
     }
 
     public static Command exampleOmbre() {
@@ -67,6 +67,10 @@ public class LEDsCommands {
                 0);
     }
 
+    public static Command intakedNote() {
+        return whiteBounce().alongWith(orangeTipped()).withName("LEDs.intakedNote");
+    }
+
     public static Command whiteBounce() {
         return bounce(
                 Section.FULL,
@@ -76,6 +80,10 @@ public class LEDsCommands {
                 Color.kBlack,
                 0.58,
                 3);
+    }
+
+    public static Command orangeTipped() {
+        return limitedStrobe(3, Color.kOrange, 0.5, 5).withName("LEDs.orangeTipped");
     }
 
     public static Command strobeOrangeLED() {
@@ -122,6 +130,11 @@ public class LEDsCommands {
     public static Command strobe(Section section, Color color, double duration, int priority) {
         return runLEDPattern(() -> leds.strobe(section, color, duration, priority))
                 .withName("LEDs.strobe");
+    }
+
+    public static Command limitedStrobe(int endLeds, Color color, double duration, int priority) {
+        return runLEDPattern(() -> leds.limitedStrobe(endLeds, color, duration, priority))
+                .withName("Leds.limitedStrobe");
     }
 
     /* Breath */

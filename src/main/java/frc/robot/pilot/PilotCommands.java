@@ -4,10 +4,10 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Robot;
-import frc.robot.RobotCommands;
 import frc.robot.mechanisms.climber.Climber;
 import frc.robot.mechanisms.pivot.Pivot;
 import frc.robot.swerve.commands.SwerveCommands;
+import frc.spectrumLib.util.SpectrumUtil;
 
 /** This class should have any command calls that directly call the Pilot */
 public class PilotCommands {
@@ -90,7 +90,7 @@ public class PilotCommands {
         return SwerveCommands.aimDrive(
                         () -> pilot.getDriveFwdPositive(),
                         () -> pilot.getDriveLeftPositive(),
-                        () -> Units.degreesToRadians(RobotCommands.flipAngleIfBlue(26)),
+                        () -> Units.degreesToRadians(SpectrumUtil.flipAngleIfBlue(26)),
                         () -> pilot.getFieldOriented(), // true is field oriented
                         () -> true)
                 .withName("Swerve.PilotSpeakerAimingDrive");
@@ -100,7 +100,7 @@ public class PilotCommands {
         return SwerveCommands.aimDrive(
                         () -> pilot.getDriveFwdPositive(),
                         () -> pilot.getDriveLeftPositive(),
-                        () -> Units.degreesToRadians(RobotCommands.flipAngleIfBlue(-33)),
+                        () -> Units.degreesToRadians(SpectrumUtil.flipAngleIfBlue(-33)),
                         () -> pilot.getFieldOriented(), // true is field oriented
                         () -> true)
                 .withName("Swerve.PilotSpeakerAimingDrive");
@@ -110,7 +110,7 @@ public class PilotCommands {
         return SwerveCommands.aimDrive(
                         () -> pilot.getDriveFwdPositive(),
                         () -> pilot.getDriveLeftPositive(),
-                        () -> Units.degreesToRadians(RobotCommands.flipAngleIfBlue(0)),
+                        () -> Units.degreesToRadians(SpectrumUtil.flipAngleIfBlue(0)),
                         () -> pilot.getFieldOriented(), // true is field oriented
                         () -> true)
                 .withName("Swerve.PilotSpeakerAimingDrive");
