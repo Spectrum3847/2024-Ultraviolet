@@ -3,69 +3,34 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.35,
+        "x": 2.72,
         "y": 5.551362870733224
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8955501985327952,
+        "x": 1.7200000000000002,
         "y": 5.551362870733224
       },
       "isLocked": false,
-      "linkedName": "Subwoofer"
+      "linkedName": "Subwoofer GP 2"
     },
     {
       "anchor": {
-        "x": 2.72,
+        "x": 1.35,
         "y": 5.551362870733224
       },
       "prevControl": {
-        "x": 2.3019456931577675,
+        "x": 2.35,
         "y": 5.551362870733224
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Subwoofer GP 2"
+      "linkedName": "Subwoofer"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "Intake",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "smartIntake"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "StopFeeder",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "stopFeeder"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.0,
     "maxAcceleration": 3.0,

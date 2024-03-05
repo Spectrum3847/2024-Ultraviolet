@@ -17,7 +17,6 @@ import frc.robot.mechanisms.feeder.FeederCommands;
 import frc.robot.mechanisms.intake.IntakeCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.mechanisms.pivot.PivotCommands;
-import frc.robot.swerve.commands.SwerveCommands;
 
 public class Auton extends SubsystemBase {
     public static final SendableChooser<Command> autonChooser = new SendableChooser<>();
@@ -28,28 +27,15 @@ public class Auton extends SubsystemBase {
 
     // A chooser for autonomous commands
     public static void setupSelectors() {
-        // autonChooser.setDefaultOption("4 Piece Middle", new PathPlannerAuto("4 Piece Middle"));
-        // autonChooser.addOption("4 Piece Front", new PathPlannerAuto("4 Piece Front"));
-
-        // autonChooser.addOption(
-        //         "Example Path", FollowSinglePath.getSinglePath("Example Path")); // Runs single
-        // Path
+        // Config Autos
         autonChooser.addOption("1 Meter", new PathPlannerAuto("1 Meter Auto")); // Runs full Auto
         autonChooser.addOption("3 Meter", new PathPlannerAuto("3 Meter Auto")); // Runs full Auto
         autonChooser.addOption("5 Meter", new PathPlannerAuto("5 Meter Auto")); // Runs full Auto
 
+        // Competition Autos
         autonChooser.addOption("Front 5", new PathPlannerAuto("Front 5")); // Runs full Auto
         autonChooser.addOption("Front Alt 5", new PathPlannerAuto("Front Alt 5")); // Runs full Auto
         autonChooser.addOption("Subwoofer", new PathPlannerAuto("Subwoofer")); // Runs full Auto
-
-        autonChooser.addOption(
-                "Test Swerve",
-                SwerveCommands.Drive(
-                        () -> 0.1,
-                        () -> 0,
-                        () -> 1,
-                        () -> true, // true is field oriented
-                        () -> true)); // Runs full Auto
 
         SmartDashboard.putData("Auto Chooser", autonChooser);
     }

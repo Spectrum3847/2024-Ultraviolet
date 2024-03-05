@@ -30,15 +30,9 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "launch"
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "Path 2 - Subwoofer"
+            "pathName": "Part 2 - Subwoofer"
           }
         },
         {
@@ -51,6 +45,18 @@
           "type": "path",
           "data": {
             "pathName": "Path 3 - Subwoofer"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launch"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path 4 - Subwoofer"
           }
         },
         {
