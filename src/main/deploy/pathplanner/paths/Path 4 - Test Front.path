@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9031647417831787,
-        "y": 6.000076509039829
+        "x": 2.2358317494932463,
+        "y": 6.14706890779544
       },
       "isLocked": false,
       "linkedName": "GP 1 - Test Front"
@@ -20,21 +20,15 @@
         "y": 6.9
       },
       "prevControl": {
-        "x": 2.011474930339945,
-        "y": 6.603518988141812
+        "x": 2.0269478144194832,
+        "y": 6.533891009783891
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "GP 4 - Front 5"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": 180.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
@@ -90,7 +84,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Test Front Paths",
+  "folder": "Front Paths",
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0

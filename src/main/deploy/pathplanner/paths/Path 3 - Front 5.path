@@ -3,56 +3,91 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.5,
-        "y": 5.7
+        "x": 2.8,
+        "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4972696424814798,
-        "y": 5.910671665054784
+        "x": 2.0463384502728172,
+        "y": 5.55
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "GP 2 - Test Front"
     },
     {
       "anchor": {
-        "x": 1.8528728448199805,
-        "y": 6.4037664856321195
+        "x": 2.6,
+        "y": 4.1
       },
       "prevControl": {
-        "x": 1.8490096475047955,
-        "y": 6.108386697596594
+        "x": 1.6,
+        "y": 4.1
       },
       "nextControl": {
-        "x": 1.8567961331834226,
-        "y": 6.703740830882538
+        "x": 2.65,
+        "y": 4.1
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "GP 2 - Front 5"
     },
     {
       "anchor": {
-        "x": 2.7,
-        "y": 6.9
+        "x": 1.89,
+        "y": 5.55
       },
       "prevControl": {
-        "x": 2.2684787376723348,
-        "y": 6.687322341866047
+        "x": 2.063840328649483,
+        "y": 5.198581113719757
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "GP 4 - Front 5"
+      "linkedName": "GP 1 - Test Front"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 1.0,
-      "rotationDegrees": 180.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Intake",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "smartIntake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "LaunchReady",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "launchReady1"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "stopFeeder"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
@@ -61,7 +96,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -155.0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,

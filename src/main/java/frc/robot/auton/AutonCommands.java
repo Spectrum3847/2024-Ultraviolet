@@ -3,7 +3,10 @@ package frc.robot.auton;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.Robot;
+import frc.robot.RobotTelemetry;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
 import frc.robot.mechanisms.feeder.FeederCommands;
 import frc.robot.mechanisms.intake.IntakeCommands;
@@ -55,8 +58,8 @@ public class AutonCommands {
                 .withName("AutonCommands.stopFeed");
     }
 
-    public static Command launchReadyPreload() {
-        return PivotCommands.autoLaunchPreload()
+    public static Command launchReady1() {
+        return PivotCommands.autoLaunch1()
                 .alongWith(LauncherCommands.subwoofer())
                 .withName("AutonCommands.launchReadyPreload");
     }
@@ -71,5 +74,39 @@ public class AutonCommands {
         return PivotCommands.autoLaunch3()
                 .alongWith(LauncherCommands.subwoofer())
                 .withName("AutonCommands.launchReady3");
+    }
+
+    public static Command launchReadySubwoofer() {
+        return (PivotCommands.subwoofer()
+                .alongWith(LauncherCommands.subwoofer())).withTimeout(1)
+                .withName("AutonCommands.launchReady3");
+    }
+
+    public static Command launch() {
+        return FeederCommands.autoFeed()
+                .withTimeout(0.4)
+                .andThen(FeederCommands.stopMotor().withTimeout(0.01))
+                .withName("AutonCommands.launch");
+    }
+
+    public static Command intake() {
+        return IntakeCommands.intake()
+                .until(Robot.feeder::intakedNote)
+                .deadlineWith(
+                        PivotCommands.intake()
+                                .onlyIf(
+                                        () ->
+                                                Robot.pivot.getMotorPercentAngle()
+                                                        < Robot.pivot.config.intake))
+                .andThen(Commands.waitSeconds(0.3), IntakeCommands.stopMotor())
+                .andThen(
+                        Commands.either(
+                                FeederCommands.addFeedRevolutions()
+                                        .onlyIf(Robot.feeder.lasercan::intakedNote),
+                                Commands.run(
+                                        () ->
+                                                RobotTelemetry.print(
+                                                        "No lasercan found; Didn't feed")),
+                                Robot.feeder.lasercan::validDistance));
     }
 }

@@ -14,13 +14,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path 1 - Front Alt 5"
+            "pathName": "Path 1 - Front 5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launch"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Path 2 - Front Alt 5"
+            "pathName": "Path 2 - Front 5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launch"
           }
         },
         {
@@ -30,15 +42,33 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Path 4 - Front Alt 5"
+            "name": "launch"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Path 5 - Front Alt 5"
+            "pathName": "Path 5 - Front 5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launch"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path 6 - Front Alt 5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launch"
           }
         }
       ]

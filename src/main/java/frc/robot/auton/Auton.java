@@ -39,9 +39,11 @@ public class Auton extends SubsystemBase {
         autonChooser.addOption("5 Meter", new PathPlannerAuto("5 Meter Auto")); // Runs full Auto
 
         autonChooser.addOption(
-                "Test Front 5", new PathPlannerAuto("Test Front 5")); // Runs full Auto
+                "Front 5", new PathPlannerAuto("Front 5")); // Runs full Auto
         autonChooser.addOption(
-                "Test Front Alt 5", new PathPlannerAuto("Test Front Alt 5")); // Runs full Auto
+                "Front Alt 5", new PathPlannerAuto("Front Alt 5")); // Runs full Auto
+        autonChooser.addOption(
+                "Subwoofer", new PathPlannerAuto("Subwoofer")); // Runs full Auto
 
         autonChooser.addOption(
                 "Test Swerve",
@@ -60,10 +62,12 @@ public class Auton extends SubsystemBase {
         // Register Named Commands
         NamedCommands.registerCommand("alignToSpeaker", AutonCommands.trackSpeaker());
         NamedCommands.registerCommand("alignToNote", AutonCommands.trackNote());
-        NamedCommands.registerCommand("launchReadyPreload", AutonCommands.launchReadyPreload());
+        NamedCommands.registerCommand("launchReadySubwoofer", AutonCommands.launchReadySubwoofer());
+        NamedCommands.registerCommand("launchReady1", AutonCommands.launchReady1());
         NamedCommands.registerCommand("launchReady2", AutonCommands.launchReady2());
         NamedCommands.registerCommand("launchReady3", AutonCommands.launchReady3());
-        NamedCommands.registerCommand("launch", FeederCommands.runFull().withTimeout(0.3));
+        NamedCommands.registerCommand("launch", AutonCommands.launch());
+        NamedCommands.registerCommand("smartIntake", AutonCommands.intake());
 
         /* Stop Commands */
         NamedCommands.registerCommand("stopTracking", AutonCommands.stopTracking());

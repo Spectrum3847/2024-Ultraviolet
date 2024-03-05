@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.42,
+      "x": 1.35,
       "y": 5.55
     },
     "rotation": 180.0
@@ -12,9 +12,9 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Path 1 - Test Front"
+            "name": "launchReadySubwoofer"
           }
         },
         {
@@ -26,7 +26,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path 2 - Test Front"
+            "pathName": "Part 1 - Subwoofer"
           }
         },
         {
@@ -38,7 +38,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path 3 - Test Front"
+            "pathName": "Path 2 - Subwoofer"
           }
         },
         {
@@ -50,31 +50,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path 4 - Test Front"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "launch"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Path 4 - Front Alt 5"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "launch"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Path 5 - Front Alt 5"
+            "pathName": "Path 3 - Subwoofer"
           }
         },
         {
@@ -86,6 +62,6 @@
       ]
     }
   },
-  "folder": "Front Autos",
+  "folder": "Subwoofer Autos",
   "choreoAuto": false
 }

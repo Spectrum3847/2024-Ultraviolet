@@ -3,16 +3,64 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.89,
+        "x": 2.8,
         "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9999999999999996,
-        "y": 5.55
+        "x": 3.574097353713884,
+        "y": 5.857812951079596
       },
       "isLocked": false,
-      "linkedName": "GP 1 - Test Front"
+      "linkedName": "GP 2 - Test Front"
+    },
+    {
+      "anchor": {
+        "x": 5.477400964156465,
+        "y": 6.533891009783891
+      },
+      "prevControl": {
+        "x": 4.477400964156465,
+        "y": 6.533891009783891
+      },
+      "nextControl": {
+        "x": 6.477400964156465,
+        "y": 6.533891009783891
+      },
+      "isLocked": false,
+      "linkedName": "GP 4 to 5 - Front Alt 5"
+    },
+    {
+      "anchor": {
+        "x": 7.914380206683707,
+        "y": 5.976867182920521
+      },
+      "prevControl": {
+        "x": 7.454648994225389,
+        "y": 6.2262129252707945
+      },
+      "nextControl": {
+        "x": 8.37083028703008,
+        "y": 5.729301037647913
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.477400964156465,
+        "y": 6.533891009783891
+      },
+      "prevControl": {
+        "x": 6.477400964156465,
+        "y": 6.533891009783891
+      },
+      "nextControl": {
+        "x": 4.477400964156465,
+        "y": 6.533891009783891
+      },
+      "isLocked": false,
+      "linkedName": "GP 4 to 5 - Front Alt 5"
     },
     {
       "anchor": {
@@ -20,15 +68,21 @@
         "y": 5.55
       },
       "prevControl": {
-        "x": 2.7000000000000006,
-        "y": 5.55
+        "x": 3.7288261945092644,
+        "y": 5.896495161278442
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "GP 2 - Test Front"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.85,
+      "rotationDegrees": 152.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [
     {

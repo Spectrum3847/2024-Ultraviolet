@@ -3,105 +3,66 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.6412213123771426,
-        "y": 5.55
+        "x": 2.7,
+        "y": 6.9
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.415318666091027,
-        "y": 5.857812951079596
+        "x": 3.8557557370472724,
+        "y": 7.057571324388536
       },
       "isLocked": false,
-      "linkedName": "GP 2 - Test Front"
+      "linkedName": "GP 4 - Front 5"
     },
     {
       "anchor": {
-        "x": 5.477400964156465,
-        "y": 6.533891009783891
+        "x": 7.05,
+        "y": 7.35
       },
       "prevControl": {
-        "x": 4.477400964156465,
-        "y": 6.533891009783891
+        "x": 6.701341177329473,
+        "y": 7.636620873707815
       },
       "nextControl": {
-        "x": 6.477400964156465,
-        "y": 6.533891009783891
-      },
-      "isLocked": false,
-      "linkedName": "GP 4 to 5 - Front Alt 5"
-    },
-    {
-      "anchor": {
-        "x": 7.914380206683707,
-        "y": 5.976867182920521
-      },
-      "prevControl": {
-        "x": 7.454648994225389,
-        "y": 6.2262129252707945
-      },
-      "nextControl": {
-        "x": 8.37083028703008,
-        "y": 5.729301037647913
+        "x": 7.3986588226705265,
+        "y": 7.063379126292184
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.477400964156465,
-        "y": 6.533891009783891
+        "x": 4.928113579332866,
+        "y": 6.22443332819313
       },
       "prevControl": {
-        "x": 6.477400964156465,
-        "y": 6.533891009783891
+        "x": 6.069381398887052,
+        "y": 6.5952537214430675
       },
       "nextControl": {
-        "x": 4.477400964156465,
-        "y": 6.533891009783891
+        "x": 3.9770570630377144,
+        "y": 5.915416333818183
       },
       "isLocked": false,
-      "linkedName": "GP 4 to 5 - Front Alt 5"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.6412213123771426,
+        "x": 2.8,
         "y": 5.55
       },
       "prevControl": {
-        "x": 3.5700475068864073,
-        "y": 5.896495161278442
+        "x": 3.364141138787682,
+        "y": 5.69065618345561
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "GP 2 - Test Front"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 1.85,
-      "rotationDegrees": 152.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
-    {
-      "name": "Intake",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "smartIntake"
-              }
-            }
-          ]
-        }
-      }
-    },
     {
       "name": "LaunchReady",
       "waypointRelativePos": 0,
@@ -119,6 +80,23 @@
               "type": "named",
               "data": {
                 "name": "stopFeeder"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Intake",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "smartIntake"
               }
             }
           ]
