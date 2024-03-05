@@ -18,6 +18,7 @@ public class RightLauncher extends Mechanism {
         public double testVelocity = 4500;
         public double subwoofer = 4500;
         public double deepShot = 5400;
+        public double intoAmp = 750;
 
         /* Percentage LeftLauncher Output */
         public double slowLeftLauncherPercent = 0.06;

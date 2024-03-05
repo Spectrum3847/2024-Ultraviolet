@@ -38,7 +38,6 @@ public class RobotCommands {
                                                                                 .config
                                                                                 .intake))
                                 .andThen(
-                                        Commands.waitSeconds(0.3),
                                         IntakeCommands.stopMotor()
                                                 .alongWith(
                                                         PilotCommands.rumble(1, 0.5)
@@ -48,10 +47,17 @@ public class RobotCommands {
     }
 
     public static Command feedHome() {
-        return Commands.either(
-                FeederCommands.addFeedRevolutions().onlyIf(Robot.feeder.lasercan::intakedNote),
-                Commands.run(() -> RobotTelemetry.print("No lasercan found; Didn't feed")),
-                Robot.feeder.lasercan::validDistance);
+        return IntakeCommands.intake()
+                .withTimeout(0.3)
+                .andThen(
+                        Commands.either(
+                                FeederCommands.addFeedRevolutions()
+                                        .onlyIf(Robot.feeder.lasercan::intakedNote),
+                                Commands.run(
+                                        () ->
+                                                RobotTelemetry.print(
+                                                        "No lasercan found; Didn't feed")),
+                                Robot.feeder.lasercan::validDistance));
     }
 
     public static Command laserFeedHome() {
@@ -148,6 +154,12 @@ public class RobotCommands {
         return LauncherCommands.deepShot()
                 .alongWith(PivotCommands.ampWing(), PilotCommands.ampWingAimingDrive())
                 .withName("RobotCommands.ampWing");
+    }
+
+    public static Command intoAmpShot() {
+        return LauncherCommands.intoAmp()
+                .alongWith(PivotCommands.intoAmp())
+                .withName("RobotCommands.intoAmp");
     }
 
     public static Command fromAmpShot() {

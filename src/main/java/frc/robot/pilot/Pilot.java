@@ -76,6 +76,8 @@ public class Pilot extends Gamepad {
         controller.y().and(noBumpers()).whileTrue(RobotCommands.subwooferShot());
         controller.y().and(leftBumperOnly()).whileTrue(RobotCommands.ampWingShot());
 
+        controller.start().whileTrue(RobotCommands.intoAmpShot());
+
         runWithEndSequence(rightBumperOnly(), RobotCommands.score(), ElevatorCommands.home());
         controller.leftBumper().and(controller.rightBumper()).whileTrue(RobotCommands.score());
 
@@ -119,7 +121,7 @@ public class Pilot extends Gamepad {
         // This is just for training, most robots will have different buttons during disabled
         // setupTeleopButtons();
         controller.a().whileTrue(LEDsCommands.solidWhiteLED());
-        controller.a().whileTrue(PilotCommands.rumble(1, 0.5).ignoringDisable(true));
+        controller.y().whileTrue(PilotCommands.rumble(1, 0.5).ignoringDisable(true));
 
         controller.b().toggleOnTrue(RobotCommands.coastModeMechanisms());
     };
