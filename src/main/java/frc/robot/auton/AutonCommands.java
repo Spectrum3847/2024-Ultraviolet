@@ -77,8 +77,8 @@ public class AutonCommands {
     }
 
     public static Command launchReadySubwoofer() {
-        return (PivotCommands.subwoofer()
-                .alongWith(LauncherCommands.subwoofer())).withTimeout(1)
+        return (PivotCommands.subwoofer().alongWith(LauncherCommands.subwoofer()))
+                .withTimeout(1)
                 .withName("AutonCommands.launchReady3");
     }
 
