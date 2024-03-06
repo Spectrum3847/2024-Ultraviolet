@@ -24,7 +24,7 @@ public class RobotCommands {
     // to a good position if it's
     // too low, and stop it when intaking is done), then rumble and blink
     public static Command smartIntake() {
-        return IntakeCommands.intake()
+        return ElevatorCommands.home().alongWith(IntakeCommands.intake()
                 .withTimeout(0.4)
                 .andThen(
                         IntakeCommands.intake()
@@ -43,7 +43,7 @@ public class RobotCommands {
                                                         PilotCommands.rumble(1, 0.5)
                                                                 .alongWith(
                                                                         VisionCommands
-                                                                                .blinkLimelights()))));
+                                                                                .blinkLimelights())))));
     }
 
     public static Command feedHome() {
