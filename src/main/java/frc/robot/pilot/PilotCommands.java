@@ -92,6 +92,22 @@ public class PilotCommands {
     }
 
     /**
+     * Turn to climb locations idk what i'm doing probably delete :)
+     * Aims at climb location close to center field
+     * @return
+     */
+    public static Command aimToClimbDrive() {
+        return SwerveCommands.aimDrive(
+                        () -> pilot.getDriveFwdPositive(),
+                        () -> pilot.getDriveLeftPositive(),
+                        () -> (Units.degreesToRadians(0)),
+                        () -> pilot.getFieldOriented(), // true is field oriented
+                        () -> true)
+                .withName("Swerve.PilotStickSteer");
+    }
+
+
+    /**
      * Command that can be used to turn on the slow mode. Slow mode modifies the fwd, left, and CCW
      * methods, we don't want these to require the pilot subsystem
      */

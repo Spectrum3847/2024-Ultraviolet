@@ -2,7 +2,6 @@ package frc.robot.operator;
 
 import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
-import frc.robot.mechanisms.elevator.ElevatorCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.spectrumLib.Gamepad;
 
@@ -25,22 +24,26 @@ public class Operator extends Gamepad {
     /** Setup the Buttons for telop mode. */
     /*  A, B, X, Y, Left Bumper, Right Bumper = Buttons 1 to 6 in simualation */
     public void setupTeleopButtons() {
-        // dummy driver practice
-        controller.a().and(noBumpers()).whileTrue(RobotCommands.IntakeWithMotorSensor());
-        controller.a().and(leftBumperOnly()).whileTrue(LauncherCommands.stopMotors());
 
-        controller.b().and(noBumpers()).whileTrue(RobotCommands.ampReady());
-        controller.b().and(leftBumperOnly()).onTrue(RobotCommands.subwooferReady());
+        // controller.a().and(noBumpers()).whileTrue(LauncherCommands.runOnDemandVelocity());
 
-        controller.y().and(noBumpers()).whileTrue(RobotCommands.eject());
-        controller.y().and(leftBumperOnly()).onTrue(RobotCommands.onDemandLaunching());
+        controller
+                .a()
+                .and(noBumpers())
+                .whileTrue(RobotCommands.subwooferReady());
 
-        controller.x().and(noBumpers()).whileTrue(ElevatorCommands.amp());
-        controller.x().and(leftBumperOnly()).whileTrue(ElevatorCommands.home());
+        controller
+                .a()
+                .and(leftBumperOnly())
+                .whileTrue(RobotCommands.podiumReady()); // changed onTrue to whileTrue if that breaks anything...
 
-        controller.leftBumper().and(rightTriggerOnly()).onTrue(RobotCommands.podiumReady());
+        // controller.x().and(noBumpers()).onTrue(); 
 
-        rightStick().and(leftBumperOnly()).whileTrue(OperatorCommands.manualPivot());
+        // controller.b().and(noBumpers()).onTrue(); 
+
+        // controller.y().and(noBumpers()).onTrue(); 
+
+
 
         // manual output commands (map joystick to raw -1 to 1 output on motor): manualAmpTrap,
         // manualClimber, manualElevator, manualFeeder, manualIntake, manualPivot, manualLauncher

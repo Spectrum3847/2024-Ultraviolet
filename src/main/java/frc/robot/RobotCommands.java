@@ -164,20 +164,28 @@ public class RobotCommands {
     public static Command subwooferReady() {
         return LauncherCommands.runOnDemandVelocity()
                 .alongWith(PivotCommands.subwoofer())
+                //rumble on ready
+                .until(() -> (Robot.leftLauncher.getMotorVelocity() >= 4500 || Robot.rightLauncher.getMotorVelocity() >= 4500))
+                .andThen(PilotCommands.rumble(2, 1).alongWith(LauncherCommands.runOnDemandVelocity(), 
+                        PivotCommands.subwoofer()))
                 .withName("RobotCommands.subwooferReady");
     }
 
     public static Command podiumReady() {
         return LauncherCommands.runOnDemandVelocity()
                 .alongWith(PivotCommands.podium())
+                // rumble on ready
+                .until(() -> (Robot.leftLauncher.getMotorVelocity() >= 4500 || Robot.rightLauncher.getMotorVelocity() >= 4500))
+                .andThen(PilotCommands.rumble(2, 1).alongWith(LauncherCommands.runOnDemandVelocity(), 
+                        PivotCommands.subwoofer()))
                 .withName("RobotCommands.podium");
     }
 
     public static Command intake8515() {
+        // return IntakeCommands.intake().onlyWhile(null).andThen();
         return IntakeCommands.intake()
-                .until(() -> (Robot.feeder.getMotorVelocity() > 0.01))
-                .andThen(FeederCommands.feeder())
-                .alongWith(IntakeCommands.stopMotor())
+                .until(() -> (Robot.feeder.getMotorVelocity() > 0.1))
+                .andThen(FeederCommands.feeder()).alongWith(IntakeCommands.stopMotor())
                 .withTimeout(0.3);
     }
 }

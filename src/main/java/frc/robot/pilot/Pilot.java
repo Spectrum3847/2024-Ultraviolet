@@ -56,7 +56,7 @@ public class Pilot extends Gamepad {
     public void setupTeleopButtons() {
 
         controller.a().and(noBumpers()).whileTrue((RobotCommands.intake()));
-        controller.a().and(noBumpers()).onFalse(FeederCommands.feeder().withTimeout(0.05));
+        // controller.a().and(noBumpers()).onFalse(FeederCommands.feeder().withTimeout(0.05));
 
         // controller.a().and(noBumpers()).whileTrue(RobotCommands.intake8515());
 
@@ -65,14 +65,15 @@ public class Pilot extends Gamepad {
                 .and(leftBumperOnly())
                 .whileTrue(LauncherCommands.eject().alongWith(RobotCommands.eject()));
 
-        controller
-                .b()
-                .and(noBumpers().or(rightBumperOnly()))
-                .whileTrue(RobotCommands.subwooferReady()); // RobotCommands.feedToAmp());
-        controller
-                .b()
-                .and(leftBumperOnly().or(bothBumpers()))
-                .onTrue(RobotCommands.podiumReady()); // change to podium ready
+        //now in operator controls, the operator can finally do something
+        // controller 
+        //         .b()
+        //         .and(noBumpers().or(rightBumperOnly()))
+        //         .whileTrue(RobotCommands.subwooferReady()); // RobotCommands.feedToAmp());
+        // controller
+        //         .b()
+        //         .and(leftBumperOnly().or(bothBumpers()))
+        //         .onTrue(RobotCommands.podiumReady()); // change to podium ready
 
         controller.start().onTrue(RobotCommands.climb()); // change pivot angle to max for climb
         // y - amp ready
