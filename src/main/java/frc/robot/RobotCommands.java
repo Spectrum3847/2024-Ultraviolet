@@ -86,6 +86,10 @@ public class RobotCommands {
                                 .alongWith(FeederCommands.stopMotor(), ElevatorCommands.amp()));
     }
 
+    public static Command manualAmp() {
+        return FeederCommands.feedToAmp().alongWith(AmpTrapCommands.amp());
+    }
+
     public static Command eject() {
         return FeederCommands.eject()
                 .alongWith(
