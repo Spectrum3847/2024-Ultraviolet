@@ -1,0 +1,106 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 0.7194891096985188,
+        "y": 6.68861985057927
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.7194891096985188,
+        "y": 6.68861985057927
+      },
+      "isLocked": false,
+      "linkedName": "Amp Sub Start"
+    },
+    {
+      "anchor": {
+        "x": 5.075105978088476,
+        "y": 6.889767343613266
+      },
+      "prevControl": {
+        "x": 3.787193498382616,
+        "y": 7.15761223019944
+      },
+      "nextControl": {
+        "x": 6.363018457794335,
+        "y": 6.621922457027091
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.98,
+        "y": 5.783456131926296
+      },
+      "prevControl": {
+        "x": 7.589946857683416,
+        "y": 5.694807690490709
+      },
+      "nextControl": {
+        "x": 8.565079713474876,
+        "y": 5.9164287940796765
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.075105978088476,
+        "y": 6.889767343613266
+      },
+      "prevControl": {
+        "x": 6.100079441286987,
+        "y": 6.679833019825619
+      },
+      "nextControl": {
+        "x": 3.7908565994868195,
+        "y": 7.152806372965412
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 0.7194891096985188,
+        "y": 6.68861985057927
+      },
+      "prevControl": {
+        "x": 1.2194891096985194,
+        "y": 6.68861985057927
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.9,
+      "rotationDegrees": 180.0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -120.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Amp Side Paths",
+  "previewStartingState": {
+    "rotation": -120.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

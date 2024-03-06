@@ -175,9 +175,8 @@ public class RobotCommands {
 
     public static Command intake8515() {
         return IntakeCommands.intake()
-                .until(() -> (Robot.feeder.getMotorVelocity() > 0.01))
-                .andThen(FeederCommands.feeder())
-                .alongWith(IntakeCommands.stopMotor())
-                .withTimeout(0.3);
+                .until(() -> (Robot.feeder.getMotorVelocity() > 0))
+                .andThen(FeederCommands.feeder().withTimeout(0.3));
+        // .alongWith(IntakeCommands.stopMotor())
     }
 }

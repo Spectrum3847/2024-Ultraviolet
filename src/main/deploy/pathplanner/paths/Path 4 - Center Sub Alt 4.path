@@ -8,40 +8,56 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9596447241267456,
-        "y": 5.570644728793549
+        "x": 1.9262348904900986,
+        "y": 5.6911782143860234
       },
       "isLocked": false,
       "linkedName": "Center Sub Start"
     },
     {
       "anchor": {
-        "x": 2.0733664666580967,
-        "y": 4.64619915208025
+        "x": 5.013214441770324,
+        "y": 6.433317263266893
       },
       "prevControl": {
-        "x": 2.0733664666580967,
-        "y": 4.94619915208025
+        "x": 3.7185029426682616,
+        "y": 6.068282425664437
       },
       "nextControl": {
-        "x": 2.0733664666580967,
-        "y": 4.34619915208025
+        "x": 6.307925940872386,
+        "y": 6.79835210086935
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.59,
-        "y": 4.1
+        "x": 7.97,
+        "y": 7.338480981919869
       },
       "prevControl": {
-        "x": 2.1662037711353253,
-        "y": 4.1046482092964185
+        "x": 7.728461328544333,
+        "y": 6.900692139906475
       },
       "nextControl": {
-        "x": 2.889981956979109,
-        "y": 4.096709789218927
+        "x": 8.217566145272613,
+        "y": 7.787194620226472
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.013214441770324,
+        "y": 6.642201198340657
+      },
+      "prevControl": {
+        "x": 6.425331159696464,
+        "y": 7.160641768874745
+      },
+      "nextControl": {
+        "x": 3.601097723844184,
+        "y": 6.123760627806568
       },
       "isLocked": false,
       "linkedName": null
@@ -52,52 +68,17 @@
         "y": 5.55
       },
       "prevControl": {
-        "x": 1.96,
-        "y": 5.55
+        "x": 1.9421774357655979,
+        "y": 5.695153137359801
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Center Sub Start"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "intake",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "intake"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "home",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "home"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.0,
     "maxAcceleration": 3.0,

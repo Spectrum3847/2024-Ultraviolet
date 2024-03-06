@@ -3,69 +3,59 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.7,
-        "y": 6.9
+        "x": 0.7194891096985188,
+        "y": 6.68861985057927
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.098477879236698,
-        "y": 6.934862297099063
+        "x": 1.663335038550339,
+        "y": 6.711829176698578
       },
       "isLocked": false,
-      "linkedName": "GP 4 - Front 5"
+      "linkedName": "Amp Sub Start"
     },
     {
       "anchor": {
-        "x": 8.13,
-        "y": 7.24
+        "x": 2.754173366157771,
+        "y": 7.013550416249569
       },
       "prevControl": {
-        "x": 7.780284317344364,
-        "y": 7.523194175972427
+        "x": 2.6515673231600703,
+        "y": 6.731642630013796
       },
       "nextControl": {
-        "x": 8.479715682655637,
-        "y": 6.956805824027573
+        "x": 2.8545827280022955,
+        "y": 7.28942287061925
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.222098376844087,
-        "y": 6.355952842869203
+        "x": 0.7194891096985188,
+        "y": 6.68861985057927
       },
       "prevControl": {
-        "x": 5.67081201515069,
-        "y": 6.471999473465737
-      },
-      "nextControl": {
-        "x": 4.786323812760625,
-        "y": 6.243252524571758
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.6412213123771426,
-        "y": 5.55
-      },
-      "prevControl": {
-        "x": 3.0981245424604964,
-        "y": 5.741766320483061
+        "x": 1.0194891096985181,
+        "y": 6.68861985057927
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "GP 2 - Test Front"
+      "linkedName": "Amp Sub Start"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.85,
+      "rotationDegrees": 180.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [
     {
       "name": "launchReady",
-      "waypointRelativePos": 0.0,
+      "waypointRelativePos": 0,
       "command": {
         "type": "parallel",
         "data": {
@@ -112,13 +102,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
+    "rotation": -120.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Front Paths",
+  "folder": "Amp Side Paths",
   "previewStartingState": {
-    "rotation": -145.0,
+    "rotation": -120.0,
     "velocity": 0
   },
   "useDefaultConstraints": true
