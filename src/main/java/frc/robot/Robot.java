@@ -4,6 +4,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -94,13 +95,21 @@ public class Robot extends LoggedRobot {
              * subsystem Something that don't have an output are alos subsystems.
              */
             swerve = new Swerve();
+            Timer.delay(0.1);
             intake = new Intake(config.intakeAttached);
+            Timer.delay(0.1);
             ampTrap = new AmpTrap(config.ampTrapAttached);
+            Timer.delay(0.1);
             elevator = new Elevator(config.elevatorAttached);
+            Timer.delay(0.1);
             feeder = new Feeder(config.feederAttached);
+            Timer.delay(0.1);
             climber = new Climber(config.climberAttached);
+            Timer.delay(0.1);
             pivot = new Pivot(config.pivotAttached);
+            Timer.delay(0.1);
             leftLauncher = new LeftLauncher(config.leftLauncherAttached);
+            Timer.delay(0.1);
             rightLauncher = new RightLauncher(config.rightLauncherAttached);
             vision = new Vision();
             auton = new Auton();
