@@ -8,8 +8,6 @@ import frc.robot.mechanisms.climber.ClimberCommands;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
 import frc.robot.mechanisms.feeder.FeederCommands;
 import frc.robot.mechanisms.intake.IntakeCommands;
-import frc.robot.mechanisms.launcher.LauncherCommands;
-import frc.robot.vision.VisionCommands;
 import frc.spectrumLib.gamepads.Gamepad;
 
 public class Operator extends Gamepad {
@@ -43,26 +41,22 @@ public class Operator extends Gamepad {
     /*  A, B, X, Y, Left Bumper, Right Bumper = Buttons 1 to 6 in simualation */
     public void setupTeleopButtons() {
 
-
-
-        controller.a().and(noBumpers()).whileTrue(IntakeCommands.intake()); //intake
+        controller.a().and(noBumpers()).whileTrue(IntakeCommands.intake()); // intake
         controller.a().and(leftBumperOnly()).whileTrue(IntakeCommands.eject()); // eject
 
-        controller.b().and(noBumpers()).whileTrue(RobotCommands.manualAmp()); //note up to amp
-        controller.b().and(leftBumperOnly()).whileTrue(AmpTrapCommands.eject()); //amp backward
+        controller.b().and(noBumpers()).whileTrue(RobotCommands.manualAmp()); // note up to amp
+        controller.b().and(leftBumperOnly()).whileTrue(AmpTrapCommands.eject()); // amp backward
 
-        controller.y().and(noBumpers()).whileTrue(FeederCommands.launchEject()); //feeder forward
-        controller.y().and(leftBumperOnly()).whileTrue(FeederCommands.eject()); //feeder backward
+        controller.y().and(noBumpers()).whileTrue(FeederCommands.launchEject()); // feeder forward
+        controller.y().and(leftBumperOnly()).whileTrue(FeederCommands.eject()); // feeder backward
 
-        controller.x().and(noBumpers()).whileTrue(ElevatorCommands.amp()); //elevator up
-        controller.x().and(leftBumperOnly()).whileTrue(ElevatorCommands.home()); //elevator down
+        controller.x().and(noBumpers()).whileTrue(ElevatorCommands.amp()); // elevator up
+        controller.x().and(leftBumperOnly()).whileTrue(ElevatorCommands.home()); // elevator down
 
         rightStick().and(leftBumperOnly()).whileTrue(OperatorCommands.manualPivot());
         leftStick().and(leftBumperOnly()).whileTrue(OperatorCommands.manualElevator());
 
-        bothBumpers()
-                .whileTrue(
-                        LEDsCommands.solidGreenLED());
+        bothBumpers().whileTrue(LEDsCommands.solidGreenLED());
 
         controller.upDpad().and(leftBumperOnly()).whileTrue(RobotCommands.topClimb());
         controller.downDpad().and(leftBumperOnly()).whileTrue(ClimberCommands.midClimb());
