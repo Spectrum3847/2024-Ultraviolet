@@ -15,6 +15,7 @@ public class Intake extends Mechanism {
         public double maxSpeed = 5000;
         public double intake = 2000;
         public double eject = -2000;
+        public double slowIntake = 1000;
 
         /* Percentage Intake Output */
         public double slowIntakePercentage = 0.06;

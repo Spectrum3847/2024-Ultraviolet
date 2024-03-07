@@ -46,14 +46,17 @@ public class RobotCommands {
     }
 
     public static Command feedHome() {
-        // return IntakeCommands.intake()
-        // .withTimeout(0.1)
-        // .andThen(
-        return Commands.either(
-                FeederCommands.addFeedRevolutions().onlyIf(Robot.feeder.lasercan::intakedNote),
-                Commands.run(() -> RobotTelemetry.print("No lasercan found; Didn't feed")),
-                Robot.feeder.lasercan::validDistance);
-        // );
+        return IntakeCommands.intake()
+                .withTimeout(0.15)
+                .andThen(
+                        Commands.either(
+                                FeederCommands.addFeedRevolutions()
+                                        .onlyIf(Robot.feeder.lasercan::intakedNote),
+                                Commands.run(
+                                        () ->
+                                                RobotTelemetry.print(
+                                                        "No lasercan found; Didn't feed")),
+                                Robot.feeder.lasercan::validDistance));
     }
 
     public static Command laserFeedHome() {
@@ -95,12 +98,16 @@ public class RobotCommands {
     }
 
     public static Command launchEject() {
-        return FeederCommands.launchEject().alongWith(AmpTrapCommands.score());
+        return FeederCommands.launchEject()
+                .alongWith(AmpTrapCommands.score(), IntakeCommands.slowIntake());
     }
 
     public static Command dump() {
         return FeederCommands.launchEject()
-                .alongWith(AmpTrapCommands.score(), LauncherCommands.dump());
+                .alongWith(
+                        AmpTrapCommands.score(),
+                        LauncherCommands.dump(),
+                        IntakeCommands.slowIntake());
     }
 
     public static Command intake() {
