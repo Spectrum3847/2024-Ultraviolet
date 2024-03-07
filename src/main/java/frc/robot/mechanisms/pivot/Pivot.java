@@ -3,6 +3,7 @@ package frc.robot.mechanisms.pivot;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
 import java.util.function.DoubleSupplier;
@@ -29,7 +30,7 @@ public class Pivot extends Mechanism {
                 56; // works for GP2/GP3/GP5/GP6 in Front 5 and GP2/GP4/5 in Front 5 Alt
         public final double autoLaunch3 = 54; // works for GP4 in Front 5 and GP3 in Front 5 Alt
 
-        public final double zeroSpeed = -0.2;
+        public final double zeroSpeed = -0.1;
 
         /* Intake config values */
         public double currentLimit = 30;
@@ -124,6 +125,19 @@ public class Pivot extends Mechanism {
                                 attached
                                         && config.talonConfig.MotorOutput.NeutralMode
                                                 == NeutralModeValue.Coast);
+    }
+
+    public Command zeroElevatorRoutine() {
+        return new FunctionalCommand(
+                        () -> toggleReverseSoftLimit(false), // init
+                        () -> setPercentOutput(config.zeroSpeed), // execute
+                        (b) -> {
+                            tareMotor();
+                            toggleReverseSoftLimit(true); // end
+                        },
+                        () -> false, // isFinished
+                        this) // requirement
+                .withName("Pivot.zeroPivotRoutine");
     }
 
     /* Custom Commands */
