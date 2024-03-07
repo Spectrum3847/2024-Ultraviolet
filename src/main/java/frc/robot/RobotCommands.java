@@ -2,7 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.leds.LEDs;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
 import frc.robot.mechanisms.climber.ClimberCommands;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
@@ -47,17 +46,14 @@ public class RobotCommands {
     }
 
     public static Command feedHome() {
-        return IntakeCommands.intake()
-                .withTimeout(0.3)
-                .andThen(
-                        Commands.either(
-                                FeederCommands.addFeedRevolutions()
-                                        .onlyIf(Robot.feeder.lasercan::intakedNote),
-                                Commands.run(
-                                        () ->
-                                                RobotTelemetry.print(
-                                                        "No lasercan found; Didn't feed")),
-                                Robot.feeder.lasercan::validDistance));
+        // return IntakeCommands.intake()
+        // .withTimeout(0.1)
+        // .andThen(
+        return Commands.either(
+                FeederCommands.addFeedRevolutions().onlyIf(Robot.feeder.lasercan::intakedNote),
+                Commands.run(() -> RobotTelemetry.print("No lasercan found; Didn't feed")),
+                Robot.feeder.lasercan::validDistance);
+        // );
     }
 
     public static Command laserFeedHome() {
@@ -121,8 +117,10 @@ public class RobotCommands {
                         FeederCommands.coastMode(),
                         IntakeCommands.coastMode(),
                         LauncherCommands.coastMode(),
-                        PivotCommands.coastMode(),
-                        Commands.startEnd(LEDs::turnOnCoastLEDs, LEDs::turnOffCoastLEDs))
+                        PivotCommands.coastMode()
+                        // ,
+                        // Commands.startEnd(LEDs::turnOnCoastLEDs, LEDs::turnOffCoastLEDs)
+                        )
                 .withName("RobotCommands.coastModeMechanisms");
     }
 
