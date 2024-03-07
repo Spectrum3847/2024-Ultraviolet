@@ -29,6 +29,8 @@ public class ALPHA2024 {
     private static final double speedAt12VoltsMps = 6;
 
     private static final double slipCurrent = 80;
+    private static final double peakForwardTorqueCurrent = 300;
+    private static final double peakReverseTorqueCurrent = 300;
     private static final SlotGains steerGains = new SlotGains(100, 0, 0, 0, 0);
     private static final SlotGains driveGains = new SlotGains(8, 0, 0.1, 0, 0.8);
 
@@ -67,6 +69,8 @@ public class ALPHA2024 {
                     .withLocationX(kFrontLeftXPos)
                     .withLocationY(kFrontLeftYPos)
                     .withSlipCurrent(slipCurrent)
+                    .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
+                    .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
                     .withDriveMotorGearRatio(kDriveGearRatio)
                     .withSteerMotorGearRatio(kSteerGearRatio)
@@ -80,6 +84,8 @@ public class ALPHA2024 {
                     .withLocationX(kFrontRightXPos)
                     .withLocationY(kFrontRightYPos)
                     .withSlipCurrent(slipCurrent)
+                    .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
+                    .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
                     .withDriveMotorGearRatio(kDriveGearRatio)
                     .withSteerMotorGearRatio(kSteerGearRatio)
@@ -93,6 +99,8 @@ public class ALPHA2024 {
                     .withLocationX(kBackLeftXPos)
                     .withLocationY(kBackLeftYPos)
                     .withSlipCurrent(slipCurrent)
+                    .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
+                    .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
                     .withDriveMotorGearRatio(kDriveGearRatio)
                     .withSteerMotorGearRatio(kSteerGearRatio)
@@ -106,6 +114,8 @@ public class ALPHA2024 {
                     .withLocationX(kBackRightXPos)
                     .withLocationY(kBackRightYPos)
                     .withSlipCurrent(slipCurrent)
+                    .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
+                    .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
                     .withDriveMotorGearRatio(kDriveGearRatio)
                     .withSteerMotorGearRatio(kSteerGearRatio)

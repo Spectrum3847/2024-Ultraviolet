@@ -76,6 +76,8 @@ public class Module {
         talonConfigs.TorqueCurrent.PeakReverseTorqueCurrent = -config.SlipCurrent;
         talonConfigs.CurrentLimits.StatorCurrentLimit = config.SlipCurrent;
         talonConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
+        talonConfigs.TorqueCurrent.PeakForwardTorqueCurrent = config.PeakForwardTorqueCurrent;
+        talonConfigs.TorqueCurrent.PeakReverseTorqueCurrent = config.PeakReverseTorqueCurrent;
 
         talonConfigs.MotorOutput.Inverted =
                 config.DriveMotorInverted

@@ -21,6 +21,7 @@ public class Intake extends Mechanism {
 
         /* Intake config values */
         public double currentLimit = 30;
+        public double torqueCurrentLimit = 100;
         public double threshold = 40;
         public double velocityKp = 12; // 0.156152;
         public double velocityKv = 0.2; // 0.12;
@@ -32,6 +33,8 @@ public class Intake extends Mechanism {
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
             configGearRatio(12 / 30);
             configSupplyCurrentLimit(currentLimit, threshold, true);
+            configForwardTorqueCurrentLimit(torqueCurrentLimit);
+            configReverseTorqueCurrentLimit(torqueCurrentLimit);
             configStatorCurrentLimit(30, true);
             configNeutralBrakeMode(true);
             configClockwise_Positive();
