@@ -27,7 +27,7 @@ public class Intake extends Mechanism {
         public double velocityKs = 14;
 
         public IntakeConfig() {
-            super("Intake", 60, "3847");
+            super("Intake", 5, "3847");
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
             configGearRatio(12 / 30);
