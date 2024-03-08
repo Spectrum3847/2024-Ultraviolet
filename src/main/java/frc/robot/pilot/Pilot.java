@@ -31,7 +31,7 @@ public class Pilot extends Gamepad {
         public final double triggersDeadzone = 0; // TODO: review
         public final double triggersExp = 2.0;
         public final double triggersScalor = Robot.swerve.config.maxAngularVelocity;
-        public final double rotationScalor = 0.35; // original was 0.8
+        public final double rotationScalor = 0.45; // original was 0.8
     }
 
     public PilotConfig config;
@@ -66,7 +66,7 @@ public class Pilot extends Gamepad {
                 RobotCommands.feedHome());
         controller.a().and(leftBumperOnly()).whileTrue(RobotCommands.eject());
 
-        controller.b().and(noBumpers()).whileTrue(RobotCommands.amp());
+        controller.b().and(noBumpers()).onTrue(RobotCommands.amp().withTimeout(1.5));
 
         controller.b().and(leftBumperOnly()).whileTrue(ElevatorCommands.home());
 

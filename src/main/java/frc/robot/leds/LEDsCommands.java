@@ -67,7 +67,7 @@ public class LEDsCommands {
     }
 
     public static Command intakedNote() {
-        return whiteBounce().alongWith(orangeTipped()).withName("LEDs.intakedNote");
+        return solidPurpleLED().alongWith(orangeTipped()).withName("LEDs.intakedNote");
     }
 
     public static Command whiteBounce() {
