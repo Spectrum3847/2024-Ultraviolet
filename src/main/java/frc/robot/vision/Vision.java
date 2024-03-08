@@ -11,7 +11,6 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.crescendo.FieldConstants;
@@ -46,7 +45,7 @@ public class Vision extends SubsystemBase {
         public static final int speakerTagID = 4;
 
         /* Pose Estimation Constants */
-        public static final double VISION_REJECT_DISTANCE = 0.7; // 2.3;
+        public static final double VISION_REJECT_DISTANCE = 1.8; // 2.3;
         // Increase these numbers to trust global measurements from vision less.
         @AutoLogOutput(key = "Vision/STD/X")
         public static double VISION_STD_DEV_X = 0.5;
@@ -194,8 +193,17 @@ public class Vision extends SubsystemBase {
                         Robot.swerve.setVisionMeasurementStdDevs(visionSTDs);
 
                         // integrate vision
-                        Robot.swerve.addVisionMeasurement(poseWithGyro, getVisionPoseTimestamp());
-                        limelight.logStatus = "pose integrated";
+                        Robot.swerve.addVisionMeasurement(
+                                poseWithGyro, limelight.getVisionPoseTimestamp());
+                        limelight.logStatus =
+                                "Pose integrated; New Odometry: "
+                                        + Robot.swerve.getPose().getX()
+                                        + ", "
+                                        + Robot.swerve.getPose().getY()
+                                        + " || Vision Pose: "
+                                        + poseWithGyro.getX()
+                                        + ", "
+                                        + poseWithGyro.getY();
                     } else {
                         isPresent = false;
                     }
@@ -281,18 +289,18 @@ public class Vision extends SubsystemBase {
     public void adjustVisionSTDs(Limelight limelight) {
         double distanceToTag = limelight.getDistanceToTagFromCamera();
         double tagsInView = limelight.getTagCountInView();
-        double trust = 1;
+        double trust = 1.2;
         if (tagsInView == 1) {
             trust = 100;
             if (distanceToTag <= 1.3) {
-                trust = 1;
+                trust = 0.1;
             }
         } else if (tagsInView == 2) {
             trust = 50;
             if (distanceToTag <= 1.5) {
-                trust = 0.5;
+                trust = 0.01;
             } else if (distanceToTag <= 2.5) {
-                trust = 1;
+                trust = 0.5;
             }
         } else if (tagsInView == 0) {
             trust = 200;
@@ -300,10 +308,6 @@ public class Vision extends SubsystemBase {
 
         VisionConfig.VISION_STD_DEV_X = trust;
         VisionConfig.VISION_STD_DEV_Y = trust;
-    }
-
-    public double getVisionPoseTimestamp() {
-        return Timer.getFPGATimestamp() - speakerLL.getPoseLatency();
     }
 
     // we are resetting gyro angle as well?

@@ -4,6 +4,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.vision.Vision.VisionConfig;
@@ -111,12 +112,20 @@ public class Limelight {
         if (swervePose.getTranslation().getDistance(visionPose.getTranslation()) < rejectDistance
                 || (swervePose.getX() <= 0 || Robot.swerve.getPose().getY() <= 0)
                 || (getDistanceToTagFromCamera() <= 1)) {
-            logStatus = "Vision Pose too far off odometry";
             return Optional.of(new Pose2d(visionPose.getTranslation(), swervePose.getRotation()));
         }
 
-        logStatus = "Vision pose unknown error";
+        // dumb
+        if (swervePose.getTranslation().getDistance(visionPose.getTranslation()) < rejectDistance) {
+            logStatus = "Rejected: Too far off odometry";
+        }
+
+        logStatus = "Unknown error";
         return Optional.empty();
+    }
+
+    public double getVisionPoseTimestamp() {
+        return Timer.getFPGATimestamp() - getPoseLatency();
     }
 
     /** @return the distance of the 2d vector from the camera to closest apriltag */
