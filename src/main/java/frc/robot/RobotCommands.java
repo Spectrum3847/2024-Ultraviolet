@@ -23,26 +23,30 @@ public class RobotCommands {
     // to a good position if it's
     // too low, and stop it when intaking is done), then rumble and blink
     public static Command smartIntake() {
-        return ElevatorCommands.home().alongWith(IntakeCommands.intake()
-                .withTimeout(0.4)
-                .andThen(
+        return ElevatorCommands.home()
+                .alongWith(
                         IntakeCommands.intake()
-                                .until(Robot.feeder::intakedNote)
-                                .deadlineWith(
-                                        PivotCommands.intake()
-                                                .onlyIf(
-                                                        () ->
-                                                                Robot.pivot.getMotorPercentAngle()
-                                                                        < Robot.pivot
-                                                                                .config
-                                                                                .intake))
+                                .withTimeout(0.4)
                                 .andThen(
-                                        IntakeCommands.stopMotor()
-                                                .alongWith(
-                                                        PilotCommands.rumble(1, 0.5)
+                                        IntakeCommands.intake()
+                                                .until(Robot.feeder::intakedNote)
+                                                .deadlineWith(
+                                                        PivotCommands.intake()
+                                                                .onlyIf(
+                                                                        () ->
+                                                                                Robot.pivot
+                                                                                                .getMotorPercentAngle()
+                                                                                        < Robot
+                                                                                                .pivot
+                                                                                                .config
+                                                                                                .intake))
+                                                .andThen(
+                                                        IntakeCommands.stopMotor()
                                                                 .alongWith(
-                                                                        VisionCommands
-                                                                                .blinkLimelights())))));
+                                                                        PilotCommands.rumble(1, 0.5)
+                                                                                .alongWith(
+                                                                                        VisionCommands
+                                                                                                .blinkLimelights())))));
     }
 
     public static Command feedHome() {
