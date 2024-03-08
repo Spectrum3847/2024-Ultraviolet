@@ -18,6 +18,7 @@ import frc.robot.Robot;
 import frc.robot.RobotTelemetry;
 import frc.spectrumLib.vision.Limelight;
 import frc.spectrumLib.vision.Limelight.PhysicalConfig;
+import java.text.DecimalFormat;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.littletonrobotics.junction.AutoLogOutput;
@@ -149,6 +150,8 @@ public class Vision extends SubsystemBase {
                     VisionConfig.SPEAKER_CONFIG);
     public final Limelight[] limelights = {noteLL, speakerLL};
 
+    private final DecimalFormat df = new DecimalFormat();
+
     /* Interpolator */
     public InterpolatingTreeMap<Double, Double> treeMap =
             new InterpolatingTreeMap<>(InverseInterpolator.forDouble(), Interpolator.forDouble());
@@ -161,6 +164,9 @@ public class Vision extends SubsystemBase {
         addTreeMapData();
 
         // SmartDashboard.putBoolean("VisionPresent", Vision.isPresent);
+
+        // logging
+        df.setMaximumFractionDigits(2);
 
         /* Configure Limelight Settings Here */
         speakerLL.setLEDMode(false);
@@ -197,13 +203,13 @@ public class Vision extends SubsystemBase {
                                 poseWithGyro, limelight.getVisionPoseTimestamp());
                         limelight.logStatus =
                                 "Pose integrated; New Odometry: "
-                                        + Robot.swerve.getPose().getX()
+                                        + df.format(Robot.swerve.getPose().getX())
                                         + ", "
-                                        + Robot.swerve.getPose().getY()
+                                        + df.format(Robot.swerve.getPose().getY())
                                         + " || Vision Pose: "
-                                        + poseWithGyro.getX()
+                                        + df.format(poseWithGyro.getX())
                                         + ", "
-                                        + poseWithGyro.getY();
+                                        + df.format(poseWithGyro.getY());
                     } else {
                         isPresent = false;
                     }
@@ -263,6 +269,16 @@ public class Vision extends SubsystemBase {
         return VisionConfig.VISION_STD_DEV_Y;
     }
 
+    @AutoLogOutput(key = "Vision/Front/TrustStrong")
+    public boolean getFrontTrustStrength() {
+        return speakerLL.trustStrong;
+    }
+
+    @AutoLogOutput(key = "Vision/Front/TrustStrong")
+    public boolean getRearTrustStrength() {
+        return noteLL.trustStrong;
+    }
+
     /**
      * REQUIRES ACCURATE POSE ESTIMATION. Uses trigonometric functions to calculate the angle
      * between the robot heading and the angle required to face the hybrid spot. Will return 0 if
@@ -299,13 +315,18 @@ public class Vision extends SubsystemBase {
             trust = 50;
             if (distanceToTag <= 1.5) {
                 trust = 0.01;
-            } else if (distanceToTag <= 2.5) {
+            } else if (distanceToTag <= 3) {
                 trust = 0.5;
             }
         } else if (tagsInView == 0) {
             trust = 200;
         }
 
+        if (trust <= 1) {
+            limelight.trustStrong = true;
+        } else {
+            limelight.trustStrong = false;
+        }
         VisionConfig.VISION_STD_DEV_X = trust;
         VisionConfig.VISION_STD_DEV_Y = trust;
     }

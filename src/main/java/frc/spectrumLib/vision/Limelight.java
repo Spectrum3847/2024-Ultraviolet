@@ -20,7 +20,7 @@ public class Limelight {
     private final String CAMERA_NAME;
 
     public String logStatus = "";
-
+    public boolean trustStrong = false;
     /** Physical Config */
     private PhysicalConfig physicalConfig;
 
@@ -31,6 +31,7 @@ public class Limelight {
         this.CAMERA_NAME = cameraName;
         physicalConfig = new PhysicalConfig();
         logStatus = "Not started";
+        trustStrong = false;
     }
 
     public Limelight(String cameraName, int pipeline) {
@@ -111,12 +112,13 @@ public class Limelight {
         // if vision pose is too far off current and we are not very close to a tag, ignore it
         if (swervePose.getTranslation().getDistance(visionPose.getTranslation()) < rejectDistance
                 || (swervePose.getX() <= 0 || Robot.swerve.getPose().getY() <= 0)
-                || (getDistanceToTagFromCamera() <= 1)) {
+                || (getDistanceToTagFromCamera() <= 1)
+                || (getTagCountInView() >= 2 && getDistanceToTagFromCamera() <= 3)) {
             return Optional.of(new Pose2d(visionPose.getTranslation(), swervePose.getRotation()));
         }
 
         // dumb
-        if (swervePose.getTranslation().getDistance(visionPose.getTranslation()) < rejectDistance) {
+        if (swervePose.getTranslation().getDistance(visionPose.getTranslation()) > rejectDistance) {
             logStatus = "Rejected: Too far off odometry";
         }
 
