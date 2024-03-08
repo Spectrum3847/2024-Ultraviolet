@@ -9,14 +9,17 @@ import edu.wpi.first.math.interpolation.Interpolator;
 import edu.wpi.first.math.interpolation.InverseInterpolator;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.crescendo.FieldConstants;
 import frc.robot.Robot;
+import frc.robot.RobotTelemetry;
 import frc.spectrumLib.vision.Limelight;
 import frc.spectrumLib.vision.Limelight.PhysicalConfig;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.littletonrobotics.junction.AutoLogOutput;
 
@@ -24,7 +27,7 @@ public class Vision extends SubsystemBase {
     public static final class VisionConfig {
         /* Limelight Configuration */
         public static final String NOTE_LL =
-                "limelight-rear"; // TODO: change this name in LL dashboard to reflect name in
+                "limelight-detect"; // TODO: change this name in LL dashboard to reflect name in
         // code
         public static final PhysicalConfig NOTE_CONFIG =
                 new PhysicalConfig().withTranslation(0, 0, 0).withRotation(0, 0, 0);
@@ -43,11 +46,15 @@ public class Vision extends SubsystemBase {
         public static final int speakerTagID = 4;
 
         /* Pose Estimation Constants */
-        public static final double VISION_REJECT_DISTANCE = 1.5; // 2.3;
+        public static final double VISION_REJECT_DISTANCE = 0.7; // 2.3;
         // Increase these numbers to trust global measurements from vision less.
-        public static final double VISION_STD_DEV_X = 0.5;
-        public static final double VISION_STD_DEV_Y = 0.5;
-        public static final double VISION_STD_DEV_THETA = 99999999;
+        @AutoLogOutput(key = "Vision/STD/X")
+        public static double VISION_STD_DEV_X = 0.5;
+
+        @AutoLogOutput(key = "Vision/STD/Y")
+        public static double VISION_STD_DEV_Y = 0.5;
+
+        public static double VISION_STD_DEV_THETA = 99999999;
 
         public static final Matrix<N3, N1> visionStdMatrix =
                 VecBuilder.fill(VISION_STD_DEV_X, VISION_STD_DEV_Y, VISION_STD_DEV_THETA);
@@ -141,6 +148,7 @@ public class Vision extends SubsystemBase {
                     VisionConfig.SPEAKER_LL,
                     VisionConfig.speakerDetectorPipeline,
                     VisionConfig.SPEAKER_CONFIG);
+    public final Limelight[] limelights = {noteLL, speakerLL};
 
     /* Interpolator */
     public InterpolatingTreeMap<Double, Double> treeMap =
@@ -153,7 +161,7 @@ public class Vision extends SubsystemBase {
         setName("Vision");
         addTreeMapData();
 
-        SmartDashboard.putBoolean("VisionPresent", Vision.isPresent);
+        // SmartDashboard.putBoolean("VisionPresent", Vision.isPresent);
 
         /* Configure Limelight Settings Here */
         speakerLL.setLEDMode(false);
@@ -162,25 +170,89 @@ public class Vision extends SubsystemBase {
     @Override
     public void periodic() {
         // Integrate Vision with Odometry only in teleop
-        // if (getVisionPose().isPresent() && DriverStation.isTeleopEnabled()) {
-        //     try {
-        //         isPresent = true;
-        //         // force pose to be vision
-        //         if ((Robot.swerve.getPose().getX() <= 0 || Robot.swerve.getPose().getY() <= 0)) {
-        //             resetPoseWithVision();
-        //         }
+        if (DriverStation.isTeleopEnabled()) {
+            for (Limelight limelight : limelights) {
+                try {
+                    // retrieve pose if valid
+                    Optional<Pose2d> visionPose =
+                            limelight.getFilteredPose(
+                                    Robot.swerve.getPose(), VisionConfig.VISION_REJECT_DISTANCE);
+                    if (visionPose.isPresent()) {
+                        isPresent = true;
 
-        //         // integrate vision
-        //         Pose2d botpose = getVisionPose().get();
-        //         Pose2d poseWithGyro = Robot.swerve.convertPoseWithGyro(botpose);
-        //         Robot.swerve.addVisionMeasurement(poseWithGyro, getVisionPoseTimestamp());
-        //         // RobotTelemetry.print("added vision measurement");
-        //     } catch (NoSuchElementException e) {
-        //         RobotTelemetry.print("Vision pose not present but tried to access it");
-        //     }
-        // } else {
-        //     isPresent = false;
-        // }
+                        // replace vision rotation component
+                        Pose2d botpose = visionPose.get();
+                        Pose2d poseWithGyro = Robot.swerve.convertPoseWithGyro(botpose);
+
+                        // adjust vision trust
+                        adjustVisionSTDs(limelight);
+                        Matrix<N3, N1> visionSTDs =
+                                VecBuilder.fill(
+                                        VisionConfig.VISION_STD_DEV_X,
+                                        VisionConfig.VISION_STD_DEV_Y,
+                                        VisionConfig.VISION_STD_DEV_THETA);
+                        Robot.swerve.setVisionMeasurementStdDevs(visionSTDs);
+
+                        // integrate vision
+                        Robot.swerve.addVisionMeasurement(poseWithGyro, getVisionPoseTimestamp());
+                        limelight.logStatus = "pose integrated";
+                    } else {
+                        isPresent = false;
+                    }
+                } catch (NoSuchElementException e) {
+                    limelight.logStatus = "Optional Error while retrieving pose";
+                    RobotTelemetry.print("Vision pose not present but tried to access it");
+                }
+            }
+        }
+    }
+
+    @AutoLogOutput(key = "Vision/Front/ConnectionStatus")
+    public boolean getFrontConnection() {
+        return !NetworkTableInstance.getDefault()
+                .getTable("limelight-aim")
+                .getEntry("json")
+                .getString("")
+                .equals("");
+    }
+
+    @AutoLogOutput(key = "Vision/Rear/ConnectionStatus")
+    public boolean getRearConnection() {
+        return !NetworkTableInstance.getDefault()
+                .getTable("limelight-detect")
+                .getEntry("json")
+                .getString("")
+                .equals("");
+    }
+
+    @AutoLogOutput(key = "Vision/Front/LogStatus")
+    public String getFrontLogStatus() {
+        return speakerLL.logStatus;
+    }
+
+    @AutoLogOutput(key = "Vision/Rear/LogStatus")
+    public String getRearLogStatus() {
+        return noteLL.logStatus;
+    }
+
+    @AutoLogOutput(key = "Vision/Front/TagCount")
+    public double getFrontTagCount() {
+        return speakerLL.getTagCountInView();
+    }
+
+    @AutoLogOutput(key = "Vision/Rear/TagCount")
+    public double getRearTagCount() {
+        return noteLL.getTagCountInView();
+    }
+
+    @AutoLogOutput(key = "Vision/Trust/STDX")
+    public double getXSTD() {
+        return VisionConfig.VISION_STD_DEV_X;
+    }
+
+    @AutoLogOutput(key = "Vision/Trust/STDY")
+    public double getYSTD() {
+        return VisionConfig.VISION_STD_DEV_Y;
     }
 
     /**
@@ -206,19 +278,28 @@ public class Vision extends SubsystemBase {
         return angleBetweenRobotAndSpeakers;
     }
 
-    public Optional<Pose2d> getVisionPose() {
-        Pose2d visionPose = speakerLL.getAlliancePose().toPose2d();
-
-        // if no camera or no target in view, return empty
-        if (!speakerLL.isCameraConnected() || !speakerLL.targetInView()) return Optional.empty();
-        // if vision pose is too far off current, ignore it
-        if (Robot.swerve.getPose().getTranslation().getDistance(visionPose.getTranslation())
-                        < VisionConfig.VISION_REJECT_DISTANCE
-                || (Robot.swerve.getPose().getX() <= 0 || Robot.swerve.getPose().getY() <= 0)) {
-            return Optional.of(new Pose2d(visionPose.getTranslation(), Robot.swerve.getRotation()));
+    public void adjustVisionSTDs(Limelight limelight) {
+        double distanceToTag = limelight.getDistanceToTagFromCamera();
+        double tagsInView = limelight.getTagCountInView();
+        double trust = 1;
+        if (tagsInView == 1) {
+            trust = 100;
+            if (distanceToTag <= 1.3) {
+                trust = 1;
+            }
+        } else if (tagsInView == 2) {
+            trust = 50;
+            if (distanceToTag <= 1.5) {
+                trust = 0.5;
+            } else if (distanceToTag <= 2.5) {
+                trust = 1;
+            }
+        } else if (tagsInView == 0) {
+            trust = 200;
         }
 
-        return Optional.empty();
+        VisionConfig.VISION_STD_DEV_X = trust;
+        VisionConfig.VISION_STD_DEV_Y = trust;
     }
 
     public double getVisionPoseTimestamp() {
@@ -229,7 +310,7 @@ public class Vision extends SubsystemBase {
     public void resetPoseWithVision() {
         // TODO: add more fallback logic here
         Robot.swerve.resetPose(
-                Robot.swerve.convertPoseWithGyro(speakerLL.getAlliancePose().toPose2d()));
+                Robot.swerve.convertPoseWithGyro(speakerLL.getRawPose3d().toPose2d()));
     }
     /**
      * Calculates the required rotation for the robot to align with a note, based on the current
