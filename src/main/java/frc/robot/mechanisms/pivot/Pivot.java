@@ -34,6 +34,7 @@ public class Pivot extends Mechanism {
 
         /* Intake config values */
         public double currentLimit = 30;
+        public double torqueCurrentLimit = 100;
         public double threshold = 40;
         public double velocityKp = 0.8;
         public double velocityKv = 0.013;
@@ -45,6 +46,8 @@ public class Pivot extends Mechanism {
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
             configGearRatio(1);
             configSupplyCurrentLimit(currentLimit, threshold, true);
+            configForwardTorqueCurrentLimit(torqueCurrentLimit);
+            configReverseTorqueCurrentLimit(torqueCurrentLimit);
             configNeutralBrakeMode(true);
             configClockwise_Positive();
             configReverseSoftLimit(minRotation, true);

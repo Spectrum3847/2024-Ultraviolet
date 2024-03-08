@@ -27,6 +27,7 @@ public class RightLauncher extends Mechanism {
 
         /* RightLauncher config values */
         public double currentLimit = 60;
+        public double torqueCurrentLimit = 150;
         public double threshold = 80;
         public double velocityKp = 12; // 0.156152;
         public double velocityKv = 0.2; // 0.12;
@@ -38,6 +39,8 @@ public class RightLauncher extends Mechanism {
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
             configGearRatio(1 / 2);
             configSupplyCurrentLimit(currentLimit, threshold, true);
+            configForwardTorqueCurrentLimit(torqueCurrentLimit);
+            configReverseTorqueCurrentLimit(torqueCurrentLimit);
             configNeutralBrakeMode(true);
             configClockwise_Positive();
             configMotionMagic(51, 205, 0);

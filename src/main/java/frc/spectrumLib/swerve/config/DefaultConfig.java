@@ -17,6 +17,8 @@ public class DefaultConfig {
     private static final double kWheelRadiusInches = 2;
     private static final double speedAt12VoltsMps = 6; // Units.feetToMeters(16);
     private static final double slipCurrent = 800;
+    private static final double peakForwardTorqueCurrent = 300;
+    private static final double PeakReverseTorqueCurrent = 300;
     private static final SlotGains steerGains = new SlotGains(100, 0, 0.05, 0, 0);
     private static final SlotGains driveGains = new SlotGains(0.4, 0, 0, 0, 0);
 
@@ -87,6 +89,8 @@ public class DefaultConfig {
                     .withCouplingGearRatio(kCouplingGearRatio)
                     .withWheelRadius(kWheelRadiusInches)
                     .withSlipCurrent(slipCurrent)
+                    .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
+                    .withReverseTorqueCurrentLimit(PeakReverseTorqueCurrent)
                     .withSteerMotorGains(steerGains)
                     .withDriveMotorGains(driveGains)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)

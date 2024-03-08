@@ -15,23 +15,27 @@ public class Intake extends Mechanism {
         public double maxSpeed = 5000;
         public double intake = 2000;
         public double eject = -2000;
+        public double slowIntake = 1000;
 
         /* Percentage Intake Output */
         public double slowIntakePercentage = 0.06;
 
         /* Intake config values */
         public double currentLimit = 30;
+        public double torqueCurrentLimit = 100;
         public double threshold = 40;
         public double velocityKp = 12; // 0.156152;
         public double velocityKv = 0.2; // 0.12;
         public double velocityKs = 14;
 
         public IntakeConfig() {
-            super("Intake", 60, "3847");
+            super("Intake", 5, "3847");
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
             configGearRatio(12 / 30);
             configSupplyCurrentLimit(currentLimit, threshold, true);
+            configForwardTorqueCurrentLimit(torqueCurrentLimit);
+            configReverseTorqueCurrentLimit(torqueCurrentLimit);
             configStatorCurrentLimit(30, true);
             configNeutralBrakeMode(true);
             configClockwise_Positive();

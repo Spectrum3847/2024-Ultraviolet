@@ -19,6 +19,11 @@ public class IntakeCommands {
         return intake.runVelocityTorqueCurrentFOC(intake.config.intake).withName("Intake.intake");
     }
 
+    public static Command slowIntake() {
+        return intake.runVelocityTorqueCurrentFOC(intake.config.slowIntake)
+                .withName("Intake.slowIntake");
+    }
+
     public static Command eject() {
         return intake.runVelocityTorqueCurrentFOC(intake.config.eject).withName("Intake.eject");
     }

@@ -2,7 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.leds.LEDs;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
 import frc.robot.mechanisms.climber.ClimberCommands;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
@@ -48,7 +47,7 @@ public class RobotCommands {
 
     public static Command feedHome() {
         return IntakeCommands.intake()
-                .withTimeout(0.3)
+                .withTimeout(0.15)
                 .andThen(
                         Commands.either(
                                 FeederCommands.addFeedRevolutions()
@@ -103,12 +102,16 @@ public class RobotCommands {
     }
 
     public static Command launchEject() {
-        return FeederCommands.launchEject().alongWith(AmpTrapCommands.score());
+        return FeederCommands.launchEject()
+                .alongWith(AmpTrapCommands.score(), IntakeCommands.slowIntake());
     }
 
     public static Command dump() {
         return FeederCommands.launchEject()
-                .alongWith(AmpTrapCommands.score(), LauncherCommands.dump());
+                .alongWith(
+                        AmpTrapCommands.score(),
+                        LauncherCommands.dump(),
+                        IntakeCommands.slowIntake());
     }
 
     public static Command intake() {
@@ -125,8 +128,10 @@ public class RobotCommands {
                         FeederCommands.coastMode(),
                         IntakeCommands.coastMode(),
                         LauncherCommands.coastMode(),
-                        PivotCommands.coastMode(),
-                        Commands.startEnd(LEDs::turnOnCoastLEDs, LEDs::turnOffCoastLEDs))
+                        PivotCommands.coastMode()
+                        // ,
+                        // Commands.startEnd(LEDs::turnOnCoastLEDs, LEDs::turnOffCoastLEDs)
+                        )
                 .withName("RobotCommands.coastModeMechanisms");
     }
 

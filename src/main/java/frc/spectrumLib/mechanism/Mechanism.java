@@ -231,6 +231,14 @@ public abstract class Mechanism implements Subsystem {
             talonConfig.CurrentLimits.StatorCurrentLimitEnable = enabled;
         }
 
+        public void configForwardTorqueCurrentLimit(double currentLimit) {
+            talonConfig.TorqueCurrent.PeakForwardTorqueCurrent = currentLimit;
+        }
+
+        public void configReverseTorqueCurrentLimit(double currentLimit) {
+            talonConfig.TorqueCurrent.PeakReverseTorqueCurrent = currentLimit;
+        }
+
         public void configNeutralDeadband(double deadband) {
             talonConfig.MotorOutput.DutyCycleNeutralDeadband = deadband;
         }

@@ -14,6 +14,10 @@ public class ModuleConfigFactory {
     public double WheelRadius = 0;
     /** The maximum amount of current the drive motors can apply without slippage */
     public double SlipCurrent = 0;
+    /** The maximum amount of forward torque current the drive motors can apply */
+    public double PeakForwardTorqueCurrent = 0;
+    /** The maximum amount of reverse torque current the drive motors can apply */
+    public double PeakReverseTorqueCurrent = 0;
 
     /** The steer motor gains */
     public Slot0Configs SteerMotorGains = new Slot0Configs();
@@ -95,6 +99,16 @@ public class ModuleConfigFactory {
         return this;
     }
 
+    public ModuleConfigFactory withForwardTorqueCurrentLimit(double currentLimit) {
+        this.PeakForwardTorqueCurrent = currentLimit;
+        return this;
+    }
+
+    public ModuleConfigFactory withReverseTorqueCurrentLimit(double currentLimit) {
+        this.PeakReverseTorqueCurrent = currentLimit;
+        return this;
+    }
+
     public ModuleConfig createModuleConfig(
             int steerId,
             int driveId,
@@ -115,6 +129,8 @@ public class ModuleConfigFactory {
                 .withCouplingGearRatio(CouplingGearRatio)
                 .withWheelRadius(WheelRadius)
                 .withSlipCurrent(SlipCurrent)
+                .withForwardTorqueCurrentLimit(PeakForwardTorqueCurrent)
+                .withReverseTorqueCurrentLimit(PeakReverseTorqueCurrent)
                 .withSteerMotorGains(SteerMotorGains)
                 .withDriveMotorGains(DriveMotorGains)
                 .withSteerMotorInverted(SteerMotorInverted)
