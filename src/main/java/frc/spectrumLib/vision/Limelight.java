@@ -89,6 +89,13 @@ public class Limelight {
                 CAMERA_NAME); // 2024: all alliances use blue as 0,0
     }
 
+    /** @return the distance of the 2d vector from the camera to closest apriltag */
+    public double getDistanceToTagFromCamera() {
+        double x = LimelightHelpers.getCameraPose3d_TargetSpace(CAMERA_NAME).getX();
+        double y = LimelightHelpers.getCameraPose3d_TargetSpace(CAMERA_NAME).getZ();
+        return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+    }
+
     /**
      * Returns the latency of the pose estimation from the Limelight camera.
      *

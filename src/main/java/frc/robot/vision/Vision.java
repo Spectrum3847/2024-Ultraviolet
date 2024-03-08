@@ -24,7 +24,7 @@ public class Vision extends SubsystemBase {
     public static final class VisionConfig {
         /* Limelight Configuration */
         public static final String NOTE_LL =
-                "limelight-detect"; // TODO: change this name in LL dashboard to reflect name in
+                "limelight-rear"; // TODO: change this name in LL dashboard to reflect name in
         // code
         public static final PhysicalConfig NOTE_CONFIG =
                 new PhysicalConfig().withTranslation(0, 0, 0).withRotation(0, 0, 0);
@@ -43,7 +43,7 @@ public class Vision extends SubsystemBase {
         public static final int speakerTagID = 4;
 
         /* Pose Estimation Constants */
-        public static final double VISION_REJECT_DISTANCE = 2; // 2.3;
+        public static final double VISION_REJECT_DISTANCE = 1.5; // 2.3;
         // Increase these numbers to trust global measurements from vision less.
         public static final double VISION_STD_DEV_X = 0.5;
         public static final double VISION_STD_DEV_Y = 0.5;
@@ -161,8 +161,8 @@ public class Vision extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // Integrate Vision with Odometry
-        // if (getVisionPose().isPresent()) {
+        // Integrate Vision with Odometry only in teleop
+        // if (getVisionPose().isPresent() && DriverStation.isTeleopEnabled()) {
         //     try {
         //         isPresent = true;
         //         // force pose to be vision
