@@ -9,6 +9,7 @@ import edu.wpi.first.math.interpolation.Interpolator;
 import edu.wpi.first.math.interpolation.InverseInterpolator;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -20,6 +21,7 @@ import frc.spectrumLib.vision.Limelight.PhysicalConfig;
 import java.text.DecimalFormat;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import org.littletonrobotics.junction.AutoLogOutput;
 
 public class Vision extends SubsystemBase {
     public static final class VisionConfig {
@@ -46,10 +48,10 @@ public class Vision extends SubsystemBase {
         /* Pose Estimation Constants */
         public static final double VISION_REJECT_DISTANCE = 1.8; // 2.3;
         // Increase these numbers to trust global measurements from vision less.
-        // @AutoLogOutput(key = "Vision/STD/X")
+        @AutoLogOutput(key = "Vision/STD/X")
         public static double VISION_STD_DEV_X = 0.5;
 
-        // @AutoLogOutput(key = "Vision/STD/Y")
+        @AutoLogOutput(key = "Vision/STD/Y")
         public static double VISION_STD_DEV_Y = 0.5;
 
         public static double VISION_STD_DEV_THETA = 99999999;
@@ -154,7 +156,7 @@ public class Vision extends SubsystemBase {
     public InterpolatingTreeMap<Double, Double> treeMap =
             new InterpolatingTreeMap<>(InverseInterpolator.forDouble(), Interpolator.forDouble());
 
-    // @AutoLogOutput(key = "Vision/integratingPose")
+    @AutoLogOutput(key = "Vision/integratingPose")
     public static boolean isPresent = false;
 
     public Vision() {
@@ -219,63 +221,63 @@ public class Vision extends SubsystemBase {
         }
     }
 
-    // @AutoLogOutput(key = "Vision/Front/ConnectionStatus")
-    // public boolean getFrontConnection() {
-    //     return !NetworkTableInstance.getDefault()
-    //             .getTable("limelight-aim")
-    //             .getEntry("json")
-    //             .getString("")
-    //             .equals("");
-    // }
+    @AutoLogOutput(key = "Vision/Front/ConnectionStatus")
+    public boolean getFrontConnection() {
+        return !NetworkTableInstance.getDefault()
+                .getTable("limelight-aim")
+                .getEntry("json")
+                .getString("")
+                .equals("");
+    }
 
-    // @AutoLogOutput(key = "Vision/Rear/ConnectionStatus")
-    // public boolean getRearConnection() {
-    //     return !NetworkTableInstance.getDefault()
-    //             .getTable("limelight-detect")
-    //             .getEntry("json")
-    //             .getString("")
-    //             .equals("");
-    // }
+    @AutoLogOutput(key = "Vision/Rear/ConnectionStatus")
+    public boolean getRearConnection() {
+        return !NetworkTableInstance.getDefault()
+                .getTable("limelight-detect")
+                .getEntry("json")
+                .getString("")
+                .equals("");
+    }
 
-    // @AutoLogOutput(key = "Vision/Front/LogStatus")
-    // public String getFrontLogStatus() {
-    //     return speakerLL.logStatus;
-    // }
+    @AutoLogOutput(key = "Vision/Front/LogStatus")
+    public String getFrontLogStatus() {
+        return speakerLL.logStatus;
+    }
 
-    // @AutoLogOutput(key = "Vision/Rear/LogStatus")
-    // public String getRearLogStatus() {
-    //     return noteLL.logStatus;
-    // }
+    @AutoLogOutput(key = "Vision/Rear/LogStatus")
+    public String getRearLogStatus() {
+        return noteLL.logStatus;
+    }
 
-    // @AutoLogOutput(key = "Vision/Front/TagCount")
-    // public double getFrontTagCount() {
-    //     return speakerLL.getTagCountInView();
-    // }
+    @AutoLogOutput(key = "Vision/Front/TagCount")
+    public double getFrontTagCount() {
+        return speakerLL.getTagCountInView();
+    }
 
-    // @AutoLogOutput(key = "Vision/Rear/TagCount")
-    // public double getRearTagCount() {
-    //     return noteLL.getTagCountInView();
-    // }
+    @AutoLogOutput(key = "Vision/Rear/TagCount")
+    public double getRearTagCount() {
+        return noteLL.getTagCountInView();
+    }
 
-    // @AutoLogOutput(key = "Vision/Trust/STDX")
-    // public double getXSTD() {
-    //     return VisionConfig.VISION_STD_DEV_X;
-    // }
+    @AutoLogOutput(key = "Vision/Trust/STDX")
+    public double getXSTD() {
+        return VisionConfig.VISION_STD_DEV_X;
+    }
 
-    // @AutoLogOutput(key = "Vision/Trust/STDY")
-    // public double getYSTD() {
-    //     return VisionConfig.VISION_STD_DEV_Y;
-    // }
+    @AutoLogOutput(key = "Vision/Trust/STDY")
+    public double getYSTD() {
+        return VisionConfig.VISION_STD_DEV_Y;
+    }
 
-    // @AutoLogOutput(key = "Vision/Front/TrustStrong")
-    // public boolean getFrontTrustStrength() {
-    //     return speakerLL.trustStrong;
-    // }
+    @AutoLogOutput(key = "Vision/Front/TrustStrong")
+    public boolean getFrontTrustStrength() {
+        return speakerLL.trustStrong;
+    }
 
-    // @AutoLogOutput(key = "Vision/Rear/TrustStrong")
-    // public boolean getRearTrustStrength() {
-    //     return noteLL.trustStrong;
-    // }
+    @AutoLogOutput(key = "Vision/Rear/TrustStrong")
+    public boolean getRearTrustStrength() {
+        return noteLL.trustStrong;
+    }
 
     /**
      * REQUIRES ACCURATE POSE ESTIMATION. Uses trigonometric functions to calculate the angle
