@@ -274,7 +274,7 @@ public class Vision extends SubsystemBase {
         return speakerLL.trustStrong;
     }
 
-    @AutoLogOutput(key = "Vision/Front/TrustStrong")
+    @AutoLogOutput(key = "Vision/Rear/TrustStrong")
     public boolean getRearTrustStrength() {
         return noteLL.trustStrong;
     }

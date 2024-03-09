@@ -2,6 +2,7 @@ package frc.robot.operator;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Robot;
 import frc.robot.mechanisms.climber.Climber;
@@ -44,7 +45,13 @@ public class OperatorCommands {
     }
 
     public static Command manualClimber() {
-        return climber.runPercentage(() -> -operator.controller.getRightY());
+        return new FunctionalCommand(
+                () -> climber.toggleReverseSoftLimit(false),
+                () -> climber.setPercentOutput(-operator.controller.getRightY()),
+                (b) -> climber.toggleReverseSoftLimit(true),
+                () -> false,
+                Robot.climber);
+        // return climber.runPercentage(() -> -operator.controller.getRightY());
     }
 
     public static Command manualElevator() {

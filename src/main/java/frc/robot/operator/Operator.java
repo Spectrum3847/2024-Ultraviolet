@@ -53,7 +53,7 @@ public class Operator extends Gamepad {
         controller.x().and(noBumpers()).whileTrue(ElevatorCommands.amp()); // elevator up
         controller.x().and(leftBumperOnly()).whileTrue(ElevatorCommands.home()); // elevator down
 
-        rightStick().and(leftBumperOnly()).whileTrue(OperatorCommands.manualPivot());
+        rightStick().and(leftBumperOnly()).whileTrue(OperatorCommands.manualClimber());
         leftStick().and(leftBumperOnly()).whileTrue(OperatorCommands.manualElevator());
 
         bothBumpers().whileTrue(LEDsCommands.solidGreenLED());
