@@ -92,20 +92,40 @@ public class PilotCommands {
     }
 
     /**
-     * Turn to climb locations idk what i'm doing probably delete :)
-     * Aims at climb location close to center field
+     * Turn to climb locations idk what i'm doing probably delete :) Aims at climb location close to
+     * center field
+     *
      * @return
      */
-    public static Command aimToClimbDrive() {
+    public static Command aimToClimbLeft() {
+        return SwerveCommands.aimDrive(
+                        () -> pilot.getDriveFwdPositive(),
+                        () -> pilot.getDriveLeftPositive(),
+                        () -> (Units.degreesToRadians(-240)),
+                        () -> pilot.getFieldOriented(), // true is field oriented
+                        () -> true)
+                .withName("Swerve.aimToClimbLeft");
+    }
+
+    public static Command aimToClimbRight() {
+        return SwerveCommands.aimDrive(
+                        () -> pilot.getDriveFwdPositive(),
+                        () -> pilot.getDriveLeftPositive(),
+                        () -> (Units.degreesToRadians(-120)),
+                        () -> pilot.getFieldOriented(), // true is field oriented
+                        () -> true)
+                .withName("Swerve.aimToClimbRight");
+    }
+
+    public static Command aimToClimbBack() {
         return SwerveCommands.aimDrive(
                         () -> pilot.getDriveFwdPositive(),
                         () -> pilot.getDriveLeftPositive(),
                         () -> (Units.degreesToRadians(0)),
                         () -> pilot.getFieldOriented(), // true is field oriented
                         () -> true)
-                .withName("Swerve.PilotStickSteer");
+                .withName("Swerve.aimToClimbBack");
     }
-
 
     /**
      * Command that can be used to turn on the slow mode. Slow mode modifies the fwd, left, and CCW

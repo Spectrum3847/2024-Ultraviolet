@@ -56,37 +56,39 @@ public class Pilot extends Gamepad {
     public void setupTeleopButtons() {
 
         controller.a().and(noBumpers()).whileTrue((RobotCommands.intake()));
-        // controller.a().and(noBumpers()).onFalse(FeederCommands.feeder().withTimeout(0.05));
+        controller.a().and(noBumpers()).onFalse(FeederCommands.feeder().withTimeout(0.05));
 
         // controller.a().and(noBumpers()).whileTrue(RobotCommands.intake8515());
 
-        controller
-                .a()
-                .and(leftBumperOnly())
-                .whileTrue(LauncherCommands.eject().alongWith(RobotCommands.eject()));
-
-        //now in operator controls, the operator can finally do something
-        // controller 
-        //         .b()
-        //         .and(noBumpers().or(rightBumperOnly()))
-        //         .whileTrue(RobotCommands.subwooferReady()); // RobotCommands.feedToAmp());
         // controller
-        //         .b()
-        //         .and(leftBumperOnly().or(bothBumpers()))
-        //         .onTrue(RobotCommands.podiumReady()); // change to podium ready
+        //         .a()
+        //         .and(leftBumperOnly())
+        //         .whileTrue(LauncherCommands.eject().alongWith(RobotCommands.eject()));
+
+        // now in operator controls, the operator can finally do something
+        controller.b().and(noBumpers()).whileTrue(RobotCommands.subwooferReady());
+
+        controller
+                .b()
+                .and(leftBumperOnly())
+                .whileTrue(RobotCommands.podiumReady()); // change to podium ready
 
         controller.start().onTrue(RobotCommands.climb()); // change pivot angle to max for climb
-        // y - amp ready
+        // y - amp ready, and home
         controller
                 .y()
                 .and(noBumpers().or(rightBumperOnly()))
                 .whileTrue(RobotCommands.ampReady8515());
 
-        // x - home
-        controller.x().and(noBumpers()).whileTrue(RobotCommands.home());
+        controller.y().and(leftBumperOnly()).whileTrue(RobotCommands.home());
+
+        // x - aim to climb
+        controller.x().and(noBumpers()).whileTrue(PilotCommands.aimToClimbRight());
+        controller.x().and(leftBumperOnly()).whileTrue(PilotCommands.aimToClimbLeft());
+        controller.x().and(bothBumpers()).whileTrue(PilotCommands.aimToClimbBack());
 
         runWithEndSequence(
-                controller.rightBumper(),
+                rightBumperOnly(),
                 RobotCommands.score(),
                 LauncherCommands.runLauncherPercentages(0, 0)
                         .alongWith(

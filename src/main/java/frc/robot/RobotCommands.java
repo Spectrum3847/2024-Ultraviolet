@@ -164,20 +164,32 @@ public class RobotCommands {
     public static Command subwooferReady() {
         return LauncherCommands.runOnDemandVelocity()
                 .alongWith(PivotCommands.subwoofer())
-                //rumble on ready
-                .until(() -> (Robot.leftLauncher.getMotorVelocity() >= 4500 || Robot.rightLauncher.getMotorVelocity() >= 4500))
-                .andThen(PilotCommands.rumble(2, 1).alongWith(LauncherCommands.runOnDemandVelocity(), 
-                        PivotCommands.subwoofer()))
+                // rumble on ready
+                .until(
+                        () ->
+                                (Robot.leftLauncher.getMotorVelocity() >= 4500
+                                        || Robot.rightLauncher.getMotorVelocity() >= 4500))
+                .andThen(
+                        PilotCommands.rumble(2, 1)
+                                .alongWith(
+                                        LauncherCommands.runOnDemandVelocity(),
+                                        PivotCommands.subwoofer()))
                 .withName("RobotCommands.subwooferReady");
     }
 
     public static Command podiumReady() {
         return LauncherCommands.runOnDemandVelocity()
-                .alongWith(PivotCommands.podium())
+                .alongWith(PivotCommands.onDemandPivot())
                 // rumble on ready
-                .until(() -> (Robot.leftLauncher.getMotorVelocity() >= 4500 || Robot.rightLauncher.getMotorVelocity() >= 4500))
-                .andThen(PilotCommands.rumble(2, 1).alongWith(LauncherCommands.runOnDemandVelocity(), 
-                        PivotCommands.subwoofer()))
+                .until(
+                        () ->
+                                (Robot.leftLauncher.getMotorVelocity() >= 4500
+                                        || Robot.rightLauncher.getMotorVelocity() >= 4500))
+                .andThen(
+                        PilotCommands.rumble(2, 1)
+                                .alongWith(
+                                        LauncherCommands.runOnDemandVelocity(),
+                                        PivotCommands.subwoofer()))
                 .withName("RobotCommands.podium");
     }
 

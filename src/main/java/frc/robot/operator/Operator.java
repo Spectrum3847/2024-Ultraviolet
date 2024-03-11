@@ -2,7 +2,6 @@ package frc.robot.operator;
 
 import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
-import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.spectrumLib.Gamepad;
 
 public class Operator extends Gamepad {
@@ -27,23 +26,20 @@ public class Operator extends Gamepad {
 
         // controller.a().and(noBumpers()).whileTrue(LauncherCommands.runOnDemandVelocity());
 
-        controller
-                .a()
-                .and(noBumpers())
-                .whileTrue(RobotCommands.subwooferReady());
+        controller.a().and(noBumpers()).whileTrue(RobotCommands.subwooferReady());
 
         controller
                 .a()
                 .and(leftBumperOnly())
-                .whileTrue(RobotCommands.podiumReady()); // changed onTrue to whileTrue if that breaks anything...
+                .whileTrue(
+                        RobotCommands.podiumReady()); // changed onTrue to whileTrue if that breaks
+        // anything...
 
-        // controller.x().and(noBumpers()).onTrue(); 
+        // controller.x().and(noBumpers()).onTrue();
 
-        // controller.b().and(noBumpers()).onTrue(); 
+        // controller.b().and(noBumpers()).onTrue();
 
-        // controller.y().and(noBumpers()).onTrue(); 
-
-
+        // controller.y().and(noBumpers()).onTrue();
 
         // manual output commands (map joystick to raw -1 to 1 output on motor): manualAmpTrap,
         // manualClimber, manualElevator, manualFeeder, manualIntake, manualPivot, manualLauncher
