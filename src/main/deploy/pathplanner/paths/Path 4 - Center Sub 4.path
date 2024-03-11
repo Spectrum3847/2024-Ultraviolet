@@ -12,7 +12,7 @@
         "y": 5.899502762522831
       },
       "isLocked": false,
-      "linkedName": "Test Start"
+      "linkedName": "Center Sub Start"
     },
     {
       "anchor": {
@@ -78,7 +78,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Event Test Autos",
+  "folder": "Front Paths",
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0

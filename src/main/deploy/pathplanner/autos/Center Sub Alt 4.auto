@@ -20,25 +20,13 @@
         {
           "type": "named",
           "data": {
-            "name": "preloadScoreSub"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Path 1 - Center Sub 4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "scoreSub"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Path 2 - Center Sub 4"
+            "pathName": "Path 1 - Center Sub 4"
           }
         },
         {
@@ -62,7 +50,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path 4 - Center Sub 4"
+            "pathName": "Path 4 - Center Sub Alt 4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "scoreSub"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path 5 - Center Sub Alt 4"
           }
         }
       ]

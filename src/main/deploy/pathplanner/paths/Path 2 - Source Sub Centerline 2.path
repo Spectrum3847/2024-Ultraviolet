@@ -1,0 +1,106 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 0.7,
+        "y": 4.42
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.2112225989123282,
+        "y": 3.6898984643618347
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.08,
+        "y": 1.97
+      },
+      "prevControl": {
+        "x": 2.1513872726924053,
+        "y": 2.499578084957414
+      },
+      "nextControl": {
+        "x": 5.967691857703642,
+        "y": 1.4516583833354753
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.022690395240472,
+        "y": 2.2943207719904675
+      },
+      "prevControl": {
+        "x": 7.531708189151919,
+        "y": 1.7487849874476322
+      },
+      "nextControl": {
+        "x": 8.37083028703008,
+        "y": 2.681142873978919
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.0848413969980415,
+        "y": 1.81
+      },
+      "prevControl": {
+        "x": 5.895168834303993,
+        "y": 1.243110422740957
+      },
+      "nextControl": {
+        "x": 2.1762306220692205,
+        "y": 2.4076662194114435
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 0.7,
+        "y": 4.421842332926948
+      },
+      "prevControl": {
+        "x": 1.22607805870657,
+        "y": 3.67914389711292
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.95,
+      "rotationDegrees": -140.0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.0,
+    "maxAcceleration": 2.5,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 120.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Event Test Autos",
+  "previewStartingState": {
+    "rotation": 120.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": false
+}

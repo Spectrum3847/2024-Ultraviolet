@@ -43,6 +43,12 @@
               "data": {
                 "name": "launchReady"
               }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "intake"
+              }
             }
           ]
         }
@@ -51,7 +57,7 @@
   ],
   "globalConstraints": {
     "maxVelocity": 4.0,
-    "maxAcceleration": 2.5,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

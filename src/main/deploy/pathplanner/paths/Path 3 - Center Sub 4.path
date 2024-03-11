@@ -12,7 +12,7 @@
         "y": 5.55
       },
       "isLocked": false,
-      "linkedName": "Test Start"
+      "linkedName": "Center Sub Start"
     },
     {
       "anchor": {
@@ -100,7 +100,7 @@
   ],
   "globalConstraints": {
     "maxVelocity": 4.0,
-    "maxAcceleration": 2.5,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -110,7 +110,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Event Test Autos",
+  "folder": "Front Paths",
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0

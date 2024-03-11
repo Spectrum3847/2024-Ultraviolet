@@ -26,7 +26,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path 1 - Amp Sub 2"
+            "pathName": "Path 1 - Amp Sub 4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "scoreSub"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path 2 - Amp Sub 4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "scoreSub"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path 3 - Amp Sub 4"
           }
         },
         {

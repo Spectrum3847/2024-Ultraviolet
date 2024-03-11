@@ -3,25 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.0,
-        "y": 0.0
+        "x": 1.36,
+        "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.1,
-        "y": 0.0
+        "x": 2.91663864899292,
+        "y": 6.14706890779544
+      },
+      "isLocked": false,
+      "linkedName": "Center Sub Start"
+    },
+    {
+      "anchor": {
+        "x": 4.9977415576907855,
+        "y": 6.5416274518236595
+      },
+      "prevControl": {
+        "x": 3.933992864880124,
+        "y": 6.5416274518236595
+      },
+      "nextControl": {
+        "x": 6.061490250501448,
+        "y": 6.5416274518236595
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.0,
-        "y": 0.0
+        "x": 7.852488670365554,
+        "y": 5.767983247846757
       },
       "prevControl": {
-        "x": 4.9,
-        "y": 0.0
+        "x": 6.7693867847978915,
+        "y": 6.22443332819313
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,13 +55,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "PID Config Paths",
+  "folder": "Front Paths",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 180.0,
     "velocity": 0
   },
   "useDefaultConstraints": true
