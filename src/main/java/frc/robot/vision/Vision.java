@@ -18,7 +18,6 @@ import frc.robot.RobotTelemetry;
 import frc.spectrumLib.vision.Limelight;
 import frc.spectrumLib.vision.Limelight.PhysicalConfig;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import org.littletonrobotics.junction.AutoLogOutput;
 
 public class Vision extends SubsystemBase {
@@ -143,28 +142,33 @@ public class Vision extends SubsystemBase {
     }
 
     protected void filterAndAddVisionMeasurment(Limelight ll) {
+
+        double xyStds = 1000;
+        double degStds = 1000;
+
         // integrate vision
         if (ll.targetInView()) {
             Pose2d botpose = ll.getAlliancePose().toPose2d();
-            Pose2d poseWithGyro = Robot.swerve.convertPoseWithGyro(botpose);
 
             // distance from current pose to vision estimated pose
             double poseDifference =
-                    Robot.swerve
-                            .getPose()
-                            .getTranslation()
-                            .getDistance(poseWithGyro.getTranslation());
+                    Robot.swerve.getPose().getTranslation().getDistance(botpose.getTranslation());
 
             if (ll.multipleTagsInView()) {
-                Robot.swerve.addVisionMeasurement(poseWithGyro, getVisionPoseTimestamp(ll));
+                xyStds = 0.5;
+                degStds = 6;
             } else if (ll.getTargetSize() > 0.8 && poseDifference < 0.5) {
-                Robot.swerve.addVisionMeasurement(poseWithGyro, getVisionPoseTimestamp(ll));
-            } else if (poseDifference < 0.3) {
-                Robot.swerve.addVisionMeasurement(poseWithGyro, getVisionPoseTimestamp(ll));
+                xyStds = 1.0;
+                degStds = 12;
+            } else if (ll.getTargetSize() > 0.1 && poseDifference < 0.3) {
+                xyStds = 2.0;
+                degStds = 999999;
             } else {
                 RobotTelemetry.print("Vision pose rejected");
             }
 
+            Robot.swerve.setVisionMeasurementStdDevs(VecBuilder.fill(xyStds, xyStds, degStds));
+            Robot.swerve.addVisionMeasurement(botpose, getVisionPoseTimestamp(ll));
         } else {
             return;
         }
@@ -238,20 +242,21 @@ public class Vision extends SubsystemBase {
         return new Translation2d(x, y);
     }
 
-    public Optional<Pose2d> getVisionPose(Limelight ll) {
-        Pose2d visionPose = ll.getAlliancePose().toPose2d();
+    // public Optional<Pose2d> getVisionPose(Limelight ll) {
+    //     Pose2d visionPose = ll.getAlliancePose().toPose2d();
 
-        // if no camera or no target in view, return empty
-        if (!ll.isCameraConnected() || !ll.targetInView()) return Optional.empty();
-        // if vision pose is too far off current, ignore it
-        if (Robot.swerve.getPose().getTranslation().getDistance(visionPose.getTranslation())
-                        < VisionConfig.VISION_REJECT_DISTANCE
-                || (Robot.swerve.getPose().getX() <= 0 || Robot.swerve.getPose().getY() <= 0)) {
-            return Optional.of(new Pose2d(visionPose.getTranslation(), Robot.swerve.getRotation()));
-        }
+    //     // if no camera or no target in view, return empty
+    //     if (!ll.isCameraConnected() || !ll.targetInView()) return Optional.empty();
+    //     // if vision pose is too far off current, ignore it
+    //     if (Robot.swerve.getPose().getTranslation().getDistance(visionPose.getTranslation())
+    //                     < VisionConfig.VISION_REJECT_DISTANCE
+    //             || (Robot.swerve.getPose().getX() <= 0 || Robot.swerve.getPose().getY() <= 0)) {
+    //         return Optional.of(new Pose2d(visionPose.getTranslation(),
+    // Robot.swerve.getRotation()));
+    //     }
 
-        return Optional.empty();
-    }
+    //     return Optional.empty();
+    // }
 
     public double getVisionPoseTimestamp(Limelight ll) {
         return Timer.getFPGATimestamp() - ll.getPoseLatency();
