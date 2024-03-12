@@ -56,7 +56,7 @@ public class PilotCommands {
                 .withName("Swerve.PilotHeadingLockDrive");
     }
 
-    public static Command aimToRedSpeaker() {
+    public static Command aimToSpeaker() {
         return SwerveCommands.aimDrive(
                         () -> pilot.getDriveFwdPositive(),
                         () -> pilot.getDriveLeftPositive(),

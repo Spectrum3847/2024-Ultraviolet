@@ -46,7 +46,7 @@ public class Pivot extends Mechanism {
                 new InterpolatingDoubleTreeMap();
 
         static {
-            DISTANCE_MAP.put(1.31, 80.5);
+            DISTANCE_MAP.put(1.35, 80.5);
             DISTANCE_MAP.put(2.31, 55.0);
         }
 

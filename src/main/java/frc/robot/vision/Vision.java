@@ -164,6 +164,7 @@ public class Vision extends SubsystemBase {
     }
 
     /** Returns the distance from the speaker in meters, adjusted for the robot's movement. */
+    @AutoLogOutput
     public double getSpeakerDistance() {
         return Robot.swerve.getPose().getTranslation().getDistance(getAdjustedSpeakerPos());
     }

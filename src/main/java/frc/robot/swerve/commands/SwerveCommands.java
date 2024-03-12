@@ -17,8 +17,11 @@ public class SwerveCommands {
             () -> (swerve.config.deadband * swerve.config.maxVelocity);
 
     public static void setupDefaultCommand() {
-        //Wait a little before enabling heading lock, allows any turns to finish
-        swerve.setDefaultCommand(PilotCommands.pilotDrive().withTimeout(0.5).andThen(PilotCommands.headingLockDrive()));
+        // Wait a little before enabling heading lock, allows any turns to finish
+        swerve.setDefaultCommand(
+                PilotCommands.pilotDrive()
+                        .withTimeout(0.5)
+                        .andThen(PilotCommands.headingLockDrive()));
     }
 
     /** Turn the swerve wheels to an X to prevent the robot from moving */

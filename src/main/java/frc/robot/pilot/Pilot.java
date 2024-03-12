@@ -70,7 +70,10 @@ public class Pilot extends Gamepad {
 
         controller.b().and(leftBumperOnly()).whileTrue(ElevatorCommands.home());
 
-        controller.x().and(noBumpers()).whileTrue(RobotCommands.podiumShot());
+        controller
+                .x()
+                .and(noBumpers())
+                .whileTrue(PilotCommands.aimToSpeaker()); // RobotCommands.podiumShot());
         controller.x().and(leftBumperOnly()).whileTrue(RobotCommands.fromAmpShot());
 
         controller.y().and(noBumpers()).whileTrue(RobotCommands.subwooferShot());
