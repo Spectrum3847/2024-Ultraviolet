@@ -24,13 +24,13 @@ public class Vision extends SubsystemBase {
     public static final class VisionConfig {
         /* Limelight Configuration */
         public static final String REAR_LL = "limelight-rear";
-        // code
+        // These don't seem to actually be setting at the limelight, had to manually adjust them
         public static final PhysicalConfig REAR_CONFIG =
-                new PhysicalConfig().withTranslation(-0.296, 0, 0.226).withRotation(50, 0, 180);
+                new PhysicalConfig().withTranslation(-0.296, 0, 0.226).withRotation(0, 50, 180);
 
         public static final String SPEAKER_LL = "limelight-aim";
         public static final PhysicalConfig SPEAKER_CONFIG =
-                new PhysicalConfig().withTranslation(-0.085, 0, 0.636).withRotation(15, 0, 0);
+                new PhysicalConfig().withTranslation(-0.085, 0, 0.636).withRotation(0, 15, 0);
 
         /* Pipeline config */
         public static final int rearDetectorPipeline = 0;
@@ -165,6 +165,7 @@ public class Vision extends SubsystemBase {
                 degStds = 999999;
             } else {
                 RobotTelemetry.print("Vision pose rejected");
+                return;
             }
 
             Robot.swerve.setVisionMeasurementStdDevs(VecBuilder.fill(xyStds, xyStds, degStds));

@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import frc.robot.Robot;
 import frc.robot.leds.LEDsConfig;
 import frc.robot.leds.LEDsConfig.Section;
+import java.util.function.DoubleSupplier;
 
 public class LauncherCommands {
     private static LeftLauncher leftLauncher = Robot.leftLauncher;
@@ -15,7 +16,8 @@ public class LauncherCommands {
 
     static {
         DISTANCE_MAP.put(1.31, 4500.0);
-        DISTANCE_MAP.put(2.31, 5500.0);
+        DISTANCE_MAP.put(2.31, 5000.0);
+        DISTANCE_MAP.put(4.79, 5500.0);
     }
 
     public static void setupDefaultCommand() {
@@ -24,6 +26,22 @@ public class LauncherCommands {
     }
 
     /* Launch Commands */
+
+    public static DoubleSupplier getRPMfromDistance(DoubleSupplier distance) {
+        return () -> DISTANCE_MAP.get(distance.getAsDouble());
+    }
+
+    public static Command distanceVelocity(DoubleSupplier distance) {
+        return velocityTCFOCrpm(getRPMfromDistance(distance));
+    }
+
+    public static Command velocityTCFOCrpm(DoubleSupplier velocityRPM) {
+        return leftLauncher
+                .runVelocityTCFOCrpm(velocityRPM)
+                .alongWith(
+                        rightLauncher.runVelocityTCFOCrpm(velocityRPM),
+                        sendLauncherFeedback(velocityRPM));
+    }
 
     public static Command runOnDemandVelocity() {
         return new OnDemandLaunch(leftLauncher.config.testVelocity)
@@ -101,13 +119,26 @@ public class LauncherCommands {
                 .withName("Launcher.runLauncherPercentages");
     }
 
+    public static Command sendLauncherFeedback(double velocity) {
+        return sendLauncherFeedback(() -> velocity, () -> velocity);
+    }
+
     public static Command sendLauncherFeedback(double leftVelocity, double rightVelocity) {
+        return sendLauncherFeedback(() -> leftVelocity, () -> rightVelocity);
+    }
+
+    public static Command sendLauncherFeedback(DoubleSupplier velocity) {
+        return sendLauncherFeedback(velocity, velocity);
+    }
+
+    public static Command sendLauncherFeedback(
+            DoubleSupplier leftVelocity, DoubleSupplier rightVelocity) {
         return new FunctionalCommand(
                 () -> {},
                 () -> {
-                    if (leftLauncher.getMotorVelocityInRPM() >= leftVelocity - 50
+                    if (leftLauncher.getMotorVelocityInRPM() >= leftVelocity.getAsDouble() - 50
                             || rightLauncher.getMotorVelocityInRPM()
-                                    >= rightLauncher.getMotorVelocityInRPM() - 50) {
+                                    >= rightVelocity.getAsDouble() - 50) {
                         Robot.pilot.controller.rumbleController(1, 1);
                         Robot.leds.customStrobe(Section.FULL, LEDsConfig.SPECTRUM_COLOR, 8, 5);
                     }

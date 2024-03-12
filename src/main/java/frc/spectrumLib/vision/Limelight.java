@@ -34,6 +34,14 @@ public class Limelight {
     public Limelight(String cameraName, int pipeline, PhysicalConfig physicalConfig) {
         this(cameraName, pipeline);
         this.physicalConfig = physicalConfig;
+        LimelightHelpers.setCameraPose_RobotSpace(
+                this.CAMERA_NAME,
+                physicalConfig.forward,
+                physicalConfig.right,
+                physicalConfig.up,
+                physicalConfig.roll,
+                physicalConfig.pitch,
+                physicalConfig.yaw);
     }
 
     /*
@@ -215,8 +223,8 @@ public class Limelight {
         }
 
         /**
-         * @param roll (degrees) roll of limelight || positive is camera tilted up
-         * @param pitch (degrees) pitch of limelight || positive is rotated right
+         * @param roll (degrees) roll of limelight || positive is rotated right
+         * @param pitch (degrees) pitch of limelight || positive is camera tilted up
          * @param yaw (yaw) yaw of limelight || positive is rotated left
          * @return
          */

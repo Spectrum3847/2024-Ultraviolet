@@ -48,6 +48,7 @@ public class Pivot extends Mechanism {
         static {
             DISTANCE_MAP.put(1.35, 80.5);
             DISTANCE_MAP.put(2.31, 55.0);
+            DISTANCE_MAP.put(4.79, 42.0);
         }
 
         public PivotConfig() {
@@ -81,6 +82,15 @@ public class Pivot extends Mechanism {
     @Override
     public void periodic() {}
 
+    // Lookup angle in tree map
+    public DoubleSupplier getAngleFromDistance(DoubleSupplier distance) {
+        return () -> PivotConfig.DISTANCE_MAP.get(distance.getAsDouble());
+    }
+
+    public Command runPosition(DoubleSupplier percent) {
+        return run(() -> setMMPosition(percentToRotation(percent)))
+                .withName("Pivot.runPercentSupplier");
+    }
     /**
      * Sets the intake motor to a specified position.
      *
@@ -205,6 +215,10 @@ public class Pivot extends Mechanism {
     /* Helper */
     public double percentToRotation(double percent) {
         return config.maxRotation * (percent / 100);
+    }
+
+    public DoubleSupplier percentToRotation(DoubleSupplier percent) {
+        return () -> config.maxRotation * (percent.getAsDouble() / 100);
     }
 
     @Override

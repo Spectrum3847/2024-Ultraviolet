@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
 import frc.spectrumLib.util.Conversions;
+import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.AutoLogOutput;
 
 /** Top Launcher */
@@ -79,9 +80,19 @@ public class RightLauncher extends Mechanism {
      * @param percent
      * @return
      */
-    public Command runVelocityTorqueCurrentFOC(double velocity) {
+    public Command runVelocityTCFOC(double velocity) {
         return run(() -> setVelocityTorqueCurrentFOC(Conversions.RPMtoRPS(velocity)))
                 .withName("RightLauncher.runVelocityFOC");
+    }
+
+    /**
+     * Run the right launcher at given velocityRPM in TorqueCurrentFOC mode
+     *
+     * @param percent
+     * @return
+     */
+    public Command runVelocityTCFOCrpm(DoubleSupplier velocity) {
+        return run(() -> setVelocityTCFOCrpm(velocity)).withName("RightLauncher.runVelocityFOC");
     }
 
     /**
