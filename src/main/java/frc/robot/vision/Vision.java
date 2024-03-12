@@ -125,25 +125,20 @@ public class Vision extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // Integrate Vision with Odometry
-        if (getVisionPose(speakerLL).isPresent() || getVisionPose(rearLL).isPresent()) {
-            try {
-                isPresent = true;
-                // force pose to be vision
-                if ((Robot.swerve.getPose().getX() <= 0.1
-                        || Robot.swerve.getPose().getY() <= 0.1)) {
-                    resetPoseWithVision();
-                }
-
-                filterAndAddVisionMeasurment(speakerLL);
-                filterAndAddVisionMeasurment(rearLL);
-
-                // RobotTelemetry.print("added vision measurement");
-            } catch (NoSuchElementException e) {
-                RobotTelemetry.print("Vision pose not present but tried to access it");
+        try {
+            isPresent = true;
+            // force pose to be vision
+            if ((Robot.swerve.getPose().getX() <= 0.1
+                    || Robot.swerve.getPose().getY() <= 0.1)) {
+                resetPoseWithVision();
             }
-        } else {
-            isPresent = false;
+
+            filterAndAddVisionMeasurment(speakerLL);
+            filterAndAddVisionMeasurment(rearLL);
+
+            // RobotTelemetry.print("added vision measurement");
+        } catch (NoSuchElementException e) {
+            RobotTelemetry.print("Vision pose not present but tried to access it");
         }
     }
 
