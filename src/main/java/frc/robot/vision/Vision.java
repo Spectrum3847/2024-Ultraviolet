@@ -149,18 +149,20 @@ public class Vision extends SubsystemBase {
         // integrate vision
         if (ll.targetInView()) {
             Pose2d botpose = ll.getAlliancePose().toPose2d();
+            double timeStamp = getVisionPoseTimestamp(ll);
 
             // distance from current pose to vision estimated pose
             double poseDifference =
                     Robot.swerve.getPose().getTranslation().getDistance(botpose.getTranslation());
 
+            double targetSize = ll.getTargetSize();
             if (ll.multipleTagsInView()) {
                 xyStds = 0.5;
                 degStds = 6;
-            } else if (ll.getTargetSize() > 0.8 && poseDifference < 0.5) {
+            } else if (targetSize > 0.8 && poseDifference < 0.5) {
                 xyStds = 1.0;
                 degStds = 12;
-            } else if (ll.getTargetSize() > 0.1 && poseDifference < 0.3) {
+            } else if (targetSize > 0.1 && poseDifference < 0.3) {
                 xyStds = 2.0;
                 degStds = 999999;
             } else {
@@ -169,7 +171,7 @@ public class Vision extends SubsystemBase {
             }
 
             Robot.swerve.setVisionMeasurementStdDevs(VecBuilder.fill(xyStds, xyStds, degStds));
-            Robot.swerve.addVisionMeasurement(botpose, getVisionPoseTimestamp(ll));
+            Robot.swerve.addVisionMeasurement(botpose, timeStamp);
         } else {
             return;
         }
@@ -182,8 +184,9 @@ public class Vision extends SubsystemBase {
      * @return angle between robot heading and speaker in degrees
      */
     public double getThetaToSpeaker() {
-        Translation2d speaker =
-                Field.flipXifRed(Field.Speaker.centerSpeakerOpening).toTranslation2d();
+        // Translation2d speaker =
+        //         Field.flipXifRed(Field.Speaker.centerSpeakerOpening).toTranslation2d();
+        Translation2d speaker = getAdjustedSpeakerPos();
         Translation2d robotXY = Robot.swerve.getPose().getTranslation();
         double angleBetweenRobotAndSpeaker =
                 MathUtil.angleModulus(speaker.minus(robotXY).getAngle().getRadians());
