@@ -117,9 +117,8 @@ public class Robot extends LoggedRobot {
             operator = new Operator();
             leds = new LEDs();
 
-            /** Intialize Telemetry and Auton */
+            /** Intialize Telemetry */
             telemetry = new RobotTelemetry();
-            // auton = new Auton();
 
             /**
              * Set Default Commands this method should exist for each subsystem that has default
@@ -131,11 +130,11 @@ public class Robot extends LoggedRobot {
             ElevatorCommands.setupDefaultCommand();
             FeederCommands.setupDefaultCommand();
             PivotCommands.setupDefaultCommand();
+            ClimberCommands.setupDefaultCommand();
             LauncherCommands.setupDefaultCommand();
             LEDsCommands.setupDefaultCommand();
             PilotCommands.setupDefaultCommand();
             OperatorCommands.setupDefaultCommand();
-            ClimberCommands.setupDefaultCommand();
 
             RobotTelemetry.print("--- Robot Init Complete ---");
 

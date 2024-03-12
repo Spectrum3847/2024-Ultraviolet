@@ -4,7 +4,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
-import frc.crescendo.FieldConstants;
+import frc.crescendo.Field;
 import frc.robot.Robot;
 import frc.robot.swerve.commands.SwerveCommands;
 import frc.robot.vision.Vision.CommandConfig;
@@ -36,7 +36,7 @@ public class AlignWithPose extends PIDCommand {
                 // The controller that the command will use
                 new PIDController(commandConfig.kp, 0, 0),
                 // This should return the measurement
-                () -> (Robot.swerve.getPose().getX() - FieldConstants.ampCenter.getX()),
+                () -> (Robot.swerve.getPose().getX() - Field.ampCenter.getX()),
                 // This should return the setpoint (can also be a constant)
                 () -> offset,
                 // This uses the output
@@ -106,10 +106,7 @@ public class AlignWithPose extends PIDCommand {
             out = 0;
         }
         System.out.println(
-                Robot.swerve.getPose().getY()
-                        - FieldConstants.ampCenter.getY()
-                        + " output: "
-                        + getOutput());
+                Robot.swerve.getPose().getY() - Field.ampCenter.getY() + " output: " + getOutput());
         driveCommand.execute();
     }
 

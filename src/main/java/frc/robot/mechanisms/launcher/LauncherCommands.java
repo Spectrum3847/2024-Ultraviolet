@@ -1,5 +1,6 @@
 package frc.robot.mechanisms.launcher;
 
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import frc.robot.Robot;
@@ -9,6 +10,13 @@ import frc.robot.leds.LEDsConfig.Section;
 public class LauncherCommands {
     private static LeftLauncher leftLauncher = Robot.leftLauncher;
     private static RightLauncher rightLauncher = Robot.rightLauncher;
+
+    public static final InterpolatingDoubleTreeMap DISTANCE_MAP = new InterpolatingDoubleTreeMap();
+
+    static {
+        DISTANCE_MAP.put(1.31, 4500.0);
+        DISTANCE_MAP.put(2.31, 5500.0);
+    }
 
     public static void setupDefaultCommand() {
         leftLauncher.setDefaultCommand(stopLeftMotor().withName("LeftLauncher.default"));

@@ -187,6 +187,19 @@ public class Swerve implements Subsystem {
         return drivetrain.getChassisSpeeds();
     }
 
+    /**
+     * Gets the robot's velocity.
+     *
+     * @param fieldRelative If the returned velocity should be field relative.
+     */
+    public ChassisSpeeds getVelocity(boolean fieldRelative) {
+        if (fieldRelative) {
+            return ChassisSpeeds.fromFieldRelativeSpeeds(getRobotRelativeSpeeds(), getRotation());
+        } else {
+            return getRobotRelativeSpeeds();
+        }
+    }
+
     public Rotation2d getRotation() {
         return getPose().getRotation();
     }

@@ -66,31 +66,11 @@ public class PilotCommands {
                 .withName("Swerve.aimToRedSpeaker");
     }
 
-    public static Command noteAimingDrive() {
-        return SwerveCommands.aimDrive(
-                        () -> pilot.getDriveFwdPositive(),
-                        () -> pilot.getDriveLeftPositive(),
-                        () -> (Units.degreesToRadians(Robot.vision.getOffsetToNote())),
-                        () -> pilot.getFieldOriented(), // true is field oriented
-                        () -> true)
-                .withName("Swerve.PilotNoteAimingDrive");
-    }
-
-    public static Command speakerAimingDrive() {
-        return SwerveCommands.aimDrive(
-                        () -> pilot.getDriveFwdPositive(),
-                        () -> pilot.getDriveLeftPositive(),
-                        () -> (Units.degreesToRadians(Robot.vision.getOffsetToSpeaker())),
-                        () -> pilot.getFieldOriented(), // true is field oriented
-                        () -> true)
-                .withName("Swerve.PilotSpeakerAimingDrive");
-    }
-
     public static Command podiumAimingDrive() {
         return SwerveCommands.aimDrive(
                         () -> pilot.getDriveFwdPositive(),
                         () -> pilot.getDriveLeftPositive(),
-                        () -> Units.degreesToRadians(Field.flipAngleIfBlue(26)),
+                        () -> Units.degreesToRadians(Field.flipAngleIfBlue(Field.podiumAimAngle)),
                         () -> pilot.getFieldOriented(), // true is field oriented
                         () -> true)
                 .withName("Swerve.PilotSpeakerAimingDrive");
@@ -100,7 +80,7 @@ public class PilotCommands {
         return SwerveCommands.aimDrive(
                         () -> pilot.getDriveFwdPositive(),
                         () -> pilot.getDriveLeftPositive(),
-                        () -> Units.degreesToRadians(Field.flipAngleIfBlue(-39)),
+                        () -> Units.degreesToRadians(Field.flipAngleIfBlue(Field.ampAimAngle)),
                         () -> pilot.getFieldOriented(), // true is field oriented
                         () -> true)
                 .withName("Swerve.PilotSpeakerAimingDrive");
@@ -110,7 +90,7 @@ public class PilotCommands {
         return SwerveCommands.aimDrive(
                         () -> pilot.getDriveFwdPositive(),
                         () -> pilot.getDriveLeftPositive(),
-                        () -> Units.degreesToRadians(Field.flipAngleIfBlue(0)),
+                        () -> Units.degreesToRadians(Field.flipAngleIfBlue(Field.ampWingAimAngle)),
                         () -> pilot.getFieldOriented(), // true is field oriented
                         () -> true)
                 .withName("Swerve.PilotSpeakerAimingDrive");

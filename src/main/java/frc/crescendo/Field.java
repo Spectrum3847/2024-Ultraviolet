@@ -9,6 +9,7 @@ package frc.crescendo;
 
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 
 /**
  * Contains various field dimensions and useful reference points. Dimensions are in meters, and sets
@@ -21,7 +22,13 @@ import edu.wpi.first.math.util.Units;
  * Length refers to the <i>x</i> direction (as described by wpilib) <br>
  * Width refers to the <i>y</i> direction (as described by wpilib)
  */
-public class FieldConstants {
+public class Field {
+
+    // Angles should be red launch angles in degrees
+    public static final double ampAimAngle = -39;
+    public static final double podiumAimAngle = 26;
+    public static final double ampWingAimAngle = 0;
+
     public static final double fieldLength = Units.inchesToMeters(651.223);
     public static final double fieldWidth = Units.inchesToMeters(323.277);
     public static final double wingX = Units.inchesToMeters(229.201);
@@ -86,6 +93,10 @@ public class FieldConstants {
         /** Center of the speaker opening (blue alliance) */
         public static final Translation3d centerSpeakerOpening =
                 bottomLeftSpeaker.interpolate(topRightSpeaker, 0.5);
+
+        public static final Pose2d centerSpeakerPose =
+                new Pose2d(
+                        centerSpeakerOpening.getX(), centerSpeakerOpening.getY(), new Rotation2d());
     }
 
     public static final class Subwoofer {
@@ -135,6 +146,56 @@ public class FieldConstants {
     }
 
     public static final double aprilTagWidth = Units.inchesToMeters(6.50);
+
+    /** Returns {@code true} if the robot is on the blue alliance. */
+    public static boolean isBlue() {
+        return DriverStation.getAlliance()
+                .orElse(DriverStation.Alliance.Blue)
+                .equals(DriverStation.Alliance.Blue);
+    }
+
+    /** Returns {@code true} if the robot is on the red alliance. */
+    public static boolean isRed() {
+        return !isBlue();
+    }
+
+    // Flip the angle if we are blue, as we are setting things for a red driver station angle
+    public static double flipAngleIfBlue(double redAngle) {
+        if (Field.isBlue()) {
+            return 180 - redAngle;
+        }
+        return redAngle;
+    }
+
+    public static Rotation2d flipAngleIfRed(Rotation2d blue) {
+        if (Field.isRed()) {
+            return new Rotation2d(-blue.getCos(), blue.getSin());
+        } else {
+            return blue;
+        }
+    }
+
+    public static Pose2d flipXifRed(Pose2d blue) {
+        return new Pose2d(
+                flipXifRed(blue.getX()), blue.getTranslation().getY(), blue.getRotation());
+    }
+
+    public static Translation2d flipXifRed(Translation2d blue) {
+        return new Translation2d(flipXifRed(blue.getX()), blue.getY());
+    }
+
+    public static Translation3d flipXifRed(Translation3d blue) {
+        return new Translation3d(flipXifRed(blue.getX()), blue.getY(), blue.getZ());
+    }
+
+    // If we are red flip the x pose to the other side of the field
+    public static double flipXifRed(double xCoordinate) {
+        if (Field.isRed()) {
+            return Field.fieldLength - xCoordinate;
+        }
+        return xCoordinate;
+    }
+
     // public static final AprilTagFieldLayout aprilTags;
 
     // static {

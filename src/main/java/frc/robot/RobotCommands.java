@@ -19,7 +19,8 @@ import frc.robot.vision.VisionCommands;
  */
 public class RobotCommands {
 
-    // Run the intake for at least 0.4 seconds OR until the lasercan sees the note, (also get pivot
+    // Run the intake for at least 0.4 seconds OR until the lasercan sees the note,
+    // (also get pivot
     // to a good position if it's
     // too low, and stop it when intaking is done), then rumble and blink
     public static Command smartIntake() {

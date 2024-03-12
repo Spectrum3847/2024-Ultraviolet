@@ -1,41 +1,40 @@
 package frc.robot.vision;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.interpolation.InterpolatingTreeMap;
-import edu.wpi.first.math.interpolation.Interpolator;
-import edu.wpi.first.math.interpolation.InverseInterpolator;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.crescendo.FieldConstants;
+import frc.crescendo.Field;
 import frc.robot.Robot;
+import frc.robot.RobotTelemetry;
 import frc.spectrumLib.vision.Limelight;
 import frc.spectrumLib.vision.Limelight.PhysicalConfig;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.littletonrobotics.junction.AutoLogOutput;
 
 public class Vision extends SubsystemBase {
     public static final class VisionConfig {
         /* Limelight Configuration */
-        public static final String NOTE_LL =
-                "limelight-detect"; // TODO: change this name in LL dashboard to reflect name in
+        public static final String REAR_LL = "limelight-rear";
         // code
-        public static final PhysicalConfig NOTE_CONFIG =
-                new PhysicalConfig().withTranslation(0, 0, 0).withRotation(0, 0, 0);
+        public static final PhysicalConfig REAR_CONFIG =
+                new PhysicalConfig().withTranslation(-0.296, 0, 0.226).withRotation(50, 0, 180);
 
-        public static final String SPEAKER_LL =
-                "limelight-aim"; // TODO: change this name in LL dashboard to reflect name in code
+        public static final String SPEAKER_LL = "limelight-aim";
         public static final PhysicalConfig SPEAKER_CONFIG =
-                new PhysicalConfig().withTranslation(-0.051, 0, 0.69).withRotation(0, 0, 0);
+                new PhysicalConfig().withTranslation(-0.085, 0, 0.636).withRotation(15, 0, 0);
 
         /* Pipeline config */
-        public static final int noteDetectorPipeline = 0;
+        public static final int rearDetectorPipeline = 0;
         public static final int speakerDetectorPipeline = 0;
 
         /* AprilTag Heights (meters) */
@@ -53,21 +52,6 @@ public class Vision extends SubsystemBase {
                 VecBuilder.fill(VISION_STD_DEV_X, VISION_STD_DEV_Y, VISION_STD_DEV_THETA);
 
         /* Vision Command Configs */
-        public static final class AlignToNote extends CommandConfig {
-            private AlignToNote() {
-                configKp(0.04);
-                configTolerance(0.01);
-                configMaxOutput(Robot.swerve.config.maxVelocity * 0.5);
-                configError(0.3);
-                configPipelineIndex(noteDetectorPipeline);
-                configLimelight(Robot.vision.noteLL);
-            }
-
-            public static AlignToNote getConfig() {
-                return new AlignToNote();
-            }
-        }
-
         public static final class AlignToSpeaker extends CommandConfig {
             private AlignToSpeaker() {
                 configKp(0.04);
@@ -90,7 +74,7 @@ public class Vision extends SubsystemBase {
                 configMaxOutput(Robot.swerve.config.maxVelocity * 0.5);
                 configError(0.3);
                 configPipelineIndex(speakerDetectorPipeline);
-                configLimelight(Robot.vision.speakerLL);
+                configLimelight(Robot.vision.rearLL);
             }
 
             public static AlignToAmp getConfig() {
@@ -105,105 +89,129 @@ public class Vision extends SubsystemBase {
                 configMaxOutput(Robot.swerve.config.maxVelocity * 0.5);
                 configError(0.3);
                 configPipelineIndex(speakerDetectorPipeline);
-                configLimelight(Robot.vision.noteLL);
+                configLimelight(Robot.vision.rearLL);
             }
 
             public static AlignToStage getConfig() {
                 return new AlignToStage();
             }
         }
-
-        public static final class DriveToNote extends CommandConfig {
-            private DriveToNote() {
-                configKp(0.3);
-                configTolerance(0.05);
-                configMaxOutput(Robot.swerve.config.maxVelocity * 0.5);
-                configVerticalSetpoint(-8);
-                configVerticalMaxView(6);
-                configLimelight(Robot.vision.noteLL);
-                configAlignCommand(AlignToNote.getConfig());
-            }
-
-            public static DriveToNote getConfig() {
-                return new DriveToNote();
-            }
-        }
     }
 
     /* Limelights */
-    public final Limelight noteLL =
+    public final Limelight rearLL =
             new Limelight(
-                    VisionConfig.NOTE_LL,
-                    VisionConfig.noteDetectorPipeline,
-                    VisionConfig.NOTE_CONFIG);
+                    VisionConfig.REAR_LL,
+                    VisionConfig.rearDetectorPipeline,
+                    VisionConfig.REAR_CONFIG);
     public final Limelight speakerLL =
             new Limelight(
                     VisionConfig.SPEAKER_LL,
                     VisionConfig.speakerDetectorPipeline,
                     VisionConfig.SPEAKER_CONFIG);
 
-    /* Interpolator */
-    public InterpolatingTreeMap<Double, Double> treeMap =
-            new InterpolatingTreeMap<>(InverseInterpolator.forDouble(), Interpolator.forDouble());
-
     @AutoLogOutput(key = "Vision/integratingPose")
     public static boolean isPresent = false;
 
     public Vision() {
         setName("Vision");
-        addTreeMapData();
 
         SmartDashboard.putBoolean("VisionPresent", Vision.isPresent);
 
         /* Configure Limelight Settings Here */
         speakerLL.setLEDMode(false);
+        rearLL.setLEDMode(false);
     }
 
     @Override
     public void periodic() {
         // Integrate Vision with Odometry
-        // if (getVisionPose().isPresent()) {
-        //     try {
-        //         isPresent = true;
-        //         // force pose to be vision
-        //         if ((Robot.swerve.getPose().getX() <= 0 || Robot.swerve.getPose().getY() <= 0)) {
-        //             resetPoseWithVision();
-        //         }
+        if (getVisionPose().isPresent()) {
+            try {
+                isPresent = true;
+                // force pose to be vision
+                if ((Robot.swerve.getPose().getX() <= 0 || Robot.swerve.getPose().getY() <= 0)) {
+                    resetPoseWithVision();
+                }
 
-        //         // integrate vision
-        //         Pose2d botpose = getVisionPose().get();
-        //         Pose2d poseWithGyro = Robot.swerve.convertPoseWithGyro(botpose);
-        //         Robot.swerve.addVisionMeasurement(poseWithGyro, getVisionPoseTimestamp());
-        //         // RobotTelemetry.print("added vision measurement");
-        //     } catch (NoSuchElementException e) {
-        //         RobotTelemetry.print("Vision pose not present but tried to access it");
-        //     }
-        // } else {
-        //     isPresent = false;
-        // }
+                // integrate vision
+                Pose2d botpose = getVisionPose().get();
+                Pose2d poseWithGyro = Robot.swerve.convertPoseWithGyro(botpose);
+                Robot.swerve.addVisionMeasurement(poseWithGyro, getVisionPoseTimestamp());
+                // RobotTelemetry.print("added vision measurement");
+            } catch (NoSuchElementException e) {
+                RobotTelemetry.print("Vision pose not present but tried to access it");
+            }
+        } else {
+            isPresent = false;
+        }
     }
 
     /**
      * REQUIRES ACCURATE POSE ESTIMATION. Uses trigonometric functions to calculate the angle
-     * between the robot heading and the angle required to face the hybrid spot. Will return 0 if
-     * the robot cannot see an apriltag.
+     * between the robot heading and the angle required to face the speaker center.
      *
-     * @param hybridSpot 0-8 representing the 9 different hybrid spots for launching cubes to hybrid
-     *     nodes
-     * @return angle between robot heading and hybrid spot in degrees
+     * @return angle between robot heading and speaker in degrees
      */
     public double getThetaToSpeaker() {
-        Translation2d redSpeaker =
-                new Translation2d(
-                        FieldConstants.fieldLength
-                                - FieldConstants.Speaker.centerSpeakerOpening
-                                        .toTranslation2d()
-                                        .getX(),
-                        FieldConstants.Speaker.centerSpeakerOpening.toTranslation2d().getY());
-        double angleBetweenRobotAndSpeakers =
-                redSpeaker.minus(Robot.swerve.getPose().getTranslation()).getAngle().getRadians();
+        Translation2d speaker =
+                Field.flipXifRed(Field.Speaker.centerSpeakerOpening).toTranslation2d();
+        Translation2d robotXY = Robot.swerve.getPose().getTranslation();
+        double angleBetweenRobotAndSpeaker =
+                MathUtil.angleModulus(speaker.minus(robotXY).getAngle().getRadians());
 
-        return angleBetweenRobotAndSpeakers;
+        return angleBetweenRobotAndSpeaker;
+    }
+
+    /** Returns the distance from the speaker in meters, adjusted for the robot's movement. */
+    public double getSpeakerDistance() {
+        return Robot.swerve.getPose().getTranslation().getDistance(getAdjustedSpeakerPos());
+    }
+
+    /**
+     * Gets a field-relative position for the shot to the speaker the robot should take, adjusted
+     * for the robot's movement.
+     *
+     * @return A {@link Translation2d} representing a field relative position in meters.
+     */
+    public Translation2d getAdjustedSpeakerPos() {
+        double NORM_FUDGE = 0.075;
+        double tunableNoteVelocity = 5.6;
+        double tunableNormFudge = 0.52;
+        double tunableStrafeFudge = 0.85;
+        double tunableSpeakerYFudge = 0.0;
+        double tunableSpeakerXFudge = 0.0;
+
+        Translation2d goalPose = Field.flipXifRed(Field.Speaker.centerSpeakerPose).getTranslation();
+        Translation2d robotPos = Robot.swerve.getPose().getTranslation();
+        ChassisSpeeds robotVel = Robot.swerve.getVelocity(true);
+
+        double distance = robotPos.getDistance(goalPose);
+        double normFactor =
+                Math.hypot(robotVel.vxMetersPerSecond, robotVel.vyMetersPerSecond) < NORM_FUDGE
+                        ? 0.0
+                        : Math.abs(
+                                MathUtil.angleModulus(
+                                                robotPos.minus(goalPose).getAngle().getRadians()
+                                                        - Math.atan2(
+                                                                robotVel.vyMetersPerSecond,
+                                                                robotVel.vxMetersPerSecond))
+                                        / Math.PI);
+
+        double x =
+                goalPose.getX()
+                        + (Field.isBlue() ? tunableSpeakerXFudge : -tunableSpeakerXFudge)
+                        - (robotVel.vxMetersPerSecond
+                                * (distance / tunableNoteVelocity)
+                                * (1.0 - (tunableNormFudge * normFactor)));
+        double y =
+                goalPose.getY()
+                        + tunableSpeakerYFudge
+                        - (robotVel.vyMetersPerSecond
+                                * (distance / tunableNoteVelocity)
+                                * tunableStrafeFudge);
+
+        return new Translation2d(x, y);
     }
 
     public Optional<Pose2d> getVisionPose() {
@@ -231,39 +239,6 @@ public class Vision extends SubsystemBase {
         Robot.swerve.resetPose(
                 Robot.swerve.convertPoseWithGyro(speakerLL.getAlliancePose().toPose2d()));
     }
-    /**
-     * Calculates the required rotation for the robot to align with a note, based on the current
-     * orientation of the robot and the note's positional offset from the camera's center. The
-     * result is the angle in degrees that the robot needs to turn to face the note directly.
-     *
-     * @return The angle in degrees to rotate the robot towards the note.
-     */
-    public double getOffsetToNote() {
-        return Robot.swerve.getRotation().getDegrees() + noteLL.getHorizontalOffset();
-    }
-
-    /**
-     * Calculates the required rotation for the robot to align with the speaker, based on the
-     * current orientation of the robot and the speaker's positional offset from the camera's
-     * center. The result is the angle in degrees that the robot needs to turn to face the speaker
-     * directly.
-     *
-     * @return The angle in degrees to rotate the robot towards the speaker.
-     */
-    public double getOffsetToSpeaker() {
-        return Robot.swerve.getRotation().getDegrees()
-                - ((speakerLL.getClosestTagID() == VisionConfig.speakerTagID)
-                        ? speakerLL.getHorizontalOffset()
-                        : 0);
-    }
-
-    public double getDistanceToSpeaker() {
-        return speakerLL.getDistanceToTarget(VisionConfig.speakerTagHeight);
-    }
-
-    public boolean noteInView() {
-        return noteLL.targetInView();
-    }
 
     public boolean speakerInView() {
         return speakerLL.targetInView();
@@ -271,7 +246,7 @@ public class Vision extends SubsystemBase {
 
     /** Change both LL pipelines to the same pipeline */
     public void setLimelightPipelines(int pipeline) {
-        noteLL.setLimelightPipeline(pipeline);
+        rearLL.setLimelightPipeline(pipeline);
         speakerLL.setLimelightPipeline(pipeline);
     }
 
@@ -279,30 +254,14 @@ public class Vision extends SubsystemBase {
     public Command blinkLimelights() {
         return startEnd(
                         () -> {
-                            noteLL.blinkLEDs();
+                            rearLL.blinkLEDs();
                             speakerLL.blinkLEDs();
                         },
                         () -> {
-                            noteLL.setLEDMode(false);
+                            rearLL.setLEDMode(false);
                             speakerLL.setLEDMode(false);
                         })
                 .withName("Vision.blinkLimelights");
-    }
-
-    /**
-     * Interpolates a pivot angle from the treemap based on how far the robot is away from the
-     * speaker.
-     *
-     * @return
-     */
-    public double getAngleFromMap() {
-        return treeMap.get(
-                Robot.swerve.getPose().getY()); // TODO: change this to be relative from the speaker
-    }
-
-    /** Tree Map Data: key - distance (meters), value - pivot angle (degrees) */
-    public void addTreeMapData() {
-        treeMap.put(0.0, 0.0);
     }
 
     public static class CommandConfig {

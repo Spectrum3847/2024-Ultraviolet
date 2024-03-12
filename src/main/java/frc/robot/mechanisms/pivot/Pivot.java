@@ -1,6 +1,7 @@
 package frc.robot.mechanisms.pivot;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
@@ -39,6 +40,15 @@ public class Pivot extends Mechanism {
         public double velocityKp = 0.8;
         public double velocityKv = 0.013;
         public double velocityKs = 0;
+
+        // TreeMap - Shooting position lookup table
+        public static final InterpolatingDoubleTreeMap DISTANCE_MAP =
+                new InterpolatingDoubleTreeMap();
+
+        static {
+            DISTANCE_MAP.put(1.31, 80.5);
+            DISTANCE_MAP.put(2.31, 55.0);
+        }
 
         public PivotConfig() {
             super("Pivot", 41, "3847");

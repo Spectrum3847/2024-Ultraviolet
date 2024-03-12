@@ -13,7 +13,7 @@ public class LeftLauncher extends Mechanism {
     public class LeftLauncherConfig extends Config {
 
         /* Revolutions per min LeftLauncher Output */
-        public double maxSpeed = 5000;
+        public double maxSpeed = 5600;
         public double launch = 4000;
         public double testVelocity = 4500;
         public double subwoofer = 4500;
