@@ -130,14 +130,28 @@ public class Vision extends SubsystemBase {
             try {
                 isPresent = true;
                 // force pose to be vision
-                if ((Robot.swerve.getPose().getX() <= 0 || Robot.swerve.getPose().getY() <= 0)) {
+                if ((Robot.swerve.getPose().getX() <= 0.1 || Robot.swerve.getPose().getY() <= 0.1)) {
                     resetPoseWithVision();
                 }
 
                 // integrate vision
                 Pose2d botpose = getVisionPose().get();
                 Pose2d poseWithGyro = Robot.swerve.convertPoseWithGyro(botpose);
-                Robot.swerve.addVisionMeasurement(poseWithGyro, getVisionPoseTimestamp());
+
+                // distance from current pose to vision estimated pose
+                double poseDifference = Robot.swerve.getPose().getTranslation()
+                            .getDistance(poseWithGyro.getTranslation());
+                
+                if (speakerLL.multipleTagsInView()){
+                    Robot.swerve.addVisionMeasurement(poseWithGyro, getVisionPoseTimestamp());
+                } else if (speakerLL.getTargetSize() > 0.8 && poseDifference < 0.5) {
+                    Robot.swerve.addVisionMeasurement(poseWithGyro, getVisionPoseTimestamp());
+                } else if (poseDifference < 0.3) {
+                    Robot.swerve.addVisionMeasurement(poseWithGyro, getVisionPoseTimestamp());
+                } else {
+                    RobotTelemetry.print("Vision pose rejected");
+                }
+
                 // RobotTelemetry.print("added vision measurement");
             } catch (NoSuchElementException e) {
                 RobotTelemetry.print("Vision pose not present but tried to access it");
