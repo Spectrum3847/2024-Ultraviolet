@@ -81,6 +81,10 @@ public class Limelight {
         return LimelightHelpers.getFiducialID(CAMERA_NAME);
     }
 
+    public double getTargetSize() {
+        return LimelightHelpers.getTA(CAMERA_NAME);
+    }
+
     /* ::: Pose Retrieval ::: */
 
     /** @return the corresponding LL Pose3d for the alliance in DriverStation.java */

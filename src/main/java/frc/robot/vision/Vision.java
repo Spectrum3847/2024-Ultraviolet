@@ -126,31 +126,17 @@ public class Vision extends SubsystemBase {
     @Override
     public void periodic() {
         // Integrate Vision with Odometry
-        if (getVisionPose().isPresent()) {
+        if (getVisionPose(speakerLL).isPresent() || getVisionPose(rearLL).isPresent()) {
             try {
                 isPresent = true;
                 // force pose to be vision
-                if ((Robot.swerve.getPose().getX() <= 0.1 || Robot.swerve.getPose().getY() <= 0.1)) {
+                if ((Robot.swerve.getPose().getX() <= 0.1
+                        || Robot.swerve.getPose().getY() <= 0.1)) {
                     resetPoseWithVision();
                 }
 
-                // integrate vision
-                Pose2d botpose = getVisionPose().get();
-                Pose2d poseWithGyro = Robot.swerve.convertPoseWithGyro(botpose);
-
-                // distance from current pose to vision estimated pose
-                double poseDifference = Robot.swerve.getPose().getTranslation()
-                            .getDistance(poseWithGyro.getTranslation());
-                
-                if (speakerLL.multipleTagsInView()){
-                    Robot.swerve.addVisionMeasurement(poseWithGyro, getVisionPoseTimestamp());
-                } else if (speakerLL.getTargetSize() > 0.8 && poseDifference < 0.5) {
-                    Robot.swerve.addVisionMeasurement(poseWithGyro, getVisionPoseTimestamp());
-                } else if (poseDifference < 0.3) {
-                    Robot.swerve.addVisionMeasurement(poseWithGyro, getVisionPoseTimestamp());
-                } else {
-                    RobotTelemetry.print("Vision pose rejected");
-                }
+                filterAndAddVisionMeasurment(speakerLL);
+                filterAndAddVisionMeasurment(rearLL);
 
                 // RobotTelemetry.print("added vision measurement");
             } catch (NoSuchElementException e) {
@@ -158,6 +144,34 @@ public class Vision extends SubsystemBase {
             }
         } else {
             isPresent = false;
+        }
+    }
+
+    protected void filterAndAddVisionMeasurment(Limelight ll) {
+        // integrate vision
+        if (ll.targetInView()) {
+            Pose2d botpose = ll.getAlliancePose().toPose2d();
+            Pose2d poseWithGyro = Robot.swerve.convertPoseWithGyro(botpose);
+
+            // distance from current pose to vision estimated pose
+            double poseDifference =
+                    Robot.swerve
+                            .getPose()
+                            .getTranslation()
+                            .getDistance(poseWithGyro.getTranslation());
+
+            if (ll.multipleTagsInView()) {
+                Robot.swerve.addVisionMeasurement(poseWithGyro, getVisionPoseTimestamp(ll));
+            } else if (ll.getTargetSize() > 0.8 && poseDifference < 0.5) {
+                Robot.swerve.addVisionMeasurement(poseWithGyro, getVisionPoseTimestamp(ll));
+            } else if (poseDifference < 0.3) {
+                Robot.swerve.addVisionMeasurement(poseWithGyro, getVisionPoseTimestamp(ll));
+            } else {
+                RobotTelemetry.print("Vision pose rejected");
+            }
+
+        } else {
+            return;
         }
     }
 
@@ -229,11 +243,11 @@ public class Vision extends SubsystemBase {
         return new Translation2d(x, y);
     }
 
-    public Optional<Pose2d> getVisionPose() {
-        Pose2d visionPose = speakerLL.getAlliancePose().toPose2d();
+    public Optional<Pose2d> getVisionPose(Limelight ll) {
+        Pose2d visionPose = ll.getAlliancePose().toPose2d();
 
         // if no camera or no target in view, return empty
-        if (!speakerLL.isCameraConnected() || !speakerLL.targetInView()) return Optional.empty();
+        if (!ll.isCameraConnected() || !ll.targetInView()) return Optional.empty();
         // if vision pose is too far off current, ignore it
         if (Robot.swerve.getPose().getTranslation().getDistance(visionPose.getTranslation())
                         < VisionConfig.VISION_REJECT_DISTANCE
@@ -244,8 +258,8 @@ public class Vision extends SubsystemBase {
         return Optional.empty();
     }
 
-    public double getVisionPoseTimestamp() {
-        return Timer.getFPGATimestamp() - speakerLL.getPoseLatency();
+    public double getVisionPoseTimestamp(Limelight ll) {
+        return Timer.getFPGATimestamp() - ll.getPoseLatency();
     }
 
     // we are resetting gyro angle as well?
