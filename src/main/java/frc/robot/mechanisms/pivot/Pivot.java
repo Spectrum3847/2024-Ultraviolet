@@ -47,8 +47,8 @@ public class Pivot extends Mechanism {
 
         static {
             DISTANCE_MAP.put(1.35, 80.5);
-            DISTANCE_MAP.put(2.31, 55.0);
-            DISTANCE_MAP.put(4.79, 42.0);
+            DISTANCE_MAP.put(2.31, 57.0);
+            DISTANCE_MAP.put(4.79, 43.0);
         }
 
         public PivotConfig() {
