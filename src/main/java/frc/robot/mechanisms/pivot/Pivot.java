@@ -18,7 +18,7 @@ public class Pivot extends Mechanism {
         /* Pivot positions in percentage of max rotation || 0 is horizontal */
         public final int score = 65;
         public final int halfScore = 50;
-        public final int test = 65;
+        public final int test = 36;
         public final int home = 0;
         public final int subwoofer = 10;
         public final int podium = 36;
@@ -27,7 +27,7 @@ public class Pivot extends Mechanism {
         public final int autoLaunch2 =
                 27; // works for GP2/GP3/GP5/GP6 in Front 5 and GP2/GP4/5 in Front 5 Alt
         public final int autoLaunch3 = 36; // works for GP4 in Front 5 and GP3 in Front 5 Alt
-        public final int climb = 120;
+        public final int climb = 130; // 120
 
         public final double zeroSpeed = -0.2;
 
@@ -47,13 +47,13 @@ public class Pivot extends Mechanism {
             configNeutralBrakeMode(true);
             configClockwise_Positive(); // TODO: configure
             configReverseSoftLimit(minRotation, true);
-            configForwardSoftLimit(maxRotation + 20.0, true);
+            configForwardSoftLimit(maxRotation + 30.0, true); // + 20
             configMotionMagic(100, 205, 0);
         }
     }
 
     public PivotConfig config;
-
+    //
     public Pivot(boolean attached) {
         super(attached);
         if (attached) {

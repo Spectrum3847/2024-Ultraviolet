@@ -39,6 +39,8 @@ public class LaunchTest extends Command {
     public void execute() {
         leftLauncher.setVelocityTorqueCurrentFOC(Conversions.RPMtoRPS(leftLaunchSpeed));
         rightLauncher.setVelocityTorqueCurrentFOC(Conversions.RPMtoRPS(rightLaunchSpeed));
+        LauncherCommands.sendLauncherFeedback(
+                leftLauncher.config.testVelocity, rightLauncher.config.testVelocity);
 
         if (!rumblePilot
                 && ((leftLauncher.getMotorVelocityInRPM() >= leftLaunchSpeed - 200)

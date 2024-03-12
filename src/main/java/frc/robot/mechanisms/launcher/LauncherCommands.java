@@ -1,7 +1,9 @@
 package frc.robot.mechanisms.launcher;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import frc.robot.Robot;
+import frc.robot.pilot.PilotCommands;
 
 // TODO: the usage will slightly change later
 public class LauncherCommands {
@@ -85,6 +87,21 @@ public class LauncherCommands {
                 .runPercentage(leftPercentage)
                 .alongWith(rightLauncher.runPercentage(rightPercentage))
                 .withName("Launcher.runLauncherPercentages");
+    }
+
+    public static Command sendLauncherFeedback(double leftVelocity, double rightVelocity) {
+        return new FunctionalCommand(
+                () -> {},
+                () -> {
+                    if (leftLauncher.getMotorVelocityInRPM() >= leftVelocity - 50
+                            || rightLauncher.getMotorVelocityInRPM() >= rightVelocity - 50) {
+                        PilotCommands.rumble(2.0, 1.0);
+                    }
+                },
+                (b) -> {
+                    PilotCommands.rumble(0, 0);
+                },
+                () -> false);
     }
 
     /* Launcher Specific Commands */

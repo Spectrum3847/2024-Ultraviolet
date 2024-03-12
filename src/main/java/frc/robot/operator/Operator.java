@@ -26,10 +26,10 @@ public class Operator extends Gamepad {
 
         // controller.a().and(noBumpers()).whileTrue(LauncherCommands.runOnDemandVelocity());
 
-        controller.a().and(noBumpers()).whileTrue(RobotCommands.subwooferReady());
+        controller.b().and(noBumpers()).whileTrue(RobotCommands.subwooferReady());
 
         controller
-                .a()
+                .b()
                 .and(leftBumperOnly())
                 .whileTrue(
                         RobotCommands.podiumReady()); // changed onTrue to whileTrue if that breaks
