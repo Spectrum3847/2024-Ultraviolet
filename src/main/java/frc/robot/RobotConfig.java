@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -95,8 +96,11 @@ public final class RobotConfig {
             robotType = RobotType.MUSICDISC;
             RobotTelemetry.print("Robot Type: MUSICDISC");
         } else {
-            robotType = RobotType.ALPHA;
-            RobotTelemetry.print("Robot Type: ALPHA 2024");
+            robotType = RobotType.ULTRAVIOLET;
+            DriverStation.reportError(
+                    "Could not match rio to robot config; defaulting to ULTRAVIOLET robot config",
+                    false);
+            RobotTelemetry.print("Robot Type: ULTRAVIOLET 2024");
         }
         return robotType;
     }
