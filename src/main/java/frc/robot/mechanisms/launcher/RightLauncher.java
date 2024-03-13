@@ -14,7 +14,7 @@ public class RightLauncher extends Mechanism {
     public class RightLauncherConfig extends Config {
 
         /* Revolutions per min RightLauncher Output */
-        public double maxSpeed = 5000;
+        public double maxSpeed = 5600;
         public double launch = 4000;
         public double testVelocity = 4500;
         public double subwoofer = 4500;

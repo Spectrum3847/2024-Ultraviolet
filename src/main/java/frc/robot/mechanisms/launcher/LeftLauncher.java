@@ -80,7 +80,7 @@ public class LeftLauncher extends Mechanism {
      * @param percent
      * @return
      */
-    public Command runVelocityTorqueCurrentFOC(double velocity) {
+    public Command runVelocityTCFOC(double velocity) {
         return run(() -> setVelocityTorqueCurrentFOC(Conversions.RPMtoRPS(velocity)))
                 .withName("LeftLauncher.runVelocityFOC");
     }
