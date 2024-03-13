@@ -125,6 +125,8 @@ public class Vision extends SubsystemBase {
     @Override
     public void periodic() {
         try {
+            //Will run in auto
+
             isPresent = true;
             // force pose to be vision
             Pose2d estimatedPose = Robot.swerve.getPose();
