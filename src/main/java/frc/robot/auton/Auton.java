@@ -17,7 +17,6 @@ import frc.robot.mechanisms.feeder.FeederCommands;
 import frc.robot.mechanisms.intake.IntakeCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.mechanisms.pivot.PivotCommands;
-import frc.robot.swerve.commands.SwerveCommands;
 
 public class Auton extends SubsystemBase {
     public static final SendableChooser<Command> autonChooser = new SendableChooser<>();
@@ -28,29 +27,15 @@ public class Auton extends SubsystemBase {
 
     // A chooser for autonomous commands
     public static void setupSelectors() {
-        // autonChooser.setDefaultOption("4 Piece Middle", new PathPlannerAuto("4 Piece Middle"));
-        // autonChooser.addOption("4 Piece Front", new PathPlannerAuto("4 Piece Front"));
-
-        // autonChooser.addOption(
-        //         "Example Path", FollowSinglePath.getSinglePath("Example Path")); // Runs single
-        // Path
+        // Config Autos
         autonChooser.addOption("1 Meter", new PathPlannerAuto("1 Meter Auto")); // Runs full Auto
         autonChooser.addOption("3 Meter", new PathPlannerAuto("3 Meter Auto")); // Runs full Auto
         autonChooser.addOption("5 Meter", new PathPlannerAuto("5 Meter Auto")); // Runs full Auto
 
-        autonChooser.addOption(
-                "Test Front 5", new PathPlannerAuto("Test Front 5")); // Runs full Auto
-        autonChooser.addOption(
-                "Test Front Alt 5", new PathPlannerAuto("Test Front Alt 5")); // Runs full Auto
-
-        autonChooser.addOption(
-                "Test Swerve",
-                SwerveCommands.Drive(
-                        () -> 0.1,
-                        () -> 0,
-                        () -> 1,
-                        () -> true, // true is field oriented
-                        () -> true)); // Runs full Auto
+        // Competition Autos
+        autonChooser.addOption("Front 5", new PathPlannerAuto("Front 5")); // Runs full Auto
+        autonChooser.addOption("Front Alt 5", new PathPlannerAuto("Front Alt 5")); // Runs full Auto
+        autonChooser.addOption("Subwoofer", new PathPlannerAuto("Subwoofer")); // Runs full Auto
 
         SmartDashboard.putData("Auto Chooser", autonChooser);
     }
@@ -60,11 +45,12 @@ public class Auton extends SubsystemBase {
         // Register Named Commands
         NamedCommands.registerCommand("alignToSpeaker", AutonCommands.trackSpeaker());
         NamedCommands.registerCommand("alignToNote", AutonCommands.trackNote());
-        NamedCommands.registerCommand("launchReadyPreload", AutonCommands.launchReadyPreload());
+        NamedCommands.registerCommand("launchReadySubwoofer", AutonCommands.launchReadySubwoofer());
+        NamedCommands.registerCommand("launchReady1", AutonCommands.launchReady1());
         NamedCommands.registerCommand("launchReady2", AutonCommands.launchReady2());
         NamedCommands.registerCommand("launchReady3", AutonCommands.launchReady3());
-        NamedCommands.registerCommand("smartIntake", new PrintCommand("THIS DOES NOT EXIST"));
-        NamedCommands.registerCommand("launch", FeederCommands.runFull().withTimeout(0.3));
+        NamedCommands.registerCommand("launch", AutonCommands.launch());
+        NamedCommands.registerCommand("smartIntake", AutonCommands.intake());
 
         /* Stop Commands */
         NamedCommands.registerCommand("stopTracking", AutonCommands.stopTracking());

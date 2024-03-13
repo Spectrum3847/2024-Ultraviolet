@@ -102,13 +102,24 @@ public class Swerve implements Subsystem {
         // Log Vision Pose
         if (Robot.isReal()) {
             Logger.recordOutput(
-                    "Vision/Speaker/Pose", Robot.vision.speakerLL.getAlliancePose().toPose2d());
+                    "Vision/Front/Pose",
+                    convertPoseWithGyro(Robot.vision.speakerLL.getRawPose3d().toPose2d()));
             Logger.recordOutput(
-                    "Vision/Speaker/PoseX",
-                    Robot.vision.speakerLL.getAlliancePose().toPose2d().getX());
+                    "Vision/Front/PoseX", Robot.vision.speakerLL.getRawPose3d().toPose2d().getX());
             Logger.recordOutput(
-                    "Vision/Speaker/PoseY",
-                    Robot.vision.speakerLL.getAlliancePose().toPose2d().getY());
+                    "Vision/Front/PoseY", Robot.vision.speakerLL.getRawPose3d().toPose2d().getY());
+            Logger.recordOutput(
+                    "Vision/Front/TagDistance",
+                    Robot.vision.speakerLL.getDistanceToTagFromCamera());
+
+            Logger.recordOutput(
+                    "Vision/Rear/Pose",
+                    convertPoseWithGyro(Robot.vision.noteLL.getRawPose3d().toPose2d()));
+            Logger.recordOutput(
+                    "Vision/Rear/PoseX", Robot.vision.noteLL.getRawPose3d().toPose2d().getX());
+            Logger.recordOutput("Vision/Rear/PoseY", Robot.vision.noteLL.getRawPose3d().getY());
+            Logger.recordOutput(
+                    "Vision/Rear/TagDistance", Robot.vision.noteLL.getDistanceToTagFromCamera());
         }
     }
 

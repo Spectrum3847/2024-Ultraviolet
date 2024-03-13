@@ -11,10 +11,10 @@ import frc.spectrumLib.swerve.config.SwerveConfig;
 public class ULTRAVIOLET2024 {
 
     // Angle Offsets: from cancoder Absolute Position No Offset, opposite sign
-    private static final double kFrontLeftCANcoderOffset = 0.044189;
-    private static final double kFrontRightCANncoderOffset = 0.219238;
-    private static final double kBackLeftCANcoderOffset = -0.296875; // -0.358643;
-    private static final double kBackRightCANcoderOffset = -0.287842; // -0.286133;
+    private static final double kFrontLeftCANcoderOffset = 0.044434;
+    private static final double kFrontRightCANncoderOffset = 0.227295;
+    private static final double kBackLeftCANcoderOffset = -0.297607; // -0.358643;
+    private static final double kBackRightCANcoderOffset = -0.289307; // -0.286133;
 
     // Physical Config
     private static final double frontWheelBaseInches = 11.875;
@@ -26,7 +26,7 @@ public class ULTRAVIOLET2024 {
 
     // Tuning Config
     // Estimated at first, then fudge-factored to make odom match record
-    private static final double kWheelRadiusInches = 3.7937 / 2; // Updated for VexIQ Pro Wheels
+    private static final double kWheelRadiusInches = 3.815 / 2; // Updated for VexIQ Pro Wheels
     private static final double speedAt12VoltsMps = 6;
 
     private static final double slipCurrent = 80;

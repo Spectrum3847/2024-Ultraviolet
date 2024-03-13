@@ -3,29 +3,61 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.89,
-        "y": 5.55
+        "x": 1.35,
+        "y": 5.551362870733224
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9999999999999996,
-        "y": 5.55
+        "x": 1.9031647417831787,
+        "y": 5.195486536903849
       },
       "isLocked": false,
-      "linkedName": "GP 1 - Test Front"
+      "linkedName": "Subwoofer"
     },
     {
       "anchor": {
-        "x": 2.8,
-        "y": 5.55
+        "x": 2.05,
+        "y": 4.45
       },
       "prevControl": {
-        "x": 2.7000000000000006,
-        "y": 5.55
+        "x": 2.05,
+        "y": 4.829795484960576
+      },
+      "nextControl": {
+        "x": 2.05,
+        "y": 4.179114030553539
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.6303902935214665,
+        "y": 4.1046482092964185
+      },
+      "prevControl": {
+        "x": 2.3277777042012286,
+        "y": 4.1046482092964185
+      },
+      "nextControl": {
+        "x": 2.77920372742338,
+        "y": 4.1046482092964185
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.35,
+        "y": 5.551362870733224
+      },
+      "prevControl": {
+        "x": 1.7561723430275673,
+        "y": 5.2419051891424635
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "GP 2 - Test Front"
+      "linkedName": "Subwoofer"
     }
   ],
   "rotationTargets": [],
@@ -49,18 +81,12 @@
       }
     },
     {
-      "name": "LaunchReady",
+      "name": "StopFeeder",
       "waypointRelativePos": 0,
       "command": {
         "type": "parallel",
         "data": {
           "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "launchReady2"
-              }
-            },
             {
               "type": "named",
               "data": {
@@ -84,7 +110,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Front Paths",
+  "folder": "Subwoofer Paths",
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0

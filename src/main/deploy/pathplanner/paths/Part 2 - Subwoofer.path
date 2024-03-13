@@ -3,52 +3,34 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.42,
-        "y": 5.55
+        "x": 2.72,
+        "y": 5.551362870733224
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5199999999999998,
-        "y": 5.55
+        "x": 1.7200000000000002,
+        "y": 5.551362870733224
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Subwoofer GP 2"
     },
     {
       "anchor": {
-        "x": 1.89,
-        "y": 5.55
+        "x": 1.35,
+        "y": 5.551362870733224
       },
       "prevControl": {
-        "x": 1.7899999999999998,
-        "y": 5.55
+        "x": 2.35,
+        "y": 5.551362870733224
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "GP 1 - Test Front"
+      "linkedName": "Subwoofer"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "LaunchReady",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "launchReadyPreload"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
@@ -61,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Test Front Paths",
+  "folder": "Subwoofer Paths",
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0

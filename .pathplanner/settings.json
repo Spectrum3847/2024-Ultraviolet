@@ -6,13 +6,14 @@
     "Amp Side Paths",
     "Front Paths",
     "PID Config Paths",
-    "Test Front Paths"
+    "Subwoofer Paths"
   ],
   "autoFolders": [
     "Amp Side Autos",
     "Front Autos",
-    "Source Side Autos",
-    "PID Config Autos"
+    "Subwoofer Autos",
+    "PID Config Autos",
+    "Source Side Autos"
   ],
   "defaultMaxVel": 4.0,
   "defaultMaxAccel": 3.0,

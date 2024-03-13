@@ -27,6 +27,10 @@ public class FeederCommands {
         return feeder.runVelocity(feeder.config.score).withName("Feeder.score");
     }
 
+    public static Command autoFeed() {
+        return feeder.runVelocity(feeder.config.autoFeed).withName("Feeder.score");
+    }
+
     public static Command slowFeed() {
         return feeder.runVelocity(feeder.config.slowFeed).withName("Feeder.slowFeed");
     }

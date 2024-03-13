@@ -3,38 +3,64 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.89,
-        "y": 5.55
-      },
-      "prevControl": null,
-      "nextControl": {
-        "x": 1.9031647417831787,
-        "y": 6.000076509039829
-      },
-      "isLocked": false,
-      "linkedName": "GP 1 - Test Front"
-    },
-    {
-      "anchor": {
         "x": 2.7,
         "y": 6.9
       },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.098477879236698,
+        "y": 6.934862297099063
+      },
+      "isLocked": false,
+      "linkedName": "GP 4 - Front 5"
+    },
+    {
+      "anchor": {
+        "x": 8.1,
+        "y": 7.24
+      },
       "prevControl": {
-        "x": 2.011474930339945,
-        "y": 6.603518988141812
+        "x": 7.750284317344363,
+        "y": 7.523194175972427
+      },
+      "nextControl": {
+        "x": 8.449715682655636,
+        "y": 6.956805824027573
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.222098376844087,
+        "y": 6.355952842869203
+      },
+      "prevControl": {
+        "x": 5.67081201515069,
+        "y": 6.471999473465737
+      },
+      "nextControl": {
+        "x": 4.786323812760625,
+        "y": 6.243252524571758
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.8,
+        "y": 5.55
+      },
+      "prevControl": {
+        "x": 3.2569032300833536,
+        "y": 5.741766320483061
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "GP 4 - Front 5"
+      "linkedName": "GP 2 - Test Front"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": 180.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
@@ -58,13 +84,13 @@
       "name": "LaunchReady",
       "waypointRelativePos": 0,
       "command": {
-        "type": "sequential",
+        "type": "parallel",
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
-                "name": "launchReady3"
+                "name": "launchReady2"
               }
             },
             {
@@ -86,13 +112,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -155.0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Test Front Paths",
+  "folder": "Front Paths",
   "previewStartingState": {
-    "rotation": 180.0,
+    "rotation": -145.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

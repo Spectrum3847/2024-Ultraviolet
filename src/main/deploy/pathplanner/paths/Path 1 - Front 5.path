@@ -3,34 +3,52 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.43,
-        "y": 4.1
+        "x": 1.42,
+        "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.53,
-        "y": 4.1
+        "x": 1.5199999999999998,
+        "y": 5.55
       },
       "isLocked": false,
-      "linkedName": "Start Pose - Front 5"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.996002046260407,
-        "y": 4.1
+        "x": 1.89,
+        "y": 5.55
       },
       "prevControl": {
-        "x": 1.8960020462604068,
-        "y": 4.1
+        "x": 1.7899999999999998,
+        "y": 5.55
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "GP 1 Shoot - Front 5"
+      "linkedName": "GP 1 - Test Front"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "LaunchReady",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "launchReady1"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
@@ -39,8 +57,8 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 145.0,
-    "rotateFast": true
+    "rotation": 180.0,
+    "rotateFast": false
   },
   "reversed": false,
   "folder": "Front Paths",

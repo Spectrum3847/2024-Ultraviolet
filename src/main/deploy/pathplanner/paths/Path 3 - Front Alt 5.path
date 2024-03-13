@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.704660137103249,
+        "x": 2.8,
         "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.289369671878656,
+        "x": 2.384709534775407,
         "y": 5.862943812039065
       },
       "isLocked": false,
-      "linkedName": "GP 2 Shoot - Front Alt 5"
+      "linkedName": "GP 2 - Test Front"
     },
     {
       "anchor": {
@@ -46,7 +46,48 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Intake",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "smartIntake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "LaunchReady",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "launchReady3"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "stopFeeder"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
