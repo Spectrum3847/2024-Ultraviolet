@@ -151,7 +151,7 @@ public class Vision extends SubsystemBase {
         // integrate vision
         if (ll.targetInView()) {
             Pose2d botpose = ll.getAlliancePose().toPose2d();
-            double timeStamp = getVisionPoseTimestamp(ll);
+            double timeStamp = ll.getVisionPoseTimestamp();
 
             // distance from current pose to vision estimated pose
             double poseDifference =
@@ -264,9 +264,6 @@ public class Vision extends SubsystemBase {
     //     return Optional.empty();
     // }
 
-    public double getVisionPoseTimestamp(Limelight ll) {
-        return Timer.getFPGATimestamp() - ll.getPoseLatency();
-    }
 
     // we are resetting gyro angle as well?
     public void resetPoseWithVision() {

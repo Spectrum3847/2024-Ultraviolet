@@ -3,6 +3,7 @@ package frc.spectrumLib.vision;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.vision.Vision.VisionConfig;
 import frc.spectrumLib.vision.LimelightHelpers.LimelightResults;
@@ -102,6 +103,15 @@ public class Limelight {
     }
 
     /**
+     * Returns the timestamp of the pose estimation from the Limelight camera.
+     *
+     * @return The timestamp of the pose estimation in seconds.
+     */
+    public double getVisionPoseTimestamp() {
+        return Timer.getFPGATimestamp() - getPoseLatency();
+    }
+    
+    /**
      * Returns the latency of the pose estimation from the Limelight camera.
      *
      * @return The latency of the pose estimation in seconds.
@@ -109,6 +119,7 @@ public class Limelight {
     public double getPoseLatency() {
         return Units.millisecondsToSeconds(LimelightHelpers.getBotPose_wpiBlue(CAMERA_NAME)[6]);
     }
+
 
     /*
      *
