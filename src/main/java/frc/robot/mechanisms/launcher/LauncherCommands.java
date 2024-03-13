@@ -1,6 +1,7 @@
 package frc.robot.mechanisms.launcher;
 
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import frc.robot.Robot;
@@ -139,13 +140,17 @@ public class LauncherCommands {
                     if (leftLauncher.getMotorVelocityInRPM() >= leftVelocity.getAsDouble() - 50
                             || rightLauncher.getMotorVelocityInRPM()
                                     >= rightVelocity.getAsDouble() - 50) {
-                        Robot.pilot.controller.rumbleController(1, 1);
-                        Robot.leds.customStrobe(Section.FULL, LEDsConfig.SPECTRUM_COLOR, 8, 5);
+                        if (DriverStation.isTeleopEnabled()) {
+                            Robot.pilot.controller.rumbleController(1, 1);
+                            Robot.leds.customStrobe(Section.FULL, LEDsConfig.SPECTRUM_COLOR, 8, 5);
+                        }
                     }
                 },
                 (b) -> {
-                    Robot.pilot.controller.rumbleController(0, 0);
-                    Robot.leds.resetPriority();
+                    if (DriverStation.isTeleopEnabled()) {
+                        Robot.pilot.controller.rumbleController(0, 0);
+                        Robot.leds.resetPriority();
+                    }
                 },
                 () -> false);
     }
