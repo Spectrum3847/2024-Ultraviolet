@@ -139,9 +139,15 @@ public class RobotCommands {
         //         () -> Robot.elevator.getMotorPosition() < 15);
     }
 
+    /*
+     * Intake when called will check if the supply current is above 60 amps to eject and will continue to intake if not
+     */
     public static Command intake() {
-        return IntakeCommands.intake().withName("RobotCommands.intake");
-    }
+        return IntakeCommands.intake()
+                .until(() -> (IntakeCommands.getSupplyCurrent() >= 60))
+                .andThen(IntakeCommands.eject())
+                .withName("RobotCommands.intake");
+            }
 
     public static Command launchEject() {
         return AmpTrapCommands.launchEject()

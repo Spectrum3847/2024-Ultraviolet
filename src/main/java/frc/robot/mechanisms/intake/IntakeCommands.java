@@ -45,4 +45,8 @@ public class IntakeCommands {
     public static Command stopMotor() {
         return intake.runStop().withTimeout(0.01).withName("Intake.stopMotor");
     }
+
+    public static double getSupplyCurrent() {
+        return intake.getSupplyCurrent();
+    }
 }

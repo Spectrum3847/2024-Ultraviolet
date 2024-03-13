@@ -120,6 +120,13 @@ public class Intake extends Mechanism {
         return 0;
     }
 
+    /*
+     * Returns the supply current of the motor in amps
+     */
+    public double getSupplyCurrent() {
+        return motor.getSupplyCurrent().getValueAsDouble();
+    }
+
     @Override
     protected Config setConfig() {
         config = new IntakeConfig();
