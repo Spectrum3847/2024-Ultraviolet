@@ -94,7 +94,8 @@ public class RobotCommands {
                 .until(() -> Robot.ampTrap.hasNote())
                 .andThen(
                         AmpTrapCommands.stopMotor()
-                                .alongWith(FeederCommands.stopMotor(), ElevatorCommands.amp()));
+                                .alongWith(FeederCommands.stopMotor(), ElevatorCommands.amp()))
+                .withName("RobotCommands.amp");
     }
 
     public static Command manualAmp() {
@@ -191,5 +192,22 @@ public class RobotCommands {
 
     public static Command topClimb() {
         return ClimberCommands.topClimb().alongWith(PivotCommands.home());
+    }
+
+    public static Command trapExtend() {
+        return Commands.either(
+                FeederCommands.score()
+                        .withTimeout(0.1)
+                        .onlyIf(Robot.feeder::noteIsClose)
+                        .andThen(FeederCommands.feedToAmp())
+                        .alongWith(AmpTrapCommands.amp())
+                        .until(() -> Robot.ampTrap.hasNote())
+                        .andThen(
+                                AmpTrapCommands.stopMotor()
+                                        .alongWith(
+                                                FeederCommands.stopMotor(),
+                                                ElevatorCommands.fullExtend())),
+                ElevatorCommands.fullExtend(),
+                Robot.ampTrap.lasercan::validDistance);
     }
 }
