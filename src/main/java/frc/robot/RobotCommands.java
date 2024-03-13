@@ -81,8 +81,17 @@ public class RobotCommands {
                 .alongWith(AmpTrapCommands.amp())
                 .until(() -> Robot.ampTrap.hasNote())
                 .andThen(
-                        AmpTrapCommands.stopMotor()
-                                .alongWith(FeederCommands.stopMotor(), ElevatorCommands.amp()));
+                        ElevatorCommands.amp()
+                                .alongWith(
+                                        FeederCommands.stopMotor(),
+                                        AmpTrapCommands.amp()
+                                                .withTimeout(2)
+                                                .andThen(AmpTrapCommands.stopMotor())))
+                .withName("RobotCommands.amp");
+    }
+
+    public static Command manualAmp() {
+        return FeederCommands.feedToAmp().alongWith(AmpTrapCommands.amp());
     }
 
     public static Command eject() {

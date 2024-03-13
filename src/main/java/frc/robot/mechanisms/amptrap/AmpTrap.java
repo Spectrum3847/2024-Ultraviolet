@@ -16,7 +16,7 @@ public class AmpTrap extends Mechanism {
         public double intake = 250;
         public double feed = 500;
         public double amp = 2500;
-        public double score = 4500;
+        public double score = 6000;
         public double eject = -3000;
 
         /* Percentage AmpTrap Output */
