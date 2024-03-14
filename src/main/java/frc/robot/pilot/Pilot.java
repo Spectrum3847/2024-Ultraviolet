@@ -60,10 +60,10 @@ public class Pilot extends Gamepad {
 
         // controller.a().and(noBumpers()).whileTrue(RobotCommands.intake8515());
 
-        // controller
-        //         .a()
-        //         .and(leftBumperOnly())
-        //         .whileTrue(LauncherCommands.eject().alongWith(RobotCommands.eject()));
+        controller
+                .a()
+                .and(leftBumperOnly())
+                .whileTrue(LauncherCommands.eject().alongWith(RobotCommands.eject()));
 
         // now in operator controls, the operator can finally do something
         controller.b().and(noBumpers()).whileTrue(RobotCommands.subwooferReady());

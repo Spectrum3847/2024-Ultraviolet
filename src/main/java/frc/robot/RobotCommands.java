@@ -147,7 +147,7 @@ public class RobotCommands {
                 .until(() -> (IntakeCommands.getSupplyCurrent() >= 60))
                 .andThen(IntakeCommands.eject())
                 .withName("RobotCommands.intake");
-            }
+    }
 
     public static Command launchEject() {
         return AmpTrapCommands.launchEject()
