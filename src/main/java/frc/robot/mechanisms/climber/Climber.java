@@ -31,9 +31,9 @@ public class Climber extends Mechanism {
         public final double zeroSpeed = -0.2;
         public final double positionKp = 0.86; // 20 FOC // 10 Regular
         public final double positionKv = 0.013; // .12 FOC // .15 regular
-        public final double currentLimit = 20;
+        public final double currentLimit = 40;
         public final double torqueCurrentLimit = 100;
-        public final double threshold = 20;
+        public final double threshold = 40;
 
         public ClimberConfig() {
             super("Climber", 53, "3847");
