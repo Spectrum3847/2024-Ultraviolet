@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.leds.LEDs;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
 import frc.robot.mechanisms.climber.ClimberCommands;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
@@ -24,7 +25,12 @@ public class RobotCommands {
         return PilotCommands.aimToSpeaker()
                 .alongWith(
                         LauncherCommands.distanceVelocity(() -> Robot.vision.getSpeakerDistance()),
-                        PivotCommands.setPivotOnDistance(() -> Robot.vision.getSpeakerDistance()));
+                        PivotCommands.setPivotOnDistance(() -> Robot.vision.getSpeakerDistance()))
+                .withName("RobotCommands.visionLaunch");
+    }
+
+    public static Command testMap() {
+        return PilotCommands.aimToSpeaker().alongWith(RobotCommands.onDemandLaunching());
     }
     // Run the intake for at least 0.4 seconds OR until the lasercan sees the note,
     // (also get pivot
@@ -81,7 +87,7 @@ public class RobotCommands {
 
     public static Command onDemandLaunching() {
         return LauncherCommands.runOnDemandVelocity()
-                // .alongWith(PivotCommands.onDemandPivot())
+                .alongWith(PivotCommands.onDemandPivot())
                 .withName("RobotCommands.onDemandLaunching");
     }
 
@@ -111,12 +117,33 @@ public class RobotCommands {
 
     public static Command score() {
         return Commands.either(
-                launchEject(), dump(), () -> Robot.leftLauncher.getMotorVelocityInRPM() > 10);
+                        launchEject(),
+                        hackDump(),
+                        () -> Robot.leftLauncher.getMotorVelocityInRPM() > 10)
+                .withName("RobotCommands.score");
     }
 
     public static Command launchEject() {
         return FeederCommands.launchEject()
-                .alongWith(AmpTrapCommands.score(), IntakeCommands.slowIntake());
+                .alongWith(
+                        AmpTrapCommands.score(),
+                        IntakeCommands.slowIntake(),
+                        ElevatorCommands.holdPosition())
+                .withName("RobotCommands.launchEject");
+    }
+
+    // hack to avoid requiring dump subystems when we aren't running it in the score sequence
+    public static Command hackDump() {
+        return Commands.startEnd(
+                        () -> {
+                            if (Robot.leftLauncher.getMotorVelocityInRPM() < 10) {
+                                dump().schedule();
+                            }
+                        },
+                        () -> {
+                            dump().cancel();
+                        })
+                .withName("RobotCommands.hackDump");
     }
 
     public static Command dump() {
@@ -124,7 +151,9 @@ public class RobotCommands {
                 .alongWith(
                         AmpTrapCommands.score(),
                         LauncherCommands.dump(),
-                        IntakeCommands.slowIntake());
+                        IntakeCommands.slowIntake(),
+                        ElevatorCommands.holdPosition())
+                .withName("RobotCommands.dump");
     }
 
     public static Command intake() {
@@ -141,10 +170,9 @@ public class RobotCommands {
                         FeederCommands.coastMode(),
                         IntakeCommands.coastMode(),
                         LauncherCommands.coastMode(),
-                        PivotCommands.coastMode()
-                        // ,
-                        // Commands.startEnd(LEDs::turnOnCoastLEDs, LEDs::turnOffCoastLEDs)
-                        )
+                        PivotCommands.coastMode(),
+                        Commands.startEnd(LEDs::turnOnCoastLEDs, LEDs::turnOffCoastLEDs)
+                                .ignoringDisable(true))
                 .withName("RobotCommands.coastModeMechanisms");
     }
 

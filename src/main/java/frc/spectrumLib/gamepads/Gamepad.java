@@ -352,7 +352,7 @@ public abstract class Gamepad extends SubsystemBase {
      */
     public void runWithEndSequence(Trigger trigger, Command runCommand, Command endCommand) {
         trigger.whileTrue(runCommand);
-        trigger.onFalse(endCommand.withTimeout(1.5));
+        trigger.onFalse(endCommand.withTimeout(1.5).withName(endCommand.getName()));
     }
 
     /**

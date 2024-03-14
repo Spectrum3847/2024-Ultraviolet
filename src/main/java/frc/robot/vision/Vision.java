@@ -29,8 +29,13 @@ public class Vision extends SubsystemBase {
                 new PhysicalConfig().withTranslation(-0.296, 0, 0.226).withRotation(0, 50, 180);
 
         public static final String SPEAKER_LL = "limelight-aim";
+
         public static final PhysicalConfig SPEAKER_CONFIG =
                 new PhysicalConfig().withTranslation(-0.085, 0, 0.636).withRotation(0, 15, 0);
+
+        // Limelight 2+
+        // public static final PhysicalConfig SPEAKER_CONFIG =
+        //         new PhysicalConfig().withTranslation(-0.085, 0, 0.636).withRotation(0, 15, 0);
 
         /* Pipeline config */
         public static final int rearDetectorPipeline = 0;
@@ -179,7 +184,8 @@ public class Vision extends SubsystemBase {
                 degStds = 999999;
             } else {
                 isPresent = false;
-                RobotTelemetry.print("Vision pose rejected");
+                // RobotTelemetry.print("Vision pose rejected");
+                ll.logStatus = "rejected";
                 return;
             }
 
@@ -227,7 +233,7 @@ public class Vision extends SubsystemBase {
     }
 
     /** Returns the distance from the speaker in meters, adjusted for the robot's movement. */
-    @AutoLogOutput
+    @AutoLogOutput(key = "Vision/SpeakerDistance")
     public double getSpeakerDistance() {
         return Robot.swerve.getPose().getTranslation().getDistance(getAdjustedSpeakerPos());
     }
@@ -247,8 +253,9 @@ public class Vision extends SubsystemBase {
         double tunableSpeakerXFudge = 0.0;
 
         Translation2d goalPose = Field.flipXifRed(Field.Speaker.centerSpeakerPose).getTranslation();
+        goalPose = Field.flipXifRed(new Translation2d(0, goalPose.getY()));
         Translation2d robotPos = Robot.swerve.getPose().getTranslation();
-        ChassisSpeeds robotVel = Robot.swerve.getVelocity(true);
+        ChassisSpeeds robotVel = Robot.swerve.getVelocity(true); // TODO: change
 
         double distance = robotPos.getDistance(goalPose);
         double normFactor =

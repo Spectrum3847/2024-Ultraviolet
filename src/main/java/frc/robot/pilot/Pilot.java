@@ -72,12 +72,21 @@ public class Pilot extends Gamepad {
 
         controller
                 .x()
-                .and(noBumpers())
-                .whileTrue(RobotCommands.visionLaunch()); // RobotCommands.podiumShot());
-        controller.x().and(leftBumperOnly()).whileTrue(RobotCommands.fromAmpShot());
+                .and(noBumpers().or(rightBumperOnly()))
+                .whileTrue(RobotCommands.visionLaunch());
+        controller
+                .x()
+                .and(leftBumperOnly().or(bothBumpers()))
+                .whileTrue(RobotCommands.fromAmpShot());
 
-        controller.y().and(noBumpers()).whileTrue(RobotCommands.subwooferShot());
-        controller.y().and(leftBumperOnly()).whileTrue(RobotCommands.ampWingShot());
+        controller
+                .y()
+                .and(noBumpers().or(rightBumperOnly()))
+                .whileTrue(RobotCommands.subwooferShot());
+        controller
+                .y()
+                .and(leftBumperOnly().or(bothBumpers()))
+                .whileTrue(RobotCommands.ampWingShot());
 
         controller.start().whileTrue(RobotCommands.intoAmpShot());
 
