@@ -4,6 +4,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
@@ -165,15 +166,20 @@ public class Vision extends SubsystemBase {
 
         // integrate vision
         if (ll.targetInView()) {
-            Pose2d botpose = ll.getRawPose3d().toPose2d();
+            Pose3d botpose3D = ll.getRawPose3d();
             double timeStamp = ll.getVisionPoseTimestamp();
+            Pose2d botpose = botpose3D.toPose2d();
 
             // distance from current pose to vision estimated pose
             double poseDifference =
                     Robot.swerve.getPose().getTranslation().getDistance(botpose.getTranslation());
 
             double targetSize = ll.getTargetSize();
-            if (ll.multipleTagsInView()) {
+            if (botpose3D.getZ() > 0.25) { // Reject if we think we are too high in the air
+                isPresent = false;
+                ll.logStatus = "rejected";
+                return;
+            } else if (ll.multipleTagsInView()) {
                 xyStds = 0.5;
                 degStds = 6;
             } else if (targetSize > 0.8 && poseDifference < 0.5) {
