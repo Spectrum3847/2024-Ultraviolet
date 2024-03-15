@@ -253,8 +253,8 @@ public class Vision extends SubsystemBase {
     public Translation2d getAdjustedSpeakerPos() {
         double NORM_FUDGE = 0.075;
         double tunableNoteVelocity = 5.6;
-        double tunableNormFudge = 0.52;
-        double tunableStrafeFudge = 0.85;
+        double tunableNormFudge = 0.85;
+        double tunableStrafeFudge = 1.05;
         double tunableSpeakerYFudge = 0.0;
         double tunableSpeakerXFudge = 0.0;
 

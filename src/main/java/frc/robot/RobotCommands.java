@@ -39,7 +39,8 @@ public class RobotCommands {
     public static Command smartIntake() {
         return ElevatorCommands.home()
                 .alongWith(
-                        IntakeCommands.intake().alongWith(AmpTrapCommands.intake())
+                        IntakeCommands.intake()
+                                .alongWith(AmpTrapCommands.intake())
                                 .withTimeout(0.4)
                                 .andThen(
                                         IntakeCommands.intake()
@@ -97,14 +98,15 @@ public class RobotCommands {
                 .withTimeout(0.1)
                 .onlyIf(Robot.feeder::noteIsClose)
                 .andThen(FeederCommands.feedToAmp())
-                .alongWith(AmpTrapCommands.amp())
+                .alongWith(AmpTrapCommands.amp().onlyIf(() -> !Robot.elevator.isAtAmpHeight()))
                 .until(() -> Robot.ampTrap.hasNote())
                 .andThen(
                         FeederCommands.stopMotor()
                                 .alongWith(
                                         ElevatorCommands.amp(),
                                         AmpTrapCommands.amp()
-                                                .withTimeout(0.65)
+                                                .onlyIf(() -> !Robot.elevator.isAtAmpHeight())
+                                                .withTimeout(0.55)
                                                 .andThen(AmpTrapCommands.stopMotor())))
                 .withName("RobotCommands.amp");
     }

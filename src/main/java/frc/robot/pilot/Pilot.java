@@ -66,8 +66,8 @@ public class Pilot extends Gamepad {
                 RobotCommands.feedHome());
         controller.a().and(leftBumperOnly()).whileTrue(RobotCommands.eject());
 
-        // controller.b().and(noBumpers()).onTrue(RobotCommands.amp().withTimeout(1.5));
-        controller.b().and(noBumpers().or(rightBumperOnly())).whileTrue(PilotCommands.alignToAmp());
+        controller.b().and(noBumpers()).onTrue(RobotCommands.amp().withTimeout(1.5));
+        controller.b().and(noBumpers().or(rightBumperOnly())).whileTrue(PilotCommands.turnToAmp());
 
         controller.b().and(leftBumperOnly()).whileTrue(ElevatorCommands.home());
 

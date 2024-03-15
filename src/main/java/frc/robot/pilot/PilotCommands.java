@@ -75,6 +75,15 @@ public class PilotCommands {
                 () -> true);
     }
 
+    public static Command turnToAmp() {
+        return SwerveCommands.aimDrive(
+                () -> pilot.getDriveFwdPositive(),
+                () -> pilot.getDriveLeftPositive(),
+                () -> Units.degreesToRadians(Field.flipAngleIfBlue(270)),
+                () -> pilot.getFieldOriented(), // true is field oriented
+                () -> true);
+    }
+
     // Manual Aiming Drive, no vision/pose used for these commands
     public static Command podiumAimingDrive() {
         return SwerveCommands.aimDrive(
