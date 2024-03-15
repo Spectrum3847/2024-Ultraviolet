@@ -66,6 +66,16 @@ public class PilotCommands {
                 .withName("Swerve.aimToRedSpeaker");
     }
 
+    public static Command alignToAmp() {
+        return SwerveCommands.AlignXaimDrive(
+                () -> Field.flipXifRed(Field.ampCenter.getX()),
+                () -> pilot.getDriveLeftPositive(),
+                () -> Math.toRadians(Field.flipAngleIfBlue(270)), // Face the back to the amp
+                () -> true,
+                () -> true);
+    }
+
+    // Manual Aiming Drive, no vision/pose used for these commands
     public static Command podiumAimingDrive() {
         return SwerveCommands.aimDrive(
                         () -> pilot.getDriveFwdPositive(),
@@ -137,6 +147,7 @@ public class PilotCommands {
                 () -> pilot.setFieldOriented(false), () -> pilot.setFieldOriented(true));
     }
 
+    // Unused currently, for testing
     public static Command manualClimber() {
         return climber.runPercentage(() -> -pilot.controller.getRightY());
     }
@@ -145,6 +156,7 @@ public class PilotCommands {
         return pivot.runManualOutput(() -> -pilot.controller.getRightY() * 0.5);
     }
 
+    // Unused currently, for testing
     public static Command manualIntake() {
         return Robot.intake.runManualOutput(() -> -pilot.controller.getRightY());
     }

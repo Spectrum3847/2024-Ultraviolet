@@ -237,8 +237,8 @@ public class Swerve implements Subsystem {
         this.targetHeading = targetHeading;
     }
 
-    public void resetAlignmentControllers(){
-        resetXController();;
+    public void resetAlignmentControllers() {
+        resetXController();
         resetYController();
     }
 
