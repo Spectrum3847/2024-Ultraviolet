@@ -39,6 +39,11 @@ public class PM2024 {
     private static final double kIRotationController = 0.0;
     private static final double kDRotationController = 0.0;
 
+    /*Alignment Controllers */
+    private static final double kPAlignmentController = 8.0;
+    private static final double kIAlignmentController = 0.0;
+    private static final double kDAlignmentController = 0.0;
+
     /*Profiling Configs*/
     private static final double maxVelocity = speedAt12VoltsMps;
     private static final double maxAccel = maxVelocity * 1.5; // take 1/2 sec to get to max speed.
@@ -134,6 +139,8 @@ public class PM2024 {
                     .withModules(ModuleConfigs)
                     .withRotationGains(
                             kPRotationController, kIRotationController, kDRotationController)
+                    .withAlignmentGains(
+                            kPAlignmentController, kIAlignmentController, kDAlignmentController)
                     .withProfilingConfigs(
                             maxVelocity, maxAccel, maxAngularVelocity, maxAngularAcceleration)
                     .withDeadbandConfig(deadband, rotationDeadband);

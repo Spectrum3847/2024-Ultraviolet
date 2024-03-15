@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.crescendo.Field;
 import frc.robot.Robot;
 import frc.robot.RobotTelemetry;
 import frc.robot.swerve.configs.ALPHA2024;
@@ -35,6 +36,8 @@ public class Swerve implements Subsystem {
     public final SwerveConfig config;
     private final Drivetrain drivetrain;
     private final RotationController rotationController;
+    private final AlignmentController xController;
+    private final AlignmentController yController;
     private double OdometryUpdateFrequency = 250;
     private double targetHeading = 0;
     private ReadWriteLock m_stateLock = new ReentrantReadWriteLock();
@@ -75,6 +78,14 @@ public class Swerve implements Subsystem {
         drivetrain = new Drivetrain(config, OdometryUpdateFrequency);
 
         rotationController = new RotationController(this);
+
+        // Setup alignment controllers with 1/2 velocity and accel
+        xController =
+                new AlignmentController(this)
+                        .withConstraints(config.maxVelocity / 2, config.maxAccel / 2);
+        yController =
+                new AlignmentController(this)
+                        .withConstraints(config.maxVelocity / 2, config.maxAccel / 2);
 
         setVisionMeasurementStdDevs(VisionConfig.visionStdMatrix);
         RobotTelemetry.print("Swerve Subsystem Initialized: ");
@@ -225,6 +236,38 @@ public class Swerve implements Subsystem {
 
     public void setTargetHeading(double targetHeading) {
         this.targetHeading = targetHeading;
+    }
+
+    public void resetAlignmentControllers() {
+        Pose2d pose = getPose();
+        xController.reset(pose.getX());
+        yController.reset(pose.getY());
+    }
+
+    public void resetXController() {
+        xController.reset(getPose().getX());
+    }
+
+    public double calculateXController(DoubleSupplier targetMeters) {
+        double velocity = xController.calculate(getPose().getX(), targetMeters.getAsDouble());
+
+        if (Field.isRed()) {
+            return -velocity;
+        }
+        return velocity;
+    }
+
+    public void resetYController() {
+        yController.reset(getPose().getY());
+    }
+
+    public double calculateYController(DoubleSupplier targetMeters) {
+        double velocity = yController.calculate(getPose().getY(), targetMeters.getAsDouble());
+
+        if (Field.isRed()) {
+            return -velocity;
+        }
+        return velocity;
     }
 
     public double getTargetHeading() {
