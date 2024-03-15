@@ -1,6 +1,7 @@
 package frc.robot.mechanisms.launcher;
 
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import frc.robot.Robot;
@@ -15,9 +16,17 @@ public class LauncherCommands {
     public static final InterpolatingDoubleTreeMap DISTANCE_MAP = new InterpolatingDoubleTreeMap();
 
     static {
-        DISTANCE_MAP.put(1.31, 4500.0);
-        DISTANCE_MAP.put(2.31, 5000.0);
-        DISTANCE_MAP.put(4.79, 5500.0);
+        // DISTANCE_MAP.put(1.31, 4500.0);
+        // DISTANCE_MAP.put(2.31, 5000.0);
+        // DISTANCE_MAP.put(4.79, 5500.0);
+        DISTANCE_MAP.put(1.505, 3500.0);
+        DISTANCE_MAP.put(2.629, 4500.0);
+        DISTANCE_MAP.put(3.969, 4500.0);
+        DISTANCE_MAP.put(4.269, 5200.0);
+        DISTANCE_MAP.put(4.899, 5200.0);
+        DISTANCE_MAP.put(5.189, 5200.0);
+        DISTANCE_MAP.put(5.829, 5200.0);
+        DISTANCE_MAP.put(6.229, 5200.0);
     }
 
     public static void setupDefaultCommand() {
@@ -139,13 +148,17 @@ public class LauncherCommands {
                     if (leftLauncher.getMotorVelocityInRPM() >= leftVelocity.getAsDouble() - 50
                             || rightLauncher.getMotorVelocityInRPM()
                                     >= rightVelocity.getAsDouble() - 50) {
-                        Robot.pilot.controller.rumbleController(1, 1);
-                        Robot.leds.customStrobe(Section.FULL, LEDsConfig.SPECTRUM_COLOR, 8, 5);
+                        if (DriverStation.isTeleopEnabled()) {
+                            Robot.pilot.controller.rumbleController(1, 1);
+                            Robot.leds.customStrobe(Section.FULL, LEDsConfig.SPECTRUM_COLOR, 8, 5);
+                        }
                     }
                 },
                 (b) -> {
-                    Robot.pilot.controller.rumbleController(0, 0);
-                    Robot.leds.resetPriority();
+                    if (DriverStation.isTeleopEnabled()) {
+                        Robot.pilot.controller.rumbleController(0, 0);
+                        Robot.leds.resetPriority();
+                    }
                 },
                 () -> false);
     }

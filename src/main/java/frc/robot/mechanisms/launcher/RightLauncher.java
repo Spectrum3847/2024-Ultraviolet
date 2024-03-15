@@ -14,7 +14,7 @@ public class RightLauncher extends Mechanism {
     public class RightLauncherConfig extends Config {
 
         /* Revolutions per min RightLauncher Output */
-        public double maxSpeed = 5000;
+        public double maxSpeed = 5600;
         public double launch = 4000;
         public double testVelocity = 4500;
         public double subwoofer = 4500;
@@ -28,7 +28,7 @@ public class RightLauncher extends Mechanism {
 
         /* RightLauncher config values */
         public double currentLimit = 60;
-        public double torqueCurrentLimit = 150;
+        public double torqueCurrentLimit = 300;
         public double threshold = 80;
         public double velocityKp = 12; // 0.156152;
         public double velocityKv = 0.2; // 0.12;

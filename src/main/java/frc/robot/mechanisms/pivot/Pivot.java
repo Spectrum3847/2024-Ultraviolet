@@ -22,13 +22,13 @@ public class Pivot extends Mechanism {
         public final double home = 1;
         public final double subwoofer = 80.5;
         public final double intoAmp = 78;
-        public final double podium = 55;
+        public final double podium = 53.5;
         public final double fromAmp = 52;
         public final double ampWing = 41;
         public final double intake = 50;
         public final double autoLaunch1 = 70;
         public final double autoLaunch2 =
-                56; // works for GP2/GP3/GP5/GP6 in Front 5 and GP2/GP4/5 in Front 5 Alt
+                55; // works for GP2/GP3/GP5/GP6 in Front 5 and GP2/GP4/5 in Front 5 Alt
         public final double autoLaunch3 = 54; // works for GP4 in Front 5 and GP3 in Front 5 Alt
 
         public final double zeroSpeed = -0.1;
@@ -46,9 +46,17 @@ public class Pivot extends Mechanism {
                 new InterpolatingDoubleTreeMap();
 
         static {
-            DISTANCE_MAP.put(1.35, 80.5);
-            DISTANCE_MAP.put(2.31, 57.0);
-            DISTANCE_MAP.put(4.79, 43.0);
+            // DISTANCE_MAP.put(1.35, 80.5);
+            // DISTANCE_MAP.put(2.31, 57.0);
+            // DISTANCE_MAP.put(4.79, 43.0); //.229
+            DISTANCE_MAP.put(1.505, 81.0);
+            DISTANCE_MAP.put(2.629, 55.5);
+            DISTANCE_MAP.put(3.969, 49.0);
+            DISTANCE_MAP.put(4.269, 46.5);
+            DISTANCE_MAP.put(4.899, 45.0);
+            DISTANCE_MAP.put(5.189, 43.2);
+            DISTANCE_MAP.put(5.829, 42.0);
+            DISTANCE_MAP.put(6.229, 42.0);
         }
 
         public PivotConfig() {

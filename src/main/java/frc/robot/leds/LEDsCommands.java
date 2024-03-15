@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Robot;
 import frc.robot.leds.LEDsConfig.Section;
-import frc.robot.vision.Vision;
 
 public class LEDsCommands {
     private static LEDs leds = Robot.leds;
@@ -17,10 +16,10 @@ public class LEDsCommands {
     }
 
     public static void setupLEDTriggers() {
-        Trigger visionValid = new Trigger(() -> Vision.isPresent);
+        // Trigger visionValid = new Trigger(() -> Vision.isPresent);
         Trigger noteIntaked = new Trigger(Robot.feeder.lasercan::intakedNote);
         Trigger coastMode = new Trigger(() -> LEDs.coastModeLED);
-        visionValid.whileTrue(solidGreenLED());
+        // visionValid.whileTrue(solidGreenLED());
         noteIntaked.whileTrue(intakedNote());
         coastMode.whileTrue(coastLEDs());
     }
@@ -41,7 +40,8 @@ public class LEDsCommands {
     }
 
     public static Command solidPurpleLED() {
-        return LEDsCommands.solid(Section.FULL, Color.kPurple, 2).withName("LEDs.solidPurpleLED");
+        return LEDsCommands.solid(Section.FULL, LEDsConfig.SPECTRUM_COLOR, 2)
+                .withName("LEDs.solidPurpleLED");
     }
 
     public static Command solidGreenLED() {
@@ -68,7 +68,7 @@ public class LEDsCommands {
     }
 
     public static Command intakedNote() {
-        return whiteBounce().alongWith(orangeTipped()).withName("LEDs.intakedNote");
+        return solidPurpleLED().alongWith(orangeTipped()).withName("LEDs.intakedNote");
     }
 
     public static Command whiteBounce() {

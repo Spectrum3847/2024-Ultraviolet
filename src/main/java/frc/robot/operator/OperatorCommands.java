@@ -44,6 +44,12 @@ public class OperatorCommands {
     }
 
     public static Command manualClimber() {
+        // return new FunctionalCommand(
+        //         () -> climber.toggleReverseSoftLimit(false),
+        //         () -> climber.setPercentOutput(-operator.controller.getRightY()),
+        //         (b) -> climber.toggleReverseSoftLimit(true),
+        //         () -> false,
+        //         Robot.climber);
         return climber.runPercentage(() -> -operator.controller.getRightY());
     }
 

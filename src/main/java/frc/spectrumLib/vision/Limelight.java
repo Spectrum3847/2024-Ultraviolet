@@ -1,12 +1,16 @@
 package frc.spectrumLib.vision;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Robot;
 import frc.robot.vision.Vision.VisionConfig;
 import frc.spectrumLib.vision.LimelightHelpers.LimelightResults;
 import java.text.DecimalFormat;
+import java.util.Optional;
 
 public class Limelight {
 
@@ -15,6 +19,8 @@ public class Limelight {
     /** Must match to the name given in LL dashboard */
     private final String CAMERA_NAME;
 
+    public String logStatus = "";
+    public boolean trustStrong = false;
     /** Physical Config */
     private PhysicalConfig physicalConfig;
 
@@ -24,6 +30,8 @@ public class Limelight {
     public Limelight(String cameraName) {
         this.CAMERA_NAME = cameraName;
         physicalConfig = new PhysicalConfig();
+        logStatus = "Not started";
+        trustStrong = false;
     }
 
     public Limelight(String cameraName, int pipeline) {
@@ -76,9 +84,13 @@ public class Limelight {
 
     /** @return whether the LL sees multiple tags or not */
     public boolean multipleTagsInView() {
-        if (retrieveJSON() == null) return false;
+        return getTagCountInView() > 1;
+    }
 
-        return retrieveJSON().targetingResults.targets_Fiducials.length > 1;
+    public double getTagCountInView() {
+        if (retrieveJSON() == null) return 0;
+
+        return retrieveJSON().targetingResults.targets_Fiducials.length;
     }
 
     /**
@@ -96,9 +108,50 @@ public class Limelight {
     /* ::: Pose Retrieval ::: */
 
     /** @return the corresponding LL Pose3d for the alliance in DriverStation.java */
-    public Pose3d getAlliancePose() {
+    public Pose3d getRawPose3d() {
         return LimelightHelpers.getBotPose3d_wpiBlue(
                 CAMERA_NAME); // 2024: all alliances use blue as 0,0
+    }
+
+    public Optional<Pose2d> getFilteredPose(Pose2d swervePose, double rejectDistance) {
+        Pose2d visionPose = getRawPose3d().toPose2d();
+
+        // if no camera or no target in view, return empty
+        if (!isCameraConnected() || !targetInView()) {
+            logStatus = "No Apriltag in view";
+            return Optional.empty();
+        }
+        // if vision pose is too far off current and we are not very close to a tag, ignore it
+        if (swervePose.getTranslation().getDistance(visionPose.getTranslation()) < rejectDistance
+                || (swervePose.getX() <= 0 || Robot.swerve.getPose().getY() <= 0)
+                || (getDistanceToTagFromCamera() <= 1)
+                || (getTagCountInView() >= 2 && getDistanceToTagFromCamera() <= 3)) {
+            return Optional.of(new Pose2d(visionPose.getTranslation(), swervePose.getRotation()));
+        }
+
+        // dumb
+        if (swervePose.getTranslation().getDistance(visionPose.getTranslation()) > rejectDistance) {
+            logStatus = "Rejected: Too far off odometry";
+        }
+
+        logStatus = "Unknown error";
+        return Optional.empty();
+    }
+
+    /** @return the distance of the 2d vector from the camera to closest apriltag */
+    public double getDistanceToTagFromCamera() {
+        double x = LimelightHelpers.getCameraPose3d_TargetSpace(CAMERA_NAME).getX();
+        double y = LimelightHelpers.getCameraPose3d_TargetSpace(CAMERA_NAME).getZ();
+        return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+    }
+
+    /**
+     * Returns the timestamp of the pose estimation from the Limelight camera.
+     *
+     * @return The timestamp of the pose estimation in seconds.
+     */
+    public double getVisionPoseTimestamp() {
+        return Timer.getFPGATimestamp() - getPoseLatency();
     }
 
     /**
@@ -180,7 +233,7 @@ public class Limelight {
 
     /** Prints the vision, estimated, and odometry pose to SmartDashboard */
     public void printDebug() {
-        Pose3d botPose3d = getAlliancePose();
+        Pose3d botPose3d = getRawPose3d();
         SmartDashboard.putString("LimelightX", df.format(botPose3d.getTranslation().getX()));
         SmartDashboard.putString("LimelightY", df.format(botPose3d.getTranslation().getY()));
         SmartDashboard.putString("LimelightZ", df.format(botPose3d.getTranslation().getZ()));

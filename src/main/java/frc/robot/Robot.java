@@ -218,7 +218,7 @@ public class Robot extends LoggedRobot {
                 RobotTelemetry.print("No Auton Command Found");
             }
 
-            LEDsCommands.countdown(15, 1).schedule();
+            LEDsCommands.countdown(15, 10).schedule();
 
             RobotTelemetry.print("@@@ Auton Init Complete @@@ ");
         } catch (Throwable t) {

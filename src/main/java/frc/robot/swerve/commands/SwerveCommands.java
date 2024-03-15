@@ -21,7 +21,8 @@ public class SwerveCommands {
         swerve.setDefaultCommand(
                 PilotCommands.pilotDrive()
                         .withTimeout(0.5)
-                        .andThen(PilotCommands.headingLockDrive()));
+                        .andThen(PilotCommands.headingLockDrive())
+                        .withName("SwerveCommands.default"));
     }
 
     /** Turn the swerve wheels to an X to prevent the robot from moving */
