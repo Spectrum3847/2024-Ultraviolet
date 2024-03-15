@@ -111,7 +111,7 @@ public class SwerveCommands {
                 .withName("ResetTurnController");
     }
 
-    public static Command resetAlignmentControllers(){
+    public static Command resetAlignmentControllers() {
         return swerve.runOnce(() -> swerve.resetAlignmentControllers())
                 .withName("ResetAlignmentControllers");
     }

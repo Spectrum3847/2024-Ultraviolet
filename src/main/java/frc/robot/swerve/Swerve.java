@@ -237,6 +237,11 @@ public class Swerve implements Subsystem {
         this.targetHeading = targetHeading;
     }
 
+    public void resetAlignmentControllers() {
+        resetXController();
+        resetYController();
+    }
+
     public void resetXController() {
         xController.reset(getPose().getX());
     }
