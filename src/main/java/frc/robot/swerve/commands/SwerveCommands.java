@@ -99,6 +99,108 @@ public class SwerveCommands {
                 .withName("Swerve.HeadingLock");
     }
 
+    public static Command AlignXdrive(
+            DoubleSupplier targetX,
+            DoubleSupplier velocityY,
+            DoubleSupplier rotationalRate,
+            BooleanSupplier isFieldOriented,
+            BooleanSupplier isOpenLoop) {
+        return resetAlignmentControllers()
+                .andThen(
+                        Drive(
+                                () -> swerve.calculateXController(targetX),
+                                velocityY,
+                                rotationalRate,
+                                isFieldOriented,
+                                isOpenLoop))
+                .withName("Swerve.AlignXdrive");
+    };
+
+    public static Command AlignYdrive(
+            DoubleSupplier velocityX,
+            DoubleSupplier targetY,
+            DoubleSupplier rotationalRate,
+            BooleanSupplier isFieldOriented,
+            BooleanSupplier isOpenLoop) {
+        return resetAlignmentControllers()
+                .andThen(
+                        Drive(
+                                velocityX,
+                                () -> swerve.calculateYController(targetY),
+                                rotationalRate,
+                                isFieldOriented,
+                                isOpenLoop))
+                .withName("Swerve.AlignYdrive");
+    };
+
+    public static Command AlignDrive(
+            DoubleSupplier targetX,
+            DoubleSupplier targetY,
+            DoubleSupplier rotationalRate,
+            BooleanSupplier isFieldOriented,
+            BooleanSupplier isOpenLoop) {
+        return resetAlignmentControllers()
+                .andThen(
+                        Drive(
+                                () -> swerve.calculateXController(targetX),
+                                () -> swerve.calculateYController(targetY),
+                                rotationalRate,
+                                isFieldOriented,
+                                isOpenLoop))
+                .withName("Swerve.AlignDrive");
+    }
+
+    public static Command AlignXaimDrive(
+            DoubleSupplier targetX,
+            DoubleSupplier velocityY,
+            DoubleSupplier targetRadians,
+            BooleanSupplier isFieldOriented,
+            BooleanSupplier isOpenLoop) {
+        return resetAlignmentControllers()
+                .andThen(
+                        aimDrive(
+                                () -> swerve.calculateXController(targetX),
+                                velocityY,
+                                targetRadians,
+                                isFieldOriented,
+                                isOpenLoop))
+                .withName("Swerve.AlignXaimDrive");
+    }
+
+    public static Command AlignYaimDrive(
+            DoubleSupplier velocityX,
+            DoubleSupplier targetY,
+            DoubleSupplier targetRadians,
+            BooleanSupplier isFieldOriented,
+            BooleanSupplier isOpenLoop) {
+        return resetAlignmentControllers()
+                .andThen(
+                        aimDrive(
+                                velocityX,
+                                () -> swerve.calculateYController(targetY),
+                                targetRadians,
+                                isFieldOriented,
+                                isOpenLoop))
+                .withName("Swerve.AlignYaimDrive");
+    }
+
+    public static Command AlignAimDrive(
+            DoubleSupplier targetX,
+            DoubleSupplier targetY,
+            DoubleSupplier targetRadians,
+            BooleanSupplier isFieldOriented,
+            BooleanSupplier isOpenLoop) {
+        return resetAlignmentControllers()
+                .andThen(
+                        aimDrive(
+                                () -> swerve.calculateXController(targetX),
+                                () -> swerve.calculateYController(targetY),
+                                targetRadians,
+                                isFieldOriented,
+                                isOpenLoop))
+                .withName("Swerve.AlignAimDrive");
+    }
+
     /** Apply a chassis speed to the swerve */
     public static Command ApplyChassisSpeeds(
             Supplier<ChassisSpeeds> speeds, BooleanSupplier isOpenLoop) {
@@ -164,6 +266,4 @@ public class SwerveCommands {
                 .ignoringDisable(true)
                 .withName("Swerve.coastMode");
     }
-    // Swerve Command Options
-    // - Drive needs to work with slow mode (this might be done in PilotCommands)
 }

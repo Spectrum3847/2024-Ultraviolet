@@ -160,11 +160,11 @@ public class Field {
     }
 
     // Flip the angle if we are blue, as we are setting things for a red driver station angle
-    public static double flipAngleIfBlue(double redAngle) {
+    public static double flipAngleIfBlue(double redAngleDegs) {
         if (Field.isBlue()) {
-            return 180 - redAngle;
+            return 180 - redAngleDegs;
         }
-        return redAngle;
+        return redAngleDegs;
     }
 
     public static Rotation2d flipAngleIfRed(Rotation2d blue) {
