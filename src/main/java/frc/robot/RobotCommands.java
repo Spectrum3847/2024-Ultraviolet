@@ -39,10 +39,11 @@ public class RobotCommands {
     public static Command smartIntake() {
         return ElevatorCommands.home()
                 .alongWith(
-                        IntakeCommands.intake()
+                        IntakeCommands.intake().alongWith(AmpTrapCommands.intake())
                                 .withTimeout(0.4)
                                 .andThen(
                                         IntakeCommands.intake()
+                                                .alongWith(AmpTrapCommands.intake())
                                                 .until(Robot.feeder::intakedNote)
                                                 .deadlineWith(
                                                         PivotCommands.intake()
@@ -99,8 +100,12 @@ public class RobotCommands {
                 .alongWith(AmpTrapCommands.amp())
                 .until(() -> Robot.ampTrap.hasNote())
                 .andThen(
-                        AmpTrapCommands.stopMotor()
-                                .alongWith(FeederCommands.stopMotor(), ElevatorCommands.amp()))
+                        FeederCommands.stopMotor()
+                                .alongWith(
+                                        ElevatorCommands.amp(),
+                                        AmpTrapCommands.amp()
+                                                .withTimeout(0.65)
+                                                .andThen(AmpTrapCommands.stopMotor())))
                 .withName("RobotCommands.amp");
     }
 
