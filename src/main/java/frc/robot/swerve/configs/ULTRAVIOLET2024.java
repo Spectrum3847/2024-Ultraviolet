@@ -7,7 +7,7 @@ import frc.spectrumLib.swerve.config.ModuleConfig;
 import frc.spectrumLib.swerve.config.ModuleConfig.SwerveModuleSteerFeedbackType;
 import frc.spectrumLib.swerve.config.SwerveConfig;
 
-/** Config for both PM and Comp */
+/** Config for Comp */
 public class ULTRAVIOLET2024 {
 
     // Angle Offsets: from cancoder Absolute Position No Offset, opposite sign
@@ -39,6 +39,11 @@ public class ULTRAVIOLET2024 {
     private static final double kPRotationController = 7.0;
     private static final double kIRotationController = 0.0;
     private static final double kDRotationController = 0.0;
+
+    /*Alignment Controllers */
+    private static final double kPAlignmentController = 2.0;
+    private static final double kIAlignmentController = 0.0;
+    private static final double kDAlignmentController = 0.0;
 
     /*Profiling Configs*/
     private static final double maxVelocity = speedAt12VoltsMps;
@@ -135,6 +140,8 @@ public class ULTRAVIOLET2024 {
                     .withModules(ModuleConfigs)
                     .withRotationGains(
                             kPRotationController, kIRotationController, kDRotationController)
+                    .withAlignmentGains(
+                            kPAlignmentController, kIAlignmentController, kDAlignmentController)
                     .withProfilingConfigs(
                             maxVelocity, maxAccel, maxAngularVelocity, maxAngularAcceleration)
                     .withDeadbandConfig(deadband, rotationDeadband);

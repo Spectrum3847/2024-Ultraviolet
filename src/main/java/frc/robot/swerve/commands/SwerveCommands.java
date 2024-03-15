@@ -110,6 +110,11 @@ public class SwerveCommands {
                 .withName("ResetTurnController");
     }
 
+    public static Command resetAlignmentControllers(){
+        return swerve.runOnce(() -> swerve.resetAlignmentControllers())
+                .withName("ResetAlignmentControllers");
+    }
+
     public static Command setTargetHeading(DoubleSupplier targetHeading) {
         return Commands.run(() -> swerve.setTargetHeading(targetHeading.getAsDouble()))
                 .withName("SetTargetHeading");

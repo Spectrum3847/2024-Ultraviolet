@@ -273,10 +273,6 @@ public class Vision extends SubsystemBase {
                 Robot.swerve.convertPoseWithGyro(speakerLL.getAlliancePose().toPose2d()));
     }
 
-    public boolean speakerInView() {
-        return speakerLL.targetInView();
-    }
-
     /** Change both LL pipelines to the same pipeline */
     public void setLimelightPipelines(int pipeline) {
         rearLL.setLimelightPipeline(pipeline);
