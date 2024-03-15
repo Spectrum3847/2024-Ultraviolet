@@ -32,7 +32,7 @@ public class AlignmentController {
                         config.kDAlignmentController,
                         constraints);
 
-        controller.setTolerance(0.01); // 1 CM tolerance
+        controller.setTolerance(tolerance); // 1 CM tolerance
 
         // These are currently magic number and need to be put into SwerveConfig
         holdController = new PIDController(10.5, 3, 0);

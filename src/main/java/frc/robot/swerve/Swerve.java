@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.crescendo.Field;
 import frc.robot.Robot;
 import frc.robot.RobotTelemetry;
 import frc.robot.swerve.configs.ALPHA2024;
@@ -238,8 +239,9 @@ public class Swerve implements Subsystem {
     }
 
     public void resetAlignmentControllers() {
-        resetXController();
-        resetYController();
+        Pose2d pose = getPose();
+        xController.reset(pose.getX());
+        yController.reset(pose.getY());
     }
 
     public void resetXController() {
@@ -247,7 +249,12 @@ public class Swerve implements Subsystem {
     }
 
     public double calculateXController(DoubleSupplier targetMeters) {
-        return xController.calculate(getPose().getX(), targetMeters.getAsDouble());
+        double velocity = xController.calculate(getPose().getX(), targetMeters.getAsDouble());
+
+        if (Field.isRed()) {
+            return -velocity;
+        }
+        return velocity;
     }
 
     public void resetYController() {
@@ -255,7 +262,12 @@ public class Swerve implements Subsystem {
     }
 
     public double calculateYController(DoubleSupplier targetMeters) {
-        return yController.calculate(getPose().getY(), targetMeters.getAsDouble());
+        double velocity = yController.calculate(getPose().getY(), targetMeters.getAsDouble());
+
+        if (Field.isRed()) {
+            return -velocity;
+        }
+        return velocity;
     }
 
     public double getTargetHeading() {
