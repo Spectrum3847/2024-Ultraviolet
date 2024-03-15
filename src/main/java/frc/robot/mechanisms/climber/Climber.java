@@ -13,14 +13,15 @@ public class Climber extends Mechanism {
     public class ClimberConfig extends Config {
 
         /* Climber constants in rotations */
-        public final double maxHeight = 117.5;
-        public final double minHeight = 0;
+        public final double maxHeight = 125;
+        public final double minHeight = -0.5;
 
         /* Climber positions in rotations */
         public double fullExtend = maxHeight;
         public double home = minHeight;
+        
         public double topClimb = maxHeight;
-        public double midClimb = 74;
+        public double midClimb = 96;
         public double botClimb = minHeight;
 
         /* Climber Percentage Output */
