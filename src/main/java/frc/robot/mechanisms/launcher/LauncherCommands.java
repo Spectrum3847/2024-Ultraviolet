@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import frc.robot.Robot;
 import frc.robot.leds.LEDsConfig;
 import frc.robot.leds.LEDsConfig.Section;
-
 import java.util.function.DoubleSupplier;
 
 public class LauncherCommands {
@@ -180,7 +179,7 @@ public class LauncherCommands {
                         if (DriverStation.isTeleopEnabled()) {
                             Robot.pilot.controller.rumbleController(1, 1);
                             Robot.leds.customStrobe(Section.FULL, LEDsConfig.SPECTRUM_COLOR, 8, 5);
-                                                }
+                        }
                     }
                 },
                 (b) -> {
