@@ -35,13 +35,19 @@
       "name": "LaunchReady",
       "waypointRelativePos": 0,
       "command": {
-        "type": "sequential",
+        "type": "parallel",
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
-                "name": "launchReady1"
+                "name": "alignToSpeaker"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "visionLaunchReady"
               }
             }
           ]
@@ -51,7 +57,7 @@
   ],
   "globalConstraints": {
     "maxVelocity": 4.0,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

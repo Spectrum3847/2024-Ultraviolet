@@ -17,12 +17,12 @@ public class PilotCommands {
 
     /** Set default command to turn off the rumble */
     public static void setupDefaultCommand() {
-        pilot.setDefaultCommand(rumble(0, 99999).repeatedly().withName("Pilot.default"));
+        Robot.pilot.setDefaultCommand(rumble(0, 99999).repeatedly().withName("Pilot.default"));
     }
 
     /** Command that can be used to rumble the pilot controller */
     public static Command rumble(double intensity, double durationSeconds) {
-        return pilot.rumbleCommand(intensity, durationSeconds);
+        return Robot.pilot.rumbleCommand(intensity, durationSeconds);
     }
 
     /** Full control of the swerve by the Pilot command */

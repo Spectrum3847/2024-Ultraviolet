@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.8,
+        "x": 2.800592018396385,
         "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.0463384502728172,
+        "x": 2.0469304686692023,
         "y": 5.55
       },
       "isLocked": false,
@@ -74,13 +74,41 @@
             {
               "type": "named",
               "data": {
-                "name": "launchReady1"
+                "name": "visionLaunchReady"
               }
-            },
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "StopTracking",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
             {
               "type": "named",
               "data": {
-                "name": "stopFeeder"
+                "name": "stopTracking"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "AlignToSpeaker",
+      "waypointRelativePos": 1.5,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "alignToSpeaker"
               }
             }
           ]
@@ -90,7 +118,7 @@
   ],
   "globalConstraints": {
     "maxVelocity": 4.0,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -175,12 +176,14 @@ public class Vision extends SubsystemBase {
                     Robot.swerve.getPose().getTranslation().getDistance(botpose.getTranslation());
 
             double targetSize = ll.getTargetSize();
-            if (Math.abs(botpose3D.getZ())
-                    > 0.25) { // Reject if we think we are too high in the air
+            if (Math.abs(botpose3D.getZ()) > 0.25
+                    || poseDifference
+                            < Units.inchesToMeters(
+                                    3)) { // Reject if we think we are too high in the air
                 isPresent = false;
                 ll.logStatus = "rejected";
                 return;
-            } else if (ll.multipleTagsInView()) {
+            } else if (ll.multipleTagsInView() && targetSize > 0.05) {
                 xyStds = 0.5;
                 degStds = 6;
             } else if (targetSize > 0.8 && poseDifference < 0.5) {
@@ -231,7 +234,9 @@ public class Vision extends SubsystemBase {
     public double getThetaToSpeaker() {
         // Translation2d speaker =
         //         Field.flipXifRed(Field.Speaker.centerSpeakerOpening).toTranslation2d();
-        Translation2d speaker = getAdjustedSpeakerPos();
+        Translation2d speaker =
+                Field.flipXifRed(Field.Speaker.centerSpeakerPose)
+                        .getTranslation(); // getAdjustedSpeakerPos();
         Translation2d robotXY = Robot.swerve.getPose().getTranslation();
         double angleBetweenRobotAndSpeaker =
                 MathUtil.angleModulus(speaker.minus(robotXY).getAngle().getRadians());

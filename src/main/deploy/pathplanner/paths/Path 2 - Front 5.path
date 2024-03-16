@@ -16,11 +16,11 @@
     },
     {
       "anchor": {
-        "x": 2.8,
+        "x": 2.800592018396385,
         "y": 5.55
       },
       "prevControl": {
-        "x": 2.7000000000000006,
+        "x": 2.7005920183963856,
         "y": 5.55
       },
       "nextControl": null,
@@ -58,13 +58,7 @@
             {
               "type": "named",
               "data": {
-                "name": "launchReady2"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "stopFeeder"
+                "name": "visionLaunchReady"
               }
             }
           ]
@@ -74,7 +68,7 @@
   ],
   "globalConstraints": {
     "maxVelocity": 4.0,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
