@@ -244,13 +244,18 @@ public class Vision extends SubsystemBase {
         return Robot.swerve.getPose().getTranslation().getDistance(getAdjustedSpeakerPos());
     }
 
+    public Translation2d getAdjustedSpeakerPos() {
+        return getAdjustedTargetPos(
+                new Translation2d(0, Field.Speaker.centerSpeakerOpening.toTranslation2d().getY()));
+    }
+
     /**
      * Gets a field-relative position for the shot to the speaker the robot should take, adjusted
      * for the robot's movement.
      *
      * @return A {@link Translation2d} representing a field relative position in meters.
      */
-    public Translation2d getAdjustedSpeakerPos() {
+    public Translation2d getAdjustedTargetPos(Translation2d targetPose) {
         double NORM_FUDGE = 0.075;
         double tunableNoteVelocity = 5.6;
         double tunableNormFudge = 0.52;
@@ -258,37 +263,49 @@ public class Vision extends SubsystemBase {
         double tunableSpeakerYFudge = 0.0;
         double tunableSpeakerXFudge = 0.0;
 
-        Translation2d goalPose = Field.flipXifRed(Field.Speaker.centerSpeakerPose).getTranslation();
-        goalPose = Field.flipXifRed(new Translation2d(0, goalPose.getY()));
+        targetPose = Field.flipXifRed(targetPose);
         Translation2d robotPos = Robot.swerve.getPose().getTranslation();
         ChassisSpeeds robotVel = Robot.swerve.getVelocity(true); // TODO: change
 
-        double distance = robotPos.getDistance(goalPose);
+        double distance = robotPos.getDistance(targetPose);
         double normFactor =
                 Math.hypot(robotVel.vxMetersPerSecond, robotVel.vyMetersPerSecond) < NORM_FUDGE
                         ? 0.0
                         : Math.abs(
                                 MathUtil.angleModulus(
-                                                robotPos.minus(goalPose).getAngle().getRadians()
+                                                robotPos.minus(targetPose).getAngle().getRadians()
                                                         - Math.atan2(
                                                                 robotVel.vyMetersPerSecond,
                                                                 robotVel.vxMetersPerSecond))
                                         / Math.PI);
 
         double x =
-                goalPose.getX()
+                targetPose.getX()
                         + (Field.isBlue() ? tunableSpeakerXFudge : -tunableSpeakerXFudge)
                         - (robotVel.vxMetersPerSecond
                                 * (distance / tunableNoteVelocity)
                                 * (1.0 - (tunableNormFudge * normFactor)));
         double y =
-                goalPose.getY()
+                targetPose.getY()
                         + tunableSpeakerYFudge
                         - (robotVel.vyMetersPerSecond
                                 * (distance / tunableNoteVelocity)
                                 * tunableStrafeFudge);
 
         return new Translation2d(x, y);
+    }
+
+    public double getAngleToFeederPos() {
+        Translation2d feeder = getAdjustedFeederPos();
+        Translation2d robotXY = Robot.swerve.getPose().getTranslation();
+        double angleBetweenRobotAndFeeder =
+                MathUtil.angleModulus(feeder.minus(robotXY).getAngle().getRadians());
+
+        return angleBetweenRobotAndFeeder;
+    }
+
+    public Translation2d getAdjustedFeederPos() {
+        return getAdjustedTargetPos(Field.StagingLocations.spikeTranslations[2]);
     }
 
     // public void beltonVision() {
