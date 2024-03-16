@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.42,
-      "y": 5.55
+      "x": 1.4,
+      "y": 3.6375
     },
     "rotation": 180.0
   },
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path 1 - Front 5"
+            "pathName": "Part 1 - Source 4"
           }
         },
         {
@@ -26,7 +26,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path 2 - Front 5"
+            "pathName": "Part 2 - Source 4"
           }
         },
         {
@@ -38,7 +38,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path 3 - Front Alt 5"
+            "pathName": "Part 3 - Source 4"
           }
         },
         {
@@ -50,19 +50,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path 5 - Front 5"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "launch"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Path 6 - Front 5"
+            "pathName": "Part 4 - Source 4"
           }
         },
         {
@@ -74,6 +62,6 @@
       ]
     }
   },
-  "folder": "Front Autos",
+  "folder": "Source Side Autos",
   "choreoAuto": false
 }

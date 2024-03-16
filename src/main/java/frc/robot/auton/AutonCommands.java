@@ -84,13 +84,14 @@ public class AutonCommands {
 
     public static Command launch() {
         return FeederCommands.autoFeed()
-                .withTimeout(0.4)
+                .withTimeout(0.35)
                 .andThen(FeederCommands.stopMotor().withTimeout(0.01))
                 .withName("AutonCommands.launch");
     }
 
     public static Command intake() {
         return IntakeCommands.intake()
+                .alongWith(AmpTrapCommands.intake())
                 .until(Robot.feeder::intakedNote)
                 .deadlineWith(
                         PivotCommands.intake()

@@ -21,7 +21,7 @@ public class AutonConfig {
     public static final double kRotationP = 5;
     public static final double kRotationI = 0.0;
     public static final double kRotationD = 0.0;
-    public static final double maxModuleSpeed = 4.5;
+    public static final double maxModuleSpeed = 6;
     public static final double driveBaseRadius = 0.4;
 
     public static boolean commandInit = false;

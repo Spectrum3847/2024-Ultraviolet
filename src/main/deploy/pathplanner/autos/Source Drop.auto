@@ -3,7 +3,7 @@
   "startingPose": {
     "position": {
       "x": 1.42,
-      "y": 5.55
+      "y": 1.6
     },
     "rotation": 180.0
   },
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path 1 - Front 5"
+            "pathName": "Part 1 - Source Drop"
           }
         },
         {
@@ -26,7 +26,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path 2 - Front 5"
+            "pathName": "Part 2 - Source Drop"
           }
         },
         {
@@ -38,31 +38,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path 3 - Front Alt 5"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "launch"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Path 5 - Front 5"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "launch"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Path 6 - Front 5"
+            "pathName": "Part 3 - Source Drop"
           }
         },
         {
@@ -74,6 +50,6 @@
       ]
     }
   },
-  "folder": "Front Autos",
+  "folder": null,
   "choreoAuto": false
 }

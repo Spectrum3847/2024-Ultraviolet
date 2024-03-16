@@ -3,45 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.7,
-        "y": 6.9
+        "x": 4.340143984310419,
+        "y": 4.8782924132733205
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.0970184606565283,
-        "y": 6.948747737362059
+        "x": 5.245307702963395,
+        "y": 4.452788101086025
       },
       "isLocked": false,
-      "linkedName": "GP 4 - Front 5"
+      "linkedName": "GP 3 Shoot - Source 4"
     },
     {
       "anchor": {
-        "x": 8.1,
-        "y": 7.24
+        "x": 8.03042683728024,
+        "y": 4.151066861535032
       },
       "prevControl": {
-        "x": 8.20886485301985,
-        "y": 7.6766330768241975
+        "x": 7.1562088867863425,
+        "y": 4.290322818250875
       },
       "nextControl": {
-        "x": 7.99113514698015,
-        "y": 6.803366923175803
+        "x": 9.017976305658253,
+        "y": 3.993758096660657
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.278252447992267,
-        "y": 6.564836777942967
+        "x": 4.340143984310419,
+        "y": 4.8782924132733205
       },
       "prevControl": {
-        "x": 4.711057569203041,
-        "y": 6.595101460262061
+        "x": 5.260780587042933,
+        "y": 4.452788101086025
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "End - Front 5"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -89,7 +89,7 @@
     },
     {
       "name": "AlignToSpeaker",
-      "waypointRelativePos": 1.5500000000000003,
+      "waypointRelativePos": 0,
       "command": {
         "type": "parallel",
         "data": {
@@ -113,13 +113,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
+    "rotation": 165.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Front Paths",
+  "folder": null,
   "previewStartingState": {
-    "rotation": -145.0,
+    "rotation": 165.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

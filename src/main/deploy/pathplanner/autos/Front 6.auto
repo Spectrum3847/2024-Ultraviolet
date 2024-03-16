@@ -38,7 +38,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path 3 - Front Alt 5"
+            "pathName": "Path 3 - Front 5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launch"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path 4 - Front 5"
           }
         },
         {

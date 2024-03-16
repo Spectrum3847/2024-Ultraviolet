@@ -28,12 +28,16 @@ public class Auton extends SubsystemBase {
     // A chooser for autonomous commands
     public static void setupSelectors() {
         // Config Autos
-        autonChooser.addOption("1 Meter", new PathPlannerAuto("1 Meter Auto")); // Runs full Auto
-        autonChooser.addOption("3 Meter", new PathPlannerAuto("3 Meter Auto")); // Runs full Auto
-        autonChooser.addOption("5 Meter", new PathPlannerAuto("5 Meter Auto")); // Runs full Auto
+        // autonChooser.addOption("1 Meter", new PathPlannerAuto("1 Meter Auto")); // Runs full Auto
+        // autonChooser.addOption("3 Meter", new PathPlannerAuto("3 Meter Auto")); // Runs full Auto
+        // autonChooser.addOption("5 Meter", new PathPlannerAuto("5 Meter Auto")); // Runs full Auto
 
         // Competition Autos
         autonChooser.addOption("Front 5", new PathPlannerAuto("Front 5")); // Runs full Auto
+        autonChooser.addOption("Front 6", new PathPlannerAuto("Front 6")); // Runs full Auto
+        autonChooser.addOption("Source 4", new PathPlannerAuto("Source 4")); // Runs full Auto
+        autonChooser.addOption("Source Drop", new PathPlannerAuto("Source Drop")); // Runs full Auto
+
         autonChooser.addOption("Front Alt 5", new PathPlannerAuto("Front Alt 5")); // Runs full Auto
         autonChooser.addOption("Subwoofer", new PathPlannerAuto("Subwoofer")); // Runs full Auto
 

@@ -8,7 +8,7 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.0469304686692023,
+        "x": 2.0469304686692027,
         "y": 5.55
       },
       "isLocked": false,
@@ -20,12 +20,12 @@
         "y": 4.1
       },
       "prevControl": {
-        "x": 1.6,
-        "y": 4.1
+        "x": 1.8180638793457196,
+        "y": 4.359950796608796
       },
       "nextControl": {
-        "x": 2.65,
-        "y": 4.1
+        "x": 2.6474467935244856,
+        "y": 4.084226548118914
       },
       "isLocked": false,
       "linkedName": "GP 2 - Front 5"
@@ -80,45 +80,11 @@
           ]
         }
       }
-    },
-    {
-      "name": "StopTracking",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "stopTracking"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "AlignToSpeaker",
-      "waypointRelativePos": 1.5,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "alignToSpeaker"
-              }
-            }
-          ]
-        }
-      }
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 6.0,
+    "maxAcceleration": 4.3,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
