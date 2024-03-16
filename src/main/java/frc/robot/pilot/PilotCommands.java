@@ -3,10 +3,14 @@ package frc.robot.pilot;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import frc.crescendo.Field;
 import frc.robot.Robot;
+import frc.robot.leds.LEDs;
 import frc.robot.mechanisms.climber.Climber;
+import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.mechanisms.pivot.Pivot;
+import frc.robot.swerve.Swerve;
 import frc.robot.swerve.commands.SwerveCommands;
 
 /** This class should have any command calls that directly call the Pilot */
@@ -14,15 +18,33 @@ public class PilotCommands {
     private static Pilot pilot = Robot.pilot;
     private static Climber climber = Robot.climber;
     private static Pivot pivot = Robot.pivot;
+    private static Swerve swerve = Robot.swerve;
 
     /** Set default command to turn off the rumble */
     public static void setupDefaultCommand() {
-        Robot.pilot.setDefaultCommand(rumble(0, 99999).repeatedly().withName("Pilot.default"));
+        Robot.pilot.setDefaultCommand(launchReadyRumble().withName("Pilot.default"));
     }
 
     /** Command that can be used to rumble the pilot controller */
     public static Command rumble(double intensity, double durationSeconds) {
         return Robot.pilot.rumbleCommand(intensity, durationSeconds);
+    }
+
+    public static Command launchReadyRumble() {
+        return new FunctionalCommand(
+                () -> {},
+                () -> {
+                    if (LauncherCommands.isAtSpeed && swerve.rotationControllerAtSetpoint()) {
+                        Robot.pilot.controller.rumbleController(1, 1);
+                        LEDs.turnOnLaunchLEDs();
+                    } else {
+                        Robot.pilot.controller.rumbleController(0, 0);
+                        LEDs.turnOffLaunchLEDs();
+                    }
+                },
+                (b) -> {},
+                () -> false,
+                Robot.pilot);
     }
 
     /** Full control of the swerve by the Pilot command */
@@ -60,7 +82,17 @@ public class PilotCommands {
         return SwerveCommands.aimDrive(
                         () -> pilot.getDriveFwdPositive(),
                         () -> pilot.getDriveLeftPositive(),
-                        () -> Robot.vision.getThetaToSpeaker(),
+                        () -> Robot.vision.getAdjustedThetaToSpeaker(),
+                        () -> pilot.getFieldOriented(), // true is field oriented
+                        () -> true)
+                .withName("Swerve.aimToRedSpeaker");
+    }
+
+    public static Command aimToFeed() {
+        return SwerveCommands.aimDrive(
+                        () -> pilot.getDriveFwdPositive(),
+                        () -> pilot.getDriveLeftPositive(),
+                        () -> Robot.vision.getAdjustedThetaToFeeder(),
                         () -> pilot.getFieldOriented(), // true is field oriented
                         () -> true)
                 .withName("Swerve.aimToRedSpeaker");

@@ -15,7 +15,7 @@ public class AmpTrap extends Mechanism {
         public double maxSpeed = 5000;
         public double intake = 3000;
         public double feed = 500;
-        public double amp = 2500;
+        public double amp = 4500;
         public double score = 4500;
         public double eject = -3000;
 

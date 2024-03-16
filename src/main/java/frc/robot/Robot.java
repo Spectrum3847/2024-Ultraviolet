@@ -330,7 +330,8 @@ public class Robot extends LoggedRobot {
 
         if (!Robot.isSimulation()) {
             Logger.addDataReceiver(
-                    new WPILOGWriter("/U")); // Running on a real robot, log to a USB stick
+                    new WPILOGWriter()); // Running on a real robot, log to rio, if want to log to
+            // USB stick then specify path "/U"
         }
 
         // Start AdvantageKit logger

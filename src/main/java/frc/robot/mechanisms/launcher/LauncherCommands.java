@@ -5,20 +5,20 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import frc.robot.Robot;
-import frc.robot.leds.LEDsConfig;
-import frc.robot.leds.LEDsConfig.Section;
 import java.util.function.DoubleSupplier;
 
 public class LauncherCommands {
     private static LeftLauncher leftLauncher = Robot.leftLauncher;
     private static RightLauncher rightLauncher = Robot.rightLauncher;
 
+    public static boolean isAtSpeed = false;
+
     public static final InterpolatingDoubleTreeMap DISTANCE_MAP = new InterpolatingDoubleTreeMap();
+    public static final InterpolatingDoubleTreeMap FEED_DISTANCE_MAP =
+            new InterpolatingDoubleTreeMap();
 
     static {
-        // DISTANCE_MAP.put(1.31, 4500.0);
-        // DISTANCE_MAP.put(2.31, 5000.0);
-        // DISTANCE_MAP.put(4.79, 5500.0);
+        // launching
         DISTANCE_MAP.put(1.505, 3500.0);
         DISTANCE_MAP.put(2.629, 4500.0);
         DISTANCE_MAP.put(3.969, 4500.0);
@@ -27,6 +27,15 @@ public class LauncherCommands {
         DISTANCE_MAP.put(5.189, 5200.0);
         DISTANCE_MAP.put(5.829, 5200.0);
         DISTANCE_MAP.put(6.229, 5200.0);
+
+        // feed launching
+        FEED_DISTANCE_MAP.put(6.0, 2600.0);
+        FEED_DISTANCE_MAP.put(6.08, 2600.0);
+        FEED_DISTANCE_MAP.put(6.47, 2700.0);
+        FEED_DISTANCE_MAP.put(6.96, 2700.0);
+        FEED_DISTANCE_MAP.put(7.54, 3000.0);
+        FEED_DISTANCE_MAP.put(7.74, 3000.0);
+        FEED_DISTANCE_MAP.put(9.05, 3800.0);
     }
 
     public static void setupDefaultCommand() {
@@ -40,8 +49,16 @@ public class LauncherCommands {
         return () -> DISTANCE_MAP.get(distance.getAsDouble());
     }
 
+    public static DoubleSupplier getRPMFromFeedDistance(DoubleSupplier distance) {
+        return () -> FEED_DISTANCE_MAP.get(distance.getAsDouble());
+    }
+
     public static Command distanceVelocity(DoubleSupplier distance) {
         return velocityTCFOCrpm(getRPMfromDistance(distance));
+    }
+
+    public static Command feedDistanceVelocity(DoubleSupplier distance) {
+        return velocityTCFOCrpm(getRPMFromFeedDistance(distance));
     }
 
     public static Command velocityTCFOCrpm(DoubleSupplier velocityRPM) {
@@ -75,12 +92,14 @@ public class LauncherCommands {
     }
 
     public static Command subwoofer() {
-        return runLauncherVelocities(leftLauncher.config.subwoofer, rightLauncher.config.subwoofer)
+        return runTorqueLauncherVelocities(
+                        leftLauncher.config.subwoofer, rightLauncher.config.subwoofer)
                 .withName("Launcher.subwoofer");
     }
 
     public static Command deepShot() {
-        return runLauncherVelocities(leftLauncher.config.deepShot, rightLauncher.config.deepShot)
+        return runTorqueLauncherVelocities(
+                        leftLauncher.config.deepShot, rightLauncher.config.deepShot)
                 .withName("Launcher.deepShot");
     }
 
@@ -121,6 +140,15 @@ public class LauncherCommands {
                 .withName("Launcher.runLauncherVelocities");
     }
 
+    public static Command runTorqueLauncherVelocities(double leftVelocity, double rightVelocity) {
+        return leftLauncher
+                .runVelocityTCFOC(leftVelocity)
+                .alongWith(
+                        rightLauncher.runVelocity(rightVelocity),
+                        sendLauncherFeedback(leftVelocity, rightVelocity))
+                .withName("Launcher.runTorqueLaunherVelocities");
+    }
+
     public static Command runLauncherPercentages(double leftPercentage, double rightPercentage) {
         return leftLauncher
                 .runPercentage(leftPercentage)
@@ -149,18 +177,24 @@ public class LauncherCommands {
                             || rightLauncher.getMotorVelocityInRPM()
                                     >= rightVelocity.getAsDouble() - 50) {
                         if (DriverStation.isTeleopEnabled()) {
-                            Robot.pilot.controller.rumbleController(1, 1);
-                            Robot.leds.customStrobe(Section.FULL, LEDsConfig.SPECTRUM_COLOR, 8, 5);
+                            setIsAtSpeed();
                         }
                     }
                 },
                 (b) -> {
-                    if (DriverStation.isTeleopEnabled()) {
-                        Robot.pilot.controller.rumbleController(0, 0);
-                        Robot.leds.resetPriority();
-                    }
+                    // if (DriverStation.isTeleopEnabled()) {
+                    setNotAtSpeed();
+                    // }
                 },
                 () -> false);
+    }
+
+    public static void setIsAtSpeed() {
+        isAtSpeed = true;
+    }
+
+    public static void setNotAtSpeed() {
+        isAtSpeed = false;
     }
 
     /* Launcher Specific Commands */

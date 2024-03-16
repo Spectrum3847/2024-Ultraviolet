@@ -16,12 +16,14 @@ public class LEDsCommands {
     }
 
     public static void setupLEDTriggers() {
-        // Trigger visionValid = new Trigger(() -> Vision.isPresent);
         Trigger noteIntaked = new Trigger(Robot.feeder.lasercan::intakedNote);
         Trigger coastMode = new Trigger(() -> LEDs.coastModeLED);
+        Trigger launchReady = new Trigger(() -> LEDs.launchReadyLED);
+        // Trigger visionValid = new Trigger(() -> Vision.isPresent);
         // visionValid.whileTrue(solidGreenLED());
         noteIntaked.whileTrue(intakedNote());
         coastMode.whileTrue(coastLEDs());
+        launchReady.whileTrue(launchReadyStrobe());
     }
 
     /* Default Command */
@@ -87,17 +89,20 @@ public class LEDsCommands {
     }
 
     public static Command strobeOrangeLED() {
-        return LEDsCommands.strobe(Section.FULL, Color.kOrange, 0.5, 2)
-                .withName("LEDs.strobeOrangeLED");
+        return strobe(Section.FULL, Color.kOrange, 0.5, 2).withName("LEDs.strobeOrangeLED");
+    }
+
+    public static Command launchReadyStrobe() {
+        return customStrobe(Section.FULL, LEDsConfig.SPECTRUM_COLOR, 5, 5)
+                .withName("LEDs.launchReadyStrobe");
     }
 
     public static Command breathBlueLED() {
-        return LEDsCommands.breath(Section.FULL, Color.kBlue, Color.kBlack, 1, 4)
-                .withName("LEDs.breathBlueLED");
+        return breath(Section.FULL, Color.kBlue, Color.kBlack, 1, 4).withName("LEDs.breathBlueLED");
     }
 
     public static Command coastLEDs() {
-        return LEDsCommands.ombre(Section.FULL, Color.kOrange, Color.kOrangeRed, 5);
+        return ombre(Section.FULL, Color.kOrange, Color.kOrangeRed, 5);
     }
 
     /*
@@ -135,6 +140,12 @@ public class LEDsCommands {
     public static Command limitedStrobe(int endLeds, Color color, double duration, int priority) {
         return runLEDPattern(() -> leds.limitedStrobe(endLeds, color, duration, priority))
                 .withName("Leds.limitedStrobe");
+    }
+
+    public static Command customStrobe(
+            Section section, Color color, double frequency, int priority) {
+        return runLEDPattern(() -> leds.customStrobe(section, color, frequency, priority))
+                .withName("Leds.customStrobe");
     }
 
     /* Breath */

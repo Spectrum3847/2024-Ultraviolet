@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.crescendo.Field;
 import frc.robot.leds.LEDs;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
 import frc.robot.mechanisms.climber.ClimberCommands;
@@ -20,8 +21,25 @@ import frc.robot.vision.VisionCommands;
  */
 public class RobotCommands {
 
-    // Auto aim, set pivot, and launcher velocities
+    // score speaker if in range, otherwise launch to feed
     public static Command visionLaunch() {
+        return Commands.either(
+                        visionSpeakerLaunch(),
+                        visionFeedLaunch(),
+                        () -> {
+                            if (Field.isBlue()) {
+                                return Robot.swerve.getPose().getTranslation().getX()
+                                        <= (Field.fieldLength / 2) - 1;
+                            } else {
+                                return Robot.swerve.getPose().getTranslation().getX()
+                                        >= (Field.fieldLength / 2) + 1;
+                            }
+                        })
+                .withName("RobotCommands.visionLaunch");
+    }
+
+    // Auto aim, set pivot, and launcher velocities
+    public static Command visionSpeakerLaunch() {
         return PilotCommands.aimToSpeaker()
                 .alongWith(
                         LauncherCommands.distanceVelocity(() -> Robot.vision.getSpeakerDistance()),
@@ -29,9 +47,27 @@ public class RobotCommands {
                 .withName("RobotCommands.visionLaunch");
     }
 
-    public static Command testMap() {
-        return PilotCommands.aimToSpeaker().alongWith(RobotCommands.onDemandLaunching());
+    // Auto aim, set pivot, and launcher velocities
+    public static Command visionFeedLaunch() {
+        return PilotCommands.aimToFeed()
+                .alongWith(
+                        LauncherCommands.feedDistanceVelocity(() -> Robot.vision.getFeedDistance()),
+                        PivotCommands.setPivotOnFeedDistance(() -> Robot.vision.getFeedDistance()))
+                .withName("RobotCommands.visionLaunch");
     }
+
+    public static Command testMap() {
+        return PilotCommands.aimToFeed().alongWith(RobotCommands.onDemandLaunching());
+    }
+
+    public static Command feedLaunch() {
+        return PilotCommands.aimToFeed()
+                .alongWith(
+                        LauncherCommands.feedDistanceVelocity(() -> Robot.vision.getFeedDistance()),
+                        PivotCommands.setPivotOnFeedDistance(() -> Robot.vision.getFeedDistance()))
+                .withName("RobotCommands.feedLaunch");
+    }
+
     // Run the intake for at least 0.4 seconds OR until the lasercan sees the note,
     // (also get pivot
     // to a good position if it's
@@ -107,7 +143,7 @@ public class RobotCommands {
                                         ElevatorCommands.amp(),
                                         AmpTrapCommands.amp()
                                                 .onlyIf(() -> !Robot.elevator.isAtAmpHeight())
-                                                .withTimeout(0.55)
+                                                .withTimeout(0.4)
                                                 .andThen(AmpTrapCommands.stopMotor())))
                 .withName("RobotCommands.amp");
     }
