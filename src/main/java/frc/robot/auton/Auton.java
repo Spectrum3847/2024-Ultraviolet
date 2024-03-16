@@ -51,6 +51,7 @@ public class Auton extends SubsystemBase {
         NamedCommands.registerCommand("launchReady3", AutonCommands.launchReady3());
         NamedCommands.registerCommand("launch", AutonCommands.launch());
         NamedCommands.registerCommand("smartIntake", AutonCommands.intake());
+        NamedCommands.registerCommand("visionLaunch", AutonCommands.visionLaunch());
 
         /* Stop Commands */
         NamedCommands.registerCommand("stopTracking", AutonCommands.stopTracking());

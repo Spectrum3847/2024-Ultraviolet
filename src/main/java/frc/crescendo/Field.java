@@ -143,6 +143,9 @@ public class Field {
                         Units.inchesToMeters(192.55),
                         Units.inchesToMeters(161.638),
                         new Rotation2d());
+
+        public static final Pose2d ampClimb =
+                new Pose2d(12.265, 5.042, Rotation2d.fromDegrees(Field.flipAngleIfBlue(60)));
     }
 
     public static final double aprilTagWidth = Units.inchesToMeters(6.50);

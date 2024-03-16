@@ -84,6 +84,15 @@ public class PilotCommands {
                 () -> true);
     }
 
+    public static Command alignToAmpClimb() {
+        return SwerveCommands.AlignAimDrive(
+                () -> Field.Stage.ampClimb.getX(),
+                () -> Field.Stage.ampClimb.getY(),
+                () -> Field.Stage.ampClimb.getRotation().getRadians(),
+                () -> true,
+                () -> true);
+    }
+
     // Manual Aiming Drive, no vision/pose used for these commands
     public static Command podiumAimingDrive() {
         return SwerveCommands.aimDrive(

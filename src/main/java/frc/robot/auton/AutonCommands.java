@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Robot;
+import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
 import frc.robot.mechanisms.feeder.FeederCommands;
@@ -108,5 +109,9 @@ public class AutonCommands {
                                                 RobotTelemetry.print(
                                                         "No lasercan found; Didn't feed")),
                                 Robot.feeder.lasercan::validDistance));
+    }
+
+    public static Command visionLaunch() {
+        return RobotCommands.visionLaunch();
     }
 }

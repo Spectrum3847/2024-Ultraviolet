@@ -93,6 +93,7 @@ public class RobotCommands {
                 .withName("RobotCommands.onDemandLaunching");
     }
 
+    // Amp motor doesn't run if already have elevator up
     public static Command amp() {
         return FeederCommands.score()
                 .withTimeout(0.1)

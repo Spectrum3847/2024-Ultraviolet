@@ -40,7 +40,7 @@ public class PM2024 {
     private static final double kDRotationController = 0.0;
 
     /*Alignment Controllers */
-    private static final double kPAlignmentController = 8.0;
+    private static final double kPAlignmentController = 12.0;
     private static final double kIAlignmentController = 0.0;
     private static final double kDAlignmentController = 0.0;
 

@@ -175,7 +175,8 @@ public class Vision extends SubsystemBase {
                     Robot.swerve.getPose().getTranslation().getDistance(botpose.getTranslation());
 
             double targetSize = ll.getTargetSize();
-            if (botpose3D.getZ() > 0.25) { // Reject if we think we are too high in the air
+            if (Math.abs(botpose3D.getZ())
+                    > 0.25) { // Reject if we think we are too high in the air
                 isPresent = false;
                 ll.logStatus = "rejected";
                 return;

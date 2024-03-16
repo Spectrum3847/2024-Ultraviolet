@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.Robot;
+import frc.robot.auton.Auton;
 import frc.robot.swerve.commands.ApplyChassisSpeeds;
 import java.util.Optional;
 
@@ -77,24 +78,13 @@ public class AutonConfig {
 
     public static Optional<Rotation2d> getRotationTargetOverride() {
         // Some condition that should decide if we want to override rotation
-        // if (Auton.trackNote) {
-        //     // Return an optional containing the rotation override (this should be a field
-        // relative
-        //     // rotation)
-        //     if (Robot.vision.noteInView()) {
-        //         return Optional.of(Rotation2d.fromDegrees(Robot.vision.getOffsetToNote()));
-        //     } else {
-        //         return Optional.empty();
-        //     }
-        // } else if (Auton.trackSpeaker) {
-        //     if (Robot.vision.speakerInView()) {
-        //         return Optional.of(Rotation2d.fromDegrees(Robot.vision.getOffsetToSpeaker()));
-        //     } else {
-        //         return Optional.empty();
-        //     }
-        // } else {
-        //     // return an empty optional when we don't want to override the path's rotation
-        return Optional.empty();
-        // }
+        if (Auton.trackSpeaker) {
+            // Return an optional containing the rotation override (this should be a field relative
+            return Optional.of(Rotation2d.fromRadians(Robot.vision.getThetaToSpeaker())); //
+        } else {
+            return Optional
+                    .empty(); // return an empty optional when we don't want to override the path's
+            // rotation
+        }
     }
 }

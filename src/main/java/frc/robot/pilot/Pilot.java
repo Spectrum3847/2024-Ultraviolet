@@ -90,6 +90,7 @@ public class Pilot extends Gamepad {
                 .whileTrue(RobotCommands.ampWingShot());
 
         controller.start().whileTrue(RobotCommands.intoAmpShot());
+        controller.select().whileTrue(PilotCommands.alignToAmpClimb());
 
         runWithEndSequence(rightBumperOnly(), RobotCommands.score(), ElevatorCommands.home());
         controller.leftBumper().and(controller.rightBumper()).whileTrue(RobotCommands.score());

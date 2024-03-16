@@ -77,6 +77,11 @@ public class Robot extends LoggedRobot {
         LEDsCommands.setupLEDTriggers();
     }
 
+    public static void clearCommandsAndButtons() {
+        CommandScheduler.getInstance().cancelAll(); // Disable any currently running commands
+        CommandScheduler.getInstance().getActiveButtonLoop().clear();
+    }
+
     /* ROBOT INIT (Initialization) */
     /** This method is called once when the robot is first powered on. */
     public void robotInit() {
@@ -208,7 +213,7 @@ public class Robot extends LoggedRobot {
     public void autonomousInit() {
         try {
             RobotTelemetry.print("@@@ Auton Init Starting @@@ ");
-            resetCommandsAndButtons();
+            clearCommandsAndButtons();
             Command autonCommand = Commands.waitSeconds(0.01).andThen(Auton.getAutonomousCommand());
 
             if (autonCommand != null) {
