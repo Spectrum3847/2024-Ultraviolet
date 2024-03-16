@@ -32,60 +32,21 @@
     },
     {
       "anchor": {
-        "x": 4.928113579332866,
-        "y": 6.22443332819313
+        "x": 4.340143984310419,
+        "y": 6.085177371477287
       },
       "prevControl": {
-        "x": 6.069381398887052,
-        "y": 6.5952537214430675
-      },
-      "nextControl": {
-        "x": 3.9770570630377144,
-        "y": 5.915416333818183
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.8,
-        "y": 5.55
-      },
-      "prevControl": {
-        "x": 3.364141138787682,
-        "y": 5.69065618345561
+        "x": 5.481411803864606,
+        "y": 6.455997764727225
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "GP 2 - Test Front"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
-    {
-      "name": "LaunchReady",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "launchReady2"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "stopFeeder"
-              }
-            }
-          ]
-        }
-      }
-    },
     {
       "name": "Intake",
       "waypointRelativePos": 0,
@@ -102,11 +63,28 @@
           ]
         }
       }
+    },
+    {
+      "name": "LaunchReady",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "visionLaunchReady"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {
     "maxVelocity": 4.0,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

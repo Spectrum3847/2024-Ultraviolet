@@ -40,9 +40,11 @@ public class RobotCommands {
         return ElevatorCommands.home()
                 .alongWith(
                         IntakeCommands.intake()
+                                .alongWith(AmpTrapCommands.intake())
                                 .withTimeout(0.4)
                                 .andThen(
                                         IntakeCommands.intake()
+                                                .alongWith(AmpTrapCommands.intake())
                                                 .until(Robot.feeder::intakedNote)
                                                 .deadlineWith(
                                                         PivotCommands.intake()
@@ -91,16 +93,22 @@ public class RobotCommands {
                 .withName("RobotCommands.onDemandLaunching");
     }
 
+    // Amp motor doesn't run if already have elevator up
     public static Command amp() {
         return FeederCommands.score()
                 .withTimeout(0.1)
                 .onlyIf(Robot.feeder::noteIsClose)
                 .andThen(FeederCommands.feedToAmp())
-                .alongWith(AmpTrapCommands.amp())
+                .alongWith(AmpTrapCommands.amp().onlyIf(() -> !Robot.elevator.isAtAmpHeight()))
                 .until(() -> Robot.ampTrap.hasNote())
                 .andThen(
-                        AmpTrapCommands.stopMotor()
-                                .alongWith(FeederCommands.stopMotor(), ElevatorCommands.amp()))
+                        FeederCommands.stopMotor()
+                                .alongWith(
+                                        ElevatorCommands.amp(),
+                                        AmpTrapCommands.amp()
+                                                .onlyIf(() -> !Robot.elevator.isAtAmpHeight())
+                                                .withTimeout(0.55)
+                                                .andThen(AmpTrapCommands.stopMotor())))
                 .withName("RobotCommands.amp");
     }
 

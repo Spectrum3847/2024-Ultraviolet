@@ -17,12 +17,12 @@ public class PilotCommands {
 
     /** Set default command to turn off the rumble */
     public static void setupDefaultCommand() {
-        pilot.setDefaultCommand(rumble(0, 99999).repeatedly().withName("Pilot.default"));
+        Robot.pilot.setDefaultCommand(rumble(0, 99999).repeatedly().withName("Pilot.default"));
     }
 
     /** Command that can be used to rumble the pilot controller */
     public static Command rumble(double intensity, double durationSeconds) {
-        return pilot.rumbleCommand(intensity, durationSeconds);
+        return Robot.pilot.rumbleCommand(intensity, durationSeconds);
     }
 
     /** Full control of the swerve by the Pilot command */
@@ -71,6 +71,24 @@ public class PilotCommands {
                 () -> Field.flipXifRed(Field.ampCenter.getX()),
                 () -> pilot.getDriveLeftPositive(),
                 () -> Math.toRadians(Field.flipAngleIfBlue(270)), // Face the back to the amp
+                () -> true,
+                () -> true);
+    }
+
+    public static Command turnToAmp() {
+        return SwerveCommands.aimDrive(
+                () -> pilot.getDriveFwdPositive(),
+                () -> pilot.getDriveLeftPositive(),
+                () -> Units.degreesToRadians(Field.flipAngleIfBlue(270)),
+                () -> pilot.getFieldOriented(), // true is field oriented
+                () -> true);
+    }
+
+    public static Command alignToAmpClimb() {
+        return SwerveCommands.AlignAimDrive(
+                () -> Field.Stage.ampClimb.getX(),
+                () -> Field.Stage.ampClimb.getY(),
+                () -> Field.Stage.ampClimb.getRotation().getRadians(),
                 () -> true,
                 () -> true);
     }

@@ -109,4 +109,10 @@ public class AutonCommands {
                                                         "No lasercan found; Didn't feed")),
                                 Robot.feeder.lasercan::validDistance));
     }
+
+    public static Command visionLaunch() {
+        return LauncherCommands.distanceVelocity(() -> Robot.vision.getSpeakerDistance())
+                .alongWith(
+                        PivotCommands.setPivotOnDistance(() -> Robot.vision.getSpeakerDistance()));
+    }
 }

@@ -69,6 +69,11 @@ public class Elevator extends Mechanism {
         return run(() -> setMMPosition(position)).withName("Elevator.runPosition");
     }
 
+    // Is Amp Height
+    public Boolean isAtAmpHeight() {
+        return getMotorPosition() > config.amp * 0.8;
+    }
+
     /**
      * Runs the elevator to the specified position using FOC control. Will require different PID and
      * feedforward configs

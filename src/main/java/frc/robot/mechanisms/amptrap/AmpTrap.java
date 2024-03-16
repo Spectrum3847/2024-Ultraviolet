@@ -13,7 +13,7 @@ public class AmpTrap extends Mechanism {
 
         /* Revolutions per min AmpTrap Output */
         public double maxSpeed = 5000;
-        public double intake = 250;
+        public double intake = 3000;
         public double feed = 500;
         public double amp = 2500;
         public double score = 4500;
