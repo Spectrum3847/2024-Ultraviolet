@@ -234,6 +234,10 @@ public class Swerve implements Subsystem {
         return rotationController.calculate(targetRadians.getAsDouble());
     }
 
+    public boolean rotationControllerAtSetpoint() {
+        return rotationController.atSetpoint();
+    }
+
     public void setTargetHeading(double targetHeading) {
         this.targetHeading = targetHeading;
     }

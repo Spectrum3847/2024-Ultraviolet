@@ -3,10 +3,14 @@ package frc.robot.pilot;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import frc.crescendo.Field;
 import frc.robot.Robot;
+import frc.robot.leds.LEDs;
 import frc.robot.mechanisms.climber.Climber;
+import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.mechanisms.pivot.Pivot;
+import frc.robot.swerve.Swerve;
 import frc.robot.swerve.commands.SwerveCommands;
 
 /** This class should have any command calls that directly call the Pilot */
@@ -60,7 +64,17 @@ public class PilotCommands {
         return SwerveCommands.aimDrive(
                         () -> pilot.getDriveFwdPositive(),
                         () -> pilot.getDriveLeftPositive(),
-                        () -> Robot.vision.getThetaToSpeaker(),
+                        () -> Robot.vision.getAdjustedThetaToSpeaker(),
+                        () -> pilot.getFieldOriented(), // true is field oriented
+                        () -> true)
+                .withName("Swerve.aimToRedSpeaker");
+    }
+
+    public static Command aimToFeed() {
+        return SwerveCommands.aimDrive(
+                        () -> pilot.getDriveFwdPositive(),
+                        () -> pilot.getDriveLeftPositive(),
+                        () -> Robot.vision.getAdjustedThetaToFeeder(),
                         () -> pilot.getFieldOriented(), // true is field oriented
                         () -> true)
                 .withName("Swerve.aimToRedSpeaker");

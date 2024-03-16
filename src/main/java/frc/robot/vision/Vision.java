@@ -49,13 +49,10 @@ public class Vision extends SubsystemBase {
 
         /* Pose Estimation Constants */
         public static final double VISION_REJECT_DISTANCE = 1.8; // 2.3;
+
         // Increase these numbers to trust global measurements from vision less.
-        @AutoLogOutput(key = "Vision/STD/X")
         public static double VISION_STD_DEV_X = 0.5;
-
-        @AutoLogOutput(key = "Vision/STD/Y")
         public static double VISION_STD_DEV_Y = 0.5;
-
         public static double VISION_STD_DEV_THETA = 99999999;
 
         public static final Matrix<N3, N1> visionStdMatrix =
@@ -144,13 +141,13 @@ public class Vision extends SubsystemBase {
         try {
             // Will run in auto
 
-            isPresent = true;
             // force pose to be vision
             Pose2d estimatedPose = Robot.swerve.getPose();
             if ((estimatedPose.getX() <= 0.1 || estimatedPose.getY() <= 0.1)) {
                 resetPoseWithVision();
             }
-
+            
+            isPresent = true;
             filterAndAddVisionMeasurment(speakerLL);
             filterAndAddVisionMeasurment(rearLL);
 
@@ -181,7 +178,7 @@ public class Vision extends SubsystemBase {
                             < Units.inchesToMeters(
                                     3)) { // Reject if we think we are too high in the air
                 isPresent = false;
-                ll.logStatus = "rejected";
+                ll.logStatus = "check rejection";
                 return;
             } else if (ll.multipleTagsInView() && targetSize > 0.05) {
                 xyStds = 0.5;
@@ -194,8 +191,7 @@ public class Vision extends SubsystemBase {
                 degStds = 999999;
             } else {
                 isPresent = false;
-                // RobotTelemetry.print("Vision pose rejected");
-                ll.logStatus = "rejected";
+                ll.logStatus = "catch rejection";
                 return;
             }
 
@@ -221,6 +217,8 @@ public class Vision extends SubsystemBase {
                             VisionConfig.VISION_STD_DEV_THETA));
             Robot.swerve.addVisionMeasurement(botpose, timeStamp);
         } else {
+            ll.logStatus = "target rejection";
+            isPresent = false;
             return;
         }
     }
@@ -237,6 +235,15 @@ public class Vision extends SubsystemBase {
         Translation2d speaker =
                 Field.flipXifRed(Field.Speaker.centerSpeakerPose)
                         .getTranslation(); // getAdjustedSpeakerPos();
+        Translation2d robotXY = Robot.swerve.getPose().getTranslation();
+        double angleBetweenRobotAndSpeaker =
+                MathUtil.angleModulus(speaker.minus(robotXY).getAngle().getRadians());
+
+        return angleBetweenRobotAndSpeaker;
+    }
+
+    public double getAdjustedThetaToSpeaker() {
+        Translation2d speaker = getAdjustedSpeakerPos();
         Translation2d robotXY = Robot.swerve.getPose().getTranslation();
         double angleBetweenRobotAndSpeaker =
                 MathUtil.angleModulus(speaker.minus(robotXY).getAngle().getRadians());
@@ -301,7 +308,7 @@ public class Vision extends SubsystemBase {
         return new Translation2d(x, y);
     }
 
-    public double getAngleToFeederPos() {
+    public double getAdjustedThetaToFeeder() {
         Translation2d feeder = getAdjustedFeederPos();
         Translation2d robotXY = Robot.swerve.getPose().getTranslation();
         double angleBetweenRobotAndFeeder =
@@ -310,8 +317,16 @@ public class Vision extends SubsystemBase {
         return angleBetweenRobotAndFeeder;
     }
 
+    /** Returns the distance from the feed position in meters, adjusted for the robot's movement. */
+    @AutoLogOutput(key = "Vision/FeedDistance")
+    public double getFeedDistance() {
+        return Robot.swerve.getPose().getTranslation().getDistance(getAdjustedFeederPos());
+    }
+
     public Translation2d getAdjustedFeederPos() {
-        return getAdjustedTargetPos(Field.StagingLocations.spikeTranslations[2]);
+        Translation2d originalLocation = Field.StagingLocations.spikeTranslations[2];
+        return getAdjustedTargetPos(
+                new Translation2d(originalLocation.getX() - 0.5, originalLocation.getY() - 0.5));
     }
 
     // public void beltonVision() {
@@ -438,7 +453,7 @@ public class Vision extends SubsystemBase {
     @AutoLogOutput(key = "Vision/Front/ConnectionStatus")
     public boolean getFrontConnection() {
         return !NetworkTableInstance.getDefault()
-                .getTable("limelight-aim")
+                .getTable(VisionConfig.SPEAKER_LL)
                 .getEntry("json")
                 .getString("")
                 .equals("");
@@ -447,7 +462,7 @@ public class Vision extends SubsystemBase {
     @AutoLogOutput(key = "Vision/Rear/ConnectionStatus")
     public boolean getRearConnection() {
         return !NetworkTableInstance.getDefault()
-                .getTable("limelight-detect")
+                .getTable(VisionConfig.REAR_LL)
                 .getEntry("json")
                 .getString("")
                 .equals("");
@@ -481,6 +496,11 @@ public class Vision extends SubsystemBase {
     @AutoLogOutput(key = "Vision/Trust/STDY")
     public double getYSTD() {
         return VisionConfig.VISION_STD_DEV_Y;
+    }
+
+    @AutoLogOutput(key = "Vision/Trust/STDTheta")
+    public double getThetaSTD() {
+        return VisionConfig.VISION_STD_DEV_THETA;
     }
 
     @AutoLogOutput(key = "Vision/Front/TrustStrong")

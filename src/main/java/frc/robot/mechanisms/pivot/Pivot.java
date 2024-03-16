@@ -44,11 +44,11 @@ public class Pivot extends Mechanism {
         // TreeMap - Shooting position lookup table
         public static final InterpolatingDoubleTreeMap DISTANCE_MAP =
                 new InterpolatingDoubleTreeMap();
+        public static final InterpolatingDoubleTreeMap FEED_DISTANCE_MAP =
+                new InterpolatingDoubleTreeMap();
 
         static {
-            // DISTANCE_MAP.put(1.35, 80.5);
-            // DISTANCE_MAP.put(2.31, 57.0);
-            // DISTANCE_MAP.put(4.79, 43.0); //.229
+            // home
             DISTANCE_MAP.put(0.0, 82.0);
             DISTANCE_MAP.put(1.505, 81.0);
             DISTANCE_MAP.put(2.629, 55.5);
@@ -58,6 +58,15 @@ public class Pivot extends Mechanism {
             DISTANCE_MAP.put(5.189, 43.2);
             DISTANCE_MAP.put(5.829, 42.0);
             DISTANCE_MAP.put(6.229, 42.0);
+
+            // feed
+            FEED_DISTANCE_MAP.put(6.0, 80.0);
+            FEED_DISTANCE_MAP.put(6.08, 80.0);
+            FEED_DISTANCE_MAP.put(6.47, 69.0);
+            FEED_DISTANCE_MAP.put(6.96, 69.0);
+            FEED_DISTANCE_MAP.put(7.54, 68.0);
+            FEED_DISTANCE_MAP.put(7.74, 63.0);
+            FEED_DISTANCE_MAP.put(9.05, 63.0);
         }
 
         public PivotConfig() {
@@ -94,6 +103,10 @@ public class Pivot extends Mechanism {
     // Lookup angle in tree map
     public DoubleSupplier getAngleFromDistance(DoubleSupplier distance) {
         return () -> PivotConfig.DISTANCE_MAP.get(distance.getAsDouble());
+    }
+
+    public DoubleSupplier getAngleFromFeedDistance(DoubleSupplier distance) {
+        return () -> PivotConfig.FEED_DISTANCE_MAP.get(distance.getAsDouble());
     }
 
     public Command runPosition(DoubleSupplier percent) {
