@@ -75,6 +75,7 @@ public class Robot extends LoggedRobot {
         operator.resetConfig();
 
         LEDsCommands.setupLEDTriggers();
+        RobotCommands.setupRobotTriggers();
     }
 
     public static void clearCommandsAndButtons() {

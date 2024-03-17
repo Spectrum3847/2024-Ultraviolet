@@ -1,7 +1,9 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.crescendo.Field;
 import frc.robot.leds.LEDs;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
@@ -20,6 +22,16 @@ import frc.robot.vision.VisionCommands;
  * called this MechanismCommands.java
  */
 public class RobotCommands {
+
+    public static void setupRobotTriggers() {
+        Trigger coastMode =
+                new Trigger(
+                        () ->
+                                DriverStation.isDisabled()
+                                        && Robot.feeder.lasercan.intakedNote()
+                                        && Robot.ampTrap.lasercan.hasNote());
+        coastMode.whileTrue(RobotCommands.coastModeMechanisms());
+    }
 
     // score speaker if in range, otherwise launch to feed
     public static Command visionLaunch() {
