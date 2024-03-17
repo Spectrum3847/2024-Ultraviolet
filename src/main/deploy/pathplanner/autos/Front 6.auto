@@ -14,19 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path 1 - Front 5"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "launch"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Path 2 - Front 5"
+            "pathName": "Copy of Path 1 - Front 5"
           }
         },
         {
