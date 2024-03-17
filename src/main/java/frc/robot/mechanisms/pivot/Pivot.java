@@ -5,6 +5,7 @@ import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import frc.robot.RobotTelemetry;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
 import java.util.function.DoubleSupplier;
@@ -256,14 +257,17 @@ public class Pivot extends Mechanism {
 
     public void increaseOffset(double amount) {
         config.OFFSET += amount;
+        RobotTelemetry.print("Pivot offset increased to: " + config.OFFSET);
     }
 
     public void decreaseOffset(double amount) {
         config.OFFSET -= amount;
+        RobotTelemetry.print("Pivot offset decreased to: " + config.OFFSET);
     }
 
     public void resetOffset() {
         config.OFFSET = 0;
+        RobotTelemetry.print("Pivot offset reset to: " + config.OFFSET);
     }
 
     @Override
