@@ -117,7 +117,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Source Paths",
   "previewStartingState": {
     "rotation": 165.0,
     "velocity": 0

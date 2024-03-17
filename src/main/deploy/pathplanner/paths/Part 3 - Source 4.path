@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.187336565224608,
-        "y": 2.058969334748118
+        "x": 4.038370744263898,
+        "y": 1.7902041299242497
       },
       "isLocked": false,
       "linkedName": "GP 1 Shoot - Source 4"
@@ -20,28 +20,28 @@
         "y": 1.5
       },
       "prevControl": {
-        "x": 4.928113579332866,
-        "y": 1.5928373044772282
+        "x": 4.926181298491018,
+        "y": 1.5211070284260968
       },
       "nextControl": {
-        "x": 6.737077821396376,
-        "y": 1.389962810040199
+        "x": 6.5956412226985,
+        "y": 1.4786386700265999
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.95,
-        "y": 2.6
+        "x": 7.929159897335793,
+        "y": 2.65
       },
       "prevControl": {
-        "x": 7.598306721256283,
-        "y": 2.081401436428754
+        "x": 7.798923764085594,
+        "y": 1.911394185240844
       },
       "nextControl": {
-        "x": 8.406450080346367,
-        "y": 3.2730704574599057
+        "x": 8.042031212819298,
+        "y": 3.2901250394579353
       },
       "isLocked": false,
       "linkedName": null
@@ -52,8 +52,8 @@
         "y": 4.8782924132733205
       },
       "prevControl": {
-        "x": 5.694021341269998,
-        "y": 4.282586376211106
+        "x": 4.910439970513308,
+        "y": 4.507937869463102
       },
       "nextControl": null,
       "isLocked": false,
@@ -62,8 +62,8 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 2.0,
-      "rotationDegrees": 180.0,
+      "waypointRelativePos": 1.75,
+      "rotationDegrees": -165.0,
       "rotateFast": false
     }
   ],
@@ -139,7 +139,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Source Paths",
   "previewStartingState": {
     "rotation": 140.0,
     "velocity": 0

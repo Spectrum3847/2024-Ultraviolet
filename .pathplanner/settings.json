@@ -5,8 +5,9 @@
   "pathFolders": [
     "Amp Side Paths",
     "Front Paths",
-    "Source Drop",
+    "Source Paths",
     "PID Config Paths",
+    "Source Drop",
     "Subwoofer Paths"
   ],
   "autoFolders": [
