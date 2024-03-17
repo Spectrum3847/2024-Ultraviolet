@@ -146,7 +146,7 @@ public class Vision extends SubsystemBase {
             if ((estimatedPose.getX() <= 0.1 || estimatedPose.getY() <= 0.1)) {
                 resetPoseWithVision();
             }
-            
+
             isPresent = true;
             filterAndAddVisionMeasurment(speakerLL);
             filterAndAddVisionMeasurment(rearLL);

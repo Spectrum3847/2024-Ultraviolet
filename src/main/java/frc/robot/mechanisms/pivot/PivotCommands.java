@@ -78,4 +78,19 @@ public class PivotCommands {
     public static Command ensureBrakeMode() {
         return pivot.ensureBrakeMode();
     }
+
+    /** increase vision shots by 0.5 percent */
+    public static Command increaseOffset() {
+        return pivot.runOnce(pivot::increaseOffset).withName("Pivot.increaseFudgeFactor");
+    }
+
+    /** decrease vision shots by 0.5 percent */
+    public static Command decreaseOffset() {
+        return pivot.runOnce(pivot::decreaseOffset).withName("Pivot.decreaseFudgeFactor");
+    }
+
+    /** reset fudge factor to 0 */
+    public static Command resetOffset() {
+        return pivot.runOnce(pivot::resetOffset).withName("Pivot.resetFudgeFactor");
+    }
 }

@@ -33,7 +33,10 @@ public class Pivot extends Mechanism {
 
         public final double zeroSpeed = -0.1;
 
-        /* Intake config values */
+        /** Percentage of pivot rotation added/removed from vision launching pivot angles */
+        public double OFFSET = 0;
+
+        /* Pivot config values */
         public double currentLimit = 30;
         public double torqueCurrentLimit = 100;
         public double threshold = 40;
@@ -100,9 +103,9 @@ public class Pivot extends Mechanism {
     @Override
     public void periodic() {}
 
-    // Lookup angle in tree map
+    // Lookup angle in tree map, add fudge factor, and return angle
     public DoubleSupplier getAngleFromDistance(DoubleSupplier distance) {
-        return () -> PivotConfig.DISTANCE_MAP.get(distance.getAsDouble());
+        return () -> (PivotConfig.DISTANCE_MAP.get(distance.getAsDouble()) + config.OFFSET);
     }
 
     public DoubleSupplier getAngleFromFeedDistance(DoubleSupplier distance) {
@@ -241,6 +244,26 @@ public class Pivot extends Mechanism {
 
     public DoubleSupplier percentToRotation(DoubleSupplier percent) {
         return () -> config.maxRotation * (percent.getAsDouble() / 100);
+    }
+
+    public void increaseOffset() {
+        increaseOffset(0.5);
+    }
+
+    public void decreaseOffset() {
+        decreaseOffset(0.5);
+    }
+
+    public void increaseOffset(double amount) {
+        config.OFFSET += amount;
+    }
+
+    public void decreaseOffset(double amount) {
+        config.OFFSET -= amount;
+    }
+
+    public void resetOffset() {
+        config.OFFSET = 0;
     }
 
     @Override
