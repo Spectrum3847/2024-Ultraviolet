@@ -80,6 +80,23 @@
           ]
         }
       }
+    },
+    {
+      "name": "preScoreFeed",
+      "waypointRelativePos": 1.4,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "preScoreFeed"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {
