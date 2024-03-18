@@ -29,7 +29,7 @@ public class RobotCommands {
                         () ->
                                 DriverStation.isDisabled()
                                         && Robot.feeder.lasercan.intakedNote()
-                                        && Robot.ampTrap.lasercan.hasNote());
+                                        && Robot.ampTrap.lasercan.closeNote());
         coastMode.whileTrue(RobotCommands.coastModeMechanisms());
     }
 
