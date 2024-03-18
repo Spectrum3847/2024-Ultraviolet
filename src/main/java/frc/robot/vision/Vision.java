@@ -10,7 +10,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.crescendo.Field;
@@ -173,14 +172,18 @@ public class Vision extends SubsystemBase {
                     Robot.swerve.getPose().getTranslation().getDistance(botpose.getTranslation());
 
             double targetSize = ll.getTargetSize();
-            if (Math.abs(botpose3D.getZ()) > 0.25
-                    || poseDifference
-                            < Units.inchesToMeters(
-                                    3)) { // Reject if we think we are too high in the air
+            /* rejections */
+            if (Math.abs(botpose3D.getZ()) > 0.25) {
                 isPresent = false;
-                ll.logStatus = "check rejection";
+                ll.logStatus = "height rejection";
                 return;
-            } else if (ll.multipleTagsInView() && targetSize > 0.05) {
+            } else if (poseDifference < Units.inchesToMeters(3)) {
+                isPresent = false;
+                ll.logStatus = "proximity rejection";
+                return;
+            }
+            /* integrations */
+            else if (ll.multipleTagsInView() && targetSize > 0.05) {
                 xyStds = 0.5;
                 degStds = 6;
             } else if (targetSize > 0.8 && poseDifference < 0.5) {
@@ -329,99 +332,6 @@ public class Vision extends SubsystemBase {
                 new Translation2d(originalLocation.getX() - 0.5, originalLocation.getY() - 0.5));
     }
 
-    // public void beltonVision() {
-    //     // Integrate Vision with Odometry only in teleop
-    //     if (DriverStation.isTeleopEnabled()) {
-    //         for (Limelight limelight : limelights) {
-    //             try {
-    //                 // retrieve pose if valid
-    //                 Optional<Pose2d> visionPose =
-    //                         limelight.getFilteredPose(
-    //                                 Robot.swerve.getPose(), VisionConfig.VISION_REJECT_DISTANCE);
-    //                 if (visionPose.isPresent()) {
-    //                     isPresent = true;
-
-    //                     // replace vision rotation component
-    //                     Pose2d botpose = visionPose.get();
-    //                     Pose2d poseWithGyro = Robot.swerve.convertPoseWithGyro(botpose);
-
-    //                     // adjust vision trust
-    //                     adjustVisionSTDs(limelight);
-    //                     Matrix<N3, N1> visionSTDs =
-    //                             VecBuilder.fill(
-    //                                     VisionConfig.VISION_STD_DEV_X,
-    //                                     VisionConfig.VISION_STD_DEV_Y,
-    //                                     VisionConfig.VISION_STD_DEV_THETA);
-    //                     Robot.swerve.setVisionMeasurementStdDevs(visionSTDs);
-
-    //                     // integrate vision
-    //                     Robot.swerve.addVisionMeasurement(
-    //                             poseWithGyro, limelight.getVisionPoseTimestamp());
-    //                     limelight.logStatus =
-    //                             "Pose integrated; New Odometry: "
-    //                                     + df.format(Robot.swerve.getPose().getX())
-    //                                     + ", "
-    //                                     + df.format(Robot.swerve.getPose().getY())
-    //                                     + " || Vision Pose: "
-    //                                     + df.format(poseWithGyro.getX())
-    //                                     + ", "
-    //                                     + df.format(poseWithGyro.getY());
-    //                 } else {
-    //                     isPresent = false;
-    //                 }
-    //             } catch (NoSuchElementException e) {
-    //                 limelight.logStatus = "Optional Error while retrieving pose";
-    //                 RobotTelemetry.print("Vision pose not present but tried to access it");
-    //             }
-    //         }
-    //     }
-    // }
-
-    // public void beltonAdjustVisionSTDs(Limelight limelight) {
-    //     double distanceToTag = limelight.getDistanceToTagFromCamera();
-    //     double tagsInView = limelight.getTagCountInView();
-    //     double trust = 1.2;
-    //     if (tagsInView == 1) {
-    //         trust = 100;
-    //         if (distanceToTag <= 1.3) {
-    //             trust = 0.1;
-    //         }
-    //     } else if (tagsInView == 2) {
-    //         trust = 50;
-    //         if (distanceToTag <= 1.5) {
-    //             trust = 0.01;
-    //         } else if (distanceToTag <= 3) {
-    //             trust = 0.5;
-    //         }
-    //     } else if (tagsInView == 0) {
-    //         trust = 200;
-    //     }
-
-    //     if (trust <= 1) {
-    //         limelight.trustStrong = true;
-    //     } else {
-    //         limelight.trustStrong = false;
-    //     }
-    //     VisionConfig.VISION_STD_DEV_X = trust;
-    //     VisionConfig.VISION_STD_DEV_Y = trust;
-    // }
-
-    // public Optional<Pose2d> getVisionPose(Limelight ll) {
-    //     Pose2d visionPose = ll.getAlliancePose().toPose2d();
-
-    //     // if no camera or no target in view, return empty
-    //     if (!ll.isCameraConnected() || !ll.targetInView()) return Optional.empty();
-    //     // if vision pose is too far off current, ignore it
-    //     if (Robot.swerve.getPose().getTranslation().getDistance(visionPose.getTranslation())
-    //                     < VisionConfig.VISION_REJECT_DISTANCE
-    //             || (Robot.swerve.getPose().getX() <= 0 || Robot.swerve.getPose().getY() <= 0)) {
-    //         return Optional.of(new Pose2d(visionPose.getTranslation(),
-    // Robot.swerve.getRotation()));
-    //     }
-
-    //     return Optional.empty();
-    // }
-
     // we are resetting gyro angle as well?
     public void resetPoseWithVision() {
         // TODO: add more fallback logic here
@@ -452,20 +362,12 @@ public class Vision extends SubsystemBase {
     /** Logging */
     @AutoLogOutput(key = "Vision/Front/ConnectionStatus")
     public boolean getFrontConnection() {
-        return !NetworkTableInstance.getDefault()
-                .getTable(VisionConfig.SPEAKER_LL)
-                .getEntry("json")
-                .getString("")
-                .equals("");
+        return speakerLL.isCameraConnected();
     }
 
     @AutoLogOutput(key = "Vision/Rear/ConnectionStatus")
     public boolean getRearConnection() {
-        return !NetworkTableInstance.getDefault()
-                .getTable(VisionConfig.REAR_LL)
-                .getEntry("json")
-                .getString("")
-                .equals("");
+        return rearLL.isCameraConnected();
     }
 
     @AutoLogOutput(key = "Vision/Front/LogStatus")
@@ -503,15 +405,15 @@ public class Vision extends SubsystemBase {
         return VisionConfig.VISION_STD_DEV_THETA;
     }
 
-    @AutoLogOutput(key = "Vision/Front/TrustStrong")
-    public boolean getFrontTrustStrength() {
-        return speakerLL.trustStrong;
-    }
+    // @AutoLogOutput(key = "Vision/Front/TrustStrong")
+    // public boolean getFrontTrustStrength() {
+    //     return speakerLL.trustStrong;
+    // }
 
-    @AutoLogOutput(key = "Vision/Rear/TrustStrong")
-    public boolean getRearTrustStrength() {
-        return rearLL.trustStrong;
-    }
+    // @AutoLogOutput(key = "Vision/Rear/TrustStrong")
+    // public boolean getRearTrustStrength() {
+    //     return rearLL.trustStrong;
+    // }
 
     public static class CommandConfig {
         public double kp;
