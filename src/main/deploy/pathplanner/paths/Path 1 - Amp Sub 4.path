@@ -54,29 +54,6 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "launchReady",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "launchReady"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "home"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
       "name": "intake",
       "waypointRelativePos": 0,
       "command": {
@@ -90,6 +67,16 @@
               }
             }
           ]
+        }
+      }
+    },
+    {
+      "name": "preScoreFeed",
+      "waypointRelativePos": 0.85,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": []
         }
       }
     }

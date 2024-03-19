@@ -52,6 +52,12 @@
           "data": {
             "name": "score"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path 4 - Center Sub 4"
+          }
         }
       ]
     }

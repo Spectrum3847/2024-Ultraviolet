@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7040162256189807,
-      "y": 4.421842332926948
+      "x": 0.7194891096985188,
+      "y": 6.68861985057927
     },
-    "rotation": 120.0
+    "rotation": -120.0
   },
   "command": {
     "type": "sequential",
@@ -20,7 +20,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path 1 - Source Sub Centerline 2"
+            "pathName": "Path 2 - Amp Sub 4"
           }
         },
         {
@@ -32,7 +32,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path 2 - Source Sub Centerline 2"
+            "pathName": "Path 3 - Amp Sub 4"
           }
         },
         {
@@ -44,6 +44,6 @@
       ]
     }
   },
-  "folder": "Source Side Autos",
+  "folder": "Amp Side Autos",
   "choreoAuto": false
 }
