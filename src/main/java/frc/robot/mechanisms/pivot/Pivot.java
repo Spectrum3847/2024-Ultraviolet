@@ -5,6 +5,7 @@ import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import frc.robot.RobotTelemetry;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
 import java.util.function.DoubleSupplier;
@@ -34,7 +35,10 @@ public class Pivot extends Mechanism {
 
         public final double zeroSpeed = -0.1;
 
-        /* Intake config values */
+        /** Percentage of pivot rotation added/removed from vision launching pivot angles */
+        public double OFFSET = 0;
+
+        /* Pivot config values */
         public double currentLimit = 30;
         public double torqueCurrentLimit = 100;
         public double threshold = 40;
@@ -101,9 +105,13 @@ public class Pivot extends Mechanism {
     @Override
     public void periodic() {}
 
-    // Lookup angle in tree map
+    // Lookup angle in tree map, add fudge factor, and return angle
     public DoubleSupplier getAngleFromDistance(DoubleSupplier distance) {
-        return () -> PivotConfig.DISTANCE_MAP.get(distance.getAsDouble());
+        return () -> (PivotConfig.DISTANCE_MAP.get(distance.getAsDouble()) + config.OFFSET);
+    }
+
+    public DoubleSupplier getAngleFromFeedDistance(DoubleSupplier distance) {
+        return () -> PivotConfig.FEED_DISTANCE_MAP.get(distance.getAsDouble());
     }
 
     public DoubleSupplier getAngleFromFeedDistance(DoubleSupplier distance) {
@@ -226,6 +234,14 @@ public class Pivot extends Mechanism {
         return 0;
     }
 
+    @AutoLogOutput(key = "Pivot/Adjustable Offset (percent)")
+    public double getOffset() {
+        if (attached) {
+            return config.OFFSET;
+        }
+        return 0;
+    }
+
     /** Returns the position of the motor as a percentage of max rotation */
     @AutoLogOutput(key = "Pivot/Motor Position (percent)")
     public double getMotorPercentAngle() {
@@ -242,6 +258,29 @@ public class Pivot extends Mechanism {
 
     public DoubleSupplier percentToRotation(DoubleSupplier percent) {
         return () -> config.maxRotation * (percent.getAsDouble() / 100);
+    }
+
+    public void increaseOffset() {
+        increaseOffset(0.5);
+    }
+
+    public void decreaseOffset() {
+        decreaseOffset(0.5);
+    }
+
+    public void increaseOffset(double amount) {
+        config.OFFSET += amount;
+        RobotTelemetry.print("Pivot offset increased to: " + config.OFFSET);
+    }
+
+    public void decreaseOffset(double amount) {
+        config.OFFSET -= amount;
+        RobotTelemetry.print("Pivot offset decreased to: " + config.OFFSET);
+    }
+
+    public void resetOffset() {
+        config.OFFSET = 0;
+        RobotTelemetry.print("Pivot offset reset to: " + config.OFFSET);
     }
 
     @Override

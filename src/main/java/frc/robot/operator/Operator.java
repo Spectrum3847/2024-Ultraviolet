@@ -8,6 +8,7 @@ import frc.robot.mechanisms.climber.ClimberCommands;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
 import frc.robot.mechanisms.feeder.FeederCommands;
 import frc.robot.mechanisms.intake.IntakeCommands;
+import frc.robot.mechanisms.pivot.PivotCommands;
 import frc.spectrumLib.gamepads.Gamepad;
 
 public class Operator extends Gamepad {
@@ -58,6 +59,14 @@ public class Operator extends Gamepad {
 
         bothBumpers().whileTrue(LEDsCommands.solidGreenLED());
 
+        controller.upDpad().and(noBumpers()).onTrue(rumbleCommand(PivotCommands.increaseOffset()));
+        controller
+                .downDpad()
+                .and(noBumpers())
+                .onTrue(rumbleCommand(PivotCommands.decreaseOffset()));
+        controller.leftDpad().and(noBumpers()).onTrue(rumbleCommand(PivotCommands.resetOffset()));
+
+        /* Climb */
         controller.upDpad().and(leftBumperOnly()).whileTrue(RobotCommands.topClimb());
         controller.downDpad().and(leftBumperOnly()).whileTrue(ClimberCommands.midClimb());
         controller.leftDpad().and(leftBumperOnly()).whileTrue(RobotCommands.trapExtend());

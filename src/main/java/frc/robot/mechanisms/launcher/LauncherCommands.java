@@ -5,13 +5,13 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import frc.robot.Robot;
-import frc.robot.leds.LEDsConfig;
-import frc.robot.leds.LEDsConfig.Section;
 import java.util.function.DoubleSupplier;
 
 public class LauncherCommands {
     private static LeftLauncher leftLauncher = Robot.leftLauncher;
     private static RightLauncher rightLauncher = Robot.rightLauncher;
+
+    public static boolean isAtSpeed = false;
 
     public static final InterpolatingDoubleTreeMap DISTANCE_MAP = new InterpolatingDoubleTreeMap();
     public static final InterpolatingDoubleTreeMap FEED_DISTANCE_MAP =
@@ -177,18 +177,24 @@ public class LauncherCommands {
                             || rightLauncher.getMotorVelocityInRPM()
                                     >= rightVelocity.getAsDouble() - 50) {
                         if (DriverStation.isTeleopEnabled()) {
-                            Robot.pilot.controller.rumbleController(1, 1);
-                            Robot.leds.customStrobe(Section.FULL, LEDsConfig.SPECTRUM_COLOR, 8, 5);
+                            setIsAtSpeed();
                         }
                     }
                 },
                 (b) -> {
-                    if (DriverStation.isTeleopEnabled()) {
-                        Robot.pilot.controller.rumbleController(0, 0);
-                        Robot.leds.resetPriority();
-                    }
+                    // if (DriverStation.isTeleopEnabled()) {
+                    setNotAtSpeed();
+                    // }
                 },
                 () -> false);
+    }
+
+    public static void setIsAtSpeed() {
+        isAtSpeed = true;
+    }
+
+    public static void setNotAtSpeed() {
+        isAtSpeed = false;
     }
 
     /* Launcher Specific Commands */

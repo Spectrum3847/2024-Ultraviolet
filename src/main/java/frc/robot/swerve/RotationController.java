@@ -16,6 +16,8 @@ public class RotationController {
     ProfiledPIDController controller;
     PIDController holdController;
     Constraints constraints;
+    double calculatedValue;
+    double feedbackSetpoint;
 
     public RotationController(Swerve swerve) {
         this.swerve = swerve;
@@ -40,11 +42,14 @@ public class RotationController {
 
         holdController.enableContinuousInput(-Math.PI, Math.PI);
         holdController.setTolerance(Math.PI / 180);
+
+        calculatedValue = 0;
+        feedbackSetpoint = 0.35;
     }
 
     public double calculate(double goalRadians) {
         double measurement = swerve.getRotation().getRadians();
-        double calculatedValue = controller.calculate(measurement, goalRadians);
+        calculatedValue = controller.calculate(measurement, goalRadians);
         // RobotTelemetry.print(
         //         "RotationControllerOutput: "
         //                 + calculatedValue
@@ -55,7 +60,7 @@ public class RotationController {
         //                 + " max: "
         //                 + config.maxAngularVelocity);
         if (atSetpoint()) {
-            return 0; // calculateHold(goalRadians);
+            return calculatedValue = 0; // calculateHold(goalRadians);
         } else {
             return calculatedValue;
         }
@@ -69,6 +74,10 @@ public class RotationController {
 
     public boolean atSetpoint() {
         return controller.atSetpoint();
+    }
+
+    public boolean atFeedbackSetpoint() {
+        return Math.abs(calculatedValue) <= feedbackSetpoint;
     }
 
     public boolean atHoldSetpoint() {
