@@ -64,6 +64,7 @@ public class Operator extends Gamepad {
                 .downDpad()
                 .and(noBumpers())
                 .onTrue(rumbleCommand(PivotCommands.decreaseOffset()));
+        controller.leftDpad().and(noBumpers()).onTrue(rumbleCommand(PivotCommands.resetOffset()));
 
         /* Climb */
         controller.upDpad().and(leftBumperOnly()).whileTrue(RobotCommands.topClimb());

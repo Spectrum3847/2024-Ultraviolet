@@ -34,8 +34,12 @@ public class PilotCommands {
         return new FunctionalCommand(
                 () -> {},
                 () -> {
-                    if (LauncherCommands.isAtSpeed && swerve.rotationControllerAtSetpoint()) {
-                        Robot.pilot.controller.rumbleController(1, 1);
+                    if (LauncherCommands.isAtSpeed) {
+                        if (swerve.rotationControllerAtFeedback()) {
+                            Robot.pilot.controller.rumbleController(1, 1);
+                        } else {
+                            Robot.pilot.controller.rumbleController(0, 0);
+                        }
                         LEDs.turnOnLaunchLEDs();
                     } else {
                         Robot.pilot.controller.rumbleController(0, 0);

@@ -10,6 +10,8 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.crescendo.Field;
@@ -38,6 +40,7 @@ public class Swerve implements Subsystem {
     private final RotationController rotationController;
     private final AlignmentController xController;
     private final AlignmentController yController;
+    private Field2d field = new Field2d();
     private double OdometryUpdateFrequency = 250;
     private double targetHeading = 0;
     private ReadWriteLock m_stateLock = new ReentrantReadWriteLock();
@@ -88,6 +91,8 @@ public class Swerve implements Subsystem {
                         .withConstraints(config.maxVelocity / 2, config.maxAccel / 2);
 
         setVisionMeasurementStdDevs(VisionConfig.visionStdMatrix);
+
+        SmartDashboard.putData("Odometry/Field", field);
         RobotTelemetry.print("Swerve Subsystem Initialized: ");
     }
 
@@ -132,6 +137,10 @@ public class Swerve implements Subsystem {
             Logger.recordOutput(
                     "Vision/Rear/TagDistance", Robot.vision.rearLL.getDistanceToTagFromCamera());
         }
+
+        // Update Field object for smartdashboard
+        field.setRobotPose(getPose());
+        field.getObject("Vision").setPose(Robot.vision.speakerLL.getRawPose3d().toPose2d());
     }
 
     @Override
@@ -236,6 +245,10 @@ public class Swerve implements Subsystem {
 
     public boolean rotationControllerAtSetpoint() {
         return rotationController.atSetpoint();
+    }
+
+    public boolean rotationControllerAtFeedback() {
+        return rotationController.atFeedbackSetpoint();
     }
 
     public void setTargetHeading(double targetHeading) {

@@ -229,6 +229,14 @@ public class Pivot extends Mechanism {
         return 0;
     }
 
+    @AutoLogOutput(key = "Pivot/Adjustable Offset (percent)")
+    public double getOffset() {
+        if (attached) {
+            return config.OFFSET;
+        }
+        return 0;
+    }
+
     /** Returns the position of the motor as a percentage of max rotation */
     @AutoLogOutput(key = "Pivot/Motor Position (percent)")
     public double getMotorPercentAngle() {
