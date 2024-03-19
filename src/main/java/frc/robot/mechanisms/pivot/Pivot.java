@@ -114,10 +114,6 @@ public class Pivot extends Mechanism {
         return () -> PivotConfig.FEED_DISTANCE_MAP.get(distance.getAsDouble());
     }
 
-    public DoubleSupplier getAngleFromFeedDistance(DoubleSupplier distance) {
-        return () -> PivotConfig.FEED_DISTANCE_MAP.get(distance.getAsDouble());
-    }
-
     public Command runPosition(DoubleSupplier percent) {
         return run(() -> setMMPosition(percentToRotation(percent)))
                 .withName("Pivot.runPercentSupplier");
