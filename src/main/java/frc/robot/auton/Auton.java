@@ -50,6 +50,7 @@ public class Auton extends SubsystemBase {
         NamedCommands.registerCommand("alignToSpeaker", AutonCommands.trackSpeaker());
         NamedCommands.registerCommand("alignToNote", AutonCommands.trackNote());
         NamedCommands.registerCommand("launchReadySubwoofer", AutonCommands.launchReadySubwoofer());
+        NamedCommands.registerCommand("launchReadyPreload", AutonCommands.launchReadyPreload());
         NamedCommands.registerCommand("launchReady1", AutonCommands.launchReady1());
         NamedCommands.registerCommand("launchReady2", AutonCommands.launchReady2());
         NamedCommands.registerCommand("launchReady3", AutonCommands.launchReady3());

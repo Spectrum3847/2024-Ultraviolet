@@ -26,6 +26,7 @@ public class Pivot extends Mechanism {
         public final double fromAmp = 52;
         public final double ampWing = 41;
         public final double intake = 50;
+        public final double autoLaunchPreload = 59;
         public final double autoLaunch1 = 70;
         public final double autoLaunch2 =
                 55; // works for GP2/GP3/GP5/GP6 in Front 5 and GP2/GP4/5 in Front 5 Alt

@@ -58,6 +58,12 @@ public class AutonCommands {
                 .withName("AutonCommands.stopFeed");
     }
 
+    public static Command launchReadyPreload() {
+        return PivotCommands.autoLaunchPreload()
+                .alongWith(LauncherCommands.subwoofer())
+                .withName("AutonCommands.launchReadyPreload");
+    }
+
     public static Command launchReady1() {
         return PivotCommands.autoLaunch1()
                 .alongWith(LauncherCommands.subwoofer())
