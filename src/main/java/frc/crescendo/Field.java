@@ -199,6 +199,16 @@ public class Field {
         return xCoordinate;
     }
 
+    public static boolean poseOutOfField(Pose2d pose2D) {
+        double x = pose2D.getX();
+        double y = pose2D.getY();
+        return (x <= 0 || x >= fieldLength) || (y <= 0 || y >= fieldWidth);
+    }
+
+    public static boolean poseOutOfField(Pose3d pose3D) {
+        return poseOutOfField(pose3D.toPose2d());
+    }
+
     // public static final AprilTagFieldLayout aprilTags;
 
     // static {

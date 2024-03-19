@@ -57,52 +57,6 @@ public class Vision extends SubsystemBase {
 
         public static final Matrix<N3, N1> visionStdMatrix =
                 VecBuilder.fill(VISION_STD_DEV_X, VISION_STD_DEV_Y, VISION_STD_DEV_THETA);
-
-        /* Vision Command Configs */
-        public static final class AlignToSpeaker extends CommandConfig {
-            private AlignToSpeaker() {
-                configKp(0.04);
-                configTolerance(0.01);
-                configMaxOutput(Robot.swerve.config.maxVelocity * 0.5);
-                configError(0.3);
-                configPipelineIndex(speakerDetectorPipeline);
-                configLimelight(Robot.vision.speakerLL);
-            }
-
-            public static AlignToSpeaker getConfig() {
-                return new AlignToSpeaker();
-            }
-        }
-
-        public static final class AlignToAmp extends CommandConfig {
-            private AlignToAmp() {
-                configKp(0.4);
-                configTolerance(0);
-                configMaxOutput(Robot.swerve.config.maxVelocity * 0.5);
-                configError(0.3);
-                configPipelineIndex(speakerDetectorPipeline);
-                configLimelight(Robot.vision.rearLL);
-            }
-
-            public static AlignToAmp getConfig() {
-                return new AlignToAmp();
-            }
-        }
-
-        public static final class AlignToStage extends CommandConfig {
-            private AlignToStage() {
-                configKp(0.04);
-                configTolerance(0.01);
-                configMaxOutput(Robot.swerve.config.maxVelocity * 0.5);
-                configError(0.3);
-                configPipelineIndex(speakerDetectorPipeline);
-                configLimelight(Robot.vision.rearLL);
-            }
-
-            public static AlignToStage getConfig() {
-                return new AlignToStage();
-            }
-        }
     }
 
     /* Limelights */
@@ -116,7 +70,7 @@ public class Vision extends SubsystemBase {
                     VisionConfig.SPEAKER_LL,
                     VisionConfig.speakerDetectorPipeline,
                     VisionConfig.SPEAKER_CONFIG);
-    public final Limelight[] limelights = {rearLL, speakerLL};
+    public final Limelight[] limelights = {speakerLL, rearLL};
 
     private final DecimalFormat df = new DecimalFormat();
 
@@ -144,7 +98,7 @@ public class Vision extends SubsystemBase {
                 // force pose to be vision
                 Pose2d estimatedPose = Robot.swerve.getPose();
                 if ((estimatedPose.getX() <= 0.1 || estimatedPose.getY() <= 0.1)) {
-                    resetPoseWithVision();
+                    forcePoseToVision();
                 }
 
                 isPresent = true;
@@ -158,7 +112,7 @@ public class Vision extends SubsystemBase {
         }
     }
 
-    protected void filterAndAddVisionMeasurment(Limelight ll) {
+    private void filterAndAddVisionMeasurment(Limelight ll) {
 
         double xyStds = 1000;
         double degStds = 1000;
@@ -175,23 +129,38 @@ public class Vision extends SubsystemBase {
 
             double targetSize = ll.getTargetSize();
             /* rejections */
-            if (Math.abs(botpose3D.getZ()) > 0.25) {
+            if (Field.poseOutOfField(botpose3D)) {
+                // reject if pose is out of the field
+                isPresent = false;
+                ll.logStatus = "bound rejection";
+                return;
+            } else if (Math.abs(botpose3D.getZ()) > 0.25) {
+                // reject if pose is .25 meters in the air
                 isPresent = false;
                 ll.logStatus = "height rejection";
                 return;
+            } else if (Math.abs(botpose3D.getRotation().getX()) > 5
+                    || Math.abs(botpose3D.getRotation().getY()) > 5) {
+                // reject if pose is 5 degrees titled in roll or pitch
+                isPresent = false;
+                ll.logStatus = "roll/pitch rejection";
             } else if (poseDifference < Units.inchesToMeters(3)) {
+                // reject if pose is very close to robot pose
                 isPresent = false;
                 ll.logStatus = "proximity rejection";
                 return;
             }
             /* integrations */
             else if (ll.multipleTagsInView() && targetSize > 0.05) {
+                ll.logStatus = "Multi";
                 xyStds = 0.5;
                 degStds = 6;
             } else if (targetSize > 0.8 && poseDifference < 0.5) {
+                ll.logStatus = "Close";
                 xyStds = 1.0;
                 degStds = 12;
             } else if (targetSize > 0.1 && poseDifference < 0.3) {
+                ll.logStatus = "Proximity";
                 xyStds = 2.0;
                 degStds = 999999;
             } else {
@@ -200,8 +169,8 @@ public class Vision extends SubsystemBase {
                 return;
             }
 
-            ll.logStatus =
-                    "Pose integrated; New Odometry: "
+            ll.logStatus +=
+                    " Pose integrated; New Odometry: "
                             + df.format(Robot.swerve.getPose().getX())
                             + ", "
                             + df.format(Robot.swerve.getPose().getY())
@@ -334,11 +303,33 @@ public class Vision extends SubsystemBase {
                 new Translation2d(originalLocation.getX() - 0.5, originalLocation.getY() - 0.5));
     }
 
-    // we are resetting gyro angle as well?
-    public void resetPoseWithVision() {
+    /** Set robot pose to vision pose regardless of validity. Does not reset rotation. */
+    public void forcePoseToVision() {
         // TODO: add more fallback logic here
         Robot.swerve.resetPose(
                 Robot.swerve.convertPoseWithGyro(speakerLL.getRawPose3d().toPose2d()));
+    }
+
+    /** Set robot pose to vision pose only if LL has good tag reading */
+    public void resetPoseToVision() {
+        for (Limelight limelight : limelights) {
+            if (limelight.hasAccuratePose()) {
+                Robot.swerve.resetPose(limelight.getRawPose3d().toPose2d());
+                break;
+            }
+        }
+    }
+
+    /**
+     * If at least one LL has an accurate pose
+     *
+     * @return
+     */
+    public boolean hasAccuratePose() {
+        for (Limelight limelight : limelights) {
+            if (limelight.hasAccuratePose()) return true;
+        }
+        return false;
     }
 
     /** Change both LL pipelines to the same pipeline */

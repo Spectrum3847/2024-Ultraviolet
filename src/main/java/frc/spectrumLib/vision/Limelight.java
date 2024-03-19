@@ -113,6 +113,10 @@ public class Limelight {
                 CAMERA_NAME); // 2024: all alliances use blue as 0,0
     }
 
+    public boolean hasAccuratePose() {
+        return multipleTagsInView() && getTargetSize() > 0.1;
+    }
+
     public Optional<Pose2d> getFilteredPose(Pose2d swervePose, double rejectDistance) {
         Pose2d visionPose = getRawPose3d().toPose2d();
 
