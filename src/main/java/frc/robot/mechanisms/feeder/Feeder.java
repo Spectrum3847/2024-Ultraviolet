@@ -173,6 +173,15 @@ public class Feeder extends Mechanism {
         return 0;
     }
 
+    /** Intaked note status */
+    @AutoLogOutput(key = "Feeder/Note Intaked")
+    public boolean noteIntaked() {
+        if(attached) {
+            return lasercan.intakedNote();
+        }
+        return false;
+    }
+
     public double getMotorPosition() {
         if (attached) {
             return motor.getPosition().getValueAsDouble();

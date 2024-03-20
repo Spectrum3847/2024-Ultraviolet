@@ -32,23 +32,24 @@ public class PilotCommands {
 
     public static Command launchReadyRumble() {
         return new FunctionalCommand(
-                () -> {},
-                () -> {
-                    if (LauncherCommands.isAtSpeed) {
-                        if (swerve.rotationControllerAtFeedback()) {
-                            Robot.pilot.controller.rumbleController(1, 1);
-                        } else {
-                            Robot.pilot.controller.rumbleController(0, 0);
-                        }
-                        LEDs.turnOnLaunchLEDs();
-                    } else {
-                        Robot.pilot.controller.rumbleController(0, 0);
-                        LEDs.turnOffLaunchLEDs();
-                    }
-                },
-                (b) -> {},
-                () -> false,
-                Robot.pilot);
+                        () -> {},
+                        () -> {
+                            if (LauncherCommands.isAtSpeed) {
+                                if (swerve.rotationControllerAtFeedback()) {
+                                    Robot.pilot.controller.rumbleController(1, 1);
+                                } else {
+                                    Robot.pilot.controller.rumbleController(0, 0);
+                                }
+                                LEDs.turnOnLaunchLEDs();
+                            } else {
+                                Robot.pilot.controller.rumbleController(0, 0);
+                                LEDs.turnOffLaunchLEDs();
+                            }
+                        },
+                        (b) -> {},
+                        () -> false,
+                        Robot.pilot)
+                .ignoringDisable(true);
     }
 
     /** Full control of the swerve by the Pilot command */
