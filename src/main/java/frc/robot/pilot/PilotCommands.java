@@ -127,6 +127,16 @@ public class PilotCommands {
                 .withName("Swerve.aimToClimbBack");
     }
 
+    public static Command aimToSpeaker() {
+        return SwerveCommands.aimDrive(
+                        () -> pilot.getDriveFwdPositive(),
+                        () -> pilot.getDriveLeftPositive(),
+                        () -> Robot.vision.getThetaToSpeaker(),
+                        () -> pilot.getFieldOriented(), // true is field oriented
+                        () -> true)
+                .withName("Swerve.aimToSpeaker");
+    }
+
     /**
      * Command that can be used to turn on the slow mode. Slow mode modifies the fwd, left, and CCW
      * methods, we don't want these to require the pilot subsystem
