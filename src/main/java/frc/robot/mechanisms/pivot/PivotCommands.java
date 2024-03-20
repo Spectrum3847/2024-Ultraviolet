@@ -1,5 +1,7 @@
 package frc.robot.mechanisms.pivot;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 
@@ -11,6 +13,10 @@ public class PivotCommands {
     }
 
     /* Misc Positions */
+
+    public static Command setPivotOnDistance(DoubleSupplier distance) {
+        return pivot.runPosition(pivot.getAngleFromDistance(distance));
+    }
 
     public static Command onDemandPivot() {
         return new OnDemandPivot(pivot.config.test).withName("Pivot.onDemandPivot");

@@ -1,5 +1,6 @@
 package frc.robot.mechanisms.pivot;
 
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.spectrumLib.mechanism.Mechanism;
@@ -31,12 +32,32 @@ public class Pivot extends Mechanism {
 
         public final double zeroSpeed = -0.2;
 
+        public double offset = 0;
+
         /* Intake config values */
         public double currentLimit = 30;
         public double threshold = 40;
         public double velocityKp = 0.8;
         public double velocityKv = 0.013;
         public double velocityKs = 0.5;
+
+        public static final InterpolatingDoubleTreeMap DISTANCE_MAP =
+                new InterpolatingDoubleTreeMap();
+        public static final InterpolatingDoubleTreeMap FEED_DISTANCE_MAP =
+                new InterpolatingDoubleTreeMap();
+
+        static {
+            // home
+            DISTANCE_MAP.put(0.0, 82.0);
+            DISTANCE_MAP.put(1.505, 81.0);
+            DISTANCE_MAP.put(2.629, 55.5);
+            DISTANCE_MAP.put(3.969, 49.0);
+            DISTANCE_MAP.put(4.269, 46.5);
+            DISTANCE_MAP.put(4.899, 45.0);
+            DISTANCE_MAP.put(5.189, 43.2);
+            DISTANCE_MAP.put(5.829, 42.0);
+            DISTANCE_MAP.put(6.229, 42.0);
+        }
 
         public PivotConfig() {
             super("Pivot", 41, "3847");
@@ -66,6 +87,11 @@ public class Pivot extends Mechanism {
     @Override
     public void periodic() {}
 
+    // Lookup angle in tree map, add fudge factor, and return angle
+    public DoubleSupplier getAngleFromDistance(DoubleSupplier distance) {
+        return () -> (PivotConfig.DISTANCE_MAP.get(distance.getAsDouble()) + config.offset);
+    }
+
     /**
      * Sets the intake motor to a specified position.
      *
@@ -73,6 +99,10 @@ public class Pivot extends Mechanism {
      *     [-1,1] but rather [-100,100]
      */
     public Command runPosition(double percent) {
+        return run(() -> setMMPosition(percentToRotation(percent))).withName("Pivot.runPercent");
+    }
+
+    public Command runPosition(DoubleSupplier percent) {
         return run(() -> setMMPosition(percentToRotation(percent))).withName("Pivot.runPercent");
     }
 
@@ -168,6 +198,10 @@ public class Pivot extends Mechanism {
     /* Helper */
     public double percentToRotation(double percent) {
         return config.maxRotation * (percent / 100);
+    }
+
+    public DoubleSupplier percentToRotation(DoubleSupplier percent) {
+        return () -> config.maxRotation * (percent.getAsDouble() / 100);
     }
 
     @Override

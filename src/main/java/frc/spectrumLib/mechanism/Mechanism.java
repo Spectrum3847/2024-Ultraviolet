@@ -1,5 +1,7 @@
 package frc.spectrumLib.mechanism;
 
+import java.util.function.DoubleSupplier;
+
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
@@ -90,6 +92,14 @@ public abstract class Mechanism implements Subsystem {
         }
     }
 
+    public void setVelocityTorqueCurrentFOC(DoubleSupplier velocity) {
+        if (attached) {
+            VelocityTorqueCurrentFOC output =
+                    config.velocityTorqueCurrentFOC.withVelocity(velocity.getAsDouble());
+            motor.setControl(output);
+        }
+    }
+
     /**
      * Closed-loop velocity control with voltage compensation
      *
@@ -122,6 +132,13 @@ public abstract class Mechanism implements Subsystem {
     public void setMMPosition(double position) {
         if (attached) {
             MotionMagicVoltage mm = config.mmPositionVoltage.withPosition(position);
+            motor.setControl(mm);
+        }
+    }
+
+    public void setMMPosition(DoubleSupplier position) {
+        if (attached) {
+            MotionMagicVoltage mm = config.mmPositionVoltage.withPosition(position.getAsDouble());
             motor.setControl(mm);
         }
     }

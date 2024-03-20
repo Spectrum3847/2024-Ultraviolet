@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
@@ -11,6 +12,7 @@ import frc.robot.mechanisms.intake.IntakeCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.mechanisms.pivot.PivotCommands;
 import frc.robot.pilot.PilotCommands;
+import frc.robot.vision.VisionCommands;
 
 /**
  * This class is used for commands that use multiple subsystems and don't directly call a gamepad.
@@ -196,4 +198,21 @@ public class RobotCommands {
                 .andThen(FeederCommands.feeder().withTimeout(0.3));
         // .alongWith(IntakeCommands.stopMotor())
     }
+
+    public static Command visionSpeakerLaunch() {
+        return LauncherCommands.distanceVelocity(() -> Robot.vision.getDistanceToSpeaker())
+                .alongWith(
+                    PivotCommands.setPivotOnDistance(() -> Robot.vision.getDistanceToSpeaker())
+                )
+                .withName("RobotCommands.visionLaunch");
+    }
+
+    // // score speaker if in range, otherwise launch to feed
+    // public static Command visionLaunch() {
+    //     if (Field.isBlue()) {
+    //         return Robot.swerve.getPose().getTranslation().getX() <= (Field.fieldLength / 2) - 1;
+    //     } else {
+    //         return Robot.swerve.getPose().getTranslation().getX() >= (Field.fieldLength / 2) + 1;
+    //     }
+    // }
 }
