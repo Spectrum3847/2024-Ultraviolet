@@ -1,6 +1,9 @@
 package frc.robot.vision;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.crescendo.Field;
 import frc.robot.Robot;
 import frc.spectrumLib.vision.Limelight;
 import frc.spectrumLib.vision.Limelight.PhysicalConfig;
@@ -109,6 +112,19 @@ public class Vision extends SubsystemBase {
 
     public double getDistanceToSpeaker() {
         return speakerLL.getDistanceToTarget(VisionConfig.speakerTagHeight);
+    }
+
+    public double getThetaToSpeaker() {
+        // Translation2d speaker =
+        //         Field.flipXifRed(Field.Speaker.centerSpeakerOpening).toTranslation2d();
+        Translation2d speaker =
+                Field.flipXifRed(Field.Speaker.centerSpeakerPose)
+                        .getTranslation(); // getAdjustedSpeakerPos();
+        Translation2d robotXY = Robot.swerve.getPose().getTranslation();
+        double angleBetweenRobotAndSpeaker =
+                MathUtil.angleModulus(speaker.minus(robotXY).getAngle().getRadians());
+
+        return angleBetweenRobotAndSpeaker;
     }
 
     public boolean noteInView() {

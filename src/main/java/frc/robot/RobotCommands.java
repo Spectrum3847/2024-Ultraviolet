@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.crescendo.Field;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
 import frc.robot.mechanisms.climber.ClimberCommands;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
@@ -200,19 +201,25 @@ public class RobotCommands {
     }
 
     public static Command visionSpeakerLaunch() {
-        return LauncherCommands.distanceVelocity(() -> Robot.vision.getDistanceToSpeaker())
+        return PilotCommands.aimToSpeaker()
                 .alongWith(
+                    LauncherCommands.distanceVelocity(() -> Robot.vision.getDistanceToSpeaker()), 
                     PivotCommands.setPivotOnDistance(() -> Robot.vision.getDistanceToSpeaker())
                 )
                 .withName("RobotCommands.visionLaunch");
     }
 
-    // // score speaker if in range, otherwise launch to feed
-    // public static Command visionLaunch() {
-    //     if (Field.isBlue()) {
-    //         return Robot.swerve.getPose().getTranslation().getX() <= (Field.fieldLength / 2) - 1;
-    //     } else {
-    //         return Robot.swerve.getPose().getTranslation().getX() >= (Field.fieldLength / 2) + 1;
-    //     }
-    // }
+    // score speaker if in range, otherwise launch to feed
+    public static Command visionLaunch() {
+        if (Field.isBlue()) {
+            if(Robot.swerve.getPose().getTranslation().getX() <= (Field.fieldLength / 2) - 1) {
+                return visionSpeakerLaunch();
+            }
+        } else {
+            if(Robot.swerve.getPose().getTranslation().getX() >= (Field.fieldLength / 2) + 1) {
+                return visionSpeakerLaunch();
+            }
+        }
+        return null;
+    }
 }
