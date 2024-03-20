@@ -13,6 +13,7 @@ import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.mechanisms.pivot.PivotCommands;
 import frc.robot.pilot.PilotCommands;
 import frc.robot.vision.VisionCommands;
+import frc.robot.leds.*;
 
 /**
  * This class is used for commands that use multiple subsystems and don't directly call a gamepad.
@@ -166,6 +167,8 @@ public class RobotCommands {
                         IntakeCommands.coastMode(),
                         LauncherCommands.coastMode(),
                         PivotCommands.coastMode())
+                        //Commands.startEnd(LEDs::turnOnCoastLEDs, LEDs::turnOffCoastLEDs)
+                                //.ignoringDisable(true)
                 .withName("RobotCommands.coastModeMechanisms");
     }
 

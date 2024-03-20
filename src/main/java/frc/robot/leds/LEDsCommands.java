@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Robot;
 import frc.robot.leds.LEDsConfig.Section;
+import frc.robot.mechanisms.intake.*;
+
 
 public class LEDsCommands {
     private static LEDs leds = Robot.leds;
@@ -13,6 +15,24 @@ public class LEDsCommands {
         leds.setDefaultCommand(defaultCommand());
     }
 
+
+    /**
+     * Work in Progress build for LEDS, needs further work from libraries
+     * Using other mechanisms checking for motor velocity 
+     * to pivot angles as triggers for the LEDS
+     */
+    /*
+    public static void SetupLEDTRiggers(){
+
+        Trigger launcher = new Trigger();
+        Trigger amp =
+        Trigger maxClimb =
+        Trigger default =
+        Trigger home =
+        Trigger eject = new Trigger();
+
+    }
+    */
     /** Specific Commands */
     public static Command defaultCommand() {
         return leds.run(
