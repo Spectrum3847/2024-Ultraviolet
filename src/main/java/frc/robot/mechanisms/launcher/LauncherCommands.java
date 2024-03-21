@@ -131,8 +131,12 @@ public class LauncherCommands {
                 () -> {
                     if (leftLauncher.getMotorVelocityInRPM() >= leftVelocity - 50
                             || rightLauncher.getMotorVelocityInRPM() >= rightVelocity - 50) {
-                        PilotCommands.rumble(2.0, 1.0).alongWith(Commands.startEnd(LEDs::turnOnLaunchLEDs, LEDs::turnOffLaunchLEDs)
-                        .ignoringDisable(true));
+                        PilotCommands.rumble(2.0, 1.0)
+                                .alongWith(
+                                        Commands.startEnd(
+                                                        LEDs::turnOnLaunchLEDs,
+                                                        LEDs::turnOffLaunchLEDs)
+                                                .ignoringDisable(true));
                     }
                 },
                 (b) -> {

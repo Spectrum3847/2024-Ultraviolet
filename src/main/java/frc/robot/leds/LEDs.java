@@ -14,7 +14,7 @@ public class LEDs extends SpectrumLEDs {
     public static boolean ampLEDs = false;
     public static boolean climbLEDs = false;
     public static boolean homeLEDs = false;
-    public static boolean ejectLED = false;
+    public static boolean ejectLEDs = false;
     public static boolean launchReadyLEDs = false;
 
     public LEDs() {
@@ -200,8 +200,7 @@ public class LEDs extends SpectrumLEDs {
         coastModeLEDs = false;
     }
 
-
-     //
+    //
     public static void turnOnLaunchLEDs() {
         launchReadyLEDs = true;
     }

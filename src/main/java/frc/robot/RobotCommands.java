@@ -168,7 +168,7 @@ public class RobotCommands {
                         LauncherCommands.coastMode(),
                         PivotCommands.coastMode(),
                         Commands.startEnd(LEDs::turnOnCoastLEDs, LEDs::turnOffCoastLEDs)
-                        .ignoringDisable(true))
+                                .ignoringDisable(true))
                 .withName("RobotCommands.coastModeMechanisms");
     }
 

@@ -3,10 +3,10 @@ package frc.robot.leds;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Robot;
 import frc.robot.leds.LEDsConfig.Section;
 import frc.robot.mechanisms.intake.*;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class LEDsCommands {
     private static LEDs leds = Robot.leds;
@@ -19,18 +19,43 @@ public class LEDsCommands {
      * Work in Progress build for LEDS, needs further work from libraries Using other mechanisms
      * checking for motor velocity to pivot angles as triggers for the LEDS
      */
-    
-    // public static void SetupLEDTRiggers(){
 
-        // Trigger launcher = new Trigger();
-        // Trigger ampReady = new Trigger();
-        // Trigger maxClimb = new Trigger();
-        // Trigger coastMode = new Trigger(() -> LEDS.coastModeLED);
-        // Trigger home = new Trigger();
-        // Trigger eject = new Trigger();
+    public static void SetupLEDTRiggers(){
 
+    Trigger launcherReady = new Trigger(() -> LEDs.launchReadyLEDs);
+    Trigger ampReady = new Trigger(() -> LEDs.ampLEDs);
+    Trigger maxClimbReady = new Trigger(() -> LEDs.climbLEDs);
+    //Trigger coastMode = new Trigger(() -> LEDs.coastModeLEDs);
+    Trigger home = new Trigger(() -> LEDs.homeLEDs);
+   //Trigger noteEject = new Trigger(() -> LEDs.ejectLEDs);
+
+    launcherReady.whileTrue(launchReady());
+    ampReady.whileTrue(Pivot());
+    maxClimbReady.whileTrue(Pivot());
+    home.whileTrue(Pivot());
+    //coastMode()
+   // noteEject.whileTrue(noteEject());
+
+    }
+
+    // public static Command coastMode(){
+    //     return ombre(Section.FULL, Color.kOrange, Color.kBlack, 1, 4).withName("LEDs.coastMode");
     // }
+
+    public static Command Pivot() {
+        return solidPurpleLED().withName("LEDs.solidPurpleLED");
+    }
+
+    public static Command launchReady() {
+        return strobePurpleLED().withName("LEDs.noteEject");
+    }
     
+
+    // public static Command noteEject() {
+    //     return strobeGreenLED().withName("LEDs.noteEject");
+    // }
+     
+
     /** Specific Commands */
     public static Command defaultCommand() {
         return leds.run(
@@ -42,8 +67,22 @@ public class LEDsCommands {
     }
 
     public static Command solidPurpleLED() {
-        return LEDsCommands.solid(Section.HALF_HIGH, Color.kPurple, 2)
+        return LEDsCommands.solid(Section.FULL, Color.kPurple, 2)
                 .withName("LEDs.solidPurpleLED");
+    }
+
+    public static Command strobeGreenLED() {
+        return LEDsCommands.strobe(Section.FULL, Color.kGreen, 0.5, 2)
+                .withName("LEDs.strobeGreenLED");
+    }
+    
+    // public static Command ombre(Section section, Color c1, Color c2, int priority) {
+    //     return runLEDPattern(() -> leds.ombre(section, c1, c2, priority)).withName("LEDs.ombre");
+    // }
+
+    public static Command strobePurpleLED() {
+        return LEDsCommands.strobe(Section.QUARTER_HIGH, Color.kPurple, 0.5, 2)
+                .withName("LEDs.strobePurpleLED");
     }
 
     public static Command strobeOrangeLED() {
@@ -56,7 +95,7 @@ public class LEDsCommands {
                 .withName("LEDs.breathBlueLED");
     }
 
-    /** Common Commands */
+       /** Common Commands */
     public static Command runLEDPattern(Runnable r) {
         // Needs to be Commands.run and not leds.run so it doesn't require led subsystem
         return Commands.run(r) // The the method passed to this method

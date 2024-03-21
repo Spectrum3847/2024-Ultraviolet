@@ -1,8 +1,11 @@
 package frc.robot.mechanisms.pivot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import frc.robot.Robot;
 import java.util.function.DoubleSupplier;
+import frc.robot.leds.LEDs;
 
 public class PivotCommands {
     private static Pivot pivot = Robot.pivot;
@@ -22,11 +25,11 @@ public class PivotCommands {
     }
 
     public static Command home() {
-        return pivot.runPosition(pivot.config.home).withName("Pivot.home");
+        return pivot.runPosition(pivot.config.home).alongWith(sendPivotFeedback()).withName("Pivot.home");
     }
 
     public static Command climb() {
-        return pivot.runPosition(pivot.config.climb).withName("Pivot.climb");
+        return pivot.runPosition(pivot.config.climb).alongWith(sendPivotFeedback()).withName("Pivot.climb");
     }
 
     public static Command percentage() {
@@ -54,7 +57,7 @@ public class PivotCommands {
     }
 
     public static Command ampScore() {
-        return pivot.runPosition(pivot.config.amp).withName("Pivot.amp");
+        return pivot.runPosition(pivot.config.amp).alongWith(sendPivotFeedback()).withName("Pivot.amp");
     }
 
     public static Command podium() {
@@ -86,29 +89,27 @@ public class PivotCommands {
     }
 
     // /*Helper Command */
-    // public static Command sendPivotFeedback(double percentAngle) {
-    //     return new FunctionalCommand(
-    //             () -> {},
-    //             () -> {
-    //                 if (Pivot.getMotorPercentAngle()) {
-    //                     Commands.startEnd(LEDs::turnOnHomeLEDs, LEDs::turnOffHomeLEDs)
-    //                             .ignoringDisable(true);
-    //                 }
+    public static Command sendPivotFeedback() {
+        return new FunctionalCommand(
+                () -> {},
+                () -> {
+                    if (pivot.getMotorPercentAngle() < 1) {
+                        Commands.startEnd(LEDs::turnOnHomeLEDs, LEDs::turnOffHomeLEDs)
+                                .withTimeout(1.5);
+                    }
 
-    //                 else if () {
-    //                     Commands.startEnd(LEDs::turnOnAmpLEDs, LEDs::turnOffAmpLEDs)
-    //                             .ignoringDisable(true);
-    //                 }
+                    else if ((pivot.getMotorPercentAngle() < pivot.config.amp +1)&& ( pivot.getMotorPercentAngle() > pivot.config.amp -1)) {
+                        Commands.startEnd(LEDs::turnOnAmpLEDs, LEDs::turnOffAmpLEDs)
+                                .withTimeout(1.5);
+                    }
 
-    //                 else if () {
-    //                     Commands.startEnd(LEDs::turnOnClimbLEDs, LEDs::turnOffClimbLEDs)
-    //                             .ignoringDisable(true);
-    //                 }
+                    else if ((pivot.getMotorPercentAngle() < pivot.config.climb +1 ) && (pivot.getMotorPercentAngle() > pivot.config.amp -1)) {
+                        Commands.startEnd(LEDs::turnOnClimbLEDs, LEDs::turnOffClimbLEDs)
+                                .withTimeout(1.5);
+                    }
                 
-    //             },
-    //             (b) -> {
-    //                 PilotCommands.rumble(0, 0);
-    //             },
-    //             () -> false);
-    // } 
+                },
+                (b) -> {},
+                () -> false);
+    } 
 }

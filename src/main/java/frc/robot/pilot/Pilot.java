@@ -83,7 +83,7 @@ public class Pilot extends Gamepad {
         controller.y().and(leftBumperOnly()).whileTrue(RobotCommands.home());
 
         // x - aim to climb
-        //controller.x().and(noBumpers()).whileTrue(RobotCommands.visionLaunch());
+        // controller.x().and(noBumpers()).whileTrue(RobotCommands.visionLaunch());
         controller.x().and(noBumpers()).whileTrue(PilotCommands.aimToClimbRight());
         controller.x().and(leftBumperOnly()).whileTrue(PilotCommands.aimToClimbLeft());
         controller.x().and(bothBumpers()).whileTrue(PilotCommands.aimToClimbBack());
