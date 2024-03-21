@@ -3,7 +3,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.crescendo.Field;
 import frc.robot.leds.*;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
 import frc.robot.mechanisms.climber.ClimberCommands;
@@ -72,7 +71,7 @@ public class RobotCommands {
 
     public static Command onDemandLaunching() {
         return LauncherCommands.runOnDemandVelocity()
-                // .alongWith(PivotCommands.onDemandPivot())
+                .alongWith(PivotCommands.onDemandPivot())
                 .withName("RobotCommands.onDemandLaunching");
     }
 
@@ -204,23 +203,22 @@ public class RobotCommands {
     public static Command visionSpeakerLaunch() {
         return PilotCommands.aimToSpeaker()
                 .alongWith(
-                        LauncherCommands.distanceVelocity(
-                                () -> Robot.vision.getDistanceToSpeaker()),
-                        PivotCommands.setPivotOnDistance(() -> Robot.vision.getDistanceToSpeaker()))
+                        LauncherCommands.distanceVelocity(() -> Robot.vision.getSpeakerDistance()),
+                        PivotCommands.setPivotOnDistance(() -> Robot.vision.getSpeakerDistance()))
                 .withName("RobotCommands.visionLaunch");
     }
 
-    // score speaker if in range, otherwise launch to feed
-    public static Command visionLaunch() {
-        if (Field.isBlue()) {
-            if (Robot.swerve.getPose().getTranslation().getX() <= (Field.fieldLength / 2) - 1) {
-                return visionSpeakerLaunch();
-            }
-        } else {
-            if (Robot.swerve.getPose().getTranslation().getX() >= (Field.fieldLength / 2) + 1) {
-                return visionSpeakerLaunch();
-            }
-        }
-        return null;
-    }
+    // // score speaker if in range, otherwise launch to feed
+    // public static Command visionLaunch() {
+    //     if (Field.isBlue()) {
+    //         if (Robot.swerve.getPose().getTranslation().getX() <= (Field.fieldLength / 2) - 1) {
+    //             return visionSpeakerLaunch();
+    //         }
+    //     } else {
+    //         if (Robot.swerve.getPose().getTranslation().getX() >= (Field.fieldLength / 2) + 1) {
+    //             return visionSpeakerLaunch();
+    //         }
+    //     }
+    //     return null;
+    // }
 }

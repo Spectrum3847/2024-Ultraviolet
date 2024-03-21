@@ -55,26 +55,6 @@ public class PilotCommands {
                 .withName("Swerve.PilotHeadingLockDrive");
     }
 
-    public static Command noteAimingDrive() {
-        return SwerveCommands.aimDrive(
-                        () -> pilot.getDriveFwdPositive(),
-                        () -> pilot.getDriveLeftPositive(),
-                        () -> (Units.degreesToRadians(Robot.vision.getOffsetToNote())),
-                        () -> pilot.getFieldOriented(), // true is field oriented
-                        () -> true)
-                .withName("Swerve.PilotNoteAimingDrive");
-    }
-
-    public static Command speakerAimingDrive() {
-        return SwerveCommands.aimDrive(
-                        () -> pilot.getDriveFwdPositive(),
-                        () -> pilot.getDriveLeftPositive(),
-                        () -> (Units.degreesToRadians(Robot.vision.getOffsetToSpeaker())),
-                        () -> pilot.getFieldOriented(), // true is field oriented
-                        () -> true)
-                .withName("Swerve.PilotSpeakerAimingDrive");
-    }
-
     /**
      * Drive the robot using left stick and control orientation using the right stick Only Cardinal
      * directions are allowed
@@ -131,7 +111,7 @@ public class PilotCommands {
         return SwerveCommands.aimDrive(
                         () -> pilot.getDriveFwdPositive(),
                         () -> pilot.getDriveLeftPositive(),
-                        () -> Robot.vision.getThetaToSpeaker(),
+                        () -> Robot.vision.getAdjustedThetaToSpeaker(),
                         () -> pilot.getFieldOriented(), // true is field oriented
                         () -> true)
                 .withName("Swerve.aimToSpeaker");
