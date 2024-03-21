@@ -10,11 +10,12 @@ import java.util.List;
 public class LEDs extends SpectrumLEDs {
     public LEDsConfig config;
 
-    public static boolean coastModeLED = false; // default
-    public static boolean ampModeLED = false;
-    public static boolean climbModeLED = false;
-    public static boolean homeModeLED = false;
-    public static boolean ejectModeLED = false;
+    public static boolean coastModeLEDs = false; // default
+    public static boolean ampLEDs = false;
+    public static boolean climbLEDs = false;
+    public static boolean homeLEDs = false;
+    public static boolean ejectLED = false;
+    public static boolean launchReadyLEDs = false;
 
     public LEDs() {
         super(LEDsConfig.port, LEDsConfig.length);
@@ -155,47 +156,57 @@ public class LEDs extends SpectrumLEDs {
     }
 
     //
-    public static void turnOnCoastLEDS() {
-        coastModeLED = true;
+    public static void turnOnCoastLEDs() {
+        coastModeLEDs = true;
     }
 
-    public static void turnOffCoastLED() {
-        coastModeLED = false;
-    }
-
-    //
-    public static void turnOnHomeLED() {
-        homeModeLED = true;
-    }
-
-    public static void turnOffHomeLED() {
-        homeModeLED = false;
+    public static void turnOffCoastLEDs() {
+        coastModeLEDs = false;
     }
 
     //
-    public static void turnOnAmpLED() {
-        coastModeLED = true;
+    public static void turnOnHomeLEDs() {
+        homeLEDs = true;
     }
 
-    public static void turnOffAmpLED() {
-        coastModeLED = false;
-    }
-
-    //
-    public static void turnOnClimbLED() {
-        climbModeLED = true;
-    }
-
-    public static void turnOffClimbLED() {
-        climbModeLED = false;
+    public static void turnOffHomeLEDs() {
+        homeLEDs = false;
     }
 
     //
-    public static void turnOnEjectLED() {
-        coastModeLED = true;
+    public static void turnOnAmpLEDs() {
+        coastModeLEDs = true;
     }
 
-    public static void turnOffEjectLED() {
-        coastModeLED = false;
+    public static void turnOffAmpLEDs() {
+        coastModeLEDs = false;
+    }
+
+    //
+    public static void turnOnClimbLEDs() {
+        climbLEDs = true;
+    }
+
+    public static void turnOffClimbLEDs() {
+        climbLEDs = false;
+    }
+
+    //
+    public static void turnOnEjectLEDs() {
+        coastModeLEDs = true;
+    }
+
+    public static void turnOffEjectLEDs() {
+        coastModeLEDs = false;
+    }
+
+
+     //
+    public static void turnOnLaunchLEDs() {
+        launchReadyLEDs = true;
+    }
+
+    public static void turnOffLaunchLEDs() {
+        launchReadyLEDs = false;
     }
 }

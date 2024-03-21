@@ -84,4 +84,31 @@ public class PivotCommands {
     public static Command coastMode() {
         return pivot.coastMode();
     }
+
+    // /*Helper Command */
+    // public static Command sendPivotFeedback(double percentAngle) {
+    //     return new FunctionalCommand(
+    //             () -> {},
+    //             () -> {
+    //                 if (Pivot.getMotorPercentAngle()) {
+    //                     Commands.startEnd(LEDs::turnOnHomeLEDs, LEDs::turnOffHomeLEDs)
+    //                             .ignoringDisable(true);
+    //                 }
+
+    //                 else if () {
+    //                     Commands.startEnd(LEDs::turnOnAmpLEDs, LEDs::turnOffAmpLEDs)
+    //                             .ignoringDisable(true);
+    //                 }
+
+    //                 else if () {
+    //                     Commands.startEnd(LEDs::turnOnClimbLEDs, LEDs::turnOffClimbLEDs)
+    //                             .ignoringDisable(true);
+    //                 }
+                
+    //             },
+    //             (b) -> {
+    //                 PilotCommands.rumble(0, 0);
+    //             },
+    //             () -> false);
+    // } 
 }
