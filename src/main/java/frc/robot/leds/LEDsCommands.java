@@ -22,12 +22,12 @@ public class LEDsCommands {
     
     // public static void SetupLEDTRiggers(){
 
-    //     Trigger launcher = new Trigger();
-    //     Trigger amp =
-    //     Trigger maxClimb =
-    //     Trigger default =
-    //     Trigger home =
-    //     Trigger eject = new Trigger();
+        // Trigger launcher = new Trigger();
+        // Trigger ampReady = new Trigger();
+        // Trigger maxClimb = new Trigger();
+        // Trigger coastMode = new Trigger(() -> LEDS.coastModeLED);
+        // Trigger home = new Trigger();
+        // Trigger eject = new Trigger();
 
     // }
     
