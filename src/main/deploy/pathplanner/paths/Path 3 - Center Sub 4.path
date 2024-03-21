@@ -96,6 +96,23 @@
           ]
         }
       }
+    },
+    {
+      "name": "preScoreFeed",
+      "waypointRelativePos": 2.25,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "preScoreFeed"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {

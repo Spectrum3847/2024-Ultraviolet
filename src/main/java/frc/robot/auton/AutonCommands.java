@@ -76,6 +76,13 @@ public class AutonCommands {
         return PivotCommands.autoLaunchSub().withName("RobotCommands.pivotReadyySub");
     }
 
+    public static Command score() {
+        return FeederCommands.feeder()
+                .withTimeout(0.5)
+                .andThen(FeederCommands.stop().withTimeout(0.01))
+                .withName("RobotCommands.score");
+    }
+
     public static Command score1() {
         return ((FeederCommands.feeder().alongWith(AutonCommands.pivotReadyPreload()))
                         .withTimeout(.05))
@@ -114,8 +121,7 @@ public class AutonCommands {
     }
 
     public static Command scoreSub() {
-        return ((FeederCommands.feeder().alongWith(AutonCommands.pivotReadySub()))
-                        .withTimeout(.125))
+        return ((FeederCommands.feeder().alongWith(AutonCommands.pivotReadySub())).withTimeout(.05))
                 .andThen(
                         (FeederCommands.stop()
                                 .alongWith(AutonCommands.pivotReadySub())
@@ -126,13 +132,21 @@ public class AutonCommands {
                 .andThen(FeederCommands.stop().withTimeout(0.01));
     }
 
+    public static Command preScoreFeed() {
+        return ((FeederCommands.feeder().alongWith(AutonCommands.pivotReadySub())).withTimeout(.05))
+                .andThen((FeederCommands.stop().alongWith(AutonCommands.pivotReadySub())));
+    }
+
     public static Command preloadScoreSub() {
         return FeederCommands.stop()
-                .alongWith(AutonCommands.pivotReadySub())
+                .alongWith(AutonCommands.pivotReadySub().alongWith(LauncherCommands.subwoofer()))
                 .withTimeout(0.4)
                 .andThen(
-                        (FeederCommands.feeder().alongWith(AutonCommands.pivotReadySub()))
-                                .withTimeout(1))
+                        (FeederCommands.feeder()
+                                        .alongWith(
+                                                AutonCommands.pivotReadySub()
+                                                        .alongWith(LauncherCommands.subwoofer())))
+                                .withTimeout(0.5))
                 .andThen(FeederCommands.stop().withTimeout(0.01));
     }
 }

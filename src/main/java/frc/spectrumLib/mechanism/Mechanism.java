@@ -18,6 +18,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.spectrumLib.util.CanDeviceId;
+import java.util.function.DoubleSupplier;
 
 /**
  * Control Modes Docs:
@@ -90,6 +91,14 @@ public abstract class Mechanism implements Subsystem {
         }
     }
 
+    public void setVelocityTorqueCurrentFOC(DoubleSupplier velocity) {
+        if (attached) {
+            VelocityTorqueCurrentFOC output =
+                    config.velocityTorqueCurrentFOC.withVelocity(velocity.getAsDouble());
+            motor.setControl(output);
+        }
+    }
+
     /**
      * Closed-loop velocity control with voltage compensation
      *
@@ -122,6 +131,13 @@ public abstract class Mechanism implements Subsystem {
     public void setMMPosition(double position) {
         if (attached) {
             MotionMagicVoltage mm = config.mmPositionVoltage.withPosition(position);
+            motor.setControl(mm);
+        }
+    }
+
+    public void setMMPosition(DoubleSupplier position) {
+        if (attached) {
+            MotionMagicVoltage mm = config.mmPositionVoltage.withPosition(position.getAsDouble());
             motor.setControl(mm);
         }
     }

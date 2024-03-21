@@ -14,12 +14,6 @@
         {
           "type": "named",
           "data": {
-            "name": "launchReady"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "preloadScoreSub"
           }
         },

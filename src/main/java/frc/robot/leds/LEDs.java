@@ -10,6 +10,12 @@ import java.util.List;
 public class LEDs extends SpectrumLEDs {
     public LEDsConfig config;
 
+    public static boolean coastModeLED = false; // default
+    public static boolean ampModeLED = false;
+    public static boolean climbModeLED = false;
+    public static boolean homeModeLED = false;
+    public static boolean ejectModeLED = false;
+
     public LEDs() {
         super(LEDsConfig.port, LEDsConfig.length);
         config = new LEDsConfig();
@@ -146,5 +152,50 @@ public class LEDs extends SpectrumLEDs {
                 setLED(i, colors.get(colorIndex), priority);
             }
         }
+    }
+
+    //
+    public static void turnOnCoastLEDS() {
+        coastModeLED = true;
+    }
+
+    public static void turnOffCoastLED() {
+        coastModeLED = false;
+    }
+
+    //
+    public static void turnOnHomeLED() {
+        homeModeLED = true;
+    }
+
+    public static void turnOffHomeLED() {
+        homeModeLED = false;
+    }
+
+    //
+    public static void turnOnAmpLED() {
+        coastModeLED = true;
+    }
+
+    public static void turnOffAmpLED() {
+        coastModeLED = false;
+    }
+
+    //
+    public static void turnOnClimbLED() {
+        climbModeLED = true;
+    }
+
+    public static void turnOffClimbLED() {
+        climbModeLED = false;
+    }
+
+    //
+    public static void turnOnEjectLED() {
+        coastModeLED = true;
+    }
+
+    public static void turnOffEjectLED() {
+        coastModeLED = false;
     }
 }

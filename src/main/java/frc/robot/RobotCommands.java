@@ -3,6 +3,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.crescendo.Field;
+import frc.robot.leds.*;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
 import frc.robot.mechanisms.climber.ClimberCommands;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
@@ -164,6 +166,8 @@ public class RobotCommands {
                         IntakeCommands.coastMode(),
                         LauncherCommands.coastMode(),
                         PivotCommands.coastMode())
+                // Commands.startEnd(LEDs::turnOnCoastLEDs, LEDs::turnOffCoastLEDs)
+                // .ignoringDisable(true)
                 .withName("RobotCommands.coastModeMechanisms");
     }
 
@@ -195,5 +199,28 @@ public class RobotCommands {
                 .until(() -> (Robot.feeder.getMotorVelocity() > 0))
                 .andThen(FeederCommands.feeder().withTimeout(0.3));
         // .alongWith(IntakeCommands.stopMotor())
+    }
+
+    public static Command visionSpeakerLaunch() {
+        return PilotCommands.aimToSpeaker()
+                .alongWith(
+                        LauncherCommands.distanceVelocity(
+                                () -> Robot.vision.getDistanceToSpeaker()),
+                        PivotCommands.setPivotOnDistance(() -> Robot.vision.getDistanceToSpeaker()))
+                .withName("RobotCommands.visionLaunch");
+    }
+
+    // score speaker if in range, otherwise launch to feed
+    public static Command visionLaunch() {
+        if (Field.isBlue()) {
+            if (Robot.swerve.getPose().getTranslation().getX() <= (Field.fieldLength / 2) - 1) {
+                return visionSpeakerLaunch();
+            }
+        } else {
+            if (Robot.swerve.getPose().getTranslation().getX() >= (Field.fieldLength / 2) + 1) {
+                return visionSpeakerLaunch();
+            }
+        }
+        return null;
     }
 }

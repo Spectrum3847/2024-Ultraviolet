@@ -1,14 +1,32 @@
 package frc.robot.mechanisms.launcher;
 
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import frc.robot.Robot;
 import frc.robot.pilot.PilotCommands;
+import java.util.function.DoubleSupplier;
 
 // TODO: the usage will slightly change later
 public class LauncherCommands {
     private static LeftLauncher leftLauncher = Robot.leftLauncher;
     private static RightLauncher rightLauncher = Robot.rightLauncher;
+
+    public static final InterpolatingDoubleTreeMap DISTANCE_MAP = new InterpolatingDoubleTreeMap();
+    public static final InterpolatingDoubleTreeMap FEED_DISTANCE_MAP =
+            new InterpolatingDoubleTreeMap();
+
+    static {
+        // launching
+        DISTANCE_MAP.put(1.505, 3500.0);
+        DISTANCE_MAP.put(2.629, 4500.0);
+        DISTANCE_MAP.put(3.969, 4500.0);
+        DISTANCE_MAP.put(4.269, 5200.0);
+        DISTANCE_MAP.put(4.899, 5200.0);
+        DISTANCE_MAP.put(5.189, 5200.0);
+        DISTANCE_MAP.put(5.829, 5200.0);
+        DISTANCE_MAP.put(6.229, 5200.0);
+    }
 
     public static void setupDefaultCommand() {
         leftLauncher.setDefaultCommand(stopLeftMotor().withName("LeftLauncher.default"));
@@ -16,6 +34,22 @@ public class LauncherCommands {
     }
 
     /* Launch Commands */
+
+    public static DoubleSupplier getRPMfromDistance(DoubleSupplier distance) {
+        return () -> DISTANCE_MAP.get(distance.getAsDouble());
+    }
+
+    public static Command distanceVelocity(DoubleSupplier distance) {
+        return velocityTCFOCrpm(getRPMfromDistance(distance));
+    }
+
+    public static Command velocityTCFOCrpm(DoubleSupplier velocityRPM) {
+        return leftLauncher
+                .runVelocityTCFOCrpm(velocityRPM)
+                .alongWith(
+                        rightLauncher.runVelocityTCFOCrpm(velocityRPM),
+                        sendLauncherFeedback(velocityRPM.getAsDouble(), velocityRPM.getAsDouble()));
+    }
 
     public static Command runOnDemandVelocity() {
         return new LaunchTest(leftLauncher.config.testVelocity)

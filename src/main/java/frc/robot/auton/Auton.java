@@ -62,6 +62,7 @@ public class Auton extends SubsystemBase {
         NamedCommands.registerCommand("scoreSub", AutonCommands.scoreSub());
         NamedCommands.registerCommand("preloadScoreSub", AutonCommands.preloadScoreSub());
         NamedCommands.registerCommand("home", PivotCommands.home());
+        NamedCommands.registerCommand("preScoreFeed", AutonCommands.preScoreFeed());
 
         /* Stop Commands */
         NamedCommands.registerCommand("stopTracking", AutonCommands.stopTracking());
