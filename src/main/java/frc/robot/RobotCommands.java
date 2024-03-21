@@ -1,10 +1,10 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.crescendo.Field;
+import frc.robot.leds.*;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
 import frc.robot.mechanisms.climber.ClimberCommands;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
@@ -13,8 +13,6 @@ import frc.robot.mechanisms.intake.IntakeCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.mechanisms.pivot.PivotCommands;
 import frc.robot.pilot.PilotCommands;
-import frc.robot.vision.VisionCommands;
-import frc.robot.leds.*;
 
 /**
  * This class is used for commands that use multiple subsystems and don't directly call a gamepad.
@@ -168,8 +166,8 @@ public class RobotCommands {
                         IntakeCommands.coastMode(),
                         LauncherCommands.coastMode(),
                         PivotCommands.coastMode())
-                        //Commands.startEnd(LEDs::turnOnCoastLEDs, LEDs::turnOffCoastLEDs)
-                                //.ignoringDisable(true)
+                // Commands.startEnd(LEDs::turnOnCoastLEDs, LEDs::turnOffCoastLEDs)
+                // .ignoringDisable(true)
                 .withName("RobotCommands.coastModeMechanisms");
     }
 
@@ -206,20 +204,20 @@ public class RobotCommands {
     public static Command visionSpeakerLaunch() {
         return PilotCommands.aimToSpeaker()
                 .alongWith(
-                    LauncherCommands.distanceVelocity(() -> Robot.vision.getDistanceToSpeaker()), 
-                    PivotCommands.setPivotOnDistance(() -> Robot.vision.getDistanceToSpeaker())
-                )
+                        LauncherCommands.distanceVelocity(
+                                () -> Robot.vision.getDistanceToSpeaker()),
+                        PivotCommands.setPivotOnDistance(() -> Robot.vision.getDistanceToSpeaker()))
                 .withName("RobotCommands.visionLaunch");
     }
 
     // score speaker if in range, otherwise launch to feed
     public static Command visionLaunch() {
         if (Field.isBlue()) {
-            if(Robot.swerve.getPose().getTranslation().getX() <= (Field.fieldLength / 2) - 1) {
+            if (Robot.swerve.getPose().getTranslation().getX() <= (Field.fieldLength / 2) - 1) {
                 return visionSpeakerLaunch();
             }
         } else {
-            if(Robot.swerve.getPose().getTranslation().getX() >= (Field.fieldLength / 2) + 1) {
+            if (Robot.swerve.getPose().getTranslation().getX() >= (Field.fieldLength / 2) + 1) {
                 return visionSpeakerLaunch();
             }
         }

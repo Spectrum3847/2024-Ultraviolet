@@ -1,9 +1,8 @@
 package frc.robot.mechanisms.pivot;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
+import java.util.function.DoubleSupplier;
 
 public class PivotCommands {
     private static Pivot pivot = Robot.pivot;

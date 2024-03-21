@@ -1,7 +1,5 @@
 package frc.spectrumLib.mechanism;
 
-import java.util.function.DoubleSupplier;
-
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
@@ -20,6 +18,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.spectrumLib.util.CanDeviceId;
+import java.util.function.DoubleSupplier;
 
 /**
  * Control Modes Docs:

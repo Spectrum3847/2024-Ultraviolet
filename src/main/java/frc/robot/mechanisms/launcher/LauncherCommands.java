@@ -1,14 +1,11 @@
 package frc.robot.mechanisms.launcher;
 
-import java.util.function.DoubleSupplier;
-
-import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
-
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import frc.robot.Robot;
 import frc.robot.pilot.PilotCommands;
+import java.util.function.DoubleSupplier;
 
 // TODO: the usage will slightly change later
 public class LauncherCommands {
