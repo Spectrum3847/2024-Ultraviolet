@@ -8,6 +8,7 @@ import frc.robot.mechanisms.intake.IntakeCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.mechanisms.pivot.PivotCommands;
 import frc.robot.swerve.commands.SwerveCommands;
+import frc.robot.vision.VisionCommands;
 import frc.spectrumLib.Gamepad;
 import frc.spectrumLib.util.ExpCurve;
 
@@ -88,6 +89,14 @@ public class Pilot extends Gamepad {
         controller.x().and(leftBumperOnly()).whileTrue(PilotCommands.aimToClimbLeft());
         controller.x().and(bothBumpers()).whileTrue(PilotCommands.aimToClimbBack());
 
+        // controller
+        //         .x()
+        //         .and(noBumpers())
+        //         .whileTrue(
+        //                 RobotCommands.onDemandLaunching()
+        //                         .withTimeout(5)
+        //                         .andThen(FeederCommands.feeder().withTimeout(3)));
+
         runWithEndSequence(
                 rightBumperOnly(),
                 RobotCommands.score(),
@@ -139,6 +148,7 @@ public class Pilot extends Gamepad {
         // setupTeleopButtons();
 
         controller.b().toggleOnTrue(RobotCommands.coastModeMechanisms());
+        controller.a().whileTrue(VisionCommands.forcePoseToVision());
     };
 
     /** Setup the Buttons for Test mode. */

@@ -116,6 +116,18 @@ public class Swerve implements Subsystem {
         return getState().Pose;
     }
 
+    public Pose2d convertPoseWithGyro(Pose2d pose) {
+        return new Pose2d(pose.getX(), pose.getY(), getRotation());
+    }
+
+    public ChassisSpeeds getVelocity(boolean fieldRelative) {
+        if (fieldRelative) {
+            return ChassisSpeeds.fromFieldRelativeSpeeds(getRobotRelativeSpeeds(), getRotation());
+        } else {
+            return getRobotRelativeSpeeds();
+        }
+    }
+
     public void reorient(double angle) {
         drivetrain.reorient(angle);
     }

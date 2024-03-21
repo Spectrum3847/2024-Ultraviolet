@@ -20,14 +20,12 @@ public class LauncherCommands {
 
     static {
         // launching
-        DISTANCE_MAP.put(1.505, 3500.0);
-        DISTANCE_MAP.put(2.629, 4500.0);
-        DISTANCE_MAP.put(3.969, 4500.0);
-        DISTANCE_MAP.put(4.269, 5200.0);
-        DISTANCE_MAP.put(4.899, 5200.0);
-        DISTANCE_MAP.put(5.189, 5200.0);
-        DISTANCE_MAP.put(5.829, 5200.0);
-        DISTANCE_MAP.put(6.229, 5200.0);
+        DISTANCE_MAP.put(1.6978, 3000.0);
+        DISTANCE_MAP.put(2.147, 3000.0);
+        DISTANCE_MAP.put(2.5747, 3000.0);
+        DISTANCE_MAP.put(3.114, 3000.0);
+        DISTANCE_MAP.put(3.688, 3200.0);
+        DISTANCE_MAP.put(4.2174, 3200.0);
     }
 
     public static void setupDefaultCommand() {

@@ -26,7 +26,7 @@ public class Operator extends Gamepad {
 
         // controller.a().and(noBumpers()).whileTrue(LauncherCommands.runOnDemandVelocity());
 
-        controller.a().and(noBumpers()).whileTrue(RobotCommands.visionLaunch());
+        controller.a().and(noBumpers()).whileTrue(RobotCommands.visionSpeakerLaunch());
 
         controller.b().and(noBumpers()).whileTrue(RobotCommands.subwooferReady());
 
