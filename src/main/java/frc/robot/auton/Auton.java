@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
-import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
 import frc.robot.auton.config.AutonConfig;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
@@ -56,7 +55,7 @@ public class Auton extends SubsystemBase {
     public static void setupNamedCommands() {
         // Register Named Commands
         NamedCommands.registerCommand("launchReady", AutonCommands.launchReady());
-        NamedCommands.registerCommand("intake", RobotCommands.intake());
+        NamedCommands.registerCommand("intake", IntakeCommands.intake());
         NamedCommands.registerCommand("score1", AutonCommands.score1());
         NamedCommands.registerCommand("score2", AutonCommands.score2());
         NamedCommands.registerCommand("score3", AutonCommands.score3());
