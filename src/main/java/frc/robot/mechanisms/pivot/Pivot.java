@@ -257,11 +257,11 @@ public class Pivot extends Mechanism {
     }
 
     public void increaseOffset() {
-        increaseOffset(0.5);
+        increaseOffset(1);
     }
 
     public void decreaseOffset() {
-        decreaseOffset(0.5);
+        decreaseOffset(1);
     }
 
     public void increaseOffset(double amount) {
