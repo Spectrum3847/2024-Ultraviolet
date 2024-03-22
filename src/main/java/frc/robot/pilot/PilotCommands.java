@@ -3,6 +3,7 @@ package frc.robot.pilot;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.crescendo.Field;
 import frc.robot.Robot;
 import frc.robot.mechanisms.climber.Climber;
 import frc.robot.mechanisms.pivot.Pivot;
@@ -115,6 +116,15 @@ public class PilotCommands {
                         () -> pilot.getFieldOriented(), // true is field oriented
                         () -> true)
                 .withName("Swerve.aimToSpeaker");
+    }
+
+    public static Command turnToAmp() {
+        return SwerveCommands.aimDrive(
+                () -> pilot.getDriveFwdPositive(),
+                () -> pilot.getDriveLeftPositive(),
+                () -> Units.degreesToRadians(Field.flipAngleIfBlue(270)),
+                () -> pilot.getFieldOriented(), // true is field oriented
+                () -> true);
     }
 
     /**

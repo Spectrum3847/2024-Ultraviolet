@@ -2,6 +2,7 @@ package frc.robot.operator;
 
 import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
+import frc.robot.pilot.PilotCommands;
 import frc.spectrumLib.Gamepad;
 
 public class Operator extends Gamepad {
@@ -35,6 +36,8 @@ public class Operator extends Gamepad {
                 .and(leftBumperOnly())
                 .whileTrue(
                         RobotCommands.podiumReady()); // changed onTrue to whileTrue if that breaks
+
+        controller.x().and(noBumpers()).whileTrue(PilotCommands.turnToAmp());
         // anything...
 
         // controller.x().and(noBumpers()).onTrue();

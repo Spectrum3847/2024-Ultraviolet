@@ -109,8 +109,8 @@ public class LauncherCommands {
 
     public static Command runLauncherVelocities(double leftVelocity, double rightVelocity) {
         return leftLauncher
-                .runVelocity(leftVelocity)
-                .alongWith(rightLauncher.runVelocity(rightVelocity))
+                .runVelocityTorqueCurrentFOC(leftVelocity)
+                .alongWith(rightLauncher.runVelocityTorqueCurrentFOC(rightVelocity))
                 .withName("Launcher.runLauncherVelocities");
     }
 
