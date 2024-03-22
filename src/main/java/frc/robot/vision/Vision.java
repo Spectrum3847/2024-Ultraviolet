@@ -35,6 +35,16 @@ public class Vision extends SubsystemBase {
         public static final PhysicalConfig SPEAKER_CONFIG =
                 new PhysicalConfig().withTranslation(-0.085, 0, 0.636).withRotation(0, 15, 0);
 
+        public static final String LEFT_LL = "limelight-left";
+
+        public static final PhysicalConfig LEFT_CONFIG =
+                new PhysicalConfig().withTranslation(0, 0, 0).withRotation(0, 0, 0); // TODO: input
+
+        public static final String RIGHT_LL = "limelight-right";
+
+        public static final PhysicalConfig RIGHT_CONFIG =
+                new PhysicalConfig().withTranslation(0, 0, 0).withRotation(0, 0, 0); // TODO: input
+
         // Limelight 2+
         // public static final PhysicalConfig SPEAKER_CONFIG =
         //         new PhysicalConfig().withTranslation(-0.085, 0, 0.636).withRotation(0, 15, 0);
@@ -42,6 +52,8 @@ public class Vision extends SubsystemBase {
         /* Pipeline config */
         public static final int rearDetectorPipeline = 0;
         public static final int speakerDetectorPipeline = 0;
+        public static final int leftDetectorPipeline = 0;
+        public static final int rightDetectorPipeline = 0;
 
         /* AprilTag Heights (meters) */
         public static final double speakerTagHeight = 1.45;
@@ -70,7 +82,17 @@ public class Vision extends SubsystemBase {
                     VisionConfig.SPEAKER_LL,
                     VisionConfig.speakerDetectorPipeline,
                     VisionConfig.SPEAKER_CONFIG);
-    public final Limelight[] limelights = {speakerLL, rearLL};
+    public final Limelight leftLL =
+            new Limelight(
+                    VisionConfig.LEFT_LL,
+                    VisionConfig.leftDetectorPipeline,
+                    VisionConfig.LEFT_CONFIG);
+    public final Limelight rightLL =
+            new Limelight(
+                    VisionConfig.RIGHT_LL,
+                    VisionConfig.rightDetectorPipeline,
+                    VisionConfig.RIGHT_CONFIG);
+    public final Limelight[] limelights = {speakerLL, rearLL, leftLL, rightLL};
 
     private final DecimalFormat df = new DecimalFormat();
 
@@ -86,8 +108,9 @@ public class Vision extends SubsystemBase {
         df.setMaximumFractionDigits(2);
 
         /* Configure Limelight Settings Here */
-        speakerLL.setLEDMode(false);
-        rearLL.setLEDMode(false);
+        for (Limelight limelight : limelights) {
+            limelight.setLEDMode(false);
+        }
     }
 
     @Override
@@ -102,8 +125,9 @@ public class Vision extends SubsystemBase {
                 }
 
                 isPresent = true;
-                filterAndAddVisionMeasurment(speakerLL);
-                filterAndAddVisionMeasurment(rearLL);
+                for (Limelight limelight : limelights) {
+                    filterAndAddVisionMeasurment(limelight);
+                }
 
                 // RobotTelemetry.print("added vision measurement");
             }
@@ -303,7 +327,10 @@ public class Vision extends SubsystemBase {
                 new Translation2d(originalLocation.getX() - 0.5, originalLocation.getY() - 0.5));
     }
 
-    /** Set robot pose to vision pose regardless of validity. Does not reset rotation. */
+    /**
+     * Set robot pose to vision pose ONLY USING SPEAKER LL regardless of validity. Does not reset
+     * rotation.
+     */
     public void forcePoseToVision() {
         // TODO: add more fallback logic here
         Robot.swerve.resetPose(
@@ -334,20 +361,23 @@ public class Vision extends SubsystemBase {
 
     /** Change both LL pipelines to the same pipeline */
     public void setLimelightPipelines(int pipeline) {
-        rearLL.setLimelightPipeline(pipeline);
-        speakerLL.setLimelightPipeline(pipeline);
+        for (Limelight limelight : limelights) {
+            limelight.setLimelightPipeline(pipeline);
+        }
     }
 
     /** Set both LLs to blink */
     public Command blinkLimelights() {
         return startEnd(
                         () -> {
-                            rearLL.blinkLEDs();
-                            speakerLL.blinkLEDs();
+                            for (Limelight limelight : limelights) {
+                                limelight.blinkLEDs();
+                            }
                         },
                         () -> {
-                            rearLL.setLEDMode(false);
-                            speakerLL.setLEDMode(false);
+                            for (Limelight limelight : limelights) {
+                                limelight.setLEDMode(false);
+                            }
                         })
                 .withName("Vision.blinkLimelights");
     }

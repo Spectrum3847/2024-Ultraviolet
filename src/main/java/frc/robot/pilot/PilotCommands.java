@@ -121,6 +121,15 @@ public class PilotCommands {
                 () -> true);
     }
 
+    public static Command turnLaunchToAmp() {
+        return SwerveCommands.aimDrive(
+                () -> pilot.getDriveFwdPositive(),
+                () -> pilot.getDriveLeftPositive(),
+                () -> Units.degreesToRadians(Field.flipAngleIfBlue(90)),
+                () -> pilot.getFieldOriented(), // true is field oriented
+                () -> true);
+    }
+
     public static Command alignToAmpClimb() {
         return SwerveCommands.AlignAimDrive(
                 () -> Field.Stage.ampClimb.getX(),

@@ -17,7 +17,7 @@ public class LEDs extends SpectrumLEDs {
     public static boolean launchReadyLED = false;
 
     public LEDs() {
-        super(LEDsConfig.port, LEDsConfig.length);
+        super(LEDsConfig.port, LEDsConfig.length * 2);
         config = new LEDsConfig();
 
         RobotTelemetry.print("LEDs Subsystem Initialized: ");

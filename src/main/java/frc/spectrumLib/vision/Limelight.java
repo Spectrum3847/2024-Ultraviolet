@@ -88,9 +88,11 @@ public class Limelight {
     }
 
     public double getTagCountInView() {
-        if (retrieveJSON() == null) return 0;
+        return LimelightHelpers.getBotPoseEstimate_wpiBlue(CAMERA_NAME).tagCount;
 
-        return retrieveJSON().targetingResults.targets_Fiducials.length;
+        // if (retrieveJSON() == null) return 0;
+
+        // return retrieveJSON().targetingResults.targets_Fiducials.length;
     }
 
     /**

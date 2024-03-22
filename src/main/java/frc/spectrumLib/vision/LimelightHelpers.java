@@ -1,3 +1,5 @@
+// LimelightHelpers v1.4.0 (March 21, 2024)
+
 package frc.spectrumLib.vision;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -16,18 +18,13 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import frc.robot.Robot;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.CompletableFuture;
 
-/**
- * This utility class should not be used outside the library. Limelights should be directly
- * interacted through {@link Limelight}
- */
-class LimelightHelpers {
+public class LimelightHelpers {
 
     public static class LimelightTarget_Retro {
 
@@ -295,6 +292,18 @@ class LimelightHelpers {
         @JsonProperty("botpose_wpiblue")
         public double[] botpose_wpiblue;
 
+        @JsonProperty("botpose_tagcount")
+        public double botpose_tagcount;
+
+        @JsonProperty("botpose_span")
+        public double botpose_span;
+
+        @JsonProperty("botpose_avgdist")
+        public double botpose_avgdist;
+
+        @JsonProperty("botpose_avgarea")
+        public double botpose_avgarea;
+
         @JsonProperty("t6c_rs")
         public double[] camerapose_robotspace;
 
@@ -354,8 +363,69 @@ class LimelightHelpers {
         @JsonProperty("Results")
         public Results targetingResults;
 
+        public String error;
+
         public LimelightResults() {
             targetingResults = new Results();
+            error = "";
+        }
+    }
+
+    public static class RawFiducial {
+        public int id;
+        public double txnc;
+        public double tync;
+        public double ta;
+        public double distToCamera;
+        public double distToRobot;
+        public double ambiguity;
+
+        public RawFiducial(
+                int id,
+                double txnc,
+                double tync,
+                double ta,
+                double distToCamera,
+                double distToRobot,
+                double ambiguity) {
+            this.id = id;
+            this.txnc = txnc;
+            this.tync = tync;
+            this.ta = ta;
+            this.distToCamera = distToCamera;
+            this.distToRobot = distToRobot;
+            this.ambiguity = ambiguity;
+        }
+    }
+
+    public static class PoseEstimate {
+        public Pose2d pose;
+        public double timestampSeconds;
+        public double latency;
+        public int tagCount;
+        public double tagSpan;
+        public double avgTagDist;
+        public double avgTagArea;
+        public RawFiducial[] rawFiducials;
+
+        public PoseEstimate(
+                Pose2d pose,
+                double timestampSeconds,
+                double latency,
+                int tagCount,
+                double tagSpan,
+                double avgTagDist,
+                double avgTagArea,
+                RawFiducial[] rawFiducials) {
+
+            this.pose = pose;
+            this.timestampSeconds = timestampSeconds;
+            this.latency = latency;
+            this.tagCount = tagCount;
+            this.tagSpan = tagSpan;
+            this.avgTagDist = avgTagDist;
+            this.avgTagArea = avgTagArea;
+            this.rawFiducials = rawFiducials;
         }
     }
 
@@ -392,6 +462,85 @@ class LimelightHelpers {
         Translation2d tran2d = new Translation2d(inData[0], inData[1]);
         Rotation2d r2d = new Rotation2d(Units.degreesToRadians(inData[5]));
         return new Pose2d(tran2d, r2d);
+    }
+
+    private static double extractBotPoseEntry(double[] inData, int position) {
+        if (inData.length < position + 1) {
+            return 0;
+        }
+        return inData[position];
+    }
+
+    private static PoseEstimate getBotPoseEstimate(String limelightName, String entryName) {
+        var poseEntry = LimelightHelpers.getLimelightNTTableEntry(limelightName, entryName);
+        var poseArray = poseEntry.getDoubleArray(new double[0]);
+        var pose = toPose2D(poseArray);
+        double latency = extractBotPoseEntry(poseArray, 6);
+        int tagCount = (int) extractBotPoseEntry(poseArray, 7);
+        double tagSpan = extractBotPoseEntry(poseArray, 8);
+        double tagDist = extractBotPoseEntry(poseArray, 9);
+        double tagArea = extractBotPoseEntry(poseArray, 10);
+        // getlastchange() in microseconds, ll latency in milliseconds
+        var timestamp = (poseEntry.getLastChange() / 1000000.0) - (latency / 1000.0);
+
+        RawFiducial[] rawFiducials = new RawFiducial[tagCount];
+        int valsPerFiducial = 7;
+        int expectedTotalVals = 11 + valsPerFiducial * tagCount;
+
+        if (poseArray.length != expectedTotalVals) {
+            // Don't populate fiducials
+        } else {
+            for (int i = 0; i < tagCount; i++) {
+                int baseIndex = 11 + (i * valsPerFiducial);
+                int id = (int) poseArray[baseIndex];
+                double txnc = poseArray[baseIndex + 1];
+                double tync = poseArray[baseIndex + 2];
+                double ta = poseArray[baseIndex + 3];
+                double distToCamera = poseArray[baseIndex + 4];
+                double distToRobot = poseArray[baseIndex + 5];
+                double ambiguity = poseArray[baseIndex + 6];
+                rawFiducials[i] =
+                        new RawFiducial(id, txnc, tync, ta, distToCamera, distToRobot, ambiguity);
+            }
+        }
+
+        return new PoseEstimate(
+                pose, timestamp, latency, tagCount, tagSpan, tagDist, tagArea, rawFiducials);
+    }
+
+    private static void printPoseEstimate(PoseEstimate pose) {
+        if (pose == null) {
+            System.out.println("No PoseEstimate available.");
+            return;
+        }
+
+        System.out.printf("Pose Estimate Information:%n");
+        System.out.printf("Timestamp (Seconds): %.3f%n", pose.timestampSeconds);
+        System.out.printf("Latency: %.3f ms%n", pose.latency);
+        System.out.printf("Tag Count: %d%n", pose.tagCount);
+        System.out.printf("Tag Span: %.2f meters%n", pose.tagSpan);
+        System.out.printf("Average Tag Distance: %.2f meters%n", pose.avgTagDist);
+        System.out.printf("Average Tag Area: %.2f%% of image%n", pose.avgTagArea);
+        System.out.println();
+
+        if (pose.rawFiducials == null || pose.rawFiducials.length == 0) {
+            System.out.println("No RawFiducials data available.");
+            return;
+        }
+
+        System.out.println("Raw Fiducials Details:");
+        for (int i = 0; i < pose.rawFiducials.length; i++) {
+            RawFiducial fiducial = pose.rawFiducials[i];
+            System.out.printf(" Fiducial #%d:%n", i + 1);
+            System.out.printf("  ID: %d%n", fiducial.id);
+            System.out.printf("  TXNC: %.2f%n", fiducial.txnc);
+            System.out.printf("  TYNC: %.2f%n", fiducial.tync);
+            System.out.printf("  TA: %.2f%n", fiducial.ta);
+            System.out.printf("  Distance to Camera: %.2f meters%n", fiducial.distToCamera);
+            System.out.printf("  Distance to Robot: %.2f meters%n", fiducial.distToRobot);
+            System.out.printf("  Ambiguity: %.2f%n", fiducial.ambiguity);
+            System.out.println();
+        }
     }
 
     public static NetworkTable getLimelightNTTable(String tableName) {
@@ -533,8 +682,8 @@ class LimelightHelpers {
         return getLimelightNTDouble(limelightName, "tid");
     }
 
-    public static double getNeuralClassID(String limelightName) {
-        return getLimelightNTDouble(limelightName, "tclass");
+    public static String getNeuralClassID(String limelightName) {
+        return getLimelightNTString(limelightName, "tclass");
     }
 
     /////
@@ -593,6 +742,17 @@ class LimelightHelpers {
     }
 
     /**
+     * Gets the Pose2d and timestamp for use with WPILib pose estimator (addVisionMeasurement) when
+     * you are on the BLUE alliance
+     *
+     * @param limelightName
+     * @return
+     */
+    public static PoseEstimate getBotPoseEstimate_wpiBlue(String limelightName) {
+        return getBotPoseEstimate(limelightName, "botpose_wpiblue");
+    }
+
+    /**
      * Gets the Pose2d for easy use with Odometry vision pose estimator (addVisionMeasurement)
      *
      * @param limelightName
@@ -602,6 +762,17 @@ class LimelightHelpers {
 
         double[] result = getBotPose_wpiRed(limelightName);
         return toPose2D(result);
+    }
+
+    /**
+     * Gets the Pose2d and timestamp for use with WPILib pose estimator (addVisionMeasurement) when
+     * you are on the RED alliance
+     *
+     * @param limelightName
+     * @return
+     */
+    public static PoseEstimate getBotPoseEstimate_wpiRed(String limelightName) {
+        return getBotPoseEstimate(limelightName, "botpose_wpired");
     }
 
     /**
@@ -625,6 +796,10 @@ class LimelightHelpers {
 
     public static void setPipelineIndex(String limelightName, int pipelineIndex) {
         setLimelightNTDouble(limelightName, "pipeline", pipelineIndex);
+    }
+
+    public static void setPriorityTagID(String limelightName, int ID) {
+        setLimelightNTDouble(limelightName, "priorityid", ID);
     }
 
     /** The LEDs will be controlled by Limelight pipeline settings, and not by robot code. */
@@ -757,9 +932,7 @@ class LimelightHelpers {
         try {
             results = mapper.readValue(getJSONDump(limelightName), LimelightResults.class);
         } catch (JsonProcessingException e) {
-            if (!Robot.isSimulation()) {
-                System.err.println("limelight not found: " + e.getMessage());
-            }
+            results.error = "lljson error: " + e.getMessage();
         }
 
         long end = System.nanoTime();

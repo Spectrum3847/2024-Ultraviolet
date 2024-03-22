@@ -176,7 +176,7 @@ public class Feeder extends Mechanism {
     /** Intaked note status */
     @AutoLogOutput(key = "Feeder/Note Intaked")
     public boolean noteIntaked() {
-        if(attached) {
+        if (attached) {
             return lasercan.intakedNote();
         }
         return false;

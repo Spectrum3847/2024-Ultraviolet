@@ -155,7 +155,7 @@ public class RobotCommands {
                                         ElevatorCommands.amp(),
                                         AmpTrapCommands.amp()
                                                 .onlyIf(() -> !Robot.elevator.isAtAmpHeight())
-                                                .withTimeout(0.3)
+                                                .withTimeout(0.25)
                                                 .andThen(AmpTrapCommands.stopMotor())))
                 .withName("RobotCommands.amp");
     }
@@ -275,7 +275,22 @@ public class RobotCommands {
     }
 
     public static Command topClimb() {
-        return ClimberCommands.topClimb().alongWith(PivotCommands.home());
+        return Commands.either(
+                ClimberCommands.topClimb()
+                        .alongWith(
+                                PivotCommands.home(),
+                                FeederCommands.score()
+                                        .withTimeout(0.1)
+                                        .onlyIf(Robot.feeder::noteIsClose)
+                                        .andThen(FeederCommands.feedToAmp())
+                                        .alongWith(AmpTrapCommands.amp())
+                                        .until(() -> Robot.ampTrap.hasNote())
+                                        .onlyIf(() -> !Robot.ampTrap.hasNote())
+                                        .andThen(
+                                                AmpTrapCommands.stopMotor()
+                                                        .alongWith(FeederCommands.stopMotor()))),
+                ClimberCommands.topClimb().alongWith(PivotCommands.home()),
+                Robot.ampTrap.lasercan::validDistance);
     }
 
     public static Command trapExtend() {
@@ -286,6 +301,7 @@ public class RobotCommands {
                         .andThen(FeederCommands.feedToAmp())
                         .alongWith(AmpTrapCommands.amp())
                         .until(() -> Robot.ampTrap.hasNote())
+                        .onlyIf(() -> !Robot.ampTrap.hasNote())
                         .andThen(
                                 AmpTrapCommands.stopMotor()
                                         .alongWith(
