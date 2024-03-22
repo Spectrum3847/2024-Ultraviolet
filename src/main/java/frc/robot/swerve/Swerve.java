@@ -215,6 +215,11 @@ public class Swerve implements Subsystem {
         drivetrain.reorient(angle);
     }
 
+    public void cardinalReorient() {
+        double angle = getClosestCardinal();
+        drivetrain.reorient(angle);
+    }
+
     public ChassisSpeeds getRobotRelativeSpeeds() {
         return drivetrain.getChassisSpeeds();
     }
@@ -234,6 +239,19 @@ public class Swerve implements Subsystem {
 
     public Rotation2d getRotation() {
         return getPose().getRotation();
+    }
+
+    public double getClosestCardinal() {
+        double heading = getRotation().getRadians();
+        if (heading > -Math.PI / 4 && heading <= Math.PI / 4) {
+            return 0;
+        } else if (heading > Math.PI / 4 && heading <= 3 * Math.PI / 4) {
+            return 90;
+        } else if (heading > 3 * Math.PI / 4 || heading <= -3 * Math.PI / 4) {
+            return 180;
+        } else {
+            return 270;
+        }
     }
 
     public void resetRotationController() {

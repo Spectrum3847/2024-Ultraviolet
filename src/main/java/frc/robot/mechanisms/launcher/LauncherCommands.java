@@ -97,6 +97,12 @@ public class LauncherCommands {
                 .withName("Launcher.subwoofer");
     }
 
+    public static Command manualSource() {
+        return runTorqueLauncherVelocities(
+                        leftLauncher.config.manualSource, rightLauncher.config.manualSource)
+                .withName("Launcher.manualSource");
+    }
+
     public static Command deepShot() {
         return runTorqueLauncherVelocities(
                         leftLauncher.config.deepShot, rightLauncher.config.deepShot)

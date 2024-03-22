@@ -257,6 +257,10 @@ public class SwerveCommands {
         return swerve.runOnce(() -> swerve.reorientBack()).withName("Swerve.reorientBack");
     }
 
+    public static Command cardinalReorient() {
+        return swerve.runOnce(() -> swerve.cardinalReorient()).withName("Swerve.cardinalReorient");
+    }
+
     /**
      * Temporarily sets the swerve modules to coast mode. The configuration is applied when the
      * command is started and reverted when the command is ended.

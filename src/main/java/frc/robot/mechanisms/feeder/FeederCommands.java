@@ -55,6 +55,10 @@ public class FeederCommands {
         return feeder.runVelocity(feeder.config.launchEject).withName("Feeder.launchEject");
     }
 
+    public static Command manualSource() {
+        return feeder.runVelocity(feeder.config.manualSource).withName("Feeder.manualSource");
+    }
+
     public static Command coastMode() {
         return feeder.coastMode();
     }

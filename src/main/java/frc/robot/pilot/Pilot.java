@@ -66,10 +66,10 @@ public class Pilot extends Gamepad {
                 RobotCommands.feedHome());
         controller.a().and(leftBumperOnly()).whileTrue(RobotCommands.eject());
 
-        controller.b().and(noBumpers()).onTrue(RobotCommands.amp().withTimeout(1.5));
         controller.b().and(noBumpers().or(rightBumperOnly())).whileTrue(PilotCommands.turnToAmp());
+        controller.b().and(noBumpers()).onTrue(RobotCommands.amp().withTimeout(1.5));
 
-        controller.b().and(leftBumperOnly()).whileTrue(ElevatorCommands.home());
+        controller.b().and(leftBumperOnly()).whileTrue(RobotCommands.intoAmpShot());
 
         controller
                 .x()
@@ -78,7 +78,7 @@ public class Pilot extends Gamepad {
         controller
                 .x()
                 .and(leftBumperOnly().or(bothBumpers()))
-                .whileTrue(RobotCommands.fromAmpShot());
+                .whileTrue(RobotCommands.podiumShot());
 
         controller
                 .y()
@@ -87,10 +87,10 @@ public class Pilot extends Gamepad {
         controller
                 .y()
                 .and(leftBumperOnly().or(bothBumpers()))
-                .whileTrue(RobotCommands.ampWingShot());
+                .whileTrue(RobotCommands.fromAmpShot());
 
-        controller.start().whileTrue(RobotCommands.intoAmpShot());
-        controller.select().whileTrue(PilotCommands.alignToAmpClimb());
+        // controller.start().whileTrue();
+        controller.select().whileTrue(SwerveCommands.cardinalReorient());
 
         runWithEndSequence(rightBumperOnly(), RobotCommands.score(), ElevatorCommands.home());
         controller.leftBumper().and(controller.rightBumper()).whileTrue(RobotCommands.score());

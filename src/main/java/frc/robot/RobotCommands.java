@@ -310,4 +310,10 @@ public class RobotCommands {
                 ElevatorCommands.fullExtend(),
                 Robot.ampTrap.lasercan::validDistance);
     }
+
+    public static Command manualSource() {
+        return LauncherCommands.manualSource()
+                .alongWith(FeederCommands.manualSource())
+                .withName("RobotCommands.manualSource");
+    }
 }

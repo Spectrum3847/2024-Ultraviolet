@@ -59,6 +59,8 @@ public class Operator extends Gamepad {
 
         bothBumpers().whileTrue(LEDsCommands.solidGreenLED());
 
+        controller.start().whileTrue(RobotCommands.manualSource());
+
         controller.upDpad().and(noBumpers()).onTrue(rumbleCommand(PivotCommands.increaseOffset()));
         controller
                 .downDpad()
