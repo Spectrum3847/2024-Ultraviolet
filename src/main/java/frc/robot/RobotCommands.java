@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.leds.LEDs;
+import frc.robot.leds.LEDsCommands;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
 import frc.robot.mechanisms.climber.ClimberCommands;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
@@ -108,22 +109,23 @@ public class RobotCommands {
 
     public static Command ampReady8515() {
         return PivotCommands.ampScore()
-                .alongWith(LauncherCommands.runAmpVelocity())
+                .alongWith(LauncherCommands.runAmpVelocity(), LEDsCommands.Pivot())
                 .withName("RobotCommands.ampReady8515");
     }
 
     public static Command eject() {
         return FeederCommands.eject()
-                .alongWith(AmpTrapCommands.eject(), IntakeCommands.eject())
+                .alongWith(
+                        AmpTrapCommands.eject(), IntakeCommands.eject(), LEDsCommands.noteEject())
                 .withName("RobotCommands.eject");
     }
 
     public static Command home() {
-        return PivotCommands.home();
+        return PivotCommands.home().alongWith(LEDsCommands.strobePurpleLED());
     }
 
     public static Command climb() {
-        return PivotCommands.climb();
+        return PivotCommands.climb().alongWith(LEDsCommands.Pivot());
     }
 
     // public static Command score() {

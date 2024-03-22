@@ -31,8 +31,6 @@ public class Auton extends SubsystemBase {
         // autonChooser.addOption("3 Meter", new PathPlannerAuto("3 Meter Auto")); // Runs full Auto
         // autonChooser.addOption("5 Meter", new PathPlannerAuto("5 Meter Auto")); // Runs full Auto
 
-        autonChooser.addOption("Front 5", new PathPlannerAuto("Front 5")); // Runs full Auto
-        autonChooser.addOption("Front Alt 5", new PathPlannerAuto("Front Alt 5")); // Runs full Auto
         autonChooser.addOption(
                 "Center Sub 4", new PathPlannerAuto("Center Sub 4")); // Runs full Auto
         autonChooser.addOption("Mobility", new PathPlannerAuto("Mobility")); // Runs full Auto
@@ -42,9 +40,6 @@ public class Auton extends SubsystemBase {
         autonChooser.addOption(
                 "Preload Mobility Source",
                 new PathPlannerAuto("Preload Mobility Source")); // Runs full Auto
-        autonChooser.addOption(
-                "Preload Mobility Amp",
-                new PathPlannerAuto("Preload Mobility Amp")); // Runs full Auto
         autonChooser.addOption(
                 "Preload Score", new PathPlannerAuto("Preload Score")); // Runs full Auto
 

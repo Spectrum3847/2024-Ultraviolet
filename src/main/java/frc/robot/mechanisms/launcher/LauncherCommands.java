@@ -2,10 +2,9 @@ package frc.robot.mechanisms.launcher;
 
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import frc.robot.Robot;
-import frc.robot.leds.LEDs;
+import frc.robot.leds.LEDsCommands;
 import frc.robot.pilot.PilotCommands;
 import java.util.function.DoubleSupplier;
 
@@ -127,12 +126,7 @@ public class LauncherCommands {
                 () -> {
                     if (leftLauncher.getMotorVelocityInRPM() >= leftVelocity - 50
                             || rightLauncher.getMotorVelocityInRPM() >= rightVelocity - 50) {
-                        PilotCommands.rumble(2.0, 1.0)
-                                .alongWith(
-                                        Commands.startEnd(
-                                                        LEDs::turnOnLaunchLEDs,
-                                                        LEDs::turnOffLaunchLEDs)
-                                                .ignoringDisable(true));
+                        PilotCommands.rumble(2.0, 1.0).alongWith(LEDsCommands.launchReady());
                     }
                 },
                 (b) -> {

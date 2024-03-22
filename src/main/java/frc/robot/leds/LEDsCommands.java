@@ -26,7 +26,7 @@ public class LEDsCommands {
         Trigger maxClimbReady = new Trigger(() -> LEDs.climbLEDs);
         // Trigger coastMode = new Trigger(() -> LEDs.coastModeLEDs);
         Trigger home = new Trigger(() -> LEDs.homeLEDs);
-        // Trigger noteEject = new Trigger(() -> LEDs.ejectLEDs);
+        Trigger noteEject = new Trigger(() -> LEDs.ejectLEDs);
 
         launcherReady.whileTrue(launchReady());
         ampReady.whileTrue(Pivot());
@@ -49,9 +49,9 @@ public class LEDsCommands {
         return strobePurpleLED().withName("LEDs.noteEject");
     }
 
-    // public static Command noteEject() {
-    //     return strobeGreenLED().withName("LEDs.noteEject");
-    // }
+    public static Command noteEject() {
+        return strobeRedLED().withName("LEDs.noteEject");
+    }
 
     /** Specific Commands */
     public static Command defaultCommand() {
@@ -72,17 +72,22 @@ public class LEDsCommands {
                 .withName("LEDs.strobeGreenLED");
     }
 
+    public static Command strobeRedLED() {
+        return LEDsCommands.strobe(Section.FULL, Color.kRed, 0.5, 2)
+                .withName("LEDs.strobeGreenLED");
+    }
+
     // public static Command ombre(Section section, Color c1, Color c2, int priority) {
     //     return runLEDPattern(() -> leds.ombre(section, c1, c2, priority)).withName("LEDs.ombre");
     // }
 
     public static Command strobePurpleLED() {
-        return LEDsCommands.strobe(Section.QUARTER_HIGH, Color.kPurple, 0.5, 2)
+        return LEDsCommands.strobe(Section.FULL, Color.kPurple, 0.5, 2)
                 .withName("LEDs.strobePurpleLED");
     }
 
     public static Command strobeOrangeLED() {
-        return LEDsCommands.strobe(Section.QUARTER_HIGH, Color.kOrange, 0.5, 2)
+        return LEDsCommands.strobe(Section.FULL, Color.kOrange, 0.5, 2)
                 .withName("LEDs.strobeOrangeLED");
     }
 

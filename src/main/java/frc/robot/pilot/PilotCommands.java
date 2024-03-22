@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.crescendo.Field;
 import frc.robot.Robot;
+import frc.robot.leds.LEDsCommands;
 import frc.robot.mechanisms.climber.Climber;
 import frc.robot.mechanisms.pivot.Pivot;
 import frc.robot.swerve.commands.SwerveCommands;
@@ -140,7 +141,8 @@ public class PilotCommands {
      * want these to require the pilot subsystem
      */
     public static Command turboMode() {
-        return Commands.startEnd(() -> pilot.setTurboMode(true), () -> pilot.setTurboMode(false));
+        return Commands.startEnd(() -> pilot.setTurboMode(true), () -> pilot.setTurboMode(false))
+                .alongWith(LEDsCommands.strobeOrangeLED());
     }
 
     /**
