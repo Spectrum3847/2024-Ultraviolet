@@ -383,24 +383,21 @@ public class Vision extends SubsystemBase {
     }
 
     /** Logging */
-    @AutoLogOutput(key = "Vision/Front/ConnectionStatus")
-    public boolean getFrontConnection() {
-        return speakerLL.isCameraConnected();
-    }
+    // @AutoLogOutput(key = "Vision/Front/ConnectionStatus")
+    // public boolean getFrontConnection() {
+    //     return speakerLL.isCameraConnected();
+    // }
 
-    @AutoLogOutput(key = "Vision/Rear/ConnectionStatus")
-    public boolean getRearConnection() {
-        return rearLL.isCameraConnected();
-    }
+    // @AutoLogOutput(key = "Vision/Rear/ConnectionStatus")
+    // public boolean getRearConnection() {
+    //     return rearLL.isCameraConnected();
+    // }
+
+    // not great :/
 
     @AutoLogOutput(key = "Vision/Front/LogStatus")
     public String getFrontLogStatus() {
         return speakerLL.logStatus;
-    }
-
-    @AutoLogOutput(key = "Vision/Rear/LogStatus")
-    public String getRearLogStatus() {
-        return rearLL.logStatus;
     }
 
     @AutoLogOutput(key = "Vision/Front/TagCount")
@@ -408,9 +405,54 @@ public class Vision extends SubsystemBase {
         return speakerLL.getTagCountInView();
     }
 
+    @AutoLogOutput(key = "Vision/Front/TargetSize")
+    public double getFrontTargetSize() {
+        return speakerLL.getTargetSize();
+    }
+
+    @AutoLogOutput(key = "Vision/Rear/LogStatus")
+    public String getRearLogStatus() {
+        return rearLL.logStatus;
+    }
+
     @AutoLogOutput(key = "Vision/Rear/TagCount")
     public double getRearTagCount() {
         return rearLL.getTagCountInView();
+    }
+
+    @AutoLogOutput(key = "Vision/Rear/TargetSize")
+    public double getRearTargetSize() {
+        return rearLL.getTargetSize();
+    }
+
+    @AutoLogOutput(key = "Vision/Left/LogStatus")
+    public String getLeftLogStatus() {
+        return leftLL.logStatus;
+    }
+
+    @AutoLogOutput(key = "Vision/Left/TagCount")
+    public double getLeftTagCount() {
+        return leftLL.getTagCountInView();
+    }
+
+    @AutoLogOutput(key = "Vision/Left/TargetSize")
+    public double getLeftTargetSize() {
+        return leftLL.getTargetSize();
+    }
+
+    @AutoLogOutput(key = "Vision/Right/LogStatus")
+    public String getRightLogStatus() {
+        return rightLL.logStatus;
+    }
+
+    @AutoLogOutput(key = "Vision/Right/TagCount")
+    public double getRightTagCount() {
+        return rightLL.getTagCountInView();
+    }
+
+    @AutoLogOutput(key = "Vision/Right/TargetSize")
+    public double getRightTargetSize() {
+        return rightLL.getTargetSize();
     }
 
     @AutoLogOutput(key = "Vision/Trust/STDX")
@@ -427,16 +469,6 @@ public class Vision extends SubsystemBase {
     public double getThetaSTD() {
         return VisionConfig.VISION_STD_DEV_THETA;
     }
-
-    // @AutoLogOutput(key = "Vision/Front/TrustStrong")
-    // public boolean getFrontTrustStrength() {
-    //     return speakerLL.trustStrong;
-    // }
-
-    // @AutoLogOutput(key = "Vision/Rear/TrustStrong")
-    // public boolean getRearTrustStrength() {
-    //     return rearLL.trustStrong;
-    // }
 
     public static class CommandConfig {
         public double kp;
