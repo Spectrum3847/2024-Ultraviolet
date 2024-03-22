@@ -101,6 +101,40 @@
           ]
         }
       }
+    },
+    {
+      "name": "intake",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "intake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "home",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "home"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {
@@ -115,7 +149,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Event Test Autos",
+  "folder": "Source Side Paths",
   "previewStartingState": {
     "rotation": 120.0,
     "velocity": 0
