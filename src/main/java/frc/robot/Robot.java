@@ -307,8 +307,7 @@ public class Robot extends LoggedRobot {
         Logger.addDataReceiver(new NT4Publisher()); // Running a physics simulator, log to NT
 
         if (!Robot.isSimulation()) {
-            Logger.addDataReceiver(
-                    new WPILOGWriter("/U")); // Running on a real robot, log to a USB stick
+            Logger.addDataReceiver(new WPILOGWriter("/home/lvuser/logs/"));
         }
 
         // Start AdvantageKit logger

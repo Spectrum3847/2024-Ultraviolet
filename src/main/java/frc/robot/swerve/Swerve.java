@@ -91,6 +91,7 @@ public class Swerve implements Subsystem {
 
         // Log Odometry Pose
         Logger.recordOutput("Odometry/Robot", getPose());
+        Logger.recordOutput("Vision/Front/Pose", Robot.vision.speakerLL.getRawPose3d().toPose2d());
     }
 
     @Override

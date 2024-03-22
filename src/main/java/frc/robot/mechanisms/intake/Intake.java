@@ -5,7 +5,6 @@ import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
 import frc.spectrumLib.util.Conversions;
 import java.util.function.DoubleSupplier;
-import frc.robot.leds.LEDs;
 import org.littletonrobotics.junction.AutoLogOutput;
 
 public class Intake extends Mechanism {
@@ -133,6 +132,4 @@ public class Intake extends Mechanism {
         config = new IntakeConfig();
         return config;
     }
-
-    
 }

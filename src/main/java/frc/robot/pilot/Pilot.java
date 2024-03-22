@@ -67,11 +67,14 @@ public class Pilot extends Gamepad {
                 .whileTrue(LauncherCommands.eject().alongWith(RobotCommands.eject()));
 
         // now in operator controls, the operator can finally do something
-        controller.b().and(noBumpers()).whileTrue(RobotCommands.subwooferReady());
+        controller
+                .b()
+                .and(noBumpers().or(rightBumperOnly()))
+                .whileTrue(RobotCommands.subwooferReady());
 
         controller
                 .b()
-                .and(leftBumperOnly())
+                .and(leftBumperOnly().or(bothBumpers()))
                 .whileTrue(RobotCommands.podiumReady()); // change to podium ready
 
         controller.start().onTrue(RobotCommands.climb()); // change pivot angle to max for climb
@@ -84,21 +87,21 @@ public class Pilot extends Gamepad {
         controller.y().and(leftBumperOnly()).whileTrue(RobotCommands.home());
 
         // x - aim to climb
-        // controller.x().and(noBumpers()).whileTrue(RobotCommands.visionLaunch());
-        controller.x().and(noBumpers()).whileTrue(PilotCommands.aimToClimbRight());
+        controller
+                .x()
+                .and(noBumpers().or(rightBumperOnly()))
+                .whileTrue(RobotCommands.visionLaunch());
+        // controller.x().and(noBumpers()).whileTrue(PilotCommands.aimToClimbRight());
         controller.x().and(leftBumperOnly()).whileTrue(PilotCommands.aimToClimbLeft());
         controller.x().and(bothBumpers()).whileTrue(PilotCommands.aimToClimbBack());
 
         // controller
         //         .x()
-        //         .and(noBumpers())
-        //         .whileTrue(
-        //                 RobotCommands.onDemandLaunching()
-        //                         .withTimeout(5)
-        //                         .andThen(FeederCommands.feeder().withTimeout(3)));
+        //         .and(noBumpers().or(rightBumperOnly()))
+        //         .whileTrue(RobotCommands.onDemandLaunching());
 
         runWithEndSequence(
-                rightBumperOnly(),
+                controller.rightBumper().or(bothBumpers()),
                 RobotCommands.score(),
                 LauncherCommands.runLauncherPercentages(0, 0)
                         .alongWith(

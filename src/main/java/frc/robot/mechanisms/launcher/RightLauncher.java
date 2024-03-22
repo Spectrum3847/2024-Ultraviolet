@@ -30,7 +30,7 @@ public class RightLauncher extends Mechanism {
         /* RightLauncher config values */
         public double currentLimit = 60;
         public double threshold = 80;
-        public double velocityKp = 0.156152;
+        public double velocityKp = 6;
         public double velocityKv = 0.12;
         public double velocityKs = 0.24;
 

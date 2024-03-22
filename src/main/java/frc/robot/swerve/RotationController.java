@@ -3,7 +3,6 @@ package frc.robot.swerve;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
-import frc.robot.RobotTelemetry;
 import frc.spectrumLib.swerve.config.SwerveConfig;
 
 /**
@@ -46,15 +45,15 @@ public class RotationController {
     public double calculate(double goalRadians) {
         double measurement = swerve.getRotation().getRadians();
         double calculatedValue = controller.calculate(measurement, goalRadians);
-        RobotTelemetry.print(
-                "RotationControllerOutput: "
-                        + calculatedValue
-                        + " Measure: "
-                        + measurement
-                        + " Goal: "
-                        + goalRadians
-                        + " max: "
-                        + config.maxAngularVelocity);
+        // RobotTelemetry.print(
+        //         "RotationControllerOutput: "
+        //                 + calculatedValue
+        //                 + " Measure: "
+        //                 + measurement
+        //                 + " Goal: "
+        //                 + goalRadians
+        //                 + " max: "
+        //                 + config.maxAngularVelocity);
         if (atSetpoint()) {
             return 0; // calculateHold(goalRadians);
         } else {

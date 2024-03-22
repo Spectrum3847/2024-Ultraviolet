@@ -4,8 +4,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import frc.robot.Robot;
-import java.util.function.DoubleSupplier;
 import frc.robot.leds.LEDs;
+import java.util.function.DoubleSupplier;
 
 public class PivotCommands {
     private static Pivot pivot = Robot.pivot;
@@ -25,11 +25,15 @@ public class PivotCommands {
     }
 
     public static Command home() {
-        return pivot.runPosition(pivot.config.home).alongWith(sendPivotFeedback()).withName("Pivot.home");
+        return pivot.runPosition(pivot.config.home)
+                .alongWith(sendPivotFeedback())
+                .withName("Pivot.home");
     }
 
     public static Command climb() {
-        return pivot.runPosition(pivot.config.climb).alongWith(sendPivotFeedback()).withName("Pivot.climb");
+        return pivot.runPosition(pivot.config.climb)
+                .alongWith(sendPivotFeedback())
+                .withName("Pivot.climb");
     }
 
     public static Command percentage() {
@@ -57,7 +61,9 @@ public class PivotCommands {
     }
 
     public static Command ampScore() {
-        return pivot.runPosition(pivot.config.amp).alongWith(sendPivotFeedback()).withName("Pivot.amp");
+        return pivot.runPosition(pivot.config.amp)
+                .alongWith(sendPivotFeedback())
+                .withName("Pivot.amp");
     }
 
     public static Command podium() {
@@ -96,20 +102,17 @@ public class PivotCommands {
                     if (pivot.getMotorPercentAngle() < 1) {
                         Commands.startEnd(LEDs::turnOnHomeLEDs, LEDs::turnOffHomeLEDs)
                                 .withTimeout(1.5);
-                    }
-
-                    else if ((pivot.getMotorPercentAngle() < pivot.config.amp +1)&& ( pivot.getMotorPercentAngle() > pivot.config.amp -1)) {
+                    } else if ((pivot.getMotorPercentAngle() < pivot.config.amp + 1)
+                            && (pivot.getMotorPercentAngle() > pivot.config.amp - 1)) {
                         Commands.startEnd(LEDs::turnOnAmpLEDs, LEDs::turnOffAmpLEDs)
                                 .withTimeout(1.5);
-                    }
-
-                    else if ((pivot.getMotorPercentAngle() < pivot.config.climb +1 ) && (pivot.getMotorPercentAngle() > pivot.config.amp -1)) {
+                    } else if ((pivot.getMotorPercentAngle() < pivot.config.climb + 1)
+                            && (pivot.getMotorPercentAngle() > pivot.config.amp - 1)) {
                         Commands.startEnd(LEDs::turnOnClimbLEDs, LEDs::turnOffClimbLEDs)
                                 .withTimeout(1.5);
                     }
-                
                 },
                 (b) -> {},
                 () -> false);
-    } 
+    }
 }
