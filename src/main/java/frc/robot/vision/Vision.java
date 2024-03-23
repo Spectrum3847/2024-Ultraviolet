@@ -19,7 +19,6 @@ import frc.robot.RobotTelemetry;
 import frc.spectrumLib.vision.Limelight;
 import frc.spectrumLib.vision.Limelight.PhysicalConfig;
 import java.text.DecimalFormat;
-import java.util.NoSuchElementException;
 import org.littletonrobotics.junction.AutoLogOutput;
 
 public class Vision extends SubsystemBase {
@@ -130,12 +129,12 @@ public class Vision extends SubsystemBase {
 
                 isPresent = true;
                 for (Limelight limelight : limelights) {
-                    filterAndAddVisionMeasurment(limelight);
+                    if (limelight.CAMERA_NAME != "limelight-right") {
+                        filterAndAddVisionMeasurment(limelight);
+                    }
                 }
-
-                // RobotTelemetry.print("added vision measurement");
             }
-        } catch (NoSuchElementException e) {
+        } catch (Exception e) {
             RobotTelemetry.print("Vision pose not present but tried to access it");
         }
     }

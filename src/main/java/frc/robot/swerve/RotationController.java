@@ -4,6 +4,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import frc.spectrumLib.swerve.config.SwerveConfig;
+import org.littletonrobotics.junction.AutoLogOutput;
 
 /**
  * Uses a profiled PID Controller to quickly turn the robot to a specified angle. Once the robot is
@@ -16,7 +17,10 @@ public class RotationController {
     ProfiledPIDController controller;
     PIDController holdController;
     Constraints constraints;
-    double calculatedValue;
+
+    @AutoLogOutput(key = "Serve/RotationController/Output")
+    double calculatedValue = 0;
+
     double feedbackSetpoint;
 
     public RotationController(Swerve swerve) {

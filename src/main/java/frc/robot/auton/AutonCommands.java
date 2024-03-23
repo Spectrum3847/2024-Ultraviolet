@@ -95,6 +95,13 @@ public class AutonCommands {
                 .withName("AutonCommands.launch");
     }
 
+    public static Command launchShort() {
+        return FeederCommands.autoFeed()
+                .withTimeout(0.1)
+                .andThen(FeederCommands.stopMotor().withTimeout(0.01))
+                .withName("AutonCommands.launch");
+    }
+
     public static Command intake() {
         return IntakeCommands.intake()
                 .alongWith(AmpTrapCommands.intake())

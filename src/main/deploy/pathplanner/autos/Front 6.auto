@@ -20,7 +20,7 @@
         {
           "type": "named",
           "data": {
-            "name": "launch"
+            "name": "launchShort"
           }
         },
         {

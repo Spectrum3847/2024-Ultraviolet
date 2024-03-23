@@ -19,7 +19,7 @@ public class Elevator extends Mechanism {
         /* Elevator positions in rotations */
         public double fullExtend = maxHeight;
         public double home = minHeight;
-        public double amp = 14;
+        public double amp = 15;
         public double trap = 5;
 
         /* Elevator config settings */

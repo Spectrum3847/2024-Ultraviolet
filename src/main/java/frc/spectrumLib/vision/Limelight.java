@@ -16,7 +16,7 @@ public class Limelight {
     /* Limelight Configuration */
 
     /** Must match to the name given in LL dashboard */
-    private final String CAMERA_NAME;
+    public final String CAMERA_NAME;
 
     public String logStatus = "";
     public boolean trustStrong = false;
