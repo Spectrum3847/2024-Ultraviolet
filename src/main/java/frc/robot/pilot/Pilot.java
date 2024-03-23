@@ -69,7 +69,10 @@ public class Pilot extends Gamepad {
         controller.b().and(noBumpers().or(rightBumperOnly())).whileTrue(PilotCommands.turnToAmp());
         controller.b().and(noBumpers()).onTrue(RobotCommands.amp().withTimeout(1.5));
 
-        controller.b().and(leftBumperOnly()).whileTrue(RobotCommands.intoAmpShot());
+        controller
+                .b()
+                .and(leftBumperOnly().or(bothBumpers()))
+                .whileTrue(RobotCommands.intoAmpShot());
 
         controller
                 .x()

@@ -60,12 +60,6 @@
               "data": {
                 "name": "visionLaunchReady"
               }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "alignToSpeaker"
-              }
             }
           ]
         }

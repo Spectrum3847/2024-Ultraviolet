@@ -97,6 +97,10 @@ public class LEDsCommands {
                 .withName("LEDs.launchReadyStrobe");
     }
 
+    public static Command intakeReadyStrobe() {
+        return customStrobe(Section.FULL, Color.kGreen, 5, 10).withName("LEDs.intakeReadyStrobe");
+    }
+
     public static Command breathBlueLED() {
         return breath(Section.FULL, Color.kBlue, Color.kBlack, 1, 4).withName("LEDs.breathBlueLED");
     }

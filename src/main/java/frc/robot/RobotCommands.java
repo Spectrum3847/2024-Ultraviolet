@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.crescendo.Field;
 import frc.robot.leds.LEDs;
+import frc.robot.leds.LEDsCommands;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
 import frc.robot.mechanisms.climber.ClimberCommands;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
@@ -109,8 +110,8 @@ public class RobotCommands {
                                                                 .alongWith(
                                                                         PilotCommands.rumble(1, 0.5)
                                                                                 .alongWith(
-                                                                                        VisionCommands
-                                                                                                .blinkLimelights())))));
+                                                                                        RobotCommands
+                                                                                                .blinkGreen())))));
     }
 
     public static Command feedHome() {
@@ -315,5 +316,11 @@ public class RobotCommands {
         return LauncherCommands.manualSource()
                 .alongWith(FeederCommands.manualSource())
                 .withName("RobotCommands.manualSource");
+    }
+
+    public static Command blinkGreen() {
+        return LEDsCommands.intakeReadyStrobe()
+                .alongWith(VisionCommands.blinkLimelights())
+                .withName("RobotCommands.blinkGreen");
     }
 }

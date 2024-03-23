@@ -85,16 +85,22 @@ public class PivotCommands {
 
     /** increase vision shots by 0.5 percent */
     public static Command increaseOffset() {
-        return pivot.runOnce(pivot::increaseOffset).withName("Pivot.increaseFudgeFactor");
+        return pivot.runOnce(pivot::increaseOffset)
+                .withName("Pivot.increaseFudgeFactor")
+                .ignoringDisable(true);
     }
 
     /** decrease vision shots by 0.5 percent */
     public static Command decreaseOffset() {
-        return pivot.runOnce(pivot::decreaseOffset).withName("Pivot.decreaseFudgeFactor");
+        return pivot.runOnce(pivot::decreaseOffset)
+                .withName("Pivot.decreaseFudgeFactor")
+                .ignoringDisable(true);
     }
 
     /** reset fudge factor to 0 */
     public static Command resetOffset() {
-        return pivot.runOnce(pivot::resetOffset).withName("Pivot.resetFudgeFactor");
+        return pivot.runOnce(pivot::resetOffset)
+                .withName("Pivot.resetFudgeFactor")
+                .ignoringDisable(true);
     }
 }
