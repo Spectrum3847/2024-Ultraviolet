@@ -77,21 +77,25 @@ public class Vision extends SubsystemBase {
                     VisionConfig.REAR_LL,
                     VisionConfig.rearDetectorPipeline,
                     VisionConfig.REAR_CONFIG);
+    public final LimelightLogger rearLogger = new LimelightLogger("Rear", rearLL);
     public final Limelight speakerLL =
             new Limelight(
                     VisionConfig.SPEAKER_LL,
                     VisionConfig.speakerDetectorPipeline,
                     VisionConfig.SPEAKER_CONFIG);
+    public final LimelightLogger speakerLogger = new LimelightLogger("Front", speakerLL);
     public final Limelight leftLL =
             new Limelight(
                     VisionConfig.LEFT_LL,
                     VisionConfig.leftDetectorPipeline,
                     VisionConfig.LEFT_CONFIG);
+    public final LimelightLogger leftLogger = new LimelightLogger("Left", leftLL);
     public final Limelight rightLL =
             new Limelight(
                     VisionConfig.RIGHT_LL,
                     VisionConfig.rightDetectorPipeline,
                     VisionConfig.RIGHT_CONFIG);
+    public final LimelightLogger rightLogger = new LimelightLogger("Right", rightLL);
     public final Limelight[] limelights = {speakerLL, rearLL, leftLL, rightLL};
 
     private final DecimalFormat df = new DecimalFormat();
@@ -395,79 +399,125 @@ public class Vision extends SubsystemBase {
 
     // not great :/
 
-    @AutoLogOutput(key = "Vision/Front/LogStatus")
-    public String getFrontLogStatus() {
-        return speakerLL.logStatus;
-    }
+    // @AutoLogOutput(key = "Vision/Front/LogStatus")
+    // public String getFrontLogStatus() {
+    //     return speakerLL.logStatus;
+    // }
 
-    @AutoLogOutput(key = "Vision/Front/TagCount")
-    public double getFrontTagCount() {
-        return speakerLL.getTagCountInView();
-    }
+    // @AutoLogOutput(key = "Vision/Front/TagCount")
+    // public double getFrontTagCount() {
+    //     return speakerLL.getTagCountInView();
+    // }
 
-    @AutoLogOutput(key = "Vision/Front/TargetSize")
-    public double getFrontTargetSize() {
-        return speakerLL.getTargetSize();
-    }
+    // @AutoLogOutput(key = "Vision/Front/TargetSize")
+    // public double getFrontTargetSize() {
+    //     return speakerLL.getTargetSize();
+    // }
 
-    @AutoLogOutput(key = "Vision/Rear/LogStatus")
-    public String getRearLogStatus() {
-        return rearLL.logStatus;
-    }
+    // @AutoLogOutput(key = "Vision/Rear/LogStatus")
+    // public String getRearLogStatus() {
+    //     return rearLL.logStatus;
+    // }
 
-    @AutoLogOutput(key = "Vision/Rear/TagCount")
-    public double getRearTagCount() {
-        return rearLL.getTagCountInView();
-    }
+    // @AutoLogOutput(key = "Vision/Rear/TagCount")
+    // public double getRearTagCount() {
+    //     return rearLL.getTagCountInView();
+    // }
 
-    @AutoLogOutput(key = "Vision/Rear/TargetSize")
-    public double getRearTargetSize() {
-        return rearLL.getTargetSize();
-    }
+    // @AutoLogOutput(key = "Vision/Rear/TargetSize")
+    // public double getRearTargetSize() {
+    //     return rearLL.getTargetSize();
+    // }
 
-    @AutoLogOutput(key = "Vision/Left/LogStatus")
-    public String getLeftLogStatus() {
-        return leftLL.logStatus;
-    }
+    // @AutoLogOutput(key = "Vision/Left/LogStatus")
+    // public String getLeftLogStatus() {
+    //     return leftLL.logStatus;
+    // }
 
-    @AutoLogOutput(key = "Vision/Left/TagCount")
-    public double getLeftTagCount() {
-        return leftLL.getTagCountInView();
-    }
+    // @AutoLogOutput(key = "Vision/Left/TagCount")
+    // public double getLeftTagCount() {
+    //     return leftLL.getTagCountInView();
+    // }
 
-    @AutoLogOutput(key = "Vision/Left/TargetSize")
-    public double getLeftTargetSize() {
-        return leftLL.getTargetSize();
-    }
+    // @AutoLogOutput(key = "Vision/Left/TargetSize")
+    // public double getLeftTargetSize() {
+    //     return leftLL.getTargetSize();
+    // }
 
-    @AutoLogOutput(key = "Vision/Right/LogStatus")
-    public String getRightLogStatus() {
-        return rightLL.logStatus;
-    }
+    // @AutoLogOutput(key = "Vision/Right/LogStatus")
+    // public String getRightLogStatus() {
+    //     return rightLL.logStatus;
+    // }
 
-    @AutoLogOutput(key = "Vision/Right/TagCount")
-    public double getRightTagCount() {
-        return rightLL.getTagCountInView();
-    }
+    // @AutoLogOutput(key = "Vision/Right/TagCount")
+    // public double getRightTagCount() {
+    //     return rightLL.getTagCountInView();
+    // }
 
-    @AutoLogOutput(key = "Vision/Right/TargetSize")
-    public double getRightTargetSize() {
-        return rightLL.getTargetSize();
-    }
+    // @AutoLogOutput(key = "Vision/Right/TargetSize")
+    // public double getRightTargetSize() {
+    //     return rightLL.getTargetSize();
+    // }
 
-    @AutoLogOutput(key = "Vision/Trust/STDX")
-    public double getXSTD() {
-        return VisionConfig.VISION_STD_DEV_X;
-    }
+    // @AutoLogOutput(key = "Vision/Trust/STDX")
+    // public double getXSTD() {
+    //     return VisionConfig.VISION_STD_DEV_X;
+    // }
 
-    @AutoLogOutput(key = "Vision/Trust/STDY")
-    public double getYSTD() {
-        return VisionConfig.VISION_STD_DEV_Y;
-    }
+    // @AutoLogOutput(key = "Vision/Trust/STDY")
+    // public double getYSTD() {
+    //     return VisionConfig.VISION_STD_DEV_Y;
+    // }
 
-    @AutoLogOutput(key = "Vision/Trust/STDTheta")
-    public double getThetaSTD() {
-        return VisionConfig.VISION_STD_DEV_THETA;
+    // @AutoLogOutput(key = "Vision/Trust/STDTheta")
+    // public double getThetaSTD() {
+    //     return VisionConfig.VISION_STD_DEV_THETA;
+    // }
+
+    // can't use autologoutput in lib class and avoid repetitive loggers
+    public static class LimelightLogger {
+        private final Limelight limelight;
+        private String name;
+
+        public LimelightLogger(String name, Limelight limelight) {
+            this.limelight = limelight;
+            this.name = name;
+        }
+
+        @AutoLogOutput(key = "Vision/{name}/ConnectionStatus")
+        public boolean getCameraConnection() {
+            return limelight.isCameraConnected();
+        }
+
+        @AutoLogOutput(key = "Vision/{name}/LogStatus")
+        public String getLogStatus() {
+            return limelight.logStatus;
+        }
+
+        @AutoLogOutput(key = "Vision/{name}/Pose")
+        public Pose2d getPose() {
+            return limelight.getRawPose3d().toPose2d();
+        }
+
+        @AutoLogOutput(key = "Vision/{name}/PoseX")
+        public double getPoseX() {
+            return getPose().getX();
+        }
+
+        @AutoLogOutput(key = "Vision/{name}/PoseY")
+        public double getPoseY() {
+            return getPose().getY();
+        }
+
+        @AutoLogOutput(key = "Vision/{name}/TagCount")
+        public double getTagCount() {
+            return limelight.getTagCountInView();
+        }
+
+        @AutoLogOutput(key = "Vision/{name}/TargetSize")
+        public double getTargetSize() {
+            return limelight.getTargetSize();
+        }
     }
 
     public static class CommandConfig {

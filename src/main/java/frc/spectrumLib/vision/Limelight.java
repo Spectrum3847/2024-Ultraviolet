@@ -3,7 +3,6 @@ package frc.spectrumLib.vision;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
@@ -226,15 +225,20 @@ public class Limelight {
         LimelightHelpers.setLEDMode_ForceBlink(CAMERA_NAME);
     }
 
-    /**
-     * Checks if the camera is connected by looking for the JSON string returned in NetworkTables.
-     */
+    /** Checks if the camera is connected by looking for an empty botpose array from camera. */
     public boolean isCameraConnected() {
-        return !NetworkTableInstance.getDefault()
-                .getTable(CAMERA_NAME)
-                .getEntry("json")
-                .getString("")
-                .equals("");
+        try {
+            var rawPoseArray =
+                    LimelightHelpers.getLimelightNTTableEntry(CAMERA_NAME, "botpose_wpiblue")
+                            .getDoubleArray(new double[0]);
+            if (rawPoseArray.length < 6) {
+                return false;
+            }
+            return true;
+        } catch (Exception e) {
+            System.err.println("Avoided crashing statement in Limelight.java: isCameraConnected()");
+            return false;
+        }
     }
 
     /** Prints the vision, estimated, and odometry pose to SmartDashboard */

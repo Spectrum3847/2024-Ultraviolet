@@ -117,26 +117,30 @@ public class Swerve implements Subsystem {
 
         // Log Vision Pose
         if (Robot.isReal()) {
-            Logger.recordOutput(
-                    "Vision/Front/Pose", Robot.vision.speakerLL.getRawPose3d().toPose2d());
-            Logger.recordOutput(
-                    "Vision/Front/PoseX", Robot.vision.speakerLL.getRawPose3d().toPose2d().getX());
-            Logger.recordOutput(
-                    "Vision/Front/PoseY", Robot.vision.speakerLL.getRawPose3d().toPose2d().getY());
-            Logger.recordOutput(
-                    "Vision/Front/TagDistance",
-                    Robot.vision.speakerLL.getDistanceToTagFromCamera());
+            // Logger.recordOutput(
+            //         "Vision/Front/Pose", Robot.vision.speakerLL.getRawPose3d().toPose2d());
+            // Logger.recordOutput(
+            //         "Vision/Front/PoseX",
+            // Robot.vision.speakerLL.getRawPose3d().toPose2d().getX());
+            // Logger.recordOutput(
+            //         "Vision/Front/PoseY",
+            // Robot.vision.speakerLL.getRawPose3d().toPose2d().getY());
+            // Logger.recordOutput(
+            //         "Vision/Front/TagDistance",
+            //         Robot.vision.speakerLL.getDistanceToTagFromCamera());
 
-            Logger.recordOutput("Vision/Rear/Pose", Robot.vision.rearLL.getRawPose3d().toPose2d());
-            Logger.recordOutput(
-                    "Vision/Rear/PoseX", Robot.vision.rearLL.getRawPose3d().toPose2d().getX());
-            Logger.recordOutput("Vision/Rear/PoseY", Robot.vision.rearLL.getRawPose3d().getY());
-            Logger.recordOutput(
-                    "Vision/Rear/TagDistance", Robot.vision.rearLL.getDistanceToTagFromCamera());
+            // Logger.recordOutput("Vision/Rear/Pose",
+            // Robot.vision.rearLL.getRawPose3d().toPose2d());
+            // Logger.recordOutput(
+            //         "Vision/Rear/PoseX", Robot.vision.rearLL.getRawPose3d().toPose2d().getX());
+            // Logger.recordOutput("Vision/Rear/PoseY", Robot.vision.rearLL.getRawPose3d().getY());
+            // Logger.recordOutput(
+            //         "Vision/Rear/TagDistance", Robot.vision.rearLL.getDistanceToTagFromCamera());
 
-            Logger.recordOutput("Vision/Left/Pose", Robot.vision.leftLL.getRawPose3d().toPose2d());
-            Logger.recordOutput(
-                    "Vision/Right/Pose", Robot.vision.rightLL.getRawPose3d().toPose2d());
+            // Logger.recordOutput("Vision/Left/Pose",
+            // Robot.vision.leftLL.getRawPose3d().toPose2d());
+            // Logger.recordOutput(
+            //         "Vision/Right/Pose", Robot.vision.rightLL.getRawPose3d().toPose2d());
         }
 
         // Update Field object for smartdashboard
