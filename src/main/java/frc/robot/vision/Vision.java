@@ -125,7 +125,7 @@ public class Vision extends SubsystemBase {
                 // force pose to be vision
                 Pose2d estimatedPose = Robot.swerve.getPose();
                 if ((estimatedPose.getX() <= 0.1 || estimatedPose.getY() <= 0.1)) {
-                    forcePoseToVision();
+                    // forcePoseToVision();
                 }
 
                 isPresent = true;
