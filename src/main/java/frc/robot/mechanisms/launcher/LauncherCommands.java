@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import frc.robot.Robot;
+import frc.robot.RobotTelemetry;
 import java.util.function.DoubleSupplier;
 
 public class LauncherCommands {
@@ -46,7 +47,8 @@ public class LauncherCommands {
     /* Launch Commands */
 
     public static DoubleSupplier getRPMfromDistance(DoubleSupplier distance) {
-        return () -> DISTANCE_MAP.get(distance.getAsDouble());
+        return () -> getMapRPM(DISTANCE_MAP, distance.getAsDouble());
+        // return () -> DISTANCE_MAP.get(distance.getAsDouble());
     }
 
     public static DoubleSupplier getRPMFromFeedDistance(DoubleSupplier distance) {
@@ -128,6 +130,13 @@ public class LauncherCommands {
     }
 
     /* Helpers */
+
+    public static double getMapRPM(InterpolatingDoubleTreeMap map, double distance) {
+        double RPM = map.get(distance);
+        RobotTelemetry.print(
+                "VisionLaunching: interpolating " + RobotTelemetry.truncatedDouble(RPM) + " RPM from " + RobotTelemetry.truncatedDouble(distance) + " meters");
+        return RPM;
+    }
 
     public static Command stopMotors() {
         return stopLeftMotor().alongWith(stopRightMotor()).withName("Launcher.stopMotor");

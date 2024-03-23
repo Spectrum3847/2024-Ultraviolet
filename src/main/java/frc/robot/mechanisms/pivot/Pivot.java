@@ -107,11 +107,27 @@ public class Pivot extends Mechanism {
 
     // Lookup angle in tree map, add fudge factor, and return angle
     public DoubleSupplier getAngleFromDistance(DoubleSupplier distance) {
-        return () -> (PivotConfig.DISTANCE_MAP.get(distance.getAsDouble()) + config.OFFSET);
+        return () -> getMapAngle(PivotConfig.DISTANCE_MAP, distance.getAsDouble(), config.OFFSET);
+        // return () -> (PivotConfig.DISTANCE_MAP.get(distance.getAsDouble()) + config.OFFSET);
+
     }
 
     public DoubleSupplier getAngleFromFeedDistance(DoubleSupplier distance) {
-        return () -> PivotConfig.FEED_DISTANCE_MAP.get(distance.getAsDouble());
+        return () ->
+                getMapAngle(PivotConfig.FEED_DISTANCE_MAP, distance.getAsDouble(), config.OFFSET);
+        // return () -> PivotConfig.FEED_DISTANCE_MAP.get(distance.getAsDouble());
+    }
+
+    public static double getMapAngle(
+            InterpolatingDoubleTreeMap map, double distance, double offset) {
+        double angle = map.get(distance) + offset;
+        RobotTelemetry.print(
+                "VisionLaunching: interpolating "
+                        + RobotTelemetry.truncatedDouble(angle)
+                        + " percent rotation from "
+                        + RobotTelemetry.truncatedDouble(distance)
+                        + " meters");
+        return angle;
     }
 
     public Command runPosition(DoubleSupplier percent) {
