@@ -39,7 +39,7 @@ public class FeederCommands {
     public static Command eject() {
         return feeder.runVelocity(feeder.config.eject).withName("Feeder.eject");
     }
-    
+
     public static Command ejectAmp() {
         return feeder.runVelocity(feeder.config.eject).withName("Feeder.eject");
     }
