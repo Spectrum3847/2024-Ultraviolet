@@ -140,7 +140,7 @@ public class AutonCommands {
     public static Command preloadScoreSub() {
         return FeederCommands.stop()
                 .alongWith(AutonCommands.pivotReadySub().alongWith(LauncherCommands.subwoofer()))
-                .withTimeout(0.4)
+                .withTimeout(.7)
                 .andThen(
                         (FeederCommands.feeder()
                                         .alongWith(

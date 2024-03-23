@@ -36,6 +36,10 @@ public class LauncherCommands {
         return () -> DISTANCE_MAP.get(distance.getAsDouble());
     }
 
+    public static Command runPercentOutput(double output) {
+        return leftLauncher.runPercentage(output).alongWith(rightLauncher.runPercentage(output));
+    }
+
     public static Command distanceVelocity(DoubleSupplier distance) {
         return velocityTCFOCrpm(getRPMfromDistance(distance));
     }
@@ -80,8 +84,7 @@ public class LauncherCommands {
     }
 
     public static Command subwoofer() {
-        return runLauncherVelocities(leftLauncher.config.subwoofer, rightLauncher.config.subwoofer)
-                .withName("Launcher.subwoofer");
+        return runPercentOutput(1).withName("Launcher.subwoofer");
     }
 
     public static Command launchReadyPreload() {
