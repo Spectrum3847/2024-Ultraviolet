@@ -9,7 +9,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -171,12 +170,13 @@ public class Vision extends SubsystemBase {
                 // reject if pose is 5 degrees titled in roll or pitch
                 isPresent = false;
                 ll.logStatus = "roll/pitch rejection";
-            } else if (poseDifference < Units.inchesToMeters(3)) {
-                // reject if pose is very close to robot pose
-                isPresent = false;
-                ll.logStatus = "proximity rejection";
-                return;
             }
+            //  else if (poseDifference < Units.inchesToMeters(3)) {
+            //     // reject if pose is very close to robot pose
+            //     isPresent = false;
+            //     ll.logStatus = "proximity rejection";
+            //     return;
+            // }
             /* integrations */
             else if (ll.multipleTagsInView() && targetSize > 0.05) {
                 ll.logStatus = "Multi";
@@ -348,6 +348,35 @@ public class Vision extends SubsystemBase {
                 break;
             }
         }
+    }
+
+    public Limelight getBestLimelight() {
+        Limelight bestLimelight = speakerLL;
+        double bestScore = 0;
+        for (Limelight limelight : limelights) {
+            double score = 0;
+            double poseDifference =
+                    Robot.swerve
+                            .getPose()
+                            .getTranslation()
+                            .getDistance(limelight.getRawPose3d().toPose2d().getTranslation());
+            if (limelight.multipleTagsInView()) {
+                score += 3;
+                score += limelight.getTargetSize();
+            }
+            if (limelight.getTargetSize() > 0.8 && poseDifference < 0.5) {
+                score += 2;
+            }
+            if (limelight.getTargetSize() > 0.1 && poseDifference < 0.3) {
+                score++;
+            }
+
+            if (score > bestScore) {
+                bestScore = score;
+                bestLimelight = limelight;
+            }
+        }
+        return bestLimelight;
     }
 
     /**

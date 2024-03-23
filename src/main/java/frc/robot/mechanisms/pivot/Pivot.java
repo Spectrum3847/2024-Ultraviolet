@@ -21,7 +21,7 @@ public class Pivot extends Mechanism {
         /* Pivot positions in percentage of max rotation || 0 is horizontal */
         public final double score = 65;
         public final double home = 1;
-        public final double subwoofer = 80.5;
+        public final double subwoofer = 81;
         public final double intoAmp = 78;
         public final double podium = 53.5;
         public final double fromAmp = 52;
