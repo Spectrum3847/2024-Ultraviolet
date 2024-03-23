@@ -155,7 +155,7 @@ public class RobotCommands {
                                         ElevatorCommands.amp(),
                                         AmpTrapCommands.amp()
                                                 .onlyIf(() -> !Robot.elevator.isAtAmpHeight())
-                                                .withTimeout(0.25)
+                                                .withTimeout(0.22)
                                                 .andThen(AmpTrapCommands.stopMotor())))
                 .withName("RobotCommands.amp");
     }

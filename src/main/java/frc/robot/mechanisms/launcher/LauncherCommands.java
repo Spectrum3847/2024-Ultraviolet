@@ -135,7 +135,11 @@ public class LauncherCommands {
     public static double getMapRPM(InterpolatingDoubleTreeMap map, double distance) {
         double RPM = map.get(distance);
         RobotTelemetry.print(
-                "VisionLaunching: interpolating " + RobotTelemetry.truncatedDouble(RPM) + " RPM from " + RobotTelemetry.truncatedDouble(distance) + " meters");
+                "VisionLaunching: interpolating "
+                        + RobotTelemetry.truncatedDouble(RPM)
+                        + " RPM from "
+                        + RobotTelemetry.truncatedDouble(distance)
+                        + " meters");
         return RPM;
     }
 

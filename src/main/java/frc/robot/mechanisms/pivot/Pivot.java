@@ -36,7 +36,9 @@ public class Pivot extends Mechanism {
         public final double zeroSpeed = -0.1;
 
         /** Percentage of pivot rotation added/removed from vision launching pivot angles */
-        public double OFFSET = 0;
+        public final double STARTING_OFFSET = -1;
+
+        public double OFFSET = STARTING_OFFSET; // do not change this
 
         /* Pivot config values */
         public double currentLimit = 30;
@@ -291,7 +293,7 @@ public class Pivot extends Mechanism {
     }
 
     public void resetOffset() {
-        config.OFFSET = 0;
+        config.OFFSET = config.STARTING_OFFSET;
         RobotTelemetry.print("Pivot offset reset to: " + config.OFFSET);
     }
 
