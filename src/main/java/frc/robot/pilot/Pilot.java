@@ -96,7 +96,10 @@ public class Pilot extends Gamepad {
         controller.select().whileTrue(SwerveCommands.cardinalReorient());
 
         runWithEndSequence(rightBumperOnly(), RobotCommands.score(), ElevatorCommands.home());
-        controller.leftBumper().and(controller.rightBumper()).whileTrue(RobotCommands.score());
+        controller
+                .leftBumper()
+                .and(controller.rightBumper())
+                .whileTrue(RobotCommands.launchEject());
 
         controller.rightStick().whileTrue(PilotCommands.slowMode());
 
