@@ -109,8 +109,10 @@ public class RobotCommands {
 
     public static Command ampReady8515() {
         return PivotCommands.ampScore()
-                .alongWith(LEDsCommands.Pivot(), PilotCommands.turnToAmp())
-                // .alongWith(LauncherCommands.runAmpVelocity(), LEDsCommands.Pivot())
+                .alongWith(
+                        LEDsCommands.Pivot(),
+                        PilotCommands.turnToAmp(),
+                        LauncherCommands.runAmpVelocity())
                 .withName("RobotCommands.ampReady8515");
     }
 
