@@ -52,7 +52,8 @@ public class LauncherCommands {
     }
 
     public static DoubleSupplier getRPMFromFeedDistance(DoubleSupplier distance) {
-        return () -> FEED_DISTANCE_MAP.get(distance.getAsDouble());
+        return () -> getMapRPM(FEED_DISTANCE_MAP, distance.getAsDouble());
+        // return () -> FEED_DISTANCE_MAP.get(distance.getAsDouble());
     }
 
     public static Command distanceVelocity(DoubleSupplier distance) {
