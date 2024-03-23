@@ -123,7 +123,7 @@ public class PilotCommands {
         return SwerveCommands.aimDrive(
                 () -> pilot.getDriveFwdPositive(),
                 () -> pilot.getDriveLeftPositive(),
-                () -> Units.degreesToRadians(Field.flipAngleIfBlue(90)),
+                () -> Units.degreesToRadians(Field.flipAngleIfBlue(270)),
                 () -> pilot.getFieldOriented(), // true is field oriented
                 () -> true);
     }

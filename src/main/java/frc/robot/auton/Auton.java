@@ -51,6 +51,7 @@ public class Auton extends SubsystemBase {
         // Register Named Commands
         NamedCommands.registerCommand("launchReady", AutonCommands.launchReady());
         NamedCommands.registerCommand("intake", IntakeCommands.intake());
+        NamedCommands.registerCommand("score", AutonCommands.score());
         NamedCommands.registerCommand("score1", AutonCommands.score1());
         NamedCommands.registerCommand("score2", AutonCommands.score2());
         NamedCommands.registerCommand("score3", AutonCommands.score3());
