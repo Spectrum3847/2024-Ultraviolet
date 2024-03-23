@@ -129,6 +129,21 @@ public class RobotCommands {
         return PivotCommands.climb().alongWith(LEDsCommands.Pivot());
     }
 
+    public static Command climbRight() {
+        return PivotCommands.climb()
+                .alongWith(LEDsCommands.Pivot(), PilotCommands.aimToClimbRight());
+    }
+
+    public static Command climbLeft() {
+        return PivotCommands.climb()
+                .alongWith(LEDsCommands.Pivot(), PilotCommands.aimToClimbLeft());
+    }
+
+    public static Command climbBack() {
+        return PivotCommands.climb()
+                .alongWith(LEDsCommands.Pivot(), PilotCommands.aimToClimbBack());
+    }
+
     // public static Command score() {
     //     return new ConditionalCommand(
     //             FeederCommands.launchEject(),

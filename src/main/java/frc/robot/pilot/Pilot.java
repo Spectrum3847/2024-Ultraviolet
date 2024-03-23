@@ -77,7 +77,7 @@ public class Pilot extends Gamepad {
                 .and(leftBumperOnly().or(bothBumpers()))
                 .whileTrue(RobotCommands.visionLaunch());
 
-        controller.start().onTrue(RobotCommands.climb()); // change pivot angle to max for climb
+        // controller.start().onTrue(RobotCommands.climb()); // change pivot angle to max for climb
 
         // y - amp ready, and home
         controller
@@ -89,9 +89,9 @@ public class Pilot extends Gamepad {
 
         // x - aim to climb
         // controller.x().and(noBumpers().or(rightBumperOnly())).whileTrue(RobotCommands.visionLaunch());
-        controller.x().and(noBumpers()).whileTrue(PilotCommands.aimToClimbRight());
-        controller.x().and(leftBumperOnly()).whileTrue(PilotCommands.aimToClimbLeft());
-        controller.x().and(bothBumpers()).whileTrue(PilotCommands.aimToClimbBack());
+        controller.x().and(noBumpers()).whileTrue(RobotCommands.climbRight());
+        controller.x().and(leftBumperOnly()).whileTrue(RobotCommands.climbLeft());
+        controller.x().and(bothBumpers()).whileTrue(RobotCommands.climbBack());
 
         // controller
         //         .x()

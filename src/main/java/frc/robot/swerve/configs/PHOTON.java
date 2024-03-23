@@ -11,9 +11,9 @@ public class PHOTON {
 
     // Angle Offsets: from cancoder Absolute Position No Offset, opposite sign
     private static final double kFrontLeftCANcoderOffset = 0.265137;
-    private static final double kFrontRightCANncoderOffset = 0.089844;
-    private static final double kBackLeftCANcoderOffset = -0.038818;
-    private static final double kBackRightCANcoderOffset = 0.486084;
+    private static final double kFrontRightCANncoderOffset = 0.088867;
+    private static final double kBackLeftCANcoderOffset = -0.036621;
+    private static final double kBackRightCANcoderOffset = 0.450684;
 
     // Physical Config
     private static final double wheelBaseInches = 21.5;
