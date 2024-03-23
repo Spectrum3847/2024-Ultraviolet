@@ -83,8 +83,8 @@ public class PilotCommands {
         return SwerveCommands.aimDrive(
                         () -> pilot.getDriveFwdPositive(),
                         () -> pilot.getDriveLeftPositive(),
-                        () -> (Units.degreesToRadians(-60)), // -240
-                        () -> pilot.getFieldOriented(), // true is field oriented
+                        () -> (Units.degreesToRadians(Field.flipAngleIfBlue(-60))), // -240
+                        () -> pilot.getFieldOriented(), // tgfrue is field oriented
                         () -> true)
                 .withName("Swerve.aimToClimbLeft");
     }
@@ -93,7 +93,7 @@ public class PilotCommands {
         return SwerveCommands.aimDrive(
                         () -> pilot.getDriveFwdPositive(),
                         () -> pilot.getDriveLeftPositive(),
-                        () -> (Units.degreesToRadians(60)), // -120
+                        () -> (Units.degreesToRadians(Field.flipAngleIfBlue(60))), // -120
                         () -> pilot.getFieldOriented(), // true is field oriented
                         () -> true)
                 .withName("Swerve.aimToClimbRight");
@@ -103,7 +103,7 @@ public class PilotCommands {
         return SwerveCommands.aimDrive(
                         () -> pilot.getDriveFwdPositive(),
                         () -> pilot.getDriveLeftPositive(),
-                        () -> (Units.degreesToRadians(180)), // 0
+                        () -> (Units.degreesToRadians(Field.flipAngleIfBlue(180))), // 0
                         () -> pilot.getFieldOriented(), // true is field oriented
                         () -> true)
                 .withName("Swerve.aimToClimbBack");
