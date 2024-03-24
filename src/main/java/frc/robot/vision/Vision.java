@@ -127,10 +127,17 @@ public class Vision extends SubsystemBase {
                 }
 
                 isPresent = true;
+                // Limelight bestLimelight = getBestLimelight();
                 for (Limelight limelight : limelights) {
                     if (limelight.CAMERA_NAME != "limelight-right") {
                         filterAndAddVisionMeasurment(limelight);
                     }
+
+                    // if(limelight.CAMERA_NAME == bestLimelight.CAMERA_NAME) {
+                    //     filterAndAddVisionMeasurment(bestLimelight);
+                    // } else {
+                    //     limelight.logStatus = "not best";
+                    // }
                 }
             }
         } catch (Exception e) {
@@ -192,7 +199,10 @@ public class Vision extends SubsystemBase {
                 degStds = 999999;
             } else {
                 isPresent = false;
-                ll.logStatus = "catch rejection";
+                ll.logStatus =
+                        "catch rejection: "
+                                + RobotTelemetry.truncatedDouble(poseDifference)
+                                + " poseDiff";
                 return;
             }
 
@@ -354,26 +364,17 @@ public class Vision extends SubsystemBase {
         Limelight bestLimelight = speakerLL;
         double bestScore = 0;
         for (Limelight limelight : limelights) {
-            double score = 0;
-            double poseDifference =
-                    Robot.swerve
-                            .getPose()
-                            .getTranslation()
-                            .getDistance(limelight.getRawPose3d().toPose2d().getTranslation());
-            if (limelight.multipleTagsInView()) {
-                score += 3;
+            // exclude right camera
+            if (limelight.CAMERA_NAME != "limelight-right") {
+                double score = 0;
+                //prefer camera with most tags, when equal tag count, prefer the camera closer to tags
+                score += limelight.getTagCountInView();
                 score += limelight.getTargetSize();
-            }
-            if (limelight.getTargetSize() > 0.8 && poseDifference < 0.5) {
-                score += 2;
-            }
-            if (limelight.getTargetSize() > 0.1 && poseDifference < 0.3) {
-                score++;
-            }
 
-            if (score > bestScore) {
-                bestScore = score;
-                bestLimelight = limelight;
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestLimelight = limelight;
+                }
             }
         }
         return bestLimelight;
