@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7040162256189807,
+        "x": 0.7,
         "y": 4.421842332926948
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.9762796369248018,
+        "x": 0.9722634113058211,
         "y": 3.9502682715032433
       },
       "isLocked": false,
@@ -113,6 +113,23 @@
               "type": "named",
               "data": {
                 "name": "intake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "home",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "home"
               }
             }
           ]

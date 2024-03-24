@@ -69,8 +69,9 @@ public class LauncherCommands {
     }
 
     public static Command runAmpVelocity() {
-        return runLauncherVelocities(
-                        leftLauncher.config.ampVelocity, rightLauncher.config.ampVelocity)
+        return runPercentOutput(0.45)
+                // runLauncherVelocities(leftLauncher.config.ampVelocity,
+                // rightLauncher.config.ampVelocity)
                 .withName("Launcher.runAmpVelocity");
     }
 

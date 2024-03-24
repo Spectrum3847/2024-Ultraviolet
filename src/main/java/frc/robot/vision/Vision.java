@@ -154,11 +154,11 @@ public class Vision extends SubsystemBase {
             else if (ll.multipleTagsInView() && targetSize > 0.05) {
                 ll.logStatus = "Multi";
                 xyStds = 0.5;
-                degStds = 6;
+                degStds = 999999;
             } else if (targetSize > 0.8 && poseDifference < 0.5) {
                 ll.logStatus = "Close";
                 xyStds = 1.0;
-                degStds = 12;
+                degStds = 999999;
             } else if (targetSize > 0.1 && poseDifference < 0.3) {
                 ll.logStatus = "Proximity";
                 xyStds = 2.0;

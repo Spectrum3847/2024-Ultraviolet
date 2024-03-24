@@ -42,6 +42,8 @@ public class Auton extends SubsystemBase {
                 new PathPlannerAuto("Preload Mobility Source")); // Runs full Auto
         autonChooser.addOption(
                 "Preload Score", new PathPlannerAuto("Preload Score")); // Runs full Auto
+        autonChooser.addOption(
+                "Source Sub Centerline 2", new PathPlannerAuto("Source Sub Centerline 2"));
 
         SmartDashboard.putData("Auto Chooser", autonChooser);
     }
