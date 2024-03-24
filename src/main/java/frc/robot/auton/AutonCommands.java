@@ -100,7 +100,6 @@ public class AutonCommands {
                 .withName("AutonCommands.launchReady6");
     }
 
-
     public static Command launchReady7() {
         return PivotCommands.autoLaunch7()
                 .alongWith(LauncherCommands.subwoofer())

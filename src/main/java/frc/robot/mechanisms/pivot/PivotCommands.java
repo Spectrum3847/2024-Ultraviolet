@@ -78,6 +78,7 @@ public class PivotCommands {
     public static Command autoLaunch6() {
         return pivot.runPosition(pivot.config.autoLaunch6).withName("Pivot.subwoofer");
     }
+
     public static Command autoLaunch7() {
         return pivot.runPosition(pivot.config.autoLaunch7).withName("Pivot.subwoofer");
     }
