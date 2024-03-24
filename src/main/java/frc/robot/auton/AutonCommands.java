@@ -88,6 +88,24 @@ public class AutonCommands {
                 .withName("AutonCommands.launchReady4");
     }
 
+    public static Command launchReady5() {
+        return PivotCommands.autoLaunch5()
+                .alongWith(LauncherCommands.subwoofer())
+                .withName("AutonCommands.launchReady5");
+    }
+
+    public static Command launchReady6() {
+        return PivotCommands.autoLaunch6()
+                .alongWith(LauncherCommands.subwoofer())
+                .withName("AutonCommands.launchReady6");
+    }
+
+    public static Command launchReady7() {
+        return PivotCommands.autoLaunch7()
+                .alongWith(LauncherCommands.subwoofer())
+                .withName("AutonCommands.launchReady7");
+    }
+
     public static Command launchReadySubwoofer() {
         return (PivotCommands.subwoofer().alongWith(LauncherCommands.subwoofer()))
                 .withTimeout(1)

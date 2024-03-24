@@ -71,6 +71,18 @@ public class PivotCommands {
         return pivot.runPosition(pivot.config.autoLaunch4).withName("Pivot.subwoofer");
     }
 
+    public static Command autoLaunch5() {
+        return pivot.runPosition(pivot.config.autoLaunch5).withName("Pivot.subwoofer");
+    }
+
+    public static Command autoLaunch6() {
+        return pivot.runPosition(pivot.config.autoLaunch6).withName("Pivot.subwoofer");
+    }
+
+    public static Command autoLaunch7() {
+        return pivot.runPosition(pivot.config.autoLaunch7).withName("Pivot.subwoofer");
+    }
+
     public static Command intake() {
         return pivot.runPosition(pivot.config.intake).withName("Pivot.intake");
     }

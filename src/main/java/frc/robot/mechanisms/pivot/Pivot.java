@@ -32,7 +32,10 @@ public class Pivot extends Mechanism {
         public final double autoLaunch2 =
                 55; // works for GP2/GP3/GP5/GP6 in Front 5 and GP2/GP4/5 in Front 5 Alt
         public final double autoLaunch3 = 54; // works for GP4 in Front 5 and GP3 in Front 5 Alt
-        public final double autoLaunch4 = 44;
+        public final double autoLaunch4 = 44; // 5 and 6 on Front 6
+        public final double autoLaunch5 = 51; // GP 2 on Front 6
+        public final double autoLaunch6 = 70; // Gp 3 on Front 6
+        public final double autoLaunch7 = 52; // GP 4 on Front 6
 
         public final double zeroSpeed = -0.1;
 
@@ -58,9 +61,12 @@ public class Pivot extends Mechanism {
         static {
             // home
             DISTANCE_MAP.put(0.0, 82.0);
-            DISTANCE_MAP.put(1.505, 81.0);
-            DISTANCE_MAP.put(2.629, 55.5);
-            DISTANCE_MAP.put(3.969, 49.0);
+            DISTANCE_MAP.put(1.505, 81.5);
+            DISTANCE_MAP.put(2.629, 57.5);
+            DISTANCE_MAP.put(2.942, 55.0);
+            DISTANCE_MAP.put(3.136, 53.0);
+            DISTANCE_MAP.put(3.396, 52.5);
+            DISTANCE_MAP.put(3.969, 50.0);
             DISTANCE_MAP.put(4.269, 46.5);
             DISTANCE_MAP.put(4.899, 45.0);
             DISTANCE_MAP.put(5.189, 43.2);
