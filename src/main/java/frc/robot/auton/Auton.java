@@ -55,6 +55,9 @@ public class Auton extends SubsystemBase {
         NamedCommands.registerCommand("launchReady2", AutonCommands.launchReady2());
         NamedCommands.registerCommand("launchReady3", AutonCommands.launchReady3());
         NamedCommands.registerCommand("launchReady4", AutonCommands.launchReady4());
+        NamedCommands.registerCommand("launchReady5", AutonCommands.launchReady5());
+        NamedCommands.registerCommand("launchReady6", AutonCommands.launchReady6());
+               NamedCommands.registerCommand("launchReady7", AutonCommands.launchReady7());
         NamedCommands.registerCommand("visionLaunchReady", AutonCommands.visionLaunch());
         NamedCommands.registerCommand("launch", AutonCommands.launch());
         NamedCommands.registerCommand("launchShort", AutonCommands.launchShort());
