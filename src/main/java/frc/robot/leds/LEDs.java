@@ -36,6 +36,19 @@ public class LEDs extends SpectrumLEDs {
         }
     }
 
+    public void halfSolid(Section section, Color color, int priority) {
+        if (getUpdate()) {
+            if (color != null) {
+                for (int x = section.start(); x < section.end() / 4; x++) {
+                    setLED(x, color, priority);
+                }
+                for (int x = section.end() / 2; x < section.end() * 3 / 4; x++) {
+                    setLED(x, color, priority);
+                }
+            }
+        }
+    }
+
     /**
      * Sets a percentage of the LEDs to a color
      *

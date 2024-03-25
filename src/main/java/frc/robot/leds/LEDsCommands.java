@@ -53,8 +53,15 @@ public class LEDsCommands {
         return strobeRedLED().withName("LEDs.noteEject");
     }
 
+    public static Command wrongPivot() {
+        return halfsolidRedLED().withName("LEDS.halfsolidRedLED");
+    }
+
     /** Specific Commands */
     public static Command defaultCommand() {
+        if (Robot.pivot.getMotorPercentAngle() >= 1) {
+            return LEDsCommands.halfsolidRedLED();
+        }
         return leds.run(
                         () -> {
                             rainbow(Section.FULL, LEDsConfig.length / 2, 2, 0).execute();
@@ -75,6 +82,10 @@ public class LEDsCommands {
     public static Command strobeRedLED() {
         return LEDsCommands.strobe(Section.FULL, Color.kRed, 0.5, 2)
                 .withName("LEDs.strobeGreenLED");
+    }
+
+    public static Command halfsolidRedLED() {
+        return LEDsCommands.halfSolid(Section.FULL, Color.kRed, 2).withName("LEDs.solidPurpleLED");
     }
 
     // public static Command ombre(Section section, Color c1, Color c2, int priority) {
@@ -116,6 +127,10 @@ public class LEDsCommands {
 
     public static Command solid(double percent, Color color, int priority) {
         return runLEDPattern(() -> leds.solid(percent, color, priority)).withName("LEDs.solid");
+    }
+
+    public static Command halfSolid(Section section, Color color, int priority) {
+        return runLEDPattern(() -> leds.halfSolid(section, color, priority)).withName("LEDs.solid");
     }
 
     public static Command strobe(Color color, int priority) {

@@ -124,7 +124,9 @@ public class RobotCommands {
     }
 
     public static Command home() {
-        return PivotCommands.home().alongWith(LEDsCommands.strobePurpleLED());
+        return PivotCommands.home()
+                .alongWith(LEDsCommands.strobePurpleLED())
+                .withName("RobotCommands.home");
     }
 
     public static Command climb() {

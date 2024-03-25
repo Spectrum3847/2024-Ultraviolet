@@ -57,7 +57,7 @@ public class Pilot extends Gamepad {
     public void setupTeleopButtons() {
 
         controller.a().and(noBumpers()).whileTrue(RobotCommands.intake());
-        controller.a().and(noBumpers()).onFalse(FeederCommands.feeder().withTimeout(0.05));
+        controller.a().and(noBumpers()).onFalse(FeederCommands.feeder().withTimeout(0.1));
 
         // controller.a().and(noBumpers()).whileTrue(RobotCommands.intake8515());
 

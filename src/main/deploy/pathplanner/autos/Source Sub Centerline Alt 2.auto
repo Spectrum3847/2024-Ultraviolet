@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7040162256189807,
-      "y": 4.421842332926948
+      "x": 0.7,
+      "y": 4.42
     },
     "rotation": 120.0
   },
@@ -20,7 +20,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path 1 - Source Sub Centerline 2"
+            "pathName": "Path 2 - Source Sub Centerline 2"
           }
         },
         {
