@@ -1,0 +1,126 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 4.340143984310419,
+        "y": 4.8782924132733205
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 5.245307702963395,
+        "y": 4.452788101086025
+      },
+      "isLocked": false,
+      "linkedName": "GP 3 Shoot - Source 4"
+    },
+    {
+      "anchor": {
+        "x": 8.03042683728024,
+        "y": 4.151066861535032
+      },
+      "prevControl": {
+        "x": 7.1562088867863425,
+        "y": 4.290322818250875
+      },
+      "nextControl": {
+        "x": 9.017976305658253,
+        "y": 3.993758096660657
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.340143984310419,
+        "y": 4.8782924132733205
+      },
+      "prevControl": {
+        "x": 5.260780587042933,
+        "y": 4.452788101086025
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "Intake",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "smartIntake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "LaunchReady",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "visionLaunchReady"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "stopTracking"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "AlignToSpeaker",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "alignToSpeaker"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 6.0,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 165.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": null,
+  "previewStartingState": {
+    "rotation": 165.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

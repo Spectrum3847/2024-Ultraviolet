@@ -6,6 +6,8 @@ import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.hal.AllianceStationID;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.LinearFilter;
@@ -19,6 +21,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Threads;
 import frc.robot.RobotTelemetry;
 import frc.spectrumLib.swerve.Request.ControlRequestParameters;
@@ -142,7 +145,10 @@ public class Drivetrain {
 
                 lastTime = currentTime;
                 currentTime = Utils.getCurrentTimeSeconds();
-                /* We don't care about the peaks, as they correspond to GC events, and we want the period generally low passed */
+                /*
+                 * We don't care about the peaks, as they correspond to GC events, and we want
+                 * the period generally low passed
+                 */
                 averageLoopTime = lowPass.calculate(peakRemover.calculate(currentTime - lastTime));
 
                 /* Get status of first element */
@@ -342,6 +348,29 @@ public class Drivetrain {
     }
 
     /**
+     * Blue alliance sees forward as 0 degrees (toward red alliance wall) Red alliance sees forward
+     * as 180 degrees (toward blue alliance wall)
+     */
+    public void setDriverPerspective(Rotation2d rotation) {
+        try {
+            m_stateLock.writeLock().lock();
+
+            m_fieldRelativeOffset = rotation;
+        } finally {
+            m_stateLock.writeLock().unlock();
+        }
+    }
+
+    /* Temporary Method */
+    public void setBlueAllianceRotation() {
+        setDriverPerspective(Rotation2d.fromDegrees(0));
+    }
+
+    public void setRedAllianceRotation() {
+        setDriverPerspective(Rotation2d.fromDegrees(180));
+    }
+
+    /**
      * Takes the current orientation of the robot plus an angle offset and makes it X forward for
      * field-relative maneuvers.
      */
@@ -349,8 +378,41 @@ public class Drivetrain {
         try {
             m_stateLock.writeLock().lock();
 
-            m_fieldRelativeOffset =
-                    getState().Pose.getRotation().plus(Rotation2d.fromDegrees(offsetDegrees));
+            // m_fieldRelativeOffset = 0
+            // getState().Pose.getRotation().plus(Rotation2d.fromDegrees(offsetDegrees));
+            Rotation2d heading =
+                    m_pigeon2.getRotation2d().plus(Rotation2d.fromDegrees(offsetDegrees));
+            m_odometry.resetPosition(heading, m_modulePositions, new Pose2d());
+
+            if (DriverStation.getRawAllianceStation() == AllianceStationID.Red1
+                    || DriverStation.getRawAllianceStation() == AllianceStationID.Red2
+                    || DriverStation.getRawAllianceStation() == AllianceStationID.Red3) {
+                this.setRedAllianceRotation();
+            } else {
+                this.setBlueAllianceRotation();
+            }
+
+        } finally {
+            m_stateLock.writeLock().unlock();
+        }
+    }
+
+    /**
+     * Only reset pose angle, not pose location
+     *
+     * @param offsetDegrees
+     */
+    public void reorient(double degrees) {
+        try {
+            m_stateLock.writeLock().lock();
+
+            m_odometry.resetPosition(
+                    m_pigeon2.getRotation2d(),
+                    m_modulePositions,
+                    new Pose2d(
+                            m_odometry.getEstimatedPosition().getX(),
+                            m_odometry.getEstimatedPosition().getY(),
+                            Rotation2d.fromDegrees(degrees)));
         } finally {
             m_stateLock.writeLock().unlock();
         }
@@ -397,6 +459,12 @@ public class Drivetrain {
     public Module getModule(int index) {
         if (index >= Modules.length) return null;
         return Modules[index];
+    }
+
+    public void setSwerveNeutralMode(NeutralModeValue mode) {
+        for (Module module : Modules) {
+            module.setModuleNeutralMode(mode);
+        }
     }
 
     /**

@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -10,6 +11,7 @@ public final class RobotConfig {
 
     public final String ALPHA2024SERIAL = "032B1F69";
     public final String PM2024SERIAL = "03223839";
+    public final String ULTRAVIOLET2024SERIAL = "032B1F69"; // "0329AD07";
     public final String NOTEBLOCK2023SERIAL = ""; // TODO: find
     public final String MUSICDISC2023SERIAL = ""; // TODO: find
     public final String XRAY2023SERIAL = ""; // TODO: find
@@ -42,6 +44,7 @@ public final class RobotConfig {
         // settings
         if (RobotController.getSerialNumber() != null) {
             rioSerial = RobotController.getSerialNumber();
+            System.out.println("RIO SERIAL: " + rioSerial);
         }
 
         checkRobotType();
@@ -52,6 +55,8 @@ public final class RobotConfig {
             case ALPHA:
                 break;
             case PM:
+                break;
+            case ULTRAVIOLET:
                 break;
             case XRAY:
                 intakeAttached = false;
@@ -67,7 +72,7 @@ public final class RobotConfig {
                 break;
         }
 
-        System.out.println("ROBOT: " + getRobotType());
+        RobotTelemetry.print("ROBOT: " + getRobotType());
     }
 
     /** Set the RobotType based on if simulation or the serial number of the RIO */
@@ -75,6 +80,9 @@ public final class RobotConfig {
         if (Robot.isSimulation()) {
             robotType = RobotType.SIM;
             RobotTelemetry.print("Robot Type: Simulation");
+        } else if (rioSerial.equals(ULTRAVIOLET2024SERIAL)) {
+            robotType = RobotType.ULTRAVIOLET;
+            RobotTelemetry.print("Robot Type: ULTRAVIOLET 2024");
         } else if (rioSerial.equals(ALPHA2024SERIAL)) {
             robotType = RobotType.ALPHA;
             RobotTelemetry.print("Robot Type: ALPHA 2024");
@@ -88,8 +96,11 @@ public final class RobotConfig {
             robotType = RobotType.MUSICDISC;
             RobotTelemetry.print("Robot Type: MUSICDISC");
         } else {
-            robotType = RobotType.ALPHA;
-            RobotTelemetry.print("Robot Type: ALPHA 2024");
+            robotType = RobotType.ULTRAVIOLET;
+            DriverStation.reportError(
+                    "Could not match rio to robot config; defaulting to ULTRAVIOLET robot config",
+                    false);
+            RobotTelemetry.print("Robot Type: ULTRAVIOLET 2024");
         }
         return robotType;
     }
@@ -101,6 +112,7 @@ public final class RobotConfig {
     public enum RobotType {
         ALPHA,
         PM,
+        ULTRAVIOLET,
         MUSICDISC,
         NOTEBLOCK,
         XRAY,

@@ -1,6 +1,8 @@
 package frc.robot.mechanisms.amptrap;
 
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.spectrumLib.lasercan.LaserCanUtil;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
 import frc.spectrumLib.util.Conversions;
@@ -10,45 +12,62 @@ public class AmpTrap extends Mechanism {
     public class AmpTrapConfig extends Config {
 
         /* Revolutions per min AmpTrap Output */
-        public double maxSpeed = 5000; // TODO: configure
-        public double intake = 250; // TODO: configure
-        public double testFeed = 250;
-        public double score = 3000; // TODO: configure
-        public double launchEject = 500;
+        public double maxSpeed = 5000;
+        public double intake = 3000;
+        public double feed = 500;
+        public double amp = 4500;
+        public double score = 4500;
         public double eject = -3000;
 
         /* Percentage AmpTrap Output */
-        public double slowIntakePercentage = 0.1; // TODO: configure
-
-        public double testForwardPercent = 1;
-        public double testBackPercent = -0.50;
+        public double slowIntakePercentage = 0.1;
 
         /* AmpTrap config values */
-        public double currentLimit = 12;
-        public double threshold = 20;
+        public double currentLimit = 30;
+        public double torqueCurrentLimit = 100;
+        public double threshold = 40;
         public double velocityKp = 0.156152;
         public double velocityKv = 0.12;
         public double velocityKs = 0.24;
 
+        public double hasNoteDistance = 55;
+
         public AmpTrapConfig() {
-            super("AmpTrap", 51, "3847");
+            super("AmpTrap", 51, "rio");
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
-            configGearRatio(12 / 30); // TODO: configure
-            configSupplyCurrentLimit(currentLimit, threshold, false);
+            configGearRatio(12 / 30);
+            configSupplyCurrentLimit(currentLimit, threshold, true);
+            configForwardTorqueCurrentLimit(torqueCurrentLimit);
+            configReverseTorqueCurrentLimit(torqueCurrentLimit);
             configNeutralBrakeMode(true);
-            configClockwise_Positive(); // TODO: configure
+            configCounterClockwise_Positive();
             configMotionMagic(51, 205, 0);
         }
     }
 
     public AmpTrapConfig config;
+    public LaserCanUtil lasercan;
 
     public AmpTrap(boolean attached) {
         super(attached);
         if (attached) {
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
         }
+
+        lasercan = new LaserCanUtil(1);
+    }
+
+    @AutoLogOutput(key = "AmpTrap/LaserCan-Measurement")
+    public int getLaserCanDistance() {
+        return lasercan.getDistance();
+    }
+
+    public boolean hasNote() {
+        if (getLaserCanDistance() <= 0) {
+            return false;
+        }
+        return getLaserCanDistance() < config.hasNoteDistance;
     }
 
     @Override
@@ -83,6 +102,19 @@ public class AmpTrap extends Mechanism {
         return startEnd(() -> setBrakeMode(false), () -> setBrakeMode(true))
                 .ignoringDisable(true)
                 .withName("AmpTrap.coastMode");
+    }
+
+    /** Sets the motor to brake mode if it is in coast mode */
+    public Command ensureBrakeMode() {
+        return runOnce(
+                        () -> {
+                            setBrakeMode(true);
+                        })
+                .onlyIf(
+                        () ->
+                                attached
+                                        && config.talonConfig.MotorOutput.NeutralMode
+                                                == NeutralModeValue.Coast);
     }
 
     /**

@@ -25,8 +25,9 @@ public class AlignToVisionTarget extends PIDCommand {
      * tape, detector target) on the Field Oriented X-axis.
      *
      * @param commandConfig this config should be created in {@link VisionConfig}
-     * @param fwdPositiveSupplier
-     * @param offset
+     * @param fwdPositiveSupplier a supplier to drive the robot forward if intended to do so (static
+     *     value or joystick input)
+     * @param offset offset left or right of the target in the X-plane
      */
     public AlignToVisionTarget(
             CommandConfig commandConfig, DoubleSupplier fwdPositiveSupplier, double offset) {

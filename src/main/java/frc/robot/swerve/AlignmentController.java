@@ -21,18 +21,18 @@ public class AlignmentController {
     double kI;
     double kD;
 
-    public AlignmentController(Swerve swerve, double kP, double kI, double kD) {
+    public AlignmentController(Swerve swerve) {
         this.swerve = swerve;
         config = swerve.config;
         constraints = new Constraints(config.maxVelocity, config.maxAccel);
         controller =
                 new ProfiledPIDController(
-                        config.kPRotationController,
-                        config.kIRotationController,
-                        config.kDRotationController,
+                        config.kPAlignmentController,
+                        config.kIAlignmentController,
+                        config.kDAlignmentController,
                         constraints);
 
-        controller.setTolerance(0.01); // 1 CM tolerance
+        controller.setTolerance(tolerance); // 1 CM tolerance
 
         // These are currently magic number and need to be put into SwerveConfig
         holdController = new PIDController(10.5, 3, 0);
@@ -56,14 +56,15 @@ public class AlignmentController {
     public double calculate(double currentPosition, double goalMeters) {
         double calculatedValue = controller.calculate(currentPosition, goalMeters);
         if (atSetpoint()) {
-            return calculateHold(currentPosition, goalMeters);
+            return calculatedValue; // calculateHold(currentPosition, goalMeters); //Disable hold
+            // controller for now
         } else {
             return calculatedValue;
         }
     }
 
-    public double calculateHold(double currentPostion, double goalRadians) {
-        double calculatedValue = holdController.calculate(currentPostion, goalRadians);
+    public double calculateHold(double currentPostion, double goalMeters) {
+        double calculatedValue = holdController.calculate(currentPostion, goalMeters);
         return calculatedValue;
     }
 

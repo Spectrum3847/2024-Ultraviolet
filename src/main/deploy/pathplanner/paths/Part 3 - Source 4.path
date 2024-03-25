@@ -1,0 +1,148 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.0945768159076077,
+        "y": 2.64
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.038370744263898,
+        "y": 1.7902041299242497
+      },
+      "isLocked": false,
+      "linkedName": "GP 1 Shoot - Source 4"
+    },
+    {
+      "anchor": {
+        "x": 5.75591287758815,
+        "y": 1.5
+      },
+      "prevControl": {
+        "x": 4.926181298491018,
+        "y": 1.5211070284260968
+      },
+      "nextControl": {
+        "x": 6.5956412226985,
+        "y": 1.4786386700265999
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.929159897335793,
+        "y": 2.65
+      },
+      "prevControl": {
+        "x": 7.798923764085594,
+        "y": 1.911394185240844
+      },
+      "nextControl": {
+        "x": 8.042031212819298,
+        "y": 3.2901250394579353
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.340143984310419,
+        "y": 4.8782924132733205
+      },
+      "prevControl": {
+        "x": 4.910439970513308,
+        "y": 4.507937869463102
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "GP 3 Shoot - Source 4"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.75,
+      "rotationDegrees": -165.0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "Intake",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "smartIntake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "LaunchReady",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "visionLaunchReady"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "stopTracking"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "AlignToSpeaker",
+      "waypointRelativePos": 2.55,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "alignToSpeaker"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 6.0,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 165.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": null,
+  "previewStartingState": {
+    "rotation": 140.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

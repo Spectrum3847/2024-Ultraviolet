@@ -16,33 +16,42 @@ public class PM2024 {
     private static final double kBackRightCANcoderOffset = 0.492188;
 
     // Physical Config
-    private static final double wheelBaseInches = 21.5;
-    private static final double trackWidthInches = 18.5;
-    private static final double kDriveGearRatio = 6.746;
-    private static final double kSteerGearRatio = 21.428;
+    private static final double frontWheelBaseInches = 11.875;
+    private static final double backWheelBaseInches = 8.375;
+    private static final double trueWheelBaseInches = frontWheelBaseInches + backWheelBaseInches;
+    private static final double trackWidthInches = 11.875;
+    private static final double kDriveGearRatio = 5.35714285714;
+    private static final double kSteerGearRatio = 21.4285714286;
 
     // Tuning Config
     // Estimated at first, then fudge-factored to make odom match record
-    private static final double kWheelRadiusInches = 2;
+    private static final double kWheelRadiusInches = 3.5 / 2; // Updated for VexIQ Pro Wheels
     private static final double speedAt12VoltsMps = 6;
 
-    private static final double slipCurrent = 800;
-    private static final SlotGains steerGains = new SlotGains(100, 0, 0.05, 0, 0);
-    private static final SlotGains driveGains = new SlotGains(0.4, 0, 0, 0, 0);
+    private static final double slipCurrent = 80;
+    private static final double peakForwardTorqueCurrent = 300;
+    private static final double peakReverseTorqueCurrent = 300;
+    private static final SlotGains steerGains = new SlotGains(100, 0, 0, 0, 0);
+    private static final SlotGains driveGains = new SlotGains(8, 0, 0.1, 0, 0.8);
 
     /*Rotation Controller*/
     private static final double kPRotationController = 7.0;
     private static final double kIRotationController = 0.0;
     private static final double kDRotationController = 0.0;
 
+    /*Alignment Controllers */
+    private static final double kPAlignmentController = 12.0;
+    private static final double kIAlignmentController = 0.0;
+    private static final double kDAlignmentController = 0.0;
+
     /*Profiling Configs*/
     private static final double maxVelocity = speedAt12VoltsMps;
     private static final double maxAccel = maxVelocity * 1.5; // take 1/2 sec to get to max speed.
     private static final double maxAngularVelocity =
-            maxVelocity
-                    / Units.inchesToMeters(
-                            Math.hypot(wheelBaseInches / 2.0, trackWidthInches / 2.0));
+            maxVelocity / Units.inchesToMeters(Math.hypot(trueWheelBaseInches, trackWidthInches));
     private static final double maxAngularAcceleration = Math.pow(maxAngularVelocity, 2);
+    private static final double deadband = 0.1;
+    private static final double rotationDeadband = 0.1;
 
     // Device Setup
     private static final String kCANbusName = "3847";
@@ -51,20 +60,22 @@ public class PM2024 {
             SwerveModuleSteerFeedbackType.FusedCANcoder;
 
     // Wheel Positions
-    private static final double kFrontLeftXPos = Units.inchesToMeters(wheelBaseInches / 2.0);
-    private static final double kFrontLeftYPos = Units.inchesToMeters(trackWidthInches / 2.0);
-    private static final double kFrontRightXPos = Units.inchesToMeters(wheelBaseInches / 2.0);
-    private static final double kFrontRightYPos = Units.inchesToMeters(-trackWidthInches / 2.0);
-    private static final double kBackLeftXPos = Units.inchesToMeters(-wheelBaseInches / 2.0);
-    private static final double kBackLeftYPos = Units.inchesToMeters(trackWidthInches / 2.0);
-    private static final double kBackRightXPos = Units.inchesToMeters(-wheelBaseInches / 2.0);
-    private static final double kBackRightYPos = Units.inchesToMeters(-trackWidthInches / 2.0);
+    private static final double kFrontLeftXPos = Units.inchesToMeters(frontWheelBaseInches);
+    private static final double kFrontLeftYPos = Units.inchesToMeters(trackWidthInches);
+    private static final double kFrontRightXPos = Units.inchesToMeters(frontWheelBaseInches);
+    private static final double kFrontRightYPos = Units.inchesToMeters(-trackWidthInches);
+    private static final double kBackLeftXPos = Units.inchesToMeters(-backWheelBaseInches);
+    private static final double kBackLeftYPos = Units.inchesToMeters(trackWidthInches);
+    private static final double kBackRightXPos = Units.inchesToMeters(-backWheelBaseInches);
+    private static final double kBackRightYPos = Units.inchesToMeters(-trackWidthInches);
 
     public static final ModuleConfig FrontLeft =
             DefaultConfig.FrontLeft.withCANcoderOffset(kFrontLeftCANcoderOffset)
                     .withLocationX(kFrontLeftXPos)
                     .withLocationY(kFrontLeftYPos)
                     .withSlipCurrent(slipCurrent)
+                    .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
+                    .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
                     .withDriveMotorGearRatio(kDriveGearRatio)
                     .withSteerMotorGearRatio(kSteerGearRatio)
@@ -78,6 +89,8 @@ public class PM2024 {
                     .withLocationX(kFrontRightXPos)
                     .withLocationY(kFrontRightYPos)
                     .withSlipCurrent(slipCurrent)
+                    .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
+                    .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
                     .withDriveMotorGearRatio(kDriveGearRatio)
                     .withSteerMotorGearRatio(kSteerGearRatio)
@@ -93,6 +106,8 @@ public class PM2024 {
                     .withLocationX(kBackLeftXPos)
                     .withLocationY(kBackLeftYPos)
                     .withSlipCurrent(slipCurrent)
+                    .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
+                    .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
                     .withDriveMotorGearRatio(kDriveGearRatio)
                     .withSteerMotorGearRatio(kSteerGearRatio)
@@ -106,6 +121,8 @@ public class PM2024 {
                     .withLocationX(kBackRightXPos)
                     .withLocationY(kBackRightYPos)
                     .withSlipCurrent(slipCurrent)
+                    .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
+                    .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
                     .withDriveMotorGearRatio(kDriveGearRatio)
                     .withSteerMotorGearRatio(kSteerGearRatio)
@@ -122,6 +139,9 @@ public class PM2024 {
                     .withModules(ModuleConfigs)
                     .withRotationGains(
                             kPRotationController, kIRotationController, kDRotationController)
+                    .withAlignmentGains(
+                            kPAlignmentController, kIAlignmentController, kDAlignmentController)
                     .withProfilingConfigs(
-                            maxVelocity, maxAccel, maxAngularVelocity, maxAngularAcceleration);
+                            maxVelocity, maxAccel, maxAngularVelocity, maxAngularAcceleration)
+                    .withDeadbandConfig(deadband, rotationDeadband);
 }

@@ -4,6 +4,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import frc.spectrumLib.swerve.config.SwerveConfig;
+import org.littletonrobotics.junction.AutoLogOutput;
 
 /**
  * Uses a profiled PID Controller to quickly turn the robot to a specified angle. Once the robot is
@@ -17,6 +18,11 @@ public class RotationController {
     PIDController holdController;
     Constraints constraints;
 
+    @AutoLogOutput(key = "Serve/RotationController/Output")
+    double calculatedValue = 0;
+
+    double feedbackSetpoint;
+
     public RotationController(Swerve swerve) {
         this.swerve = swerve;
         config = swerve.config;
@@ -29,24 +35,36 @@ public class RotationController {
                         constraints);
 
         controller.enableContinuousInput(-Math.PI, Math.PI);
-        controller.setTolerance(Math.PI / 180);
+        controller.setTolerance((Math.PI / 180));
 
         // These are currently magic number and need to be put into SwerveConfig
         holdController =
                 new PIDController(
-                        10.5, 3,
+                        0, 0,
                         0); // TODO: these probably have to be found again; most likely why robot
         // rotation is slightly oscillating in heading lock
 
         holdController.enableContinuousInput(-Math.PI, Math.PI);
         holdController.setTolerance(Math.PI / 180);
+
+        calculatedValue = 0;
+        feedbackSetpoint = 0.35;
     }
 
     public double calculate(double goalRadians) {
-        double calculatedValue =
-                controller.calculate(swerve.getRotation().getRadians(), goalRadians);
+        double measurement = swerve.getRotation().getRadians();
+        calculatedValue = controller.calculate(measurement, goalRadians);
+        // RobotTelemetry.print(
+        //         "RotationControllerOutput: "
+        //                 + calculatedValue
+        //                 + " Measure: "
+        //                 + measurement
+        //                 + " Goal: "
+        //                 + goalRadians
+        //                 + " max: "
+        //                 + config.maxAngularVelocity);
         if (atSetpoint()) {
-            return calculateHold(goalRadians);
+            return calculatedValue = 0; // calculateHold(goalRadians);
         } else {
             return calculatedValue;
         }
@@ -60,6 +78,10 @@ public class RotationController {
 
     public boolean atSetpoint() {
         return controller.atSetpoint();
+    }
+
+    public boolean atFeedbackSetpoint() {
+        return Math.abs(calculatedValue) <= feedbackSetpoint;
     }
 
     public boolean atHoldSetpoint() {

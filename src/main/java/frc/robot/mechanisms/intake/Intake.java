@@ -1,39 +1,44 @@
 package frc.robot.mechanisms.intake;
 
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
 import frc.spectrumLib.util.Conversions;
+import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.AutoLogOutput;
 
 public class Intake extends Mechanism {
     public class IntakeConfig extends Config {
 
         /* Revolutions per min Intake Output */
-        public double maxSpeed = 5000; // TODO: configure
-        public double intake = 2000; // TODO: configure
-        public double testVelocity = 3000;
+        public double maxSpeed = 5000;
+        public double intake = 2000;
+        public double eject = -2000;
+        public double slowIntake = 1000;
 
         /* Percentage Intake Output */
-        public double ejectPercentage = -0.5; // TODO: configure
-        public double slowIntakePercentage = 0.06; // TODO: configure
-        public double testIntakePercentage = 1;
+        public double slowIntakePercentage = 0.06;
 
         /* Intake config values */
-        public double currentLimit = 12;
-        public double threshold = 20;
-        public double velocityKp = 0.156152;
-        public double velocityKv = 0.12;
-        public double velocityKs = 0.24;
+        public double currentLimit = 30;
+        public double torqueCurrentLimit = 100;
+        public double threshold = 40;
+        public double velocityKp = 12; // 0.156152;
+        public double velocityKv = 0.2; // 0.12;
+        public double velocityKs = 14;
 
         public IntakeConfig() {
-            super("Intake", 60, "3847");
+            super("Intake", 5, "3847");
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
-            configGearRatio(12 / 30); // TODO: configure
-            configSupplyCurrentLimit(currentLimit, threshold, false);
+            configGearRatio(12 / 30);
+            configSupplyCurrentLimit(currentLimit, threshold, true);
+            configForwardTorqueCurrentLimit(torqueCurrentLimit);
+            configReverseTorqueCurrentLimit(torqueCurrentLimit);
+            configStatorCurrentLimit(30, true);
             configNeutralBrakeMode(true);
-            configClockwise_Positive(); // TODO: configure
+            configClockwise_Positive();
             configMotionMagic(51, 205, 0);
         }
     }
@@ -63,12 +68,28 @@ public class Intake extends Mechanism {
     }
 
     /**
+     * Run the left launcher at given velocity in TorqueCurrentFOC mode
+     *
+     * @param percent
+     * @return
+     */
+    public Command runVelocityTorqueCurrentFOC(double velocity) {
+        return run(() -> setVelocityTorqueCurrentFOC(Conversions.RPMtoRPS(velocity)))
+                .withName("Intake.runVelocityFOC");
+    }
+
+    /**
      * Runs the intake at a specified percentage of its maximum output.
      *
      * @param percent The percentage of the maximum output to run the intake at.
      */
     public Command runPercentage(double percent) {
         return run(() -> setPercentOutput(percent)).withName("Intake.runPercentage");
+    }
+
+    public Command runManualOutput(DoubleSupplier percentSupplier) {
+        return run(() -> setPercentOutput(percentSupplier.getAsDouble()))
+                .withName("Intake.runManualOutput");
     }
 
     /**
@@ -79,6 +100,19 @@ public class Intake extends Mechanism {
         return startEnd(() -> setBrakeMode(false), () -> setBrakeMode(true))
                 .ignoringDisable(true)
                 .withName("Intake.coastMode");
+    }
+
+    /** Sets the motor to brake mode if it is in coast mode */
+    public Command ensureBrakeMode() {
+        return runOnce(
+                        () -> {
+                            setBrakeMode(true);
+                        })
+                .onlyIf(
+                        () ->
+                                attached
+                                        && config.talonConfig.MotorOutput.NeutralMode
+                                                == NeutralModeValue.Coast);
     }
 
     /**

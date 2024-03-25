@@ -11,29 +11,21 @@ public class IntakeCommands {
     }
 
     public static Command runFull() {
-        return intake.runVelocity(intake.config.maxSpeed).withName("Intake.runFull");
-    }
-
-    public static Command runTestin() {
-        return intake.runPercentage(intake.config.testIntakePercentage)
-                .withName("Intake.testIntake");
-    }
-
-    public static Command runVelocityTestin() {
-        return intake.runVelocity(intake.config.testVelocity).withName("Intake.testVelocity");
-    }
-
-    public static Command slowIntake() {
-        return intake.runPercentage(intake.config.slowIntakePercentage)
-                .withName("Intake.slowIntake");
+        return intake.runVelocityTorqueCurrentFOC(intake.config.maxSpeed)
+                .withName("Intake.runFull");
     }
 
     public static Command intake() {
-        return intake.runVelocity(intake.config.intake).withName("Intake.intake");
+        return intake.runVelocityTorqueCurrentFOC(intake.config.intake).withName("Intake.intake");
+    }
+
+    public static Command slowIntake() {
+        return intake.runVelocityTorqueCurrentFOC(intake.config.slowIntake)
+                .withName("Intake.slowIntake");
     }
 
     public static Command eject() {
-        return intake.runPercentage(intake.config.ejectPercentage).withName("Intake.eject");
+        return intake.runVelocityTorqueCurrentFOC(intake.config.eject).withName("Intake.eject");
     }
 
     public static Command coastMode() {
@@ -42,5 +34,9 @@ public class IntakeCommands {
 
     public static Command stopMotor() {
         return intake.runStop().withName("Intake.stopMotor");
+    }
+
+    public static Command ensureBrakeMode() {
+        return intake.ensureBrakeMode();
     }
 }

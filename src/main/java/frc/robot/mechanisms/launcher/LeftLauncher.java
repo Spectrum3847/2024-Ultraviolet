@@ -1,29 +1,35 @@
 package frc.robot.mechanisms.launcher;
 
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
 import frc.spectrumLib.util.Conversions;
+import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.AutoLogOutput;
 
-// TODO: this will get merged with right launcher into one class later
+/** Bottom Launcher */
 public class LeftLauncher extends Mechanism {
     public class LeftLauncherConfig extends Config {
 
         /* Revolutions per min LeftLauncher Output */
-        public double maxSpeed = 5000; // TODO: configure
-        public double launch = 4000; // TODO: configure
+        public double maxSpeed = 5600;
+        public double launch = 4000;
         public double testVelocity = 4500;
         public double subwoofer = 4500;
+        public double deepShot = 5400;
+        public double intoAmp = 1500;
+        public double manualSource = -2000;
 
         /* Percentage LeftLauncher Output */
-        public double slowLeftLauncherPercentage = 0.06; // TODO: configure
-        public double testForwardPercent = -0.5;
-        public double testBackPercent = 0.5;
+        public double slowLeftLauncherPercent = 0.06;
+        public double ejectLauncherPercent = -0.3;
+        public double dumpLuancherPercent = 0.13;
 
         /* LeftLauncher config values */
-        public double currentLimit = 40;
+        public double currentLimit = 60;
+        public double torqueCurrentLimit = 300;
         public double threshold = 80;
         public double velocityKp = 12; // 0.156152;
         public double velocityKv = 0.2; // 0.12;
@@ -33,10 +39,12 @@ public class LeftLauncher extends Mechanism {
             super("LeftLauncher", 42, "3847");
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
-            configGearRatio(1 / 2); // TODO: configure
-            configSupplyCurrentLimit(currentLimit, threshold, false);
+            configGearRatio(1 / 2);
+            configSupplyCurrentLimit(currentLimit, threshold, true);
+            configForwardTorqueCurrentLimit(torqueCurrentLimit);
+            configReverseTorqueCurrentLimit(torqueCurrentLimit);
             configNeutralBrakeMode(true);
-            configCounterClockwise_Positive(); // TODO: configure
+            configCounterClockwise_Positive();
             configMotionMagic(51, 205, 0);
         }
     }
@@ -73,9 +81,19 @@ public class LeftLauncher extends Mechanism {
      * @param percent
      * @return
      */
-    public Command runVelocityTorqueCurrentFOC(double velocity) {
+    public Command runVelocityTCFOC(double velocity) {
         return run(() -> setVelocityTorqueCurrentFOC(Conversions.RPMtoRPS(velocity)))
                 .withName("LeftLauncher.runVelocityFOC");
+    }
+
+    /**
+     * Run the right launcher at given velocityRPM in TorqueCurrentFOC mode
+     *
+     * @param percent
+     * @return
+     */
+    public Command runVelocityTCFOCrpm(DoubleSupplier velocity) {
+        return run(() -> setVelocityTCFOCrpm(velocity)).withName("RightLauncher.runVelocityFOC");
     }
 
     /**
@@ -95,6 +113,19 @@ public class LeftLauncher extends Mechanism {
         return startEnd(() -> setBrakeMode(false), () -> setBrakeMode(true))
                 .ignoringDisable(true)
                 .withName("LeftLauncher.coastMode");
+    }
+
+    /** Sets the motor to brake mode if it is in coast mode */
+    public Command ensureBrakeMode() {
+        return runOnce(
+                        () -> {
+                            setBrakeMode(true);
+                        })
+                .onlyIf(
+                        () ->
+                                attached
+                                        && config.talonConfig.MotorOutput.NeutralMode
+                                                == NeutralModeValue.Coast);
     }
 
     /**

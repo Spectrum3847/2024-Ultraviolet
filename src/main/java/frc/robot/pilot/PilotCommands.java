@@ -3,9 +3,14 @@ package frc.robot.pilot;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import frc.crescendo.Field;
 import frc.robot.Robot;
+import frc.robot.leds.LEDs;
 import frc.robot.mechanisms.climber.Climber;
+import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.mechanisms.pivot.Pivot;
+import frc.robot.swerve.Swerve;
 import frc.robot.swerve.commands.SwerveCommands;
 
 /** This class should have any command calls that directly call the Pilot */
@@ -13,15 +18,38 @@ public class PilotCommands {
     private static Pilot pilot = Robot.pilot;
     private static Climber climber = Robot.climber;
     private static Pivot pivot = Robot.pivot;
+    private static Swerve swerve = Robot.swerve;
 
     /** Set default command to turn off the rumble */
     public static void setupDefaultCommand() {
-        pilot.setDefaultCommand(rumble(0, 99999).repeatedly().withName("Pilot.default"));
+        Robot.pilot.setDefaultCommand(launchReadyRumble().withName("Pilot.default"));
     }
 
     /** Command that can be used to rumble the pilot controller */
     public static Command rumble(double intensity, double durationSeconds) {
-        return pilot.rumbleCommand(intensity, durationSeconds);
+        return Robot.pilot.rumbleCommand(intensity, durationSeconds);
+    }
+
+    public static Command launchReadyRumble() {
+        return new FunctionalCommand(
+                        () -> {},
+                        () -> {
+                            if (LauncherCommands.isAtSpeed) {
+                                if (swerve.rotationControllerAtFeedback()) {
+                                    Robot.pilot.controller.rumbleController(1, 1);
+                                } else {
+                                    Robot.pilot.controller.rumbleController(0, 0);
+                                }
+                                LEDs.turnOnLaunchLEDs();
+                            } else {
+                                Robot.pilot.controller.rumbleController(0, 0);
+                                LEDs.turnOffLaunchLEDs();
+                            }
+                        },
+                        (b) -> {},
+                        () -> false,
+                        Robot.pilot)
+                .ignoringDisable(true);
     }
 
     /** Full control of the swerve by the Pilot command */
@@ -29,7 +57,7 @@ public class PilotCommands {
         return SwerveCommands.Drive(
                         () -> pilot.getDriveFwdPositive(),
                         () -> pilot.getDriveLeftPositive(),
-                        () -> pilot.getDriveCCWPositive(),
+                        () -> -pilot.getDriveCCWPositive(),
                         () -> pilot.getFieldOriented(), // true is field oriented
                         () -> true)
                 .withName("Swerve.PilotDrive");
@@ -55,21 +83,88 @@ public class PilotCommands {
                 .withName("Swerve.PilotHeadingLockDrive");
     }
 
-    public static Command noteAimingDrive() {
+    public static Command aimToSpeaker() {
         return SwerveCommands.aimDrive(
                         () -> pilot.getDriveFwdPositive(),
                         () -> pilot.getDriveLeftPositive(),
-                        () -> (Units.degreesToRadians(Robot.vision.getOffsetToNote())),
+                        () -> Robot.vision.getAdjustedThetaToSpeaker(),
                         () -> pilot.getFieldOriented(), // true is field oriented
                         () -> true)
-                .withName("Swerve.PilotNoteAimingDrive");
+                .withName("Swerve.aimToRedSpeaker");
     }
 
-    public static Command speakerAimingDrive() {
+    public static Command aimToFeed() {
         return SwerveCommands.aimDrive(
                         () -> pilot.getDriveFwdPositive(),
                         () -> pilot.getDriveLeftPositive(),
-                        () -> (Units.degreesToRadians(Robot.vision.getOffsetToSpeaker())),
+                        () -> Robot.vision.getAdjustedThetaToFeeder(),
+                        () -> pilot.getFieldOriented(), // true is field oriented
+                        () -> true)
+                .withName("Swerve.aimToRedSpeaker");
+    }
+
+    public static Command alignToAmp() {
+        return SwerveCommands.AlignXaimDrive(
+                () -> Field.flipXifRed(Field.ampCenter.getX()),
+                () -> pilot.getDriveLeftPositive(),
+                () -> Math.toRadians(Field.flipAngleIfBlue(270)), // Face the back to the amp
+                () -> true,
+                () -> true);
+    }
+
+    public static Command turnToAmp() {
+        return SwerveCommands.aimDrive(
+                () -> pilot.getDriveFwdPositive(),
+                () -> pilot.getDriveLeftPositive(),
+                () -> Units.degreesToRadians(Field.flipAngleIfBlue(270)),
+                () -> pilot.getFieldOriented(), // true is field oriented
+                () -> true);
+    }
+
+    public static Command turnLaunchToAmp() {
+        return SwerveCommands.aimDrive(
+                () -> pilot.getDriveFwdPositive(),
+                () -> pilot.getDriveLeftPositive(),
+                () -> Units.degreesToRadians(Field.flipAngleIfBlue(90)),
+                () -> pilot.getFieldOriented(), // true is field oriented
+                () -> true);
+    }
+
+    public static Command alignToAmpClimb() {
+        return SwerveCommands.AlignAimDrive(
+                () -> Field.Stage.ampClimb.getX(),
+                () -> Field.Stage.ampClimb.getY(),
+                () -> Field.Stage.ampClimb.getRotation().getRadians(),
+                () -> true,
+                () -> true);
+    }
+
+    // Manual Aiming Drive, no vision/pose used for these commands
+    public static Command podiumAimingDrive() {
+        return SwerveCommands.aimDrive(
+                        () -> pilot.getDriveFwdPositive(),
+                        () -> pilot.getDriveLeftPositive(),
+                        () -> Units.degreesToRadians(Field.flipAngleIfBlue(Field.podiumAimAngle)),
+                        () -> pilot.getFieldOriented(), // true is field oriented
+                        () -> true)
+                .withName("Swerve.PilotSpeakerAimingDrive");
+    }
+
+    public static Command fromAmpAimingDrive() {
+        return SwerveCommands.aimDrive(
+                        () -> pilot.getDriveFwdPositive(),
+                        () -> pilot.getDriveLeftPositive(),
+                        () -> Units.degreesToRadians(Field.flipAngleIfBlue(Field.ampAimAngle)),
+                        () -> pilot.getFieldOriented(), // true is field oriented
+                        () -> true)
+                .withName("Swerve.PilotSpeakerAimingDrive");
+    }
+
+    public static Command ampWingAimingDrive() {
+        return SwerveCommands.aimDrive(
+                        () -> pilot.getDriveFwdPositive(),
+                        () -> pilot.getDriveLeftPositive(),
+                        () -> Units.degreesToRadians(Field.flipAngleIfBlue(Field.ampWingAimAngle)),
                         () -> pilot.getFieldOriented(), // true is field oriented
                         () -> true)
                 .withName("Swerve.PilotSpeakerAimingDrive");
@@ -85,7 +180,7 @@ public class PilotCommands {
         return SwerveCommands.aimDrive(
                         () -> pilot.getDriveFwdPositive(),
                         () -> pilot.getDriveLeftPositive(),
-                        () -> pilot.getRightStickCardinals(),
+                        () -> pilot.chooseCardinalDirections(),
                         () -> pilot.getFieldOriented(), // true is field oriented
                         () -> true)
                 .withName("Swerve.PilotStickSteer");
@@ -100,6 +195,14 @@ public class PilotCommands {
     }
 
     /**
+     * Command that can be used to turn on the turbo mode. Turbo mode modifies CCW methods, we don't
+     * want these to require the pilot subsystem
+     */
+    public static Command turboMode() {
+        return Commands.startEnd(() -> pilot.setTurboMode(true), () -> pilot.setTurboMode(false));
+    }
+
+    /**
      * Command that can be used to turn on the FPV mode. FPV sets field oriented or not. We don't
      * want this command to require the pilot subsystem so we use Commands.startend()
      */
@@ -108,11 +211,17 @@ public class PilotCommands {
                 () -> pilot.setFieldOriented(false), () -> pilot.setFieldOriented(true));
     }
 
+    // Unused currently, for testing
     public static Command manualClimber() {
         return climber.runPercentage(() -> -pilot.controller.getRightY());
     }
 
     public static Command manualPivot() {
         return pivot.runManualOutput(() -> -pilot.controller.getRightY() * 0.5);
+    }
+
+    // Unused currently, for testing
+    public static Command manualIntake() {
+        return Robot.intake.runManualOutput(() -> -pilot.controller.getRightY());
     }
 }

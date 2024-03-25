@@ -1,0 +1,126 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.7,
+        "y": 6.9
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.8557557370472724,
+        "y": 7.057571324388536
+      },
+      "isLocked": false,
+      "linkedName": "GP 4 - Front 5"
+    },
+    {
+      "anchor": {
+        "x": 7.05,
+        "y": 7.35
+      },
+      "prevControl": {
+        "x": 6.701341177329473,
+        "y": 7.636620873707815
+      },
+      "nextControl": {
+        "x": 7.3986588226705265,
+        "y": 7.063379126292184
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.340143984310419,
+        "y": 6.085177371477287
+      },
+      "prevControl": {
+        "x": 5.481411803864606,
+        "y": 6.455997764727225
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "Intake",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "smartIntake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "LaunchReady",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "visionLaunchReady"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "stopTracking"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "AlignToSpeaker",
+      "waypointRelativePos": 1.55,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "alignToSpeaker"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 6.0,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 180.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Front Paths",
+  "previewStartingState": {
+    "rotation": 180.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

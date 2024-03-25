@@ -1,8 +1,15 @@
 package frc.robot;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.auton.Auton;
+import frc.robot.auton.config.AutonConfig;
 import frc.robot.leds.LEDs;
 import frc.robot.leds.LEDsCommands;
 import frc.robot.mechanisms.amptrap.AmpTrap;
@@ -53,7 +60,6 @@ public class Robot extends LoggedRobot {
     public static LEDs leds;
     public static Pilot pilot;
     public static Operator operator;
-    // public static Auton auton;
 
     /**
      * This method cancels all commands and returns subsystems to their default commands and the
@@ -67,6 +73,14 @@ public class Robot extends LoggedRobot {
         // Reset Config for all gamepads and other button bindings
         pilot.resetConfig();
         operator.resetConfig();
+
+        LEDsCommands.setupLEDTriggers();
+        RobotCommands.setupRobotTriggers();
+    }
+
+    public static void clearCommandsAndButtons() {
+        CommandScheduler.getInstance().cancelAll(); // Disable any currently running commands
+        CommandScheduler.getInstance().getActiveButtonLoop().clear();
     }
 
     /* ROBOT INIT (Initialization) */
@@ -87,13 +101,21 @@ public class Robot extends LoggedRobot {
              * subsystem Something that don't have an output are alos subsystems.
              */
             swerve = new Swerve();
+            Timer.delay(0.1);
             intake = new Intake(config.intakeAttached);
+            Timer.delay(0.1);
             ampTrap = new AmpTrap(config.ampTrapAttached);
+            Timer.delay(0.1);
             elevator = new Elevator(config.elevatorAttached);
+            Timer.delay(0.1);
             feeder = new Feeder(config.feederAttached);
+            Timer.delay(0.1);
             climber = new Climber(config.climberAttached);
+            Timer.delay(0.1);
             pivot = new Pivot(config.pivotAttached);
+            Timer.delay(0.1);
             leftLauncher = new LeftLauncher(config.leftLauncherAttached);
+            Timer.delay(0.1);
             rightLauncher = new RightLauncher(config.rightLauncherAttached);
             vision = new Vision();
             auton = new Auton();
@@ -101,9 +123,8 @@ public class Robot extends LoggedRobot {
             operator = new Operator();
             leds = new LEDs();
 
-            /** Intialize Telemetry and Auton */
+            /** Intialize Telemetry */
             telemetry = new RobotTelemetry();
-            // auton = new Auton();
 
             /**
              * Set Default Commands this method should exist for each subsystem that has default
@@ -115,11 +136,11 @@ public class Robot extends LoggedRobot {
             ElevatorCommands.setupDefaultCommand();
             FeederCommands.setupDefaultCommand();
             PivotCommands.setupDefaultCommand();
+            ClimberCommands.setupDefaultCommand();
             LauncherCommands.setupDefaultCommand();
             LEDsCommands.setupDefaultCommand();
             PilotCommands.setupDefaultCommand();
             OperatorCommands.setupDefaultCommand();
-            ClimberCommands.setupDefaultCommand();
 
             RobotTelemetry.print("--- Robot Init Complete ---");
 
@@ -162,6 +183,12 @@ public class Robot extends LoggedRobot {
 
         resetCommandsAndButtons();
 
+        if (!AutonConfig.commandInit) {
+            Command autonInitCommand = new PathPlannerAuto("1 Meter Auto").ignoringDisable(true);
+            autonInitCommand.schedule();
+            AutonConfig.commandInit = true;
+        }
+
         RobotTelemetry.print("### Disabled Init Complete ### ");
     }
 
@@ -170,6 +197,10 @@ public class Robot extends LoggedRobot {
 
     /** This method is called once when disabled exits */
     public void disabledExit() {
+        RobotCommands.ensureBrakeMode().schedule(); // sets all motors to brake mode if not already
+        LEDs.turnOffCoastLEDs(); // turn off coast mode LED in case button was not manually
+        // pressed again
+
         RobotTelemetry.print("### Disabled Exit### ");
     }
 
@@ -183,8 +214,8 @@ public class Robot extends LoggedRobot {
     public void autonomousInit() {
         try {
             RobotTelemetry.print("@@@ Auton Init Starting @@@ ");
-            resetCommandsAndButtons();
-            Command autonCommand = Auton.getAutonomousCommand();
+            clearCommandsAndButtons();
+            Command autonCommand = Commands.waitSeconds(0.01).andThen(Auton.getAutonomousCommand());
 
             if (autonCommand != null) {
                 autonCommand.schedule();
@@ -192,6 +223,8 @@ public class Robot extends LoggedRobot {
             } else {
                 RobotTelemetry.print("No Auton Command Found");
             }
+
+            LEDsCommands.countdown(15, 10).schedule();
 
             RobotTelemetry.print("@@@ Auton Init Complete @@@ ");
         } catch (Throwable t) {
@@ -221,6 +254,13 @@ public class Robot extends LoggedRobot {
             RobotTelemetry.print("!!! Teleop Init Starting !!! ");
             resetCommandsAndButtons();
 
+            // flip pilot's forward based on what alliance robot is
+            swerve.setDriverPerspective(
+                    Rotation2d.fromDegrees(
+                            DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue
+                                    ? 0
+                                    : 180));
+
             RobotTelemetry.print("!!! Teleop Init Complete !!! ");
         } catch (Throwable t) {
             // intercept error and log it
@@ -248,6 +288,7 @@ public class Robot extends LoggedRobot {
     /** This method is called once when test mode starts */
     public void testInit() {
         try {
+
             RobotTelemetry.print("~~~ Test Init Starting ~~~ ");
             resetCommandsAndButtons();
 
@@ -289,8 +330,7 @@ public class Robot extends LoggedRobot {
         Logger.addDataReceiver(new NT4Publisher()); // Running a physics simulator, log to NT
 
         if (!Robot.isSimulation()) {
-            Logger.addDataReceiver(
-                    new WPILOGWriter("/U")); // Running on a real robot, log to a USB stick
+            Logger.addDataReceiver(new WPILOGWriter("/home/lvuser/logs/"));
         }
 
         // Start AdvantageKit logger

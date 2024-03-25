@@ -7,15 +7,15 @@ public class ElevatorCommands {
     private static Elevator elevator = Robot.elevator;
 
     public static void setupDefaultCommand() {
-        elevator.setDefaultCommand(elevator.holdPosition().withName("Elevator.default"));
+        elevator.setDefaultCommand(holdPosition().withName("Elevator.default"));
+    }
+
+    public static Command holdPosition() {
+        return elevator.holdPosition().withName("Elevator.holdPosition");
     }
 
     public static Command fullExtend() {
         return elevator.runPosition(elevator.config.fullExtend).withName("Elevator.fullExtend");
-    }
-
-    public static Command percentage() {
-        return elevator.runPercentage(0.3);
     }
 
     public static Command amp() {
@@ -32,5 +32,9 @@ public class ElevatorCommands {
 
     public static Command coastMode() {
         return elevator.coastMode();
+    }
+
+    public static Command ensureBrakeMode() {
+        return elevator.ensureBrakeMode();
     }
 }

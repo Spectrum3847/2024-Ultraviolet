@@ -14,9 +14,13 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.spectrumLib.Telemetry;
 import frc.spectrumLib.swerve.Drivetrain.DriveState;
+import java.text.DecimalFormat;
 import org.littletonrobotics.junction.Logger;
 
 public class RobotTelemetry extends Telemetry {
+
+    /* Truncating double logs */
+    private static final DecimalFormat df = new DecimalFormat();
 
     /* What to publish over networktables for telemetry */
     NetworkTableInstance inst = NetworkTableInstance.getDefault();
@@ -89,6 +93,7 @@ public class RobotTelemetry extends Telemetry {
     public RobotTelemetry() {
         super();
         Logger.recordMetadata("RobotType", Robot.config.getRobotType().name());
+        df.setMaximumFractionDigits(2);
 
         Robot.swerve.registerTelemetry((b) -> telemeterize(b));
     }
@@ -122,5 +127,9 @@ public class RobotTelemetry extends Telemetry {
 
             //     SmartDashboard.putData("Module " + i, m_moduleMechanisms[i]);
         }
+    }
+
+    public static String truncatedDouble(double number) {
+        return df.format(number);
     }
 }

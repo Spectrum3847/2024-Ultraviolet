@@ -1,12 +1,11 @@
-package frc.spectrumLib;
+package frc.spectrumLib.gamepads;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.RobotTelemetry;
 import java.util.function.DoubleSupplier;
@@ -15,7 +14,7 @@ public abstract class Gamepad extends SubsystemBase {
 
     public boolean configured = false;
     private boolean printed = false;
-    public CommandXboxController controller;
+    public SpectrumController controller;
     private Rotation2d storedLeftStickDirection = new Rotation2d();
     private Rotation2d storedRightStickDirection = new Rotation2d();
 
@@ -24,9 +23,12 @@ public abstract class Gamepad extends SubsystemBase {
      *
      * @param port The port the gamepad is plugged into
      * @param name The name of the gamepad
+     * @param isXbox Xbox or PS5 controller
+     * @param emulatedPS5Port emulated port for PS5 controller so we can rumble PS5 controllers.
      */
-    public Gamepad(String name, int port) {
-        controller = new CommandXboxController(port);
+    public Gamepad(String name, int port, boolean isXbox, int emulatedPS5Port) {
+        super(name);
+        controller = new SpectrumController(port, isXbox, emulatedPS5Port);
     }
 
     @Override
@@ -119,18 +121,115 @@ public abstract class Gamepad extends SubsystemBase {
         return storedRightStickDirection;
     }
 
-    public double getRightStickCardinals() {
+    /**
+     * Get proper stick angles for each alliance
+     *
+     * @return
+     */
+    public double chooseCardinalDirections() {
+        // hotfix
+        if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
+            return getRedAllianceStickCardinals();
+        }
+        return getBlueAllianceStickCardinals();
+    }
+
+    public double getBlueAllianceStickCardinals() {
         double stickAngle = getRightStickDirection().getRadians();
-        if (stickAngle > -Math.PI / 4 && stickAngle <= Math.PI / 4) {
+        if (stickAngle > -Math.PI / 8 && stickAngle <= Math.PI / 8) {
             return 0;
-        } else if (stickAngle > Math.PI / 4 && stickAngle <= 3 * Math.PI / 4) {
+        } else if (stickAngle > Math.PI / 8 && stickAngle <= 3 * Math.PI / 8) {
+            return Math.PI / 4;
+        } else if (stickAngle > 3 * Math.PI / 8 && stickAngle <= 5 * Math.PI / 8) {
             return Math.PI / 2;
-        } else if (stickAngle > 3 * Math.PI / 4 || stickAngle <= -3 * Math.PI / 4) {
-            return Math.PI;
-        } else {
+        } else if (stickAngle > 5 * Math.PI / 8 && stickAngle <= 7 * Math.PI / 8) {
+            return 3 * Math.PI / 4;
+        } // other half of circle
+        else if (stickAngle < -Math.PI / 8 && stickAngle >= -3 * Math.PI / 8) {
+            return -Math.PI / 4;
+        } else if (stickAngle < -3 * Math.PI / 8 && stickAngle >= -5 * Math.PI / 8) {
             return -Math.PI / 2;
+        } else if (stickAngle < -5 * Math.PI / 8 && stickAngle >= -7 * Math.PI / 8) {
+            return -3 * Math.PI / 4;
+        } else {
+            return Math.PI; // greater than 7 * Math.PI / 8 or less than -7 * Math.PI / 8 (bottom of
+            // circle)
         }
     }
+
+    // TODO: simplified but untested
+    // public double getBlueAllianceStickCardinals() {
+    //     double stickAngle = getRightStickDirection().getRadians();
+
+    //     // Normalize angle to be between 0 and 2π
+    //     stickAngle = (stickAngle + 2 * Math.PI) % (2 * Math.PI);
+
+    //     // Round to nearest π/4 (45 degrees) and adjust for direction
+    //     double aimAngle = Math.round(stickAngle / (Math.PI / 4)) * (Math.PI / 4);
+
+    //     // Wrap angle to -π to π
+    //     return MathUtil.angleModulus(aimAngle);
+    // }
+
+    /**
+     * Flips the stick direction for the red alliance.
+     *
+     * @return
+     */
+    public double getRedAllianceStickCardinals() {
+        double stickAngle = getRightStickDirection().getRadians();
+
+        if (stickAngle > -Math.PI / 8 && stickAngle <= Math.PI / 8) {
+            return Math.PI;
+        } else if (stickAngle > Math.PI / 8 && stickAngle <= 3 * Math.PI / 8) {
+            return -3 * Math.PI / 4;
+        } else if (stickAngle > 3 * Math.PI / 8 && stickAngle <= 5 * Math.PI / 8) {
+            return -Math.PI / 2;
+        } else if (stickAngle > 5 * Math.PI / 8 && stickAngle <= 7 * Math.PI / 8) {
+            return -Math.PI / 4;
+        } // other half of circle
+        else if (stickAngle < -Math.PI / 8 && stickAngle >= -3 * Math.PI / 8) {
+            return 3 * Math.PI / 4;
+        } else if (stickAngle < -3 * Math.PI / 8 && stickAngle >= -5 * Math.PI / 8) {
+            return Math.PI / 2;
+        } else if (stickAngle < -5 * Math.PI / 8 && stickAngle >= -7 * Math.PI / 8) {
+            return Math.PI / 4;
+        } else {
+            return 0; // greater than 7 * Math.PI / 8 or less than -7 * Math.PI / 8 (bottom of
+            // circle)
+        }
+    }
+
+    // TODO: simplified but untested
+    // public double getRedAllianceStickCardinals() {
+    //     double aimAngle = getBlueAllianceStickCardinals();
+    //     return MathUtil.angleModulus(aimAngle + Math.PI); // Flip the angle
+    // }
+
+    // public double getStickSteer(int segments){
+    //     double stickAngle = getRightStickDirection().getRadians();
+    //     double[] outputs = new double[segments];
+    //     for (int i = 0; i < segments; i++){
+    //         outputs[i] = i * (2*Math.PI/segments);
+    //     }
+
+    // }
+    // public double idk (double[] outputs, double stickAngle, int segments){ ///need three
+    // parameters?, output array and current stickAngle in Radians, segments wanted
+    //     double[] newoutputs = new double[segments]; //create copy of array with the rotated
+    // values
+    //     for (int i=0; i < segments; i++){ // loops for the length of outputs
+    //         newoutputs[i] = outputs[i] + Math.PI/segments; /// shifts circle
+    //     }
+    //     for (int i=0; i< segments; i++){
+    //         if (stickAngle > outputs[i] && stickAngle <= outputs[(i+1)%segments]){ ///if the
+    // given stickAngle is between two of the other angles
+    //             ///The %segments should account for the circle looping around?
+    //             return outputs[(i+1)%segments];// shoudl be the desired angle output
+    //         }
+    //     }
+
+    // }
 
     public double getRightStickMagnitude() {
         double x = controller.getRightX();
@@ -187,6 +286,22 @@ public abstract class Gamepad extends SubsystemBase {
         return axisTrigger(t, threshold, () -> controller.getRightX());
     }
 
+    public Trigger rightStick() {
+        return new Trigger(
+                () -> {
+                    return Math.abs(controller.getRightX()) >= 0.1
+                            || Math.abs(controller.getRightY()) >= 0.1;
+                });
+    }
+
+    public Trigger leftStick() {
+        return new Trigger(
+                () -> {
+                    return Math.abs(controller.getLeftX()) >= 0.1
+                            || Math.abs(controller.getLeftY()) >= 0.1;
+                });
+    }
+
     private Trigger axisTrigger(ThresholdType t, double threshold, DoubleSupplier v) {
         return new Trigger(
                 () -> {
@@ -211,8 +326,7 @@ public abstract class Gamepad extends SubsystemBase {
     }
 
     private void rumble(double leftIntensity, double rightIntensity) {
-        controller.getHID().setRumble(RumbleType.kLeftRumble, leftIntensity);
-        controller.getHID().setRumble(RumbleType.kRightRumble, rightIntensity);
+        controller.rumbleController(leftIntensity, rightIntensity);
     }
 
     /** Command that can be used to rumble the pilot controller */
@@ -226,6 +340,19 @@ public abstract class Gamepad extends SubsystemBase {
 
     public Command rumbleCommand(double intensity, double durationSeconds) {
         return rumbleCommand(intensity, intensity, durationSeconds);
+    }
+
+    /**
+     * Run a command while a button/trigger is held down. Also runs a command for 1.5s when the
+     * button/trigger is released.
+     *
+     * @param trigger
+     * @param runCommand
+     * @param endCommand
+     */
+    public void runWithEndSequence(Trigger trigger, Command runCommand, Command endCommand) {
+        trigger.whileTrue(runCommand);
+        trigger.onFalse(endCommand.withTimeout(1.5).withName(endCommand.getName()));
     }
 
     /**

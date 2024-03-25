@@ -12,10 +12,17 @@ import java.util.function.Supplier;
 
 public class SwerveCommands {
     private static Swerve swerve = Robot.swerve;
+    /** Velocity deadband applied to the swerve control request */
+    private static DoubleSupplier requestDeadband =
+            () -> (swerve.config.deadband * swerve.config.maxVelocity);
 
     public static void setupDefaultCommand() {
-        swerve.setDefaultCommand(PilotCommands.pilotDrive());
-        // swerve.setDefaultCommand(SwerveCommands.Xbrake());
+        // Wait a little before enabling heading lock, allows any turns to finish
+        swerve.setDefaultCommand(
+                PilotCommands.pilotDrive()
+                        .withTimeout(0.5)
+                        .andThen(PilotCommands.headingLockDrive())
+                        .withName("SwerveCommands.default"));
     }
 
     /** Turn the swerve wheels to an X to prevent the robot from moving */
@@ -30,7 +37,13 @@ public class SwerveCommands {
             DoubleSupplier rotationalRate,
             BooleanSupplier isFieldOriented,
             BooleanSupplier isOpenLoop) {
-        return Drive.run(velocityX, velocityY, rotationalRate, isFieldOriented, isOpenLoop)
+        return Drive.run(
+                        velocityX,
+                        velocityY,
+                        rotationalRate,
+                        requestDeadband,
+                        isFieldOriented,
+                        isOpenLoop)
                 .withName("Swerve.Drive")
                 .ignoringDisable(true);
     }
@@ -86,6 +99,108 @@ public class SwerveCommands {
                 .withName("Swerve.HeadingLock");
     }
 
+    public static Command AlignXdrive(
+            DoubleSupplier targetX,
+            DoubleSupplier velocityY,
+            DoubleSupplier rotationalRate,
+            BooleanSupplier isFieldOriented,
+            BooleanSupplier isOpenLoop) {
+        return resetAlignmentControllers()
+                .andThen(
+                        Drive(
+                                () -> swerve.calculateXController(targetX),
+                                velocityY,
+                                rotationalRate,
+                                isFieldOriented,
+                                isOpenLoop))
+                .withName("Swerve.AlignXdrive");
+    };
+
+    public static Command AlignYdrive(
+            DoubleSupplier velocityX,
+            DoubleSupplier targetY,
+            DoubleSupplier rotationalRate,
+            BooleanSupplier isFieldOriented,
+            BooleanSupplier isOpenLoop) {
+        return resetAlignmentControllers()
+                .andThen(
+                        Drive(
+                                velocityX,
+                                () -> swerve.calculateYController(targetY),
+                                rotationalRate,
+                                isFieldOriented,
+                                isOpenLoop))
+                .withName("Swerve.AlignYdrive");
+    };
+
+    public static Command AlignDrive(
+            DoubleSupplier targetX,
+            DoubleSupplier targetY,
+            DoubleSupplier rotationalRate,
+            BooleanSupplier isFieldOriented,
+            BooleanSupplier isOpenLoop) {
+        return resetAlignmentControllers()
+                .andThen(
+                        Drive(
+                                () -> swerve.calculateXController(targetX),
+                                () -> swerve.calculateYController(targetY),
+                                rotationalRate,
+                                isFieldOriented,
+                                isOpenLoop))
+                .withName("Swerve.AlignDrive");
+    }
+
+    public static Command AlignXaimDrive(
+            DoubleSupplier targetX,
+            DoubleSupplier velocityY,
+            DoubleSupplier targetRadians,
+            BooleanSupplier isFieldOriented,
+            BooleanSupplier isOpenLoop) {
+        return resetAlignmentControllers()
+                .andThen(
+                        aimDrive(
+                                () -> swerve.calculateXController(targetX),
+                                velocityY,
+                                targetRadians,
+                                isFieldOriented,
+                                isOpenLoop))
+                .withName("Swerve.AlignXaimDrive");
+    }
+
+    public static Command AlignYaimDrive(
+            DoubleSupplier velocityX,
+            DoubleSupplier targetY,
+            DoubleSupplier targetRadians,
+            BooleanSupplier isFieldOriented,
+            BooleanSupplier isOpenLoop) {
+        return resetAlignmentControllers()
+                .andThen(
+                        aimDrive(
+                                velocityX,
+                                () -> swerve.calculateYController(targetY),
+                                targetRadians,
+                                isFieldOriented,
+                                isOpenLoop))
+                .withName("Swerve.AlignYaimDrive");
+    }
+
+    public static Command AlignAimDrive(
+            DoubleSupplier targetX,
+            DoubleSupplier targetY,
+            DoubleSupplier targetRadians,
+            BooleanSupplier isFieldOriented,
+            BooleanSupplier isOpenLoop) {
+        return resetAlignmentControllers()
+                .andThen(
+                        aimDrive(
+                                () -> swerve.calculateXController(targetX),
+                                () -> swerve.calculateYController(targetY),
+                                targetRadians,
+                                isFieldOriented,
+                                isOpenLoop))
+                .withName("Swerve.AlignAimDrive");
+    }
+
     /** Apply a chassis speed to the swerve */
     public static Command ApplyChassisSpeeds(
             Supplier<ChassisSpeeds> speeds, BooleanSupplier isOpenLoop) {
@@ -98,6 +213,11 @@ public class SwerveCommands {
                 .withName("ResetTurnController");
     }
 
+    public static Command resetAlignmentControllers() {
+        return swerve.runOnce(() -> swerve.resetAlignmentControllers())
+                .withName("ResetAlignmentControllers");
+    }
+
     public static Command setTargetHeading(DoubleSupplier targetHeading) {
         return Commands.run(() -> swerve.setTargetHeading(targetHeading.getAsDouble()))
                 .withName("SetTargetHeading");
@@ -106,6 +226,48 @@ public class SwerveCommands {
     public static Command reorient(double angle) {
         return swerve.runOnce(() -> swerve.reorient(angle)).withName("Swerve.reorient");
     }
-    // Swerve Command Options
-    // - Drive needs to work with slow mode (this might be done in PilotCommands)
+
+    // do not use this
+    // public static Command smartReorient(double angle) {
+    //     return swerve.runOnce(
+    //                     () -> {
+    //                         double newAngle =
+    //                                 (DriverStation.getAlliance().orElse(Alliance.Blue)
+    //                                                 == Alliance.Red)
+    //                                         ? angle
+    //                                         : (angle + 180);
+    //                         swerve.reorient(newAngle);
+    //                     })
+    //             .withName("Swerve.smartReorient");
+    // }
+
+    public static Command reorientForward() {
+        return swerve.runOnce(() -> swerve.reorientForward()).withName("Swerve.reorientForward");
+    }
+
+    public static Command reorientLeft() {
+        return swerve.runOnce(() -> swerve.reorientLeft()).withName("Swerve.reorientLeft");
+    }
+
+    public static Command reorientRight() {
+        return swerve.runOnce(() -> swerve.reorientRight()).withName("Swerve.reorientRight");
+    }
+
+    public static Command reorientBack() {
+        return swerve.runOnce(() -> swerve.reorientBack()).withName("Swerve.reorientBack");
+    }
+
+    public static Command cardinalReorient() {
+        return swerve.runOnce(() -> swerve.cardinalReorient()).withName("Swerve.cardinalReorient");
+    }
+
+    /**
+     * Temporarily sets the swerve modules to coast mode. The configuration is applied when the
+     * command is started and reverted when the command is ended.
+     */
+    public static Command coastMode() {
+        return swerve.startEnd(() -> swerve.setCoastMode(), () -> swerve.setBrakeMode())
+                .ignoringDisable(true)
+                .withName("Swerve.coastMode");
+    }
 }

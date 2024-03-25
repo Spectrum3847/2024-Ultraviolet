@@ -21,6 +21,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Timer;
 import frc.spectrumLib.swerve.config.ModuleConfig;
 
 /**
@@ -75,12 +76,14 @@ public class Module {
         talonConfigs.TorqueCurrent.PeakReverseTorqueCurrent = -config.SlipCurrent;
         talonConfigs.CurrentLimits.StatorCurrentLimit = config.SlipCurrent;
         talonConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
+        talonConfigs.TorqueCurrent.PeakForwardTorqueCurrent = config.PeakForwardTorqueCurrent;
+        talonConfigs.TorqueCurrent.PeakReverseTorqueCurrent = config.PeakReverseTorqueCurrent;
 
         talonConfigs.MotorOutput.Inverted =
                 config.DriveMotorInverted
                         ? InvertedValue.Clockwise_Positive
                         : InvertedValue.CounterClockwise_Positive;
-        // Timer.delay(1);
+        Timer.delay(0.1);
         StatusCode response = m_driveMotor.getConfigurator().apply(talonConfigs);
         if (!response.isOK()) {
             System.out.println(
@@ -124,7 +127,7 @@ public class Module {
                         ? InvertedValue.Clockwise_Positive
                         : InvertedValue.CounterClockwise_Positive;
 
-        // Timer.delay(1);
+        Timer.delay(0.1);
         response = m_steerMotor.getConfigurator().apply(talonConfigs);
         if (!response.isOK()) {
             System.out.println(
@@ -136,7 +139,7 @@ public class Module {
 
         CANcoderConfiguration cancoderConfigs = new CANcoderConfiguration();
         cancoderConfigs.MagnetSensor.MagnetOffset = config.CANcoderOffset;
-        // Timer.delay(1);
+        Timer.delay(0.1);
         response = m_cancoder.getConfigurator().apply(cancoderConfigs);
         if (!response.isOK()) {
             System.out.println(
@@ -335,13 +338,27 @@ public class Module {
         return m_cancoder;
     }
 
-    // NEEDS TO BE TESTED
+    // TODO: NEEDS TO BE TESTED
+    public void setModuleNeutralMode(NeutralModeValue mode) {
+        setDriveNeutralMode(mode);
+        setSteerNeutralMode(mode);
+    }
+
     public void setDriveNeutralMode(NeutralModeValue mode) {
-        MotorOutputConfigs configs = new MotorOutputConfigs();
-        m_driveMotor.getConfigurator().refresh(configs);
-        if (configs.NeutralMode != mode) {
-            configs.NeutralMode = mode;
-            m_driveMotor.getConfigurator().apply(configs);
+        MotorOutputConfigs driveConfig = new MotorOutputConfigs();
+        m_driveMotor.getConfigurator().refresh(driveConfig);
+        if (driveConfig.NeutralMode != mode) {
+            driveConfig.NeutralMode = mode;
+            m_driveMotor.getConfigurator().apply(driveConfig);
+        }
+    }
+
+    public void setSteerNeutralMode(NeutralModeValue mode) {
+        MotorOutputConfigs steerConfig = new MotorOutputConfigs();
+        m_steerMotor.getConfigurator().refresh(steerConfig);
+        if (steerConfig.NeutralMode != mode) {
+            steerConfig.NeutralMode = mode;
+            m_driveMotor.getConfigurator().apply(steerConfig);
         }
     }
 }

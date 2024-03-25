@@ -1,42 +1,49 @@
 package frc.robot.pilot;
 
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Robot;
 import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
+import frc.robot.leds.LEDsCommands;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
-import frc.robot.mechanisms.feeder.FeederCommands;
-import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.swerve.commands.SwerveCommands;
-import frc.spectrumLib.Gamepad;
+import frc.spectrumLib.gamepads.Gamepad;
 import frc.spectrumLib.util.ExpCurve;
 
 public class Pilot extends Gamepad {
     public class PilotConfig {
         public static final String name = "Pilot";
         public static final int port = 0;
+        /**
+         * in order to run a PS5 controller, you must use DS4Windows to emulate a XBOX controller as
+         * well and move the controller to emulatedPS5Port
+         */
+        public static final boolean isXbox = true;
 
-        public static final double slowModeScalor = 0.5;
+        public static final int emulatedPS5Port = 4;
 
-        public final double leftStickDeadzone = 0.1;
+        public static final double slowModeScalor = 0.45;
+        public static final double turboModeScalor = 1;
+
+        public final double leftStickDeadzone = 0; // TODO: reivew
         public final double leftStickExp = 2.0;
         public final double leftStickScalor = Robot.swerve.config.maxVelocity;
 
-        public final double triggersDeadzone = 0.1;
+        public final double triggersDeadzone = 0; // TODO: review
         public final double triggersExp = 2.0;
         public final double triggersScalor = Robot.swerve.config.maxAngularVelocity;
-        public final double rotationScalor = 0.8;
+        public final double rotationScalor = 0.8; // original was 0.8
     }
 
     public PilotConfig config;
     private boolean isSlowMode = false;
+    private boolean isTurboMode = false;
     private boolean isFieldOriented = true;
     private ExpCurve LeftStickCurve;
     private ExpCurve TriggersCurve;
 
     /** Create a new Pilot with the default name and port. */
     public Pilot() {
-        super(PilotConfig.name, PilotConfig.port);
+        super(PilotConfig.name, PilotConfig.port, PilotConfig.isXbox, PilotConfig.emulatedPS5Port);
         config = new PilotConfig();
 
         // Curve objects that we use to configure the controller axis ojbects
@@ -53,38 +60,67 @@ public class Pilot extends Gamepad {
     /*  A, B, X, Y, Left Bumper, Right Bumper = Buttons 1 to 6 in simualation */
     public void setupTeleopButtons() {
 
-        controller.a().and(noBumpers()).whileTrue(RobotCommands.laserCanFeed());
-        controller.a().and(leftBumperOnly()).whileTrue(LauncherCommands.stopMotors());
+        runWithEndSequence(
+                controller.a().and(noBumpers()),
+                RobotCommands.smartIntake(),
+                RobotCommands.feedHome());
+        controller.a().and(leftBumperOnly()).whileTrue(RobotCommands.eject());
 
-        controller.b().and(noBumpers()).whileTrue(RobotCommands.feedToAmp());
-        controller.b().and(leftBumperOnly()).onTrue(RobotCommands.subwooferReady());
+        controller.b().and(noBumpers().or(rightBumperOnly())).whileTrue(PilotCommands.turnToAmp());
+        controller.b().and(noBumpers()).onTrue(RobotCommands.amp().withTimeout(1.5));
 
-        controller.y().and(noBumpers()).whileTrue(RobotCommands.eject());
-        controller.y().and(leftBumperOnly()).onTrue(RobotCommands.onDemandLaunching());
+        controller
+                .b()
+                .and(leftBumperOnly().or(bothBumpers()))
+                .whileTrue(RobotCommands.intoAmpShot());
 
-        controller.x().and(noBumpers()).whileTrue(ElevatorCommands.amp());
-        controller.x().and(leftBumperOnly()).whileTrue(ElevatorCommands.home());
+        controller
+                .x()
+                .and(noBumpers().or(rightBumperOnly()))
+                .whileTrue(RobotCommands.visionLaunch());
+        controller
+                .x()
+                .and(leftBumperOnly().or(bothBumpers()))
+                .whileTrue(RobotCommands.podiumShot());
 
-        controller.rightBumper().whileTrue(FeederCommands.slowFeed());
+        controller
+                .y()
+                .and(noBumpers().or(rightBumperOnly()))
+                .whileTrue(RobotCommands.subwooferShot());
+        controller
+                .y()
+                .and(leftBumperOnly().or(bothBumpers()))
+                .whileTrue(RobotCommands.fromAmpShot());
+
+        // controller.start().whileTrue();
+        controller.select().whileTrue(SwerveCommands.cardinalReorient());
+
+        runWithEndSequence(rightBumperOnly(), RobotCommands.score(), ElevatorCommands.home());
+        controller
+                .leftBumper()
+                .and(controller.rightBumper())
+                .whileTrue(RobotCommands.launchEject());
+
+        controller.rightStick().whileTrue(PilotCommands.slowMode());
 
         rightStick().and(leftBumperOnly()).whileTrue(PilotCommands.manualPivot());
 
         controller
-                .povUp()
+                .upDpad()
                 .and(leftBumperOnly())
-                .whileTrue(rumbleCommand(SwerveCommands.reorient(0)));
+                .whileTrue(rumbleCommand(SwerveCommands.reorientForward()));
         controller
-                .povLeft()
+                .leftDpad()
                 .and(leftBumperOnly())
-                .whileTrue(rumbleCommand(SwerveCommands.reorient(90)));
+                .whileTrue(rumbleCommand(SwerveCommands.reorientLeft()));
         controller
-                .povDown()
+                .downDpad()
                 .and(leftBumperOnly())
-                .whileTrue(rumbleCommand(SwerveCommands.reorient(180)));
+                .whileTrue(rumbleCommand(SwerveCommands.reorientBack()));
         controller
-                .povRight()
+                .rightDpad()
                 .and(leftBumperOnly())
-                .whileTrue(rumbleCommand(SwerveCommands.reorient(270)));
+                .whileTrue(rumbleCommand(SwerveCommands.reorientRight()));
 
         // Use the pilot drive if we are manually steering the robot
         controller
@@ -93,8 +129,10 @@ public class Pilot extends Gamepad {
                 .whileTrue(PilotCommands.pilotDrive());
 
         // Use the right stick to set a cardinal direction to aim at
-        rightXTrigger(ThresholdType.ABS_GREATER_THAN, 0.5)
-                .and(rightYTrigger(ThresholdType.ABS_GREATER_THAN, 0.5))
+        (leftBumperOnly().negate())
+                .and(
+                        rightXTrigger(ThresholdType.ABS_GREATER_THAN, 0.5)
+                                .or(rightYTrigger(ThresholdType.ABS_GREATER_THAN, 0.5)))
                 .whileTrue(PilotCommands.stickSteerDrive());
     };
 
@@ -102,6 +140,8 @@ public class Pilot extends Gamepad {
     public void setupDisabledButtons() {
         // This is just for training, most robots will have different buttons during disabled
         // setupTeleopButtons();
+        controller.a().whileTrue(LEDsCommands.solidWhiteLED());
+        controller.y().whileTrue(PilotCommands.rumble(1, 0.5).ignoringDisable(true));
 
         controller.b().toggleOnTrue(RobotCommands.coastModeMechanisms());
     };
@@ -124,6 +164,10 @@ public class Pilot extends Gamepad {
         this.isSlowMode = isSlowMode;
     }
 
+    public void setTurboMode(boolean isTurboMode) {
+        this.isTurboMode = isTurboMode;
+    }
+
     public void setFieldOriented(boolean isFieldOriented) {
         this.isFieldOriented = isFieldOriented;
     }
@@ -136,9 +180,9 @@ public class Pilot extends Gamepad {
     // Applies Expontial Curve, Deadzone, and Slow Mode toggle
     public double getDriveFwdPositive() {
         double fwdPositive = LeftStickCurve.calculate(-1 * controller.getLeftY());
-        if (isSlowMode) {
-            fwdPositive *= Math.abs(PilotConfig.slowModeScalor);
-        }
+        // if (isSlowMode) {
+        //     fwdPositive *= Math.abs(PilotConfig.slowModeScalor);
+        // }
         return fwdPositive;
     }
 
@@ -146,9 +190,9 @@ public class Pilot extends Gamepad {
     // Applies Expontial Curve, Deadzone, and Slow Mode toggle
     public double getDriveLeftPositive() {
         double leftPositive = -1 * LeftStickCurve.calculate(controller.getLeftX());
-        if (isSlowMode) {
-            leftPositive *= Math.abs(PilotConfig.slowModeScalor);
-        }
+        // if (isSlowMode) {
+        //     leftPositive *= Math.abs(PilotConfig.slowModeScalor);
+        // }
         return leftPositive;
     }
 
@@ -158,17 +202,11 @@ public class Pilot extends Gamepad {
         double ccwPositive = TriggersCurve.calculate(getTwist());
         if (isSlowMode) {
             ccwPositive *= Math.abs(PilotConfig.slowModeScalor);
+        } else if (isTurboMode) {
+            ccwPositive *= Math.abs(PilotConfig.turboModeScalor);
         } else {
             ccwPositive *= config.rotationScalor;
         }
         return ccwPositive;
-    }
-
-    public Trigger rightStick() {
-        return new Trigger(
-                () -> {
-                    return Math.abs(controller.getRightX()) >= 0.1
-                            || Math.abs(controller.getRightY()) >= 0.1;
-                });
     }
 }

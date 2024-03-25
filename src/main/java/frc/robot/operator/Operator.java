@@ -2,21 +2,37 @@ package frc.robot.operator;
 
 import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
+import frc.robot.leds.LEDsCommands;
+import frc.robot.mechanisms.amptrap.AmpTrapCommands;
 import frc.robot.mechanisms.climber.ClimberCommands;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
-import frc.spectrumLib.Gamepad;
+import frc.robot.mechanisms.feeder.FeederCommands;
+import frc.robot.mechanisms.intake.IntakeCommands;
+import frc.robot.mechanisms.pivot.PivotCommands;
+import frc.spectrumLib.gamepads.Gamepad;
 
 public class Operator extends Gamepad {
     public class OperatorConfig {
         public static final String name = "Operator";
         public static final int port = 1;
+        /**
+         * in order to run a PS5 controller, you must use DS4Windows to emulate a XBOX controller as
+         * well and move the controller to emulatedPS5Port
+         */
+        public static final boolean isXbox = true;
+
+        public static final int emulatedPS5Port = 5;
     }
 
     public OperatorConfig config;
 
     /** Create a new Operator with the default name and port. */
     public Operator() {
-        super(OperatorConfig.name, OperatorConfig.port);
+        super(
+                OperatorConfig.name,
+                OperatorConfig.port,
+                OperatorConfig.isXbox,
+                OperatorConfig.emulatedPS5Port);
         config = new OperatorConfig();
 
         RobotTelemetry.print("Operator Subsystem Initialized: ");
@@ -25,31 +41,42 @@ public class Operator extends Gamepad {
     /** Setup the Buttons for telop mode. */
     /*  A, B, X, Y, Left Bumper, Right Bumper = Buttons 1 to 6 in simualation */
     public void setupTeleopButtons() {
-        // manual output commands (map joystick to raw -1 to 1 output on motor): manualAmpTrap,
-        // manualClimber, manualElevator, manualFeeder, manualIntake, manualPivot, manualLauncher
 
-        // controller.a().whileTrue();
+        controller.a().and(noBumpers()).whileTrue(IntakeCommands.intake()); // intake
+        controller.a().and(leftBumperOnly()).whileTrue(IntakeCommands.eject()); // eject
 
-        // controller.b().whileTrue();
+        controller.b().and(noBumpers()).whileTrue(RobotCommands.manualAmp()); // note up to amp
+        controller.b().and(leftBumperOnly()).whileTrue(AmpTrapCommands.eject()); // amp backward
 
-        // controller.x().toggleOnTrue();
+        controller.y().and(noBumpers()).whileTrue(FeederCommands.launchEject()); // feeder forward
+        controller.y().and(leftBumperOnly()).whileTrue(FeederCommands.eject()); // feeder backward
 
-        // controller.y().and(leftBumperOnly()).whileTrue();
+        controller.x().and(noBumpers()).whileTrue(ElevatorCommands.amp()); // elevator up
+        controller.x().and(leftBumperOnly()).whileTrue(ElevatorCommands.home()); // elevator down
 
-        // controller.y().and(rightBumperOnly()).whileTrue();
+        rightStick().and(leftBumperOnly()).whileTrue(OperatorCommands.manualClimber());
+        leftStick().and(leftBumperOnly()).whileTrue(OperatorCommands.manualElevator());
 
-        // leftXTrigger(ThresholdType.GREATER_THAN, 0).whileTrue();
+        bothBumpers().whileTrue(LEDsCommands.solidGreenLED());
 
-        controller.rightBumper().whileTrue(RobotCommands.feedToAmp());
-        controller.povUp().and(leftBumperOnly()).whileTrue(ClimberCommands.topClimb());
-        controller.povDown().and(leftBumperOnly()).whileTrue(ClimberCommands.midClimb());
-        controller.povLeft().and(leftBumperOnly()).whileTrue(ElevatorCommands.fullExtend());
-        controller.povRight().and(leftBumperOnly()).whileTrue(ClimberCommands.botClimb());
+        controller.start().whileTrue(RobotCommands.manualSource());
+
+        controller.upDpad().and(noBumpers()).onTrue(rumbleCommand(PivotCommands.increaseOffset()));
+        controller
+                .downDpad()
+                .and(noBumpers())
+                .onTrue(rumbleCommand(PivotCommands.decreaseOffset()));
+        controller.leftDpad().and(noBumpers()).onTrue(rumbleCommand(PivotCommands.resetOffset()));
+
+        /* Climb */
+        controller.upDpad().and(leftBumperOnly()).whileTrue(RobotCommands.topClimb());
+        controller.downDpad().and(leftBumperOnly()).whileTrue(ClimberCommands.midClimb());
+        controller.leftDpad().and(leftBumperOnly()).whileTrue(ElevatorCommands.fullExtend());
+        controller.rightDpad().and(leftBumperOnly()).whileTrue(ClimberCommands.botClimb());
     };
 
     /** Setup the Buttons for Disabled mode. */
     public void setupDisabledButtons() {
-        // This is just for training, most robots will have different buttons during disabled
 
         controller.b().toggleOnTrue(RobotCommands.coastModeMechanisms());
     };

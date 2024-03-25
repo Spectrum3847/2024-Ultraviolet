@@ -1,0 +1,31 @@
+{
+  "NetworkTables": {
+    "transitory": {
+      "AdvantageKit": {
+        "open": true
+      },
+      "SmartDashboard": {
+        "Scheduler": {
+          "open": true,
+          "string[]##v_/SmartDashboard/Scheduler/Names": {
+            "open": true
+          }
+        },
+        "open": true
+      }
+    },
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/Pose": "Field2d",
+      "/SmartDashboard/Auto Chooser": "String Chooser",
+      "/SmartDashboard/Scheduler": "Scheduler"
+    }
+  },
+  "NetworkTables Info": {
+    "visible": true
+  },
+  "NetworkTables Settings": {
+    "mode": "Client (NT4)",
+    "serverTeam": "3847"
+  }
+}

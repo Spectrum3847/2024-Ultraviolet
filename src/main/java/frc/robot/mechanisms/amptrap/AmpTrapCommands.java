@@ -14,21 +14,20 @@ public class AmpTrapCommands {
         return ampTrap.runVelocity(ampTrap.config.maxSpeed).withName("AmpTrap.runFull");
     }
 
-    public static Command slowIntake() {
-        return ampTrap.runPercentage(ampTrap.config.slowIntakePercentage)
-                .withName("AmpTrap.slowIntake");
+    public static Command feed() {
+        return ampTrap.runVelocity(ampTrap.config.feed).withName("AmpTrap.slowIntake");
     }
 
     public static Command intake() {
         return ampTrap.runVelocity(ampTrap.config.intake).withName("AmpTrap.intake");
     }
 
-    public static Command score() {
-        return ampTrap.runVelocity(ampTrap.config.score).withName("AmpTrap.score");
+    public static Command amp() {
+        return ampTrap.runVelocity(ampTrap.config.amp).withName("AmpTrap.ampReady");
     }
 
-    public static Command launchEject() {
-        return ampTrap.runVelocity(ampTrap.config.launchEject).withName("AmpTrap.launchEject");
+    public static Command score() {
+        return ampTrap.runVelocity(ampTrap.config.score).withName("AmpTrap.score");
     }
 
     public static Command eject() {
@@ -39,15 +38,11 @@ public class AmpTrapCommands {
         return ampTrap.runStop().withName("AmpTrap.stopMotor");
     }
 
-    public static Command testForward() {
-        return ampTrap.runPercentage(ampTrap.config.testForwardPercent);
-    }
-
-    public static Command testReverse() {
-        return ampTrap.runPercentage(ampTrap.config.testBackPercent);
-    }
-
     public static Command coastMode() {
         return ampTrap.coastMode();
+    }
+
+    public static Command ensureBrakeMode() {
+        return ampTrap.ensureBrakeMode();
     }
 }
