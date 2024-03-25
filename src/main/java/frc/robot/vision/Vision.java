@@ -127,17 +127,17 @@ public class Vision extends SubsystemBase {
                 }
 
                 isPresent = true;
-                // Limelight bestLimelight = getBestLimelight();
+                Limelight bestLimelight = getBestLimelight(); //excludes limelight-right
                 for (Limelight limelight : limelights) {
-                    if (limelight.CAMERA_NAME != "limelight-right") {
-                        filterAndAddVisionMeasurment(limelight);
-                    }
-
-                    // if(limelight.CAMERA_NAME == bestLimelight.CAMERA_NAME) {
-                    //     filterAndAddVisionMeasurment(bestLimelight);
-                    // } else {
-                    //     limelight.logStatus = "not best";
+                    // if (limelight.CAMERA_NAME != "limelight-right") {
+                    //     filterAndAddVisionMeasurment(limelight);
                     // }
+
+                    if(limelight.CAMERA_NAME == bestLimelight.CAMERA_NAME) {
+                        filterAndAddVisionMeasurment(bestLimelight);
+                    } else {
+                        limelight.logStatus = "not best";
+                    }
                 }
             }
         } catch (Exception e) {
