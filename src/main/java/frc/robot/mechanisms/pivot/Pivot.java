@@ -40,7 +40,7 @@ public class Pivot extends Mechanism {
 
         public final double zeroSpeed = -0.1;
 
-        /** Percentage of pivot rotation added/removed from vision launching pivot angles */
+        /** Percentage of pivot rotation added/removed from vision launching pivot angles (percentage of the CHANGE in angle you set to, not +- the angle you set to) (the actual offset to angles gets bigger as you get farther away) */
         public final double STARTING_OFFSET = -1;
 
         public double OFFSET = STARTING_OFFSET; // do not change this
@@ -130,7 +130,8 @@ public class Pivot extends Mechanism {
 
     public static double getMapAngle(
             InterpolatingDoubleTreeMap map, double distance, double offset) {
-        double angle = map.get(distance) + offset;
+        double angle = map.get(distance);
+        angle += (angle * offset);
         RobotTelemetry.print(
                 "VisionLaunching: interpolating "
                         + RobotTelemetry.truncatedDouble(angle)
