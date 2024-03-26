@@ -20,6 +20,7 @@ public class Pivot extends Mechanism {
 
         /* Pivot positions in percentage of max rotation || 0 is horizontal */
         public final double score = 65;
+        public final double climbHome = 3;
         public final double home = 1;
         public final double subwoofer = 81;
         public final double intoAmp = 78;
@@ -48,7 +49,7 @@ public class Pivot extends Mechanism {
         public double currentLimit = 30;
         public double torqueCurrentLimit = 100;
         public double threshold = 40;
-        public double velocityKp = 0.8;
+        public double velocityKp = 6.4;
         public double velocityKv = 0.013;
         public double velocityKs = 0;
 
@@ -95,7 +96,7 @@ public class Pivot extends Mechanism {
             configClockwise_Positive();
             configReverseSoftLimit(minRotation, true);
             configForwardSoftLimit(maxRotation, true);
-            configMotionMagic(51, 205, 0);
+            configMotionMagic(4200, 4600, 0);
         }
     }
 

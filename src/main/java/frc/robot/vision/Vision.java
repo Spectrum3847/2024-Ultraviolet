@@ -127,13 +127,13 @@ public class Vision extends SubsystemBase {
                 }
 
                 isPresent = true;
-                Limelight bestLimelight = getBestLimelight(); //excludes limelight-right
+                Limelight bestLimelight = getBestLimelight(); // excludes limelight-right
                 for (Limelight limelight : limelights) {
                     // if (limelight.CAMERA_NAME != "limelight-right") {
                     //     filterAndAddVisionMeasurment(limelight);
                     // }
 
-                    if(limelight.CAMERA_NAME == bestLimelight.CAMERA_NAME) {
+                    if (limelight.CAMERA_NAME == bestLimelight.CAMERA_NAME) {
                         filterAndAddVisionMeasurment(bestLimelight);
                     } else {
                         limelight.logStatus = "not best";
@@ -367,7 +367,8 @@ public class Vision extends SubsystemBase {
             // exclude right camera
             if (limelight.CAMERA_NAME != "limelight-right") {
                 double score = 0;
-                //prefer camera with most tags, when equal tag count, prefer the camera closer to tags
+                // prefer camera with most tags, when equal tag count, prefer the camera closer to
+                // tags
                 score += limelight.getTagCountInView();
                 score += limelight.getTargetSize();
 

@@ -63,6 +63,11 @@ public class AmpTrap extends Mechanism {
         return lasercan.getDistance();
     }
 
+    @AutoLogOutput(key = "AmpTrap/LaserCan-Valid")
+    public boolean getLaserCanStatus() {
+        return lasercan.validDistance();
+    }
+
     public boolean hasNote() {
         if (getLaserCanDistance() <= 0) {
             return false;

@@ -74,6 +74,11 @@ public class Feeder extends Mechanism {
         return lasercan.getDistance();
     }
 
+    @AutoLogOutput(key = "Feeder/LaserCan-Valid")
+    public boolean getLaserCanStatus() {
+        return lasercan.validDistance();
+    }
+
     /**
      * Fall back to using motor velocity if lasercan is not working/disconnected
      *

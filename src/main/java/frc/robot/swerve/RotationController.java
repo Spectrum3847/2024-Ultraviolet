@@ -22,6 +22,7 @@ public class RotationController {
     double calculatedValue = 0;
 
     double feedbackSetpoint;
+    double tolerance = (Math.PI / 720);
 
     public RotationController(Swerve swerve) {
         this.swerve = swerve;
@@ -35,17 +36,17 @@ public class RotationController {
                         constraints);
 
         controller.enableContinuousInput(-Math.PI, Math.PI);
-        controller.setTolerance((Math.PI / 180));
+        controller.setTolerance(tolerance * 2);
 
         // These are currently magic number and need to be put into SwerveConfig
         holdController =
                 new PIDController(
-                        0, 0,
+                        13, 0,
                         0); // TODO: these probably have to be found again; most likely why robot
         // rotation is slightly oscillating in heading lock
 
         holdController.enableContinuousInput(-Math.PI, Math.PI);
-        holdController.setTolerance(Math.PI / 180);
+        holdController.setTolerance(tolerance);
 
         calculatedValue = 0;
         feedbackSetpoint = 0.35;
@@ -64,7 +65,8 @@ public class RotationController {
         //                 + " max: "
         //                 + config.maxAngularVelocity);
         if (atSetpoint()) {
-            return calculatedValue = 0; // calculateHold(goalRadians);
+            return calculatedValue; // calculateHold(goalRadians);
+            // return calculatedValue = 0; // calculateHold(goalRadians);
         } else {
             return calculatedValue;
         }

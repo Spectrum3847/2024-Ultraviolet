@@ -279,7 +279,7 @@ public class RobotCommands {
         return Commands.either(
                 ClimberCommands.topClimb()
                         .alongWith(
-                                PivotCommands.home(),
+                                PivotCommands.climbHome(),
                                 FeederCommands.score()
                                         .withTimeout(0.1)
                                         .onlyIf(Robot.feeder::noteIsClose)
@@ -290,7 +290,7 @@ public class RobotCommands {
                                         .andThen(
                                                 AmpTrapCommands.stopMotor()
                                                         .alongWith(FeederCommands.stopMotor()))),
-                ClimberCommands.topClimb().alongWith(PivotCommands.home()),
+                ClimberCommands.topClimb().alongWith(PivotCommands.climbHome()),
                 Robot.ampTrap.lasercan::validDistance);
     }
 
