@@ -47,23 +47,6 @@
           ]
         }
       }
-    },
-    {
-      "name": "AlignToSpeaker",
-      "waypointRelativePos": 0.35,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "alignToSpeaker"
-              }
-            }
-          ]
-        }
-      }
     }
   ],
   "globalConstraints": {
@@ -73,9 +56,9 @@
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0.0,
-    "rotation": 140.0,
-    "rotateFast": true
+    "velocity": 2.0,
+    "rotation": 135.0,
+    "rotateFast": false
   },
   "reversed": false,
   "folder": "Source Paths",

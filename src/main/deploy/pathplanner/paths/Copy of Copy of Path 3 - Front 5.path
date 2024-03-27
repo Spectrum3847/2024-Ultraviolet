@@ -52,12 +52,12 @@
         "y": 6.9
       },
       "prevControl": {
-        "x": 2.0937822173508938,
-        "y": 6.550000000000001
+        "x": 2.030586670825876,
+        "y": 6.695339806694083
       },
       "nextControl": {
-        "x": 3.5660254037844386,
-        "y": 7.4
+        "x": 3.656304755963035,
+        "y": 7.19237170472274
       },
       "isLocked": false,
       "linkedName": "GP 4 - Front 5"
@@ -65,15 +65,15 @@
     {
       "anchor": {
         "x": 8.019941529210627,
-        "y": 5.889828257448437
+        "y": 5.75
       },
       "prevControl": {
-        "x": 8.0214445910808,
-        "y": 6.284342187134722
+        "x": 8.019941529210627,
+        "y": 6.55
       },
       "nextControl": {
-        "x": 8.018798565034901,
-        "y": 5.58983043473485
+        "x": 8.019941529210627,
+        "y": 5.45
       },
       "isLocked": false,
       "linkedName": null
@@ -84,8 +84,8 @@
         "y": 6.5
       },
       "prevControl": {
-        "x": 5.34726166126207,
-        "y": 6.893645423283714
+        "x": 5.3344843335175565,
+        "y": 6.926745382315534
       },
       "nextControl": null,
       "isLocked": false,
@@ -115,7 +115,7 @@
       "minWaypointRelativePos": 1.7999999999999998,
       "maxWaypointRelativePos": 3.05,
       "constraints": {
-        "maxVelocity": 2.0,
+        "maxVelocity": 3.0,
         "maxAcceleration": 3.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0
