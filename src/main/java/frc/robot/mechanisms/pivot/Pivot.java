@@ -1,6 +1,12 @@
 package frc.robot.mechanisms.pivot;
 
+import com.ctre.phoenix6.StatusCode;
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
+import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -14,8 +20,16 @@ import org.littletonrobotics.junction.AutoLogOutput;
 public class Pivot extends Mechanism {
     public class PivotConfig extends Config {
 
+        /* Cancoder config */
+        public final int CANcoderID = 44;
+        public final double CANcoderOffset = -0.328; // flip sign
+        public final double CANcoderUp = 0.477295; // flip sign
+        public final double CANcoderDown = 0;
+        public final CANCoderFeedbackType FeedbackSource = CANCoderFeedbackType.FusedCANcoder;
+        public final double CANcoderGearRatio = 35.1;
+
         /* Pivot constants in motor rotations */
-        public final double maxRotation = 33.6;
+        public final double maxRotation = 0.967; // 0.967
         public final double minRotation = 0;
 
         /* Pivot positions in percentage of max rotation || 0 is horizontal */
@@ -40,8 +54,12 @@ public class Pivot extends Mechanism {
 
         public final double zeroSpeed = -0.1;
 
-        /** Percentage of pivot rotation added/removed from vision launching pivot angles (percentage of the CHANGE in angle you set to, not +- the angle you set to) (the actual offset to angles gets bigger as you get farther away) */
-        public final double STARTING_OFFSET = -1;
+        /**
+         * Percentage of pivot rotation added/removed from vision launching pivot angles (percentage
+         * of the CHANGE in angle you set to, not +- the angle you set to) (the actual offset to
+         * angles gets bigger as you get farther away)
+         */
+        public final double STARTING_OFFSET = 0;
 
         public double OFFSET = STARTING_OFFSET; // do not change this
 
@@ -49,7 +67,7 @@ public class Pivot extends Mechanism {
         public double currentLimit = 30;
         public double torqueCurrentLimit = 100;
         public double threshold = 40;
-        public double velocityKp = 6.4;
+        public double velocityKp = 224.64;
         public double velocityKv = 0.013;
         public double velocityKs = 0;
 
@@ -101,12 +119,22 @@ public class Pivot extends Mechanism {
     }
 
     public PivotConfig config;
+    private CANcoder CANcoder;
 
     public Pivot(boolean attached) {
         super(attached);
         if (attached) {
+            modifyMotorConfig(); // Modify configuration to use remote CANcoder fused
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
-            // motor.setPosition(config.maxRotation);
+            CANcoder = new CANcoder(config.CANcoderID, "3847");
+            CANcoderConfiguration cancoderConfigs = new CANcoderConfiguration();
+            cancoderConfigs.MagnetSensor.MagnetOffset = config.CANcoderOffset; // do this?
+            cancoderConfigs.MagnetSensor.SensorDirection =
+                    SensorDirectionValue.CounterClockwise_Positive;
+            cancoderConfigs.MagnetSensor.AbsoluteSensorRange =
+                    AbsoluteSensorRangeValue.Unsigned_0To1;
+            checkMotorResponse(CANcoder.getConfigurator().apply(cancoderConfigs));
+            // motor.setPosition(getRotatiomFromCANcoder());
         }
 
         SmartDashboard.putNumber("pivotPercent", config.score);
@@ -275,6 +303,7 @@ public class Pivot extends Mechanism {
     }
 
     /* Helper */
+
     public double percentToRotation(double percent) {
         return config.maxRotation * (percent / 100);
     }
@@ -306,9 +335,44 @@ public class Pivot extends Mechanism {
         RobotTelemetry.print("Pivot offset reset to: " + config.OFFSET);
     }
 
+    public void checkMotorResponse(StatusCode response) {
+        if (!response.isOK()) {
+            System.out.println(
+                    "Pivot CANcoder ID "
+                            + config.CANcoderID
+                            + " failed config with error "
+                            + response.toString());
+        }
+    }
+
+    public void modifyMotorConfig() {
+        config.talonConfig.Feedback.FeedbackRemoteSensorID = config.CANcoderID;
+        switch (config.FeedbackSource) {
+            case RemoteCANcoder:
+                config.talonConfig.Feedback.FeedbackSensorSource =
+                        FeedbackSensorSourceValue.RemoteCANcoder;
+                break;
+            case FusedCANcoder:
+                config.talonConfig.Feedback.FeedbackSensorSource =
+                        FeedbackSensorSourceValue.FusedCANcoder;
+                break;
+            case SyncCANcoder:
+                config.talonConfig.Feedback.FeedbackSensorSource =
+                        FeedbackSensorSourceValue.SyncCANcoder;
+                break;
+        }
+        config.talonConfig.Feedback.RotorToSensorRatio = config.CANcoderGearRatio;
+    }
+
     @Override
     protected Config setConfig() {
         config = new PivotConfig();
         return config;
+    }
+
+    public enum CANCoderFeedbackType {
+        RemoteCANcoder,
+        FusedCANcoder,
+        SyncCANcoder,
     }
 }
