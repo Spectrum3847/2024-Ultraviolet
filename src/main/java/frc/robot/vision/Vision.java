@@ -17,6 +17,9 @@ import frc.robot.Robot;
 import frc.robot.RobotTelemetry;
 import frc.spectrumLib.vision.Limelight;
 import frc.spectrumLib.vision.Limelight.PhysicalConfig;
+import frc.spectrumLib.vision.LimelightHelpers;
+import frc.spectrumLib.vision.LimelightHelpers.RawFiducial;
+
 import java.text.DecimalFormat;
 import org.littletonrobotics.junction.AutoLogOutput;
 
@@ -271,6 +274,23 @@ public class Vision extends SubsystemBase {
     public Translation2d getAdjustedSpeakerPos() {
         return getAdjustedTargetPos(
                 new Translation2d(0, Field.Speaker.centerSpeakerOpening.toTranslation2d().getY()));
+    }
+
+    // Returns distance to the center of the speaker tag from the robot or -1 if not found
+    public double getDistanceToCenterSpeakerTagFromRobot(){
+        RawFiducial[] tags = speakerLL.getRawFiducial();
+        int speakerTagID = 7; //Blue Speaker Tag
+        if(Field.isRed()){
+            speakerTagID = 4; //Red Speaker Tag
+        }
+
+        for (RawFiducial tag : tags) {
+            if (tag.id == speakerTagID) {
+                return tag.distToRobot;
+            }
+        }
+
+        return -1;
     }
 
     /**
