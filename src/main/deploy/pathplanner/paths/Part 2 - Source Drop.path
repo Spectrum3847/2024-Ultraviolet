@@ -155,7 +155,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Source Drop",
   "previewStartingState": {
     "rotation": 140.0,
     "velocity": 0

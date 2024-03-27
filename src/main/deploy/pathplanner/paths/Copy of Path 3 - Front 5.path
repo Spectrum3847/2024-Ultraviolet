@@ -36,16 +36,87 @@
         "y": 5.54
       },
       "prevControl": {
-        "x": 2.063840328649483,
-        "y": 5.188581113719757
+        "x": 2.0582323793166384,
+        "y": 4.912148212912106
+      },
+      "nextControl": {
+        "x": 1.7476495251936133,
+        "y": 6.071259204458988
+      },
+      "isLocked": false,
+      "linkedName": "GP 1 - Test Front"
+    },
+    {
+      "anchor": {
+        "x": 2.7,
+        "y": 6.9
+      },
+      "prevControl": {
+        "x": 2.0937822173508938,
+        "y": 6.550000000000001
+      },
+      "nextControl": {
+        "x": 3.5660254037844386,
+        "y": 7.4
+      },
+      "isLocked": false,
+      "linkedName": "GP 4 - Front 5"
+    },
+    {
+      "anchor": {
+        "x": 8.0,
+        "y": 7.28
+      },
+      "prevControl": {
+        "x": 7.0340741737109305,
+        "y": 7.538819045102521
+      },
+      "nextControl": {
+        "x": 8.869333243660162,
+        "y": 7.047062859407732
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.278252447992267,
+        "y": 6.5
+      },
+      "prevControl": {
+        "x": 5.263060201004475,
+        "y": 6.32635182233307
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "GP 1 - Test Front"
+      "linkedName": "End - Front 5"
     }
   ],
-  "rotationTargets": [],
-  "constraintZones": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 2.0,
+      "rotationDegrees": 180.0,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 3,
+      "rotationDegrees": -155.0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "New Constraints Zone",
+      "minWaypointRelativePos": 1.7999999999999998,
+      "maxWaypointRelativePos": 3.05,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    }
+  ],
   "eventMarkers": [
     {
       "name": "Intake",

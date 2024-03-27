@@ -1,0 +1,37 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.42,
+      "y": 5.55
+    },
+    "rotation": 180.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path 1 - Front 6"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Copy of Copy of Path 3 - Front 5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Copy of Front 7"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Front Autos",
+  "choreoAuto": false
+}

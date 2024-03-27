@@ -41,7 +41,7 @@
             {
               "type": "named",
               "data": {
-                "name": "launchReadyPreload"
+                "name": "launchReady1"
               }
             }
           ]
@@ -50,7 +50,7 @@
     },
     {
       "name": "Launch",
-      "waypointRelativePos": 0.4,
+      "waypointRelativePos": 0.45,
       "command": {
         "type": "parallel",
         "data": {
@@ -92,7 +92,7 @@
             {
               "type": "named",
               "data": {
-                "name": "launchReady5"
+                "name": "visionLaunchReady"
               }
             }
           ]
@@ -102,7 +102,7 @@
   ],
   "globalConstraints": {
     "maxVelocity": 6.0,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

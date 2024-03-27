@@ -1,5 +1,6 @@
 package frc.robot;
 
+import com.pathplanner.lib.commands.FollowPathCommand;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -184,8 +185,7 @@ public class Robot extends LoggedRobot {
         resetCommandsAndButtons();
 
         if (!AutonConfig.commandInit) {
-            Command autonInitCommand = new PathPlannerAuto("1 Meter Auto").ignoringDisable(true);
-            autonInitCommand.schedule();
+            FollowPathCommand.warmupCommand().schedule();
             AutonConfig.commandInit = true;
         }
 
