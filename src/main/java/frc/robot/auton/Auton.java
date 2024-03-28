@@ -22,6 +22,8 @@ public class Auton extends SubsystemBase {
     public static final SendableChooser<Command> autonChooser = new SendableChooser<>();
     public static boolean trackNote = false;
     public static boolean trackSpeaker = false;
+    public static boolean noteIntaked = false;
+    public static boolean intakeCheck = false;
     private static boolean autoMessagePrinted = true;
     private static double autonStart = 0;
 
@@ -62,10 +64,12 @@ public class Auton extends SubsystemBase {
         NamedCommands.registerCommand("launch", AutonCommands.launch());
         NamedCommands.registerCommand("launchShort", AutonCommands.launchShort());
         NamedCommands.registerCommand("smartIntake", AutonCommands.intake());
+        NamedCommands.registerCommand("intakeCheck", AutonCommands.intakeCheck());
 
         /* Stop Commands */
         NamedCommands.registerCommand("stopTracking", AutonCommands.stopTracking());
         NamedCommands.registerCommand("stopSmartIntake", AutonCommands.stopFeed());
+        NamedCommands.registerCommand("stophIntakeCheck", AutonCommands.stopIntakeCheck());
         NamedCommands.registerCommand("stopIntake", IntakeCommands.stopMotor());
         NamedCommands.registerCommand("stopFeeder", FeederCommands.stopMotor());
         NamedCommands.registerCommand("stopAmpTrap", AmpTrapCommands.stopMotor());

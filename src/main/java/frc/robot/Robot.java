@@ -1,7 +1,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.commands.FollowPathCommand;
-import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.commands.PathfindingCommand;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.auton.Auton;
+import frc.robot.auton.AutonCommands;
 import frc.robot.auton.config.AutonConfig;
 import frc.robot.leds.LEDs;
 import frc.robot.leds.LEDsCommands;
@@ -185,7 +186,9 @@ public class Robot extends LoggedRobot {
         resetCommandsAndButtons();
 
         if (!AutonConfig.commandInit) {
-            FollowPathCommand.warmupCommand().schedule();
+            Command AutonStartCommand =
+                    FollowPathCommand.warmupCommand().andThen(PathfindingCommand.warmupCommand());
+            AutonStartCommand.schedule();
             AutonConfig.commandInit = true;
         }
 
@@ -215,7 +218,11 @@ public class Robot extends LoggedRobot {
         try {
             RobotTelemetry.print("@@@ Auton Init Starting @@@ ");
             clearCommandsAndButtons();
-            Command autonCommand = Commands.waitSeconds(0.01).andThen(Auton.getAutonomousCommand());
+            Command autonCommand =
+                    Commands.waitSeconds(0.01)
+                            .andThen(
+                                    Auton.getAutonomousCommand()
+                                            .until(() -> !AutonCommands.isNoteIntaked()));
 
             if (autonCommand != null) {
                 autonCommand.schedule();

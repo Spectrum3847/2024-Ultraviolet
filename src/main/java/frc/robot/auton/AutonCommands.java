@@ -153,4 +153,13 @@ public class AutonCommands {
                 .alongWith(
                         PivotCommands.setPivotOnDistance(() -> Robot.vision.getSpeakerDistance()));
     }
+
+    public static boolean isNoteIntaked() {
+        if (Auton.checkIntake == true) {
+
+        } else {
+            return true;
+        }
+        return true;
+    }
 }
