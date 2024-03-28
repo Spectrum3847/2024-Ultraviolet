@@ -9,6 +9,7 @@ import frc.robot.mechanisms.elevator.ElevatorCommands;
 import frc.robot.mechanisms.feeder.FeederCommands;
 import frc.robot.mechanisms.intake.IntakeCommands;
 import frc.robot.mechanisms.pivot.PivotCommands;
+import frc.robot.vision.VisionCommands;
 import frc.spectrumLib.gamepads.Gamepad;
 
 public class Operator extends Gamepad {
@@ -57,7 +58,9 @@ public class Operator extends Gamepad {
         rightStick().and(leftBumperOnly()).whileTrue(OperatorCommands.manualClimber());
         leftStick().and(leftBumperOnly()).whileTrue(OperatorCommands.manualElevator());
 
-        bothBumpers().whileTrue(LEDsCommands.solidGreenLED());
+        bothBumpers()
+                .whileTrue(
+                        LEDsCommands.solidGreenLED().alongWith(VisionCommands.resetPoseToVision()));
 
         controller.start().whileTrue(RobotCommands.manualSource());
 
@@ -79,6 +82,13 @@ public class Operator extends Gamepad {
     public void setupDisabledButtons() {
 
         controller.b().toggleOnTrue(RobotCommands.coastModeMechanisms());
+
+        controller.upDpad().and(noBumpers()).onTrue(rumbleCommand(PivotCommands.increaseOffset()));
+        controller
+                .downDpad()
+                .and(noBumpers())
+                .onTrue(rumbleCommand(PivotCommands.decreaseOffset()));
+        controller.leftDpad().and(noBumpers()).onTrue(rumbleCommand(PivotCommands.resetOffset()));
     };
 
     /** Setup the Buttons for Test mode. */

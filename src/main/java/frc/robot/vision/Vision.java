@@ -127,18 +127,19 @@ public class Vision extends SubsystemBase {
                 }
 
                 isPresent = true;
-                Limelight bestLimelight = getBestLimelight(); // excludes limelight-right
-                for (Limelight limelight : limelights) {
-                    // if (limelight.CAMERA_NAME != "limelight-right") {
-                    //     filterAndAddVisionMeasurment(limelight);
-                    // }
+                filterAndAddVisionMeasurment(speakerLL);
+                // Limelight bestLimelight = getBestLimelight(); // excludes limelight-right
+                // for (Limelight limelight : limelights) {
+                //     // if (limelight.CAMERA_NAME != "limelight-right") {
+                //     //     filterAndAddVisionMeasurment(limelight);
+                //     // }
 
-                    if (limelight.CAMERA_NAME == bestLimelight.CAMERA_NAME) {
-                        filterAndAddVisionMeasurment(bestLimelight);
-                    } else {
-                        limelight.logStatus = "not best";
-                    }
-                }
+                //     if (limelight.CAMERA_NAME == bestLimelight.CAMERA_NAME) {
+                //         filterAndAddVisionMeasurment(bestLimelight);
+                //     } else {
+                //         limelight.logStatus = "not best";
+                //     }
+                // }
             }
         } catch (Exception e) {
             RobotTelemetry.print("Vision pose not present but tried to access it");
@@ -152,6 +153,7 @@ public class Vision extends SubsystemBase {
 
         // integrate vision
         if (ll.targetInView()) {
+            boolean multiTags = ll.multipleTagsInView();
             Pose3d botpose3D = ll.getRawPose3d();
             double timeStamp = ll.getVisionPoseTimestamp();
             Pose2d botpose = botpose3D.toPose2d();
@@ -161,6 +163,7 @@ public class Vision extends SubsystemBase {
                     Robot.swerve.getPose().getTranslation().getDistance(botpose.getTranslation());
 
             double targetSize = ll.getTargetSize();
+            
             /* rejections */
             if (Field.poseOutOfField(botpose3D)) {
                 // reject if pose is out of the field
@@ -185,7 +188,7 @@ public class Vision extends SubsystemBase {
             //     return;
             // }
             /* integrations */
-            else if (ll.multipleTagsInView() && targetSize > 0.05) {
+            else if (multiTags && targetSize > 0.05) {
                 ll.logStatus = "Multi";
                 xyStds = 0.5;
                 degStds = 6;
@@ -266,6 +269,11 @@ public class Vision extends SubsystemBase {
     @AutoLogOutput(key = "Vision/SpeakerDistance")
     public double getSpeakerDistance() {
         return Robot.swerve.getPose().getTranslation().getDistance(getAdjustedSpeakerPos());
+    }
+
+    @AutoLogOutput(key = "Vision/SpeakerYDistance")
+    public double getSpeakerYDelta() {
+        return Robot.swerve.getPose().getTranslation().getY() - getAdjustedSpeakerPos().getY();
     }
 
     public Translation2d getAdjustedSpeakerPos() {

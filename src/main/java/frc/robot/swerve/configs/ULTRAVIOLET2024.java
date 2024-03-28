@@ -36,9 +36,9 @@ public class ULTRAVIOLET2024 {
     private static final SlotGains driveGains = new SlotGains(8, 0, 0.1, 0, 0.8);
 
     /*Rotation Controller*/
-    private static final double kPRotationController = 14.0;
+    private static final double kPRotationController = 7.0;
     private static final double kIRotationController = 0.0;
-    private static final double kDRotationController = 1.0;
+    private static final double kDRotationController = 0.0;
 
     /*Alignment Controllers */
     private static final double kPAlignmentController = 12.0;

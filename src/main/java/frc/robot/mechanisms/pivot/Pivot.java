@@ -185,7 +185,7 @@ public class Pivot extends Mechanism {
     public static double getMapAngle(
             InterpolatingDoubleTreeMap map, double distance, double offset) {
         double angle = map.get(distance);
-        angle += (angle * offset);
+        angle += (angle * (offset / 100));
         RobotTelemetry.print(
                 "VisionLaunching: interpolating "
                         + RobotTelemetry.truncatedDouble(angle)

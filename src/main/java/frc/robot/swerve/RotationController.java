@@ -41,7 +41,7 @@ public class RotationController {
         // These are currently magic number and need to be put into SwerveConfig
         holdController =
                 new PIDController(
-                        13, 0,
+                        0, 0,
                         0); // TODO: these probably have to be found again; most likely why robot
         // rotation is slightly oscillating in heading lock
 
