@@ -155,11 +155,38 @@ public class AutonCommands {
     }
 
     public static boolean isNoteIntaked() {
-        if (Auton.checkIntake == true) {
-
+        if (Auton.intakeCheck == true) {
+            if (Auton.noteIntaked == true) {
+                return true;
+            } else if (Auton.intakeCheck == false) {
+                return false;
+            }
         } else {
             return true;
         }
         return true;
+    }
+
+    public static Command intakeCheck() {
+        return new InstantCommand(
+                        () -> {
+                            Auton.intakeCheck = true;
+                            System.out.println("Starting Intake Check");
+                        })
+                .withName("AutonCommands.intakeCheck");
+    }
+
+    public static Command stopIntakeCheck() {
+        return new InstantCommand(
+                        () -> {
+                            Auton.intakeCheck = false;
+                            System.out.println("Starting Stop Intake Check");
+                        })
+                .withName("AutonCommands.stopIntakeCheck");
+    }
+
+    public static Command intakeFeed() {
+        return IntakeCommands.intake()
+                .alongWith(AmpTrapCommands.intake().alongWith(FeederCommands.autoFeed()));
     }
 }

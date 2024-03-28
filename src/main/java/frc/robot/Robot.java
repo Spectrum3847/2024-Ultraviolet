@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.auton.Auton;
-import frc.robot.auton.AutonCommands;
 import frc.robot.auton.config.AutonConfig;
 import frc.robot.leds.LEDs;
 import frc.robot.leds.LEDsCommands;
@@ -218,11 +217,7 @@ public class Robot extends LoggedRobot {
         try {
             RobotTelemetry.print("@@@ Auton Init Starting @@@ ");
             clearCommandsAndButtons();
-            Command autonCommand =
-                    Commands.waitSeconds(0.01)
-                            .andThen(
-                                    Auton.getAutonomousCommand()
-                                            .until(() -> !AutonCommands.isNoteIntaked()));
+            Command autonCommand = Commands.waitSeconds(0.01).andThen(Auton.getAutonomousCommand());
 
             if (autonCommand != null) {
                 autonCommand.schedule();
