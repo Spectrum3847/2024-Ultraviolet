@@ -19,15 +19,23 @@ public class LauncherCommands {
             new InterpolatingDoubleTreeMap();
 
     static {
-        // launching
-        DISTANCE_MAP.put(1.505, 3500.0);
-        DISTANCE_MAP.put(2.629, 4500.0);
-        DISTANCE_MAP.put(3.969, 4500.0);
-        DISTANCE_MAP.put(4.269, 5200.0);
-        DISTANCE_MAP.put(4.899, 5200.0);
-        DISTANCE_MAP.put(5.189, 5200.0);
-        DISTANCE_MAP.put(5.829, 5200.0);
-        DISTANCE_MAP.put(6.229, 5200.0);
+        /* Old Launching */
+        // DISTANCE_MAP.put(1.505, 3500.0);
+        // DISTANCE_MAP.put(2.629, 4500.0);
+        // DISTANCE_MAP.put(3.969, 4500.0);
+        // DISTANCE_MAP.put(4.269, 5200.0);
+        // DISTANCE_MAP.put(4.899, 5200.0);
+        // DISTANCE_MAP.put(5.189, 5200.0);
+        // DISTANCE_MAP.put(5.829, 5200.0);
+        // DISTANCE_MAP.put(6.229, 5200.0);
+
+        /*Launching */
+        // 4500 RPM shots
+        DISTANCE_MAP.put(0.0, 4500.0);
+        DISTANCE_MAP.put(4.1, 4500.0);
+        // 5000 RPM shots
+        DISTANCE_MAP.put(4.11, 5000.0);
+        DISTANCE_MAP.put(5.9, 5000.0);
 
         // feed launching
         FEED_DISTANCE_MAP.put(6.0, 2600.0);

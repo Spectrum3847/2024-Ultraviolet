@@ -78,19 +78,45 @@ public class Pivot extends Mechanism {
                 new InterpolatingDoubleTreeMap();
 
         static {
-            // home
-            DISTANCE_MAP.put(0.0, 82.0);
-            DISTANCE_MAP.put(1.505, 81.5);
-            DISTANCE_MAP.put(2.629, 57.5);
-            DISTANCE_MAP.put(2.942, 55.0);
-            DISTANCE_MAP.put(3.136, 53.0);
-            DISTANCE_MAP.put(3.396, 52.5);
-            DISTANCE_MAP.put(3.969, 50.0);
-            DISTANCE_MAP.put(4.269, 46.5);
-            DISTANCE_MAP.put(4.899, 45.0);
-            DISTANCE_MAP.put(5.189, 43.2);
-            DISTANCE_MAP.put(5.829, 42.0);
-            DISTANCE_MAP.put(6.229, 42.0);
+            // old map
+            // DISTANCE_MAP.put(0.0, 82.0);
+            // DISTANCE_MAP.put(1.505, 81.5);
+            // DISTANCE_MAP.put(2.629, 57.5);
+            // DISTANCE_MAP.put(2.942, 55.0);
+            // DISTANCE_MAP.put(3.136, 53.0);
+            // DISTANCE_MAP.put(3.396, 52.5);
+            // DISTANCE_MAP.put(3.969, 50.0);
+            // DISTANCE_MAP.put(4.269, 46.5);
+            // DISTANCE_MAP.put(4.899, 45.0);
+            // DISTANCE_MAP.put(5.189, 43.2);
+            // DISTANCE_MAP.put(5.829, 42.0);
+            // DISTANCE_MAP.put(6.229, 42.0);
+
+            /* home */
+            // 4500 RPM shots
+            DISTANCE_MAP.put(1.5, 82.0);
+            DISTANCE_MAP.put(1.7, 75.2);
+            DISTANCE_MAP.put(1.9, 69.5);
+            DISTANCE_MAP.put(2.1, 64.1);
+            DISTANCE_MAP.put(2.3, 61.0);
+            DISTANCE_MAP.put(2.5, 58.5);
+            DISTANCE_MAP.put(2.7, 56.0);
+            DISTANCE_MAP.put(2.9, 54.2);
+            DISTANCE_MAP.put(3.1, 51.9);
+            DISTANCE_MAP.put(3.3, 50.3);
+            DISTANCE_MAP.put(3.5, 49.4);
+            DISTANCE_MAP.put(3.7, 48.2);
+            DISTANCE_MAP.put(3.9, 46.9);
+            DISTANCE_MAP.put(4.1, 46.3);
+            // 5000 RPM shots
+            DISTANCE_MAP.put(4.11, 45.2);
+            DISTANCE_MAP.put(4.2, 45.1);
+            DISTANCE_MAP.put(4.3, 44.6);
+            DISTANCE_MAP.put(4.4, 43.8);
+            DISTANCE_MAP.put(4.5, 43.7);
+            DISTANCE_MAP.put(4.6, 43.6);
+            DISTANCE_MAP.put(4.8, 43.1);
+            DISTANCE_MAP.put(5.0, 42.2);
 
             // feed
             FEED_DISTANCE_MAP.put(6.0, 80.0);
@@ -114,7 +140,7 @@ public class Pivot extends Mechanism {
             configClockwise_Positive();
             configReverseSoftLimit(minRotation, true);
             configForwardSoftLimit(maxRotation, true);
-            configMotionMagic(4200, 4600, 0);
+            configMotionMagic(147000, 161000, 0);
         }
     }
 
