@@ -144,6 +144,9 @@ public class Vision extends SubsystemBase {
 
                 isPresent = true;
                 filterAndAddVisionMeasurment(speakerLL);
+                filterAndAddVisionMeasurment(rightLL);
+                filterAndAddVisionMeasurment(leftLL);
+                filterAndAddVisionMeasurment(rearLL);
                 // Limelight bestLimelight = getBestLimelight(); // excludes limelight-right
                 // for (Limelight limelight : limelights) {
                 //     // if (limelight.CAMERA_NAME != "limelight-right") {
@@ -173,13 +176,21 @@ public class Vision extends SubsystemBase {
             Pose3d botpose3D = ll.getRawPose3d();
             double timeStamp = ll.getVisionPoseTimestamp();
             Pose2d botpose = botpose3D.toPose2d();
+            RawFiducial[] tags = ll.getRawFiducial();
+
+            for (RawFiducial tag : tags) {
+                RobotTelemetry.print(tag.id + " : " + tag.ambiguity);
+                if (tag.ambiguity > 0.5) {
+                    return;
+                }
+            }
 
             // distance from current pose to vision estimated pose
             double poseDifference =
                     Robot.swerve.getPose().getTranslation().getDistance(botpose.getTranslation());
 
             double targetSize = ll.getTargetSize();
-            
+
             /* rejections */
             if (Field.poseOutOfField(botpose3D)) {
                 // reject if pose is out of the field
@@ -207,11 +218,11 @@ public class Vision extends SubsystemBase {
             else if (multiTags && targetSize > 0.05) {
                 ll.logStatus = "Multi";
                 xyStds = 0.5;
-                degStds = 6;
+                degStds = 8;
             } else if (targetSize > 0.8 && poseDifference < 0.5) {
                 ll.logStatus = "Close";
                 xyStds = 1.0;
-                degStds = 12;
+                degStds = 16;
             } else if (targetSize > 0.1 && poseDifference < 0.3) {
                 ll.logStatus = "Proximity";
                 xyStds = 2.0;
@@ -288,7 +299,7 @@ public class Vision extends SubsystemBase {
                 Robot.swerve.getPose().getTranslation().getDistance(getAdjustedSpeakerPos());
         double tagDistance = getDistanceToCenterSpeakerTagFromRobot();
         if (tagDistance != -1) {
-            return tagDistance;
+            return poseDistance; // tagDistance;
         }
         return poseDistance;
     }
@@ -328,11 +339,12 @@ public class Vision extends SubsystemBase {
      */
     public Translation2d getAdjustedTargetPos(Translation2d targetPose) {
         double NORM_FUDGE = 0.075;
-        double tunableNoteVelocity = 5.6;
-        double tunableNormFudge = 0.85;
-        double tunableStrafeFudge = 1.05;
+        double tunableNoteVelocity = 1;
+        double tunableNormFudge = 0;
+        double tunableStrafeFudge = 1;
         double tunableSpeakerYFudge = 0.0;
         double tunableSpeakerXFudge = 0.0;
+        double spinYFudge = 0.1;
 
         targetPose = Field.flipXifRed(targetPose);
         Translation2d robotPos = Robot.swerve.getPose().getTranslation();
@@ -351,17 +363,17 @@ public class Vision extends SubsystemBase {
                                         / Math.PI);
 
         double x =
-                targetPose.getX()
-                        + (Field.isBlue() ? tunableSpeakerXFudge : -tunableSpeakerXFudge)
-                        - (robotVel.vxMetersPerSecond
-                                * (distance / tunableNoteVelocity)
-                                * (1.0 - (tunableNormFudge * normFactor)));
+                targetPose.getX() + (Field.isBlue() ? tunableSpeakerXFudge : -tunableSpeakerXFudge);
+        // - (robotVel.vxMetersPerSecond
+        // * (distance / tunableNoteVelocity)
+        //      * (1.0 - (tunableNormFudge * normFactor)));
         double y =
                 targetPose.getY()
-                        + tunableSpeakerYFudge
-                        - (robotVel.vyMetersPerSecond
-                                * (distance / tunableNoteVelocity)
-                                * tunableStrafeFudge);
+                        + (Field.isBlue() ? spinYFudge : -spinYFudge)
+                        + tunableSpeakerYFudge;
+        // - (robotVel.vyMetersPerSecond
+        // * (distance / tunableNoteVelocity)
+        //       * tunableStrafeFudge);
 
         return new Translation2d(x, y);
     }

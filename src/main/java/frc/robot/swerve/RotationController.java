@@ -41,7 +41,7 @@ public class RotationController {
         // These are currently magic number and need to be put into SwerveConfig
         holdController =
                 new PIDController(
-                        0, 0,
+                        10, 0,
                         0); // TODO: these probably have to be found again; most likely why robot
         // rotation is slightly oscillating in heading lock
 
@@ -65,8 +65,8 @@ public class RotationController {
         //                 + " max: "
         //                 + config.maxAngularVelocity);
         if (atSetpoint()) {
-            return calculatedValue; // calculateHold(goalRadians);
-            // return calculatedValue = 0; // calculateHold(goalRadians);
+            // return calculatedValue; // calculateHold(goalRadians);
+            return calculatedValue = 0; // calculateHold(goalRadians);
         } else {
             return calculatedValue;
         }

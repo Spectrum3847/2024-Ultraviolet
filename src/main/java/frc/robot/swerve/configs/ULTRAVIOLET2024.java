@@ -36,7 +36,7 @@ public class ULTRAVIOLET2024 {
     private static final SlotGains driveGains = new SlotGains(8, 0, 0.1, 0, 0.8);
 
     /*Rotation Controller*/
-    private static final double kPRotationController = 7.0;
+    private static final double kPRotationController = 8.0;
     private static final double kIRotationController = 0.0;
     private static final double kDRotationController = 0.0;
 
@@ -50,8 +50,7 @@ public class ULTRAVIOLET2024 {
     private static final double maxAccel = maxVelocity * 1.5; // take 1/2 sec to get to max speed.
     private static final double maxAngularVelocity =
             maxVelocity / Units.inchesToMeters(Math.hypot(trueWheelBaseInches, trackWidthInches));
-    private static final double maxAngularAcceleration =
-            maxAngularVelocity * 2; // Math.pow(maxAngularVelocity, 2);
+    private static final double maxAngularAcceleration = Math.pow(maxAngularVelocity, 2);
     private static final double deadband = 0.1;
     private static final double rotationDeadband = 0.1;
 
