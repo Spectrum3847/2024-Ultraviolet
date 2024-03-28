@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.vision.Vision.VisionConfig;
 import frc.spectrumLib.vision.LimelightHelpers.LimelightResults;
+import frc.spectrumLib.vision.LimelightHelpers.RawFiducial;
 import java.text.DecimalFormat;
 import java.util.Optional;
 
@@ -148,6 +149,10 @@ public class Limelight {
         double x = LimelightHelpers.getCameraPose3d_TargetSpace(CAMERA_NAME).getX();
         double y = LimelightHelpers.getCameraPose3d_TargetSpace(CAMERA_NAME).getZ();
         return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+    }
+
+    public RawFiducial[] getRawFiducial() {
+        return LimelightHelpers.getBotPoseEstimate_wpiBlue(CAMERA_NAME).rawFiducials;
     }
 
     /**
