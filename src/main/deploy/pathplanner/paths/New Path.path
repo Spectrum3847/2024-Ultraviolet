@@ -3,36 +3,36 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.42,
-        "y": 5.55
+        "x": 2.0,
+        "y": 7.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5199999999999998,
-        "y": 5.55
+        "x": 3.0,
+        "y": 7.0
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.800592018396385,
-        "y": 5.55
+        "x": 4.0,
+        "y": 6.0
       },
       "prevControl": {
-        "x": 2.7005920183963847,
-        "y": 5.55
+        "x": 3.0,
+        "y": 6.0
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "GP 2 - Test Front"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "LaunchReady",
+      "name": "New Event Marker",
       "waypointRelativePos": 0,
       "command": {
         "type": "parallel",
@@ -41,7 +41,7 @@
             {
               "type": "named",
               "data": {
-                "name": "launchReadyPreload"
+                "name": "smartIntake"
               }
             }
           ]
@@ -49,8 +49,8 @@
       }
     },
     {
-      "name": "Launch",
-      "waypointRelativePos": 0.45,
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.6,
       "command": {
         "type": "parallel",
         "data": {
@@ -58,41 +58,7 @@
             {
               "type": "named",
               "data": {
-                "name": "launch"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "Intake",
-      "waypointRelativePos": 0.55,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "intakeFeed"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "LaunchReady",
-      "waypointRelativePos": 0.55,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "launchReady4"
+                "name": "intakeCheck"
               }
             }
           ]
@@ -108,14 +74,14 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Front Paths",
+  "folder": null,
   "previewStartingState": {
-    "rotation": 180.0,
+    "rotation": 0,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

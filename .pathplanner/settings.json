@@ -12,9 +12,10 @@
   "autoFolders": [
     "Amp Side Autos",
     "Front Autos",
-    "Subwoofer Autos",
+    "Adjustment Autos",
     "PID Config Autos",
-    "Source Side Autos"
+    "Source Side Autos",
+    "Subwoofer Autos"
   ],
   "defaultMaxVel": 6.0,
   "defaultMaxAccel": 4.0,

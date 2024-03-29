@@ -100,6 +100,12 @@ public class LauncherCommands {
                 .withName("Launcher.subwoofer");
     }
 
+    public static Command autoShoot() {
+        return runTorqueLauncherVelocities(
+                        leftLauncher.config.autoShoot, rightLauncher.config.autoShoot)
+                .withName("Launcher.subwoofer");
+    }
+
     public static Command manualSource() {
         return runTorqueLauncherVelocities(
                         leftLauncher.config.manualSource, rightLauncher.config.manualSource)

@@ -21,6 +21,7 @@ public class RightLauncher extends Mechanism {
         public double deepShot = 5400;
         public double intoAmp = 750;
         public double manualSource = -2000;
+        public double autoShoot = 5500;
 
         /* Percentage LeftLauncher Output */
         public double slowLeftLauncherPercent = 0.06;

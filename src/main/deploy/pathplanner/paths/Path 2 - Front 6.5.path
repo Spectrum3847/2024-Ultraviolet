@@ -81,11 +81,11 @@
     {
       "anchor": {
         "x": 4.278252447992267,
-        "y": 6.5
+        "y": 6.49
       },
       "prevControl": {
         "x": 5.263060201004475,
-        "y": 6.32635182233307
+        "y": 6.31635182233307
       },
       "nextControl": null,
       "isLocked": false,
@@ -100,7 +100,7 @@
     },
     {
       "waypointRelativePos": 3,
-      "rotationDegrees": -155.0,
+      "rotationDegrees": -157.0,
       "rotateFast": false
     }
   ],
@@ -145,7 +145,87 @@
             {
               "type": "named",
               "data": {
-                "name": "visionLaunchReady"
+                "name": "launchReady5"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "stopFeeder"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Launch",
+      "waypointRelativePos": 1.85,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "launch"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "LaunchReady",
+      "waypointRelativePos": 2.3499999999999996,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "launchReady6"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "stopFeeder"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Intake",
+      "waypointRelativePos": 2.3499999999999996,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "intakeFeed"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Launch",
+      "waypointRelativePos": 2.8499999999999996,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "launch"
               }
             }
           ]

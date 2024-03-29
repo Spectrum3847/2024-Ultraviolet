@@ -1,7 +1,11 @@
 package frc.robot.auton;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -20,6 +24,30 @@ public class AutonCommands {
 
         // Create a path following command using AutoBuilder. This will also trigger event markers.
         return AutoBuilder.followPath(path);
+    }
+
+    public static Command pathfindingCommandToPose(
+            double xPos, double yPos, double rotation, double vel, double accel) {
+        // Since we are using a holonomic drivetrain, the rotation component of this pose
+        // represents the goal holonomic rotation
+        Pose2d targetPose = new Pose2d(xPos, yPos, Rotation2d.fromDegrees(rotation));
+
+        // Create the constraints to use while pathfinding
+        PathConstraints constraints =
+                new PathConstraints(
+                        vel, accel, Units.degreesToRadians(540), Units.degreesToRadians(720));
+
+        // Since AutoBuilder is configured, we can use it to build pathfinding commands
+        Command pathfindingCommand =
+                AutoBuilder.pathfindToPose(
+                        targetPose,
+                        constraints,
+                        0.0, // Goal end velocity in meters/sec
+                        0.0 // Rotation delay distance in meters. This is how far the robot should
+                        // travel before attempting to rotate.
+                        );
+
+        return pathfindingCommand;
     }
 
     public static Command trackNote() {
@@ -127,25 +155,49 @@ public class AutonCommands {
     }
 
     public static Command intake() {
-        return IntakeCommands.intake()
-                .alongWith(AmpTrapCommands.intake())
-                .until(Robot.feeder::intakedNote)
-                .deadlineWith(
-                        PivotCommands.intake()
-                                .onlyIf(
-                                        () ->
-                                                Robot.pivot.getMotorPercentAngle()
-                                                        < Robot.pivot.config.intake))
-                .andThen(Commands.waitSeconds(0.3), IntakeCommands.stopMotor())
+        return new InstantCommand(
+                        () -> {
+                            Auton.noteIntaked = false;
+                        })
                 .andThen(
-                        Commands.either(
-                                FeederCommands.addFeedRevolutions()
-                                        .onlyIf(Robot.feeder.lasercan::intakedNote),
-                                Commands.run(
-                                        () ->
-                                                RobotTelemetry.print(
-                                                        "No lasercan found; Didn't feed")),
-                                Robot.feeder.lasercan::validDistance));
+                        IntakeCommands.intake()
+                                .alongWith(AmpTrapCommands.intake())
+                                .until(Robot.feeder::intakedNote)
+                                .andThen(
+                                        new InstantCommand(
+                                                        () -> {
+                                                            Auton.noteIntaked = true;
+                                                        })
+                                                .andThen(
+                                                        PivotCommands.intake()
+                                                                .onlyIf(
+                                                                        () ->
+                                                                                Robot.pivot
+                                                                                                .getMotorPercentAngle()
+                                                                                        < Robot
+                                                                                                .pivot
+                                                                                                .config
+                                                                                                .intake))
+                                                .alongWith(
+                                                        IntakeCommands.intake()
+                                                                .withTimeout(0.15)
+                                                                .andThen(
+                                                                        Commands.either(
+                                                                                FeederCommands
+                                                                                        .addFeedRevolutions()
+                                                                                        .onlyIf(
+                                                                                                Robot
+                                                                                                                .feeder
+                                                                                                                .lasercan
+                                                                                                        ::intakedNote),
+                                                                                Commands.run(
+                                                                                        () ->
+                                                                                                RobotTelemetry
+                                                                                                        .print(
+                                                                                                                "No lasercan found; Didn't feed")),
+                                                                                Robot.feeder
+                                                                                                .lasercan
+                                                                                        ::validDistance)))));
     }
 
     public static Command visionLaunch() {
@@ -157,14 +209,14 @@ public class AutonCommands {
     public static boolean isNoteIntaked() {
         if (Auton.intakeCheck == true) {
             if (Auton.noteIntaked == true) {
-                return true;
-            } else if (Auton.intakeCheck == false) {
                 return false;
+            } else if (Auton.noteIntaked == false) {
+                return true;
             }
         } else {
-            return true;
+            return false;
         }
-        return true;
+        return false;
     }
 
     public static Command intakeCheck() {
@@ -186,7 +238,7 @@ public class AutonCommands {
     }
 
     public static Command intakeFeed() {
-        return IntakeCommands.intake()
+        return IntakeCommands.runFull()
                 .alongWith(AmpTrapCommands.intake().alongWith(FeederCommands.autoFeed()));
     }
 }
