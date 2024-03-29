@@ -1,6 +1,7 @@
 package frc.robot.swerve.configs;
 
 import edu.wpi.first.math.util.Units;
+import frc.robot.mechanisms.pivot.Pivot.CANCoderFeedbackType;
 import frc.spectrumLib.swerve.config.DefaultConfig;
 import frc.spectrumLib.swerve.config.DefaultConfig.SlotGains;
 import frc.spectrumLib.swerve.config.ModuleConfig;
@@ -68,6 +69,11 @@ public class PM2024 {
     private static final double kBackLeftYPos = Units.inchesToMeters(trackWidthInches);
     private static final double kBackRightXPos = Units.inchesToMeters(-backWheelBaseInches);
     private static final double kBackRightYPos = Units.inchesToMeters(-trackWidthInches);
+
+    // Pivot CANCoder configs
+    public static final double pivotCANcoderOffset = -0.01; // flip sign
+    public static final CANCoderFeedbackType pivotFeedbackSource =
+            CANCoderFeedbackType.FusedCANcoder;
 
     public static final ModuleConfig FrontLeft =
             DefaultConfig.FrontLeft.withCANcoderOffset(kFrontLeftCANcoderOffset)
@@ -143,5 +149,6 @@ public class PM2024 {
                             kPAlignmentController, kIAlignmentController, kDAlignmentController)
                     .withProfilingConfigs(
                             maxVelocity, maxAccel, maxAngularVelocity, maxAngularAcceleration)
-                    .withDeadbandConfig(deadband, rotationDeadband);
+                    .withDeadbandConfig(deadband, rotationDeadband)
+                    .withPivotConfig(pivotCANcoderOffset, pivotFeedbackSource);
 }

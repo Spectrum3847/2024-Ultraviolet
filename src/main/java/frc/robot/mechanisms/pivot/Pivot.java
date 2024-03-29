@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import frc.robot.RobotTelemetry;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
+import frc.spectrumLib.swerve.config.SwerveConfig;
 import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.AutoLogOutput;
 
@@ -22,10 +23,6 @@ public class Pivot extends Mechanism {
 
         /* Cancoder config */
         public final int CANcoderID = 44;
-        public final double CANcoderOffset = -0.010254; // flip sign
-        public final double CANcoderUp = 0.477295; // flip sign
-        public final double CANcoderDown = 0;
-        public final CANCoderFeedbackType FeedbackSource = CANCoderFeedbackType.FusedCANcoder;
         public final double CANcoderGearRatio = 35.1;
 
         /* Pivot constants in motor rotations */
@@ -149,20 +146,19 @@ public class Pivot extends Mechanism {
     public PivotConfig config;
     private CANcoder CANcoder;
 
-    public Pivot(boolean attached) {
+    public Pivot(boolean attached, SwerveConfig swerveConfig) {
         super(attached);
         if (attached) {
-            modifyMotorConfig(); // Modify configuration to use remote CANcoder fused
+            modifyMotorConfig(swerveConfig); // Modify configuration to use remote CANcoder fused
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
             CANcoder = new CANcoder(config.CANcoderID, "3847");
             CANcoderConfiguration cancoderConfigs = new CANcoderConfiguration();
-            cancoderConfigs.MagnetSensor.MagnetOffset = config.CANcoderOffset; // do this?
+            cancoderConfigs.MagnetSensor.MagnetOffset = swerveConfig.pivotCANcoderOffset;
             cancoderConfigs.MagnetSensor.SensorDirection =
                     SensorDirectionValue.CounterClockwise_Positive;
             cancoderConfigs.MagnetSensor.AbsoluteSensorRange =
                     AbsoluteSensorRangeValue.Unsigned_0To1;
             checkMotorResponse(CANcoder.getConfigurator().apply(cancoderConfigs));
-            // motor.setPosition(getRotatiomFromCANcoder());
         }
 
         SmartDashboard.putNumber("pivotPercent", config.score);
@@ -373,9 +369,9 @@ public class Pivot extends Mechanism {
         }
     }
 
-    public void modifyMotorConfig() {
+    public void modifyMotorConfig(SwerveConfig swerveConfig) {
         config.talonConfig.Feedback.FeedbackRemoteSensorID = config.CANcoderID;
-        switch (config.FeedbackSource) {
+        switch (swerveConfig.pivotFeedbackSource) {
             case RemoteCANcoder:
                 config.talonConfig.Feedback.FeedbackSensorSource =
                         FeedbackSensorSourceValue.RemoteCANcoder;
