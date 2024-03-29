@@ -112,7 +112,7 @@ public class Robot extends LoggedRobot {
             Timer.delay(0.1);
             climber = new Climber(config.climberAttached);
             Timer.delay(0.1);
-            pivot = new Pivot(config.pivotAttached);
+            pivot = new Pivot(config.pivotAttached, swerve.config);
             Timer.delay(0.1);
             leftLauncher = new LeftLauncher(config.leftLauncherAttached);
             Timer.delay(0.1);

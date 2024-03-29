@@ -1,5 +1,7 @@
 package frc.spectrumLib.swerve.config;
 
+import frc.robot.mechanisms.pivot.Pivot.CANCoderFeedbackType;
+
 public class SwerveConfig {
     /** CAN ID of the Pigeon2 on the drivetrain */
     public int Pigeon2Id = 0;
@@ -30,6 +32,10 @@ public class SwerveConfig {
     /* Deadbanding */
     public double deadband = 0; // fractional units 0 - 1
     public double rotationDeadband = 0; // fractionaln units 0 -1
+
+    /* Pivot CANCoder config */
+    public double pivotCANcoderOffset = 0; // flip sign
+    public CANCoderFeedbackType pivotFeedbackSource = CANCoderFeedbackType.FusedCANcoder;
 
     public SwerveConfig withPigeon2Id(int id) {
         this.Pigeon2Id = id;
@@ -80,6 +86,13 @@ public class SwerveConfig {
     public SwerveConfig withDeadbandConfig(double deadband, double rotationDeadband) {
         this.deadband = deadband;
         this.rotationDeadband = rotationDeadband;
+        return this;
+    }
+
+    public SwerveConfig withPivotConfig(
+            double pivotCANcoderOffset, CANCoderFeedbackType pivotFeedbackSource) {
+        this.pivotCANcoderOffset = pivotCANcoderOffset;
+        this.pivotFeedbackSource = pivotFeedbackSource;
         return this;
     }
 }
