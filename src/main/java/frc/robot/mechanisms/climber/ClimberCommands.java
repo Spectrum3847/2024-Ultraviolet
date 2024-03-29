@@ -30,6 +30,10 @@ public class ClimberCommands {
         return climber.runPosition(climber.config.botClimb).withName("Climber.botClimb");
     }
 
+    public static Command safeClimb() {
+        return climber.runPosition(climber.config.safeClimb).withName("Climber.safeClimb");
+    }
+
     public static Command coastMode() {
         return climber.coastMode();
     }

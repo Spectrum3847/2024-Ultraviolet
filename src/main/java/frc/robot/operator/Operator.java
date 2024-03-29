@@ -1,5 +1,6 @@
 package frc.robot.operator;
 
+import frc.robot.Robot;
 import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
 import frc.robot.leds.LEDsCommands;
@@ -9,6 +10,7 @@ import frc.robot.mechanisms.elevator.ElevatorCommands;
 import frc.robot.mechanisms.feeder.FeederCommands;
 import frc.robot.mechanisms.intake.IntakeCommands;
 import frc.robot.mechanisms.pivot.PivotCommands;
+import frc.robot.vision.VisionCommands;
 import frc.spectrumLib.gamepads.Gamepad;
 
 public class Operator extends Gamepad {
@@ -57,9 +59,12 @@ public class Operator extends Gamepad {
         rightStick().and(leftBumperOnly()).whileTrue(OperatorCommands.manualClimber());
         leftStick().and(leftBumperOnly()).whileTrue(OperatorCommands.manualElevator());
 
-        bothBumpers().whileTrue(LEDsCommands.solidGreenLED());
+        bothBumpers()
+                .whileTrue(
+                        LEDsCommands.solidGreenLED().alongWith(VisionCommands.resetPoseToVision()));
 
         controller.start().whileTrue(RobotCommands.manualSource());
+        controller.select().whileTrue(Robot.pivot.zeroElevatorRoutine());
 
         controller.upDpad().and(noBumpers()).onTrue(rumbleCommand(PivotCommands.increaseOffset()));
         controller
@@ -69,6 +74,8 @@ public class Operator extends Gamepad {
         controller.leftDpad().and(noBumpers()).onTrue(rumbleCommand(PivotCommands.resetOffset()));
 
         /* Climb */
+        controller.rightDpad().and(noBumpers()).whileTrue(ClimberCommands.safeClimb());
+
         controller.upDpad().and(leftBumperOnly()).whileTrue(RobotCommands.topClimb());
         controller.downDpad().and(leftBumperOnly()).whileTrue(ClimberCommands.midClimb());
         controller.leftDpad().and(leftBumperOnly()).whileTrue(ElevatorCommands.fullExtend());
@@ -79,6 +86,13 @@ public class Operator extends Gamepad {
     public void setupDisabledButtons() {
 
         controller.b().toggleOnTrue(RobotCommands.coastModeMechanisms());
+
+        controller.upDpad().and(noBumpers()).onTrue(rumbleCommand(PivotCommands.increaseOffset()));
+        controller
+                .downDpad()
+                .and(noBumpers())
+                .onTrue(rumbleCommand(PivotCommands.decreaseOffset()));
+        controller.leftDpad().and(noBumpers()).onTrue(rumbleCommand(PivotCommands.resetOffset()));
     };
 
     /** Setup the Buttons for Test mode. */

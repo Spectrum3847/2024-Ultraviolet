@@ -5,7 +5,9 @@ import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.interpolation.TimeInterpolatableBuffer;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
@@ -17,6 +19,7 @@ import frc.robot.Robot;
 import frc.robot.RobotTelemetry;
 import frc.spectrumLib.vision.Limelight;
 import frc.spectrumLib.vision.Limelight.PhysicalConfig;
+import frc.spectrumLib.vision.LimelightHelpers.RawFiducial;
 import java.text.DecimalFormat;
 import org.littletonrobotics.junction.AutoLogOutput;
 
@@ -69,6 +72,12 @@ public class Vision extends SubsystemBase {
                 VecBuilder.fill(VISION_STD_DEV_X, VISION_STD_DEV_Y, VISION_STD_DEV_THETA);
     }
 
+    public record AimingParameters(
+            Rotation2d driveHeading,
+            Rotation2d armAngle,
+            double effectiveDistance,
+            double driveFeedVelocity) {}
+
     /* Limelights */
     public final Limelight rearLL =
             new Limelight(
@@ -101,6 +110,15 @@ public class Vision extends SubsystemBase {
     @AutoLogOutput(key = "Vision/integratingPose")
     public static boolean isPresent = false;
 
+    private boolean isAiming = false;
+
+    /** Cached latest aiming parameters. Calculated in {@code getAimingParameters()} */
+    private AimingParameters latestParameters = null;
+
+    private static final double poseBufferSizeSeconds = 2.0;
+    private final TimeInterpolatableBuffer<Pose2d> poseBuffer =
+            TimeInterpolatableBuffer.createBuffer(poseBufferSizeSeconds);
+
     public Vision() {
         setName("Vision");
 
@@ -118,7 +136,7 @@ public class Vision extends SubsystemBase {
     @Override
     public void periodic() {
         try {
-            // Will NOT run in auto
+            // // Will NOT run in auto
             if (DriverStation.isTeleopEnabled()) {
                 // force pose to be vision
                 Pose2d estimatedPose = Robot.swerve.getPose();
@@ -127,11 +145,22 @@ public class Vision extends SubsystemBase {
                 }
 
                 isPresent = true;
-                for (Limelight limelight : limelights) {
-                    if (limelight.CAMERA_NAME != "limelight-right") {
-                        filterAndAddVisionMeasurment(limelight);
+
+                if (isAiming) {
+                    filterAndAddVisionMeasurment(speakerLL);
+                } else {
+                    Limelight bestLimelight = getBestLimelight(); // doesn't exclude limelight-right
+                    for (Limelight limelight : limelights) {
+                        if (limelight.CAMERA_NAME == bestLimelight.CAMERA_NAME) {
+                            filterAndAddVisionMeasurment(bestLimelight);
+                        } else {
+                            limelight.logStatus = "not best";
+                        }
                     }
                 }
+                // filterAndAddVisionMeasurment(rightLL);
+                // filterAndAddVisionMeasurment(leftLL);
+                // filterAndAddVisionMeasurment(rearLL);
             }
         } catch (Exception e) {
             RobotTelemetry.print("Vision pose not present but tried to access it");
@@ -145,16 +174,29 @@ public class Vision extends SubsystemBase {
 
         // integrate vision
         if (ll.targetInView()) {
+            boolean multiTags = ll.multipleTagsInView();
             Pose3d botpose3D = ll.getRawPose3d();
             double timeStamp = ll.getVisionPoseTimestamp();
             Pose2d botpose = botpose3D.toPose2d();
+            RawFiducial[] tags = ll.getRawFiducial();
 
             // distance from current pose to vision estimated pose
             double poseDifference =
                     Robot.swerve.getPose().getTranslation().getDistance(botpose.getTranslation());
 
             double targetSize = ll.getTargetSize();
+
             /* rejections */
+            // reject pose if individual tag ambiguity is too high
+            ll.tagStatus = "";
+            for (RawFiducial tag : tags) {
+                ll.tagStatus += "Tag " + tag.id + ": " + tag.ambiguity;
+                if (tag.ambiguity > 0.5) {
+                    isPresent = false;
+                    ll.logStatus = "ambiguity rejection";
+                    return;
+                }
+            }
             if (Field.poseOutOfField(botpose3D)) {
                 // reject if pose is out of the field
                 isPresent = false;
@@ -178,21 +220,24 @@ public class Vision extends SubsystemBase {
             //     return;
             // }
             /* integrations */
-            else if (ll.multipleTagsInView() && targetSize > 0.05) {
+            else if (multiTags && targetSize > 0.05) {
                 ll.logStatus = "Multi";
                 xyStds = 0.5;
-                degStds = 6;
+                degStds = 8;
             } else if (targetSize > 0.8 && poseDifference < 0.5) {
                 ll.logStatus = "Close";
                 xyStds = 1.0;
-                degStds = 12;
+                degStds = 16;
             } else if (targetSize > 0.1 && poseDifference < 0.3) {
                 ll.logStatus = "Proximity";
                 xyStds = 2.0;
                 degStds = 999999;
             } else {
                 isPresent = false;
-                ll.logStatus = "catch rejection";
+                ll.logStatus =
+                        "catch rejection: "
+                                + RobotTelemetry.truncatedDouble(poseDifference)
+                                + " poseDiff";
                 return;
             }
 
@@ -255,12 +300,40 @@ public class Vision extends SubsystemBase {
     /** Returns the distance from the speaker in meters, adjusted for the robot's movement. */
     @AutoLogOutput(key = "Vision/SpeakerDistance")
     public double getSpeakerDistance() {
-        return Robot.swerve.getPose().getTranslation().getDistance(getAdjustedSpeakerPos());
+        double poseDistance =
+                Robot.swerve.getPose().getTranslation().getDistance(getAdjustedSpeakerPos());
+        double tagDistance = getDistanceToCenterSpeakerTagFromRobot();
+        if (tagDistance != -1) {
+            return poseDistance; // tagDistance;
+        }
+        return poseDistance;
+    }
+
+    @AutoLogOutput(key = "Vision/SpeakerYDistance")
+    public double getSpeakerYDelta() {
+        return Robot.swerve.getPose().getTranslation().getY() - getAdjustedSpeakerPos().getY();
     }
 
     public Translation2d getAdjustedSpeakerPos() {
         return getAdjustedTargetPos(
                 new Translation2d(0, Field.Speaker.centerSpeakerOpening.toTranslation2d().getY()));
+    }
+
+    // Returns distance to the center of the speaker tag from the robot or -1 if not found
+    public double getDistanceToCenterSpeakerTagFromRobot() {
+        RawFiducial[] tags = speakerLL.getRawFiducial();
+        int speakerTagID = 7; // Blue Speaker Tag
+        if (Field.isRed()) {
+            speakerTagID = 4; // Red Speaker Tag
+        }
+
+        for (RawFiducial tag : tags) {
+            if (tag.id == speakerTagID) {
+                return tag.distToRobot;
+            }
+        }
+
+        return -1;
     }
 
     /**
@@ -271,11 +344,12 @@ public class Vision extends SubsystemBase {
      */
     public Translation2d getAdjustedTargetPos(Translation2d targetPose) {
         double NORM_FUDGE = 0.075;
-        double tunableNoteVelocity = 5.6;
-        double tunableNormFudge = 0.85;
-        double tunableStrafeFudge = 1.05;
+        double tunableNoteVelocity = 1;
+        double tunableNormFudge = 0;
+        double tunableStrafeFudge = 1;
         double tunableSpeakerYFudge = 0.0;
         double tunableSpeakerXFudge = 0.0;
+        double spinYFudge = 0.05;
 
         targetPose = Field.flipXifRed(targetPose);
         Translation2d robotPos = Robot.swerve.getPose().getTranslation();
@@ -294,17 +368,17 @@ public class Vision extends SubsystemBase {
                                         / Math.PI);
 
         double x =
-                targetPose.getX()
-                        + (Field.isBlue() ? tunableSpeakerXFudge : -tunableSpeakerXFudge)
-                        - (robotVel.vxMetersPerSecond
-                                * (distance / tunableNoteVelocity)
-                                * (1.0 - (tunableNormFudge * normFactor)));
+                targetPose.getX() + (Field.isBlue() ? tunableSpeakerXFudge : -tunableSpeakerXFudge);
+        // - (robotVel.vxMetersPerSecond
+        // * (distance / tunableNoteVelocity)
+        //      * (1.0 - (tunableNormFudge * normFactor)));
         double y =
                 targetPose.getY()
-                        + tunableSpeakerYFudge
-                        - (robotVel.vyMetersPerSecond
-                                * (distance / tunableNoteVelocity)
-                                * tunableStrafeFudge);
+                        + (Field.isBlue() ? -spinYFudge : spinYFudge)
+                        + tunableSpeakerYFudge;
+        // - (robotVel.vyMetersPerSecond
+        // * (distance / tunableNoteVelocity)
+        //       * tunableStrafeFudge);
 
         return new Translation2d(x, y);
     }
@@ -354,30 +428,81 @@ public class Vision extends SubsystemBase {
         Limelight bestLimelight = speakerLL;
         double bestScore = 0;
         for (Limelight limelight : limelights) {
+            // exclude right camera
+            // if (limelight.CAMERA_NAME != "limelight-right") {
             double score = 0;
-            double poseDifference =
-                    Robot.swerve
-                            .getPose()
-                            .getTranslation()
-                            .getDistance(limelight.getRawPose3d().toPose2d().getTranslation());
-            if (limelight.multipleTagsInView()) {
-                score += 3;
-                score += limelight.getTargetSize();
-            }
-            if (limelight.getTargetSize() > 0.8 && poseDifference < 0.5) {
-                score += 2;
-            }
-            if (limelight.getTargetSize() > 0.1 && poseDifference < 0.3) {
-                score++;
-            }
+            // prefer camera with most tags, when equal tag count, prefer the camera closer to
+            // tags
+            score += limelight.getTagCountInView();
+            score += limelight.getTargetSize();
 
             if (score > bestScore) {
                 bestScore = score;
                 bestLimelight = limelight;
             }
+            // }
         }
         return bestLimelight;
     }
+
+    // //6328-2024 Stdev adjustment stuff
+    // public void addVisionObservation(VisionObservation observation) {
+    //     latestParameters = null;
+    //     // If measurement is old enough to be outside the pose buffer's timespan, skip.
+    //     try {
+    //     if (poseBuffer.getInternalBuffer().lastKey() - poseBufferSizeSeconds
+    //         > observation.timestamp()) {
+    //         return;
+    //     }
+    //     } catch (NoSuchElementException ex) {
+    //     return;
+    //     }
+    //     // Get odometry based pose at timestamp
+    //     var sample = poseBuffer.getSample(observation.timestamp());
+    //     if (sample.isEmpty()) {
+    //     // exit if not there
+    //     return;
+    //     }
+
+    //     // sample --> odometryPose transform and backwards of that
+    //     var sampleToOdometryTransform = new Transform2d(sample.get(), odometryPose);
+    //     var odometryToSampleTransform = new Transform2d(odometryPose, sample.get());
+    //     // get old estimate by applying odometryToSample Transform
+    //     Pose2d estimateAtTime = estimatedPose.plus(odometryToSampleTransform);
+
+    //     // Calculate 3 x 3 vision matrix
+    //     var r = new double[3];
+    //     for (int i = 0; i < 3; ++i) {
+    //     r[i] = observation.stdDevs().get(i, 0) * observation.stdDevs().get(i, 0);
+    //     }
+    //     // Solve for closed form Kalman gain for continuous Kalman filter with A = 0
+    //     // and C = I. See wpimath/algorithms.md.
+    //     Matrix<N3, N3> visionK = new Matrix<>(Nat.N3(), Nat.N3());
+    //     for (int row = 0; row < 3; ++row) {
+    //     double stdDev = qStdDevs.get(row, 0);
+    //     if (stdDev == 0.0) {
+    //         visionK.set(row, row, 0.0);
+    //     } else {
+    //         visionK.set(row, row, stdDev / (stdDev + Math.sqrt(stdDev * r[row])));
+    //     }
+    //     }
+    //     // difference between estimate and vision pose
+    //     Transform2d transform = new Transform2d(estimateAtTime, observation.visionPose());
+    //     // scale transform by visionK
+    //     var kTimesTransform =
+    //         visionK.times(
+    //             VecBuilder.fill(
+    //                 transform.getX(), transform.getY(), transform.getRotation().getRadians()));
+    //     Transform2d scaledTransform =
+    //         new Transform2d(
+    //             kTimesTransform.get(0, 0),
+    //             kTimesTransform.get(1, 0),
+    //             Rotation2d.fromRadians(kTimesTransform.get(2, 0)));
+
+    //     // Recalculate current estimate by applying scaled transform to old estimate
+    //     // then replaying odometry data
+    //     estimatedPose = estimateAtTime.plus(scaledTransform).plus(sampleToOdometryTransform);
+    // }
 
     /**
      * If at least one LL has an accurate pose
@@ -414,6 +539,14 @@ public class Vision extends SubsystemBase {
                 .withName("Vision.blinkLimelights");
     }
 
+    public void setAiming() {
+        isAiming = true;
+    }
+
+    public void setNotAiming() {
+        isAiming = false;
+    }
+
     /** Logging */
 
     // can't use autologoutput in library and avoid repetitive loggers
@@ -434,6 +567,11 @@ public class Vision extends SubsystemBase {
         @AutoLogOutput(key = "Vision/{name}/LogStatus")
         public String getLogStatus() {
             return limelight.logStatus;
+        }
+
+        @AutoLogOutput(key = "Vision/{name}/TagStatus")
+        public String getTagStatus() {
+            return limelight.tagStatus;
         }
 
         @AutoLogOutput(key = "Vision/{name}/Pose")

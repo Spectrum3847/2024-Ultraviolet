@@ -1,6 +1,12 @@
 package frc.robot.mechanisms.pivot;
 
+import com.ctre.phoenix6.StatusCode;
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
+import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -14,12 +20,21 @@ import org.littletonrobotics.junction.AutoLogOutput;
 public class Pivot extends Mechanism {
     public class PivotConfig extends Config {
 
+        /* Cancoder config */
+        public final int CANcoderID = 44;
+        public final double CANcoderOffset = -0.328; // flip sign
+        public final double CANcoderUp = 0.477295; // flip sign
+        public final double CANcoderDown = 0;
+        public final CANCoderFeedbackType FeedbackSource = CANCoderFeedbackType.FusedCANcoder;
+        public final double CANcoderGearRatio = 35.1;
+
         /* Pivot constants in motor rotations */
-        public final double maxRotation = 33.6;
+        public final double maxRotation = 0.967; // 0.967
         public final double minRotation = 0;
 
         /* Pivot positions in percentage of max rotation || 0 is horizontal */
         public final double score = 65;
+        public final double climbHome = 3;
         public final double home = 1;
         public final double subwoofer = 81;
         public final double intoAmp = 78;
@@ -40,8 +55,12 @@ public class Pivot extends Mechanism {
 
         public final double zeroSpeed = -0.1;
 
-        /** Percentage of pivot rotation added/removed from vision launching pivot angles */
-        public final double STARTING_OFFSET = -1;
+        /**
+         * Percentage of pivot rotation added/removed from vision launching pivot angles (percentage
+         * of the CHANGE in angle you set to, not +- the angle you set to) (the actual offset to
+         * angles gets bigger as you get farther away)
+         */
+        public final double STARTING_OFFSET = 0;
 
         public double OFFSET = STARTING_OFFSET; // do not change this
 
@@ -49,7 +68,7 @@ public class Pivot extends Mechanism {
         public double currentLimit = 30;
         public double torqueCurrentLimit = 100;
         public double threshold = 40;
-        public double velocityKp = 0.8;
+        public double velocityKp = 224.64;
         public double velocityKv = 0.013;
         public double velocityKs = 0;
 
@@ -60,19 +79,45 @@ public class Pivot extends Mechanism {
                 new InterpolatingDoubleTreeMap();
 
         static {
-            // home
-            DISTANCE_MAP.put(0.0, 82.0);
-            DISTANCE_MAP.put(1.505, 81.5);
-            DISTANCE_MAP.put(2.629, 57.5);
-            DISTANCE_MAP.put(2.942, 55.0);
-            DISTANCE_MAP.put(3.136, 53.0);
-            DISTANCE_MAP.put(3.396, 52.5);
-            DISTANCE_MAP.put(3.969, 50.0);
-            DISTANCE_MAP.put(4.269, 46.5);
-            DISTANCE_MAP.put(4.899, 45.0);
-            DISTANCE_MAP.put(5.189, 43.2);
-            DISTANCE_MAP.put(5.829, 42.0);
-            DISTANCE_MAP.put(6.229, 42.0);
+            // old map
+            // DISTANCE_MAP.put(0.0, 82.0);
+            // DISTANCE_MAP.put(1.505, 81.5);
+            // DISTANCE_MAP.put(2.629, 57.5);
+            // DISTANCE_MAP.put(2.942, 55.0);
+            // DISTANCE_MAP.put(3.136, 53.0);
+            // DISTANCE_MAP.put(3.396, 52.5);
+            // DISTANCE_MAP.put(3.969, 50.0);
+            // DISTANCE_MAP.put(4.269, 46.5);
+            // DISTANCE_MAP.put(4.899, 45.0);
+            // DISTANCE_MAP.put(5.189, 43.2);
+            // DISTANCE_MAP.put(5.829, 42.0);
+            // DISTANCE_MAP.put(6.229, 42.0);
+
+            /* home */
+            // 4500 RPM shots
+            DISTANCE_MAP.put(1.5, 82.0);
+            DISTANCE_MAP.put(1.7, 75.2);
+            DISTANCE_MAP.put(1.9, 69.5);
+            DISTANCE_MAP.put(2.1, 64.1);
+            DISTANCE_MAP.put(2.3, 61.0);
+            DISTANCE_MAP.put(2.5, 58.5);
+            DISTANCE_MAP.put(2.7, 56.0);
+            DISTANCE_MAP.put(2.9, 54.2);
+            DISTANCE_MAP.put(3.1, 51.9);
+            DISTANCE_MAP.put(3.3, 50.3);
+            DISTANCE_MAP.put(3.5, 49.4);
+            DISTANCE_MAP.put(3.7, 48.2);
+            DISTANCE_MAP.put(3.9, 46.9);
+            DISTANCE_MAP.put(4.1, 46.3);
+            // 5000 RPM shots
+            DISTANCE_MAP.put(4.11, 45.2);
+            DISTANCE_MAP.put(4.2, 45.1);
+            DISTANCE_MAP.put(4.3, 44.6);
+            DISTANCE_MAP.put(4.4, 43.8);
+            DISTANCE_MAP.put(4.5, 43.7);
+            DISTANCE_MAP.put(4.6, 43.6);
+            DISTANCE_MAP.put(4.8, 43.1);
+            DISTANCE_MAP.put(5.0, 42.2);
 
             // feed
             FEED_DISTANCE_MAP.put(6.0, 80.0);
@@ -96,17 +141,27 @@ public class Pivot extends Mechanism {
             configClockwise_Positive();
             configReverseSoftLimit(minRotation, true);
             configForwardSoftLimit(maxRotation, true);
-            configMotionMagic(51, 205, 0);
+            configMotionMagic(147000, 161000, 0);
         }
     }
 
     public PivotConfig config;
+    private CANcoder CANcoder;
 
     public Pivot(boolean attached) {
         super(attached);
         if (attached) {
+            modifyMotorConfig(); // Modify configuration to use remote CANcoder fused
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
-            // motor.setPosition(config.maxRotation);
+            CANcoder = new CANcoder(config.CANcoderID, "3847");
+            CANcoderConfiguration cancoderConfigs = new CANcoderConfiguration();
+            cancoderConfigs.MagnetSensor.MagnetOffset = config.CANcoderOffset; // do this?
+            cancoderConfigs.MagnetSensor.SensorDirection =
+                    SensorDirectionValue.CounterClockwise_Positive;
+            cancoderConfigs.MagnetSensor.AbsoluteSensorRange =
+                    AbsoluteSensorRangeValue.Unsigned_0To1;
+            checkMotorResponse(CANcoder.getConfigurator().apply(cancoderConfigs));
+            // motor.setPosition(getRotatiomFromCANcoder());
         }
 
         SmartDashboard.putNumber("pivotPercent", config.score);
@@ -130,7 +185,8 @@ public class Pivot extends Mechanism {
 
     public static double getMapAngle(
             InterpolatingDoubleTreeMap map, double distance, double offset) {
-        double angle = map.get(distance) + offset;
+        double angle = map.get(distance);
+        angle += (angle * (offset / 100));
         RobotTelemetry.print(
                 "VisionLaunching: interpolating "
                         + RobotTelemetry.truncatedDouble(angle)
@@ -274,6 +330,7 @@ public class Pivot extends Mechanism {
     }
 
     /* Helper */
+
     public double percentToRotation(double percent) {
         return config.maxRotation * (percent / 100);
     }
@@ -305,9 +362,44 @@ public class Pivot extends Mechanism {
         RobotTelemetry.print("Pivot offset reset to: " + config.OFFSET);
     }
 
+    public void checkMotorResponse(StatusCode response) {
+        if (!response.isOK()) {
+            System.out.println(
+                    "Pivot CANcoder ID "
+                            + config.CANcoderID
+                            + " failed config with error "
+                            + response.toString());
+        }
+    }
+
+    public void modifyMotorConfig() {
+        config.talonConfig.Feedback.FeedbackRemoteSensorID = config.CANcoderID;
+        switch (config.FeedbackSource) {
+            case RemoteCANcoder:
+                config.talonConfig.Feedback.FeedbackSensorSource =
+                        FeedbackSensorSourceValue.RemoteCANcoder;
+                break;
+            case FusedCANcoder:
+                config.talonConfig.Feedback.FeedbackSensorSource =
+                        FeedbackSensorSourceValue.FusedCANcoder;
+                break;
+            case SyncCANcoder:
+                config.talonConfig.Feedback.FeedbackSensorSource =
+                        FeedbackSensorSourceValue.SyncCANcoder;
+                break;
+        }
+        config.talonConfig.Feedback.RotorToSensorRatio = config.CANcoderGearRatio;
+    }
+
     @Override
     protected Config setConfig() {
         config = new PivotConfig();
         return config;
+    }
+
+    public enum CANCoderFeedbackType {
+        RemoteCANcoder,
+        FusedCANcoder,
+        SyncCANcoder,
     }
 }

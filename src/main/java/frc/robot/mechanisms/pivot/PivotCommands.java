@@ -29,6 +29,10 @@ public class PivotCommands {
         return pivot.runPosition(pivot.config.home).withName("Pivot.home");
     }
 
+    public static Command climbHome() {
+        return pivot.runPosition(pivot.config.climbHome).withName("Pivot.climbHome");
+    }
+
     /* Scoring Positions */
 
     public static Command subwoofer() {

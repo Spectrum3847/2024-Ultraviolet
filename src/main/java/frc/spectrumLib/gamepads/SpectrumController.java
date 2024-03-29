@@ -59,13 +59,15 @@ public class SpectrumController {
     public Trigger leftTrigger(double threshold) {
         return (isXbox)
                 ? xboxController.leftTrigger(threshold)
-                : new Trigger(() -> ps5Controller.getL2Axis() > threshold);
+                : new Trigger(
+                        () -> Math.min(Math.abs(ps5Controller.getL2Axis()), 0.99) > threshold);
     }
 
     public Trigger rightTrigger(double threshold) {
         return (isXbox)
                 ? xboxController.rightTrigger(threshold)
-                : new Trigger(() -> ps5Controller.getR2Axis() > threshold);
+                : new Trigger(
+                        () -> Math.min(Math.abs(ps5Controller.getR2Axis()), 0.99) > threshold);
     }
 
     /* Left stick is PRESSED DOWN (is activated by pressing the right stick into the gamepad until it clicks) */
@@ -110,11 +112,15 @@ public class SpectrumController {
     }
 
     public double getRightTriggerAxis() {
-        return (isXbox) ? xboxController.getRightTriggerAxis() : ps5Controller.getR2Axis();
+        return (isXbox)
+                ? xboxController.getRightTriggerAxis()
+                : Math.min(Math.abs(ps5Controller.getR2Axis()), 0.99);
     }
 
     public double getLeftTriggerAxis() {
-        return (isXbox) ? xboxController.getLeftTriggerAxis() : ps5Controller.getL2Axis();
+        return (isXbox)
+                ? xboxController.getLeftTriggerAxis()
+                : Math.min(Math.abs(ps5Controller.getL2Axis()), 0.99);
     }
 
     public double getLeftX() {
@@ -134,11 +140,15 @@ public class SpectrumController {
     }
 
     public GenericHID getHID() {
+        return (isXbox) ? xboxController.getHID() : ps5Controller.getHID();
+    }
+
+    public GenericHID getRumbleHID() {
         return (isXbox) ? xboxController.getHID() : emulatedController.getHID();
     }
 
     public void rumbleController(double leftIntensity, double rightIntensity) {
-        getHID().setRumble(RumbleType.kLeftRumble, leftIntensity);
-        getHID().setRumble(RumbleType.kRightRumble, rightIntensity);
+        getRumbleHID().setRumble(RumbleType.kLeftRumble, leftIntensity);
+        getRumbleHID().setRumble(RumbleType.kRightRumble, rightIntensity);
     }
 }
