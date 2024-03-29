@@ -47,7 +47,8 @@ public class AmpTrap extends Mechanism {
     }
 
     public AmpTrapConfig config;
-    public LaserCanUtil lasercan;
+    public LaserCanUtil bottomLasercan;
+    public LaserCanUtil topLasercan;
 
     public AmpTrap(boolean attached) {
         super(attached);
@@ -55,24 +56,42 @@ public class AmpTrap extends Mechanism {
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
         }
 
-        lasercan = new LaserCanUtil(1);
+        bottomLasercan = new LaserCanUtil(1);
+        topLasercan = new LaserCanUtil(2);
     }
 
-    @AutoLogOutput(key = "AmpTrap/LaserCan-Measurement")
-    public int getLaserCanDistance() {
-        return lasercan.getDistance();
+    @AutoLogOutput(key = "AmpTrap/Lasercans/Bottom/Measurement")
+    public int getBotLaserCanDistance() {
+        return bottomLasercan.getDistance();
     }
 
-    @AutoLogOutput(key = "AmpTrap/LaserCan-Valid")
-    public boolean getLaserCanStatus() {
-        return lasercan.validDistance();
+    @AutoLogOutput(key = "AmpTrap/Lasercans/Top/Measurement")
+    public int getTopLaserCanDistance() {
+        return topLasercan.getDistance();
     }
 
-    public boolean hasNote() {
-        if (getLaserCanDistance() <= 0) {
+    @AutoLogOutput(key = "AmpTrap/Lasercans/Bottom/LaserCan-Valid")
+    public boolean getBotLaserCanStatus() {
+        return bottomLasercan.validDistance();
+    }
+
+    @AutoLogOutput(key = "AmpTrap/Lasercans/Top/LaserCan-Valid")
+    public boolean getTopLaserCanStatus() {
+        return topLasercan.validDistance();
+    }
+
+    public boolean bottomHasNote() {
+        if (getBotLaserCanDistance() <= 0) {
             return false;
         }
-        return getLaserCanDistance() < config.hasNoteDistance;
+        return getBotLaserCanDistance() < config.hasNoteDistance;
+    }
+
+    public boolean topHasNote() {
+        if (getTopLaserCanDistance() <= 0) {
+            return false;
+        }
+        return getTopLaserCanDistance() < config.hasNoteDistance;
     }
 
     @Override

@@ -30,7 +30,7 @@ public class RobotCommands {
                         () ->
                                 DriverStation.isDisabled()
                                         && Robot.feeder.lasercan.intakedNote()
-                                        && Robot.ampTrap.lasercan.closeNote());
+                                        && Robot.ampTrap.bottomLasercan.closeNote());
         coastMode.toggleOnTrue(RobotCommands.coastModeMechanisms());
     }
 
@@ -56,7 +56,8 @@ public class RobotCommands {
         return PilotCommands.aimToSpeaker()
                 .alongWith(
                         LauncherCommands.distanceVelocity(() -> Robot.vision.getSpeakerDistance()),
-                        PivotCommands.setPivotOnDistance(() -> Robot.vision.getSpeakerDistance()))
+                        PivotCommands.setPivotOnDistance(() -> Robot.vision.getSpeakerDistance()),
+                        Commands.startEnd(Robot.vision::setAiming, Robot.vision::setNotAiming))
                 .withName("RobotCommands.visionLaunch");
     }
 
@@ -148,16 +149,16 @@ public class RobotCommands {
                 .withTimeout(0.1)
                 .onlyIf(Robot.feeder::noteIsClose)
                 .andThen(FeederCommands.feedToAmp())
-                .alongWith(AmpTrapCommands.amp().onlyIf(() -> !Robot.elevator.isAtAmpHeight()))
-                .until(() -> Robot.ampTrap.hasNote())
-                .andThen(
-                        FeederCommands.stopMotor()
-                                .alongWith(
-                                        ElevatorCommands.amp(),
-                                        AmpTrapCommands.amp()
-                                                .onlyIf(() -> !Robot.elevator.isAtAmpHeight())
-                                                .withTimeout(0.13)
-                                                .andThen(AmpTrapCommands.stopMotor())))
+                .alongWith(AmpTrapCommands.amp())
+                .until(
+                        () ->
+                                // Robot.ampTrap.getBotLaserCanDistance() >= 20
+                                Robot.ampTrap.getTopLaserCanDistance() <= 10)
+                .andThen(FeederCommands.stopMotor().alongWith(AmpTrapCommands.stopMotor()))
+                .alongWith(
+                        ElevatorCommands.amp()
+                                .onlyIf(() -> Robot.ampTrap.getBotLaserCanDistance() < 200)
+                                .repeatedly())
                 .withName("RobotCommands.amp");
     }
 
@@ -285,13 +286,13 @@ public class RobotCommands {
                                         .onlyIf(Robot.feeder::noteIsClose)
                                         .andThen(FeederCommands.feedToAmp())
                                         .alongWith(AmpTrapCommands.amp())
-                                        .until(() -> Robot.ampTrap.hasNote())
-                                        .onlyIf(() -> !Robot.ampTrap.hasNote())
+                                        .until(() -> Robot.ampTrap.bottomHasNote())
+                                        .onlyIf(() -> !Robot.ampTrap.bottomHasNote())
                                         .andThen(
                                                 AmpTrapCommands.stopMotor()
                                                         .alongWith(FeederCommands.stopMotor()))),
                 ClimberCommands.topClimb().alongWith(PivotCommands.climbHome()),
-                Robot.ampTrap.lasercan::validDistance);
+                Robot.ampTrap.bottomLasercan::validDistance);
     }
 
     public static Command trapExtend() {
@@ -301,15 +302,15 @@ public class RobotCommands {
                         .onlyIf(Robot.feeder::noteIsClose)
                         .andThen(FeederCommands.feedToAmp())
                         .alongWith(AmpTrapCommands.amp())
-                        .until(() -> Robot.ampTrap.hasNote())
-                        .onlyIf(() -> !Robot.ampTrap.hasNote())
+                        .until(() -> Robot.ampTrap.bottomHasNote())
+                        .onlyIf(() -> !Robot.ampTrap.bottomHasNote())
                         .andThen(
                                 AmpTrapCommands.stopMotor()
                                         .alongWith(
                                                 FeederCommands.stopMotor(),
                                                 ElevatorCommands.fullExtend())),
                 ElevatorCommands.fullExtend(),
-                Robot.ampTrap.lasercan::validDistance);
+                Robot.ampTrap.bottomLasercan::validDistance);
     }
 
     public static Command manualSource() {

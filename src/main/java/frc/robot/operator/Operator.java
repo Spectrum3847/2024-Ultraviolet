@@ -1,5 +1,6 @@
 package frc.robot.operator;
 
+import frc.robot.Robot;
 import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
 import frc.robot.leds.LEDsCommands;
@@ -63,6 +64,7 @@ public class Operator extends Gamepad {
                         LEDsCommands.solidGreenLED().alongWith(VisionCommands.resetPoseToVision()));
 
         controller.start().whileTrue(RobotCommands.manualSource());
+        controller.select().whileTrue(Robot.pivot.zeroElevatorRoutine());
 
         controller.upDpad().and(noBumpers()).onTrue(rumbleCommand(PivotCommands.increaseOffset()));
         controller
@@ -72,6 +74,8 @@ public class Operator extends Gamepad {
         controller.leftDpad().and(noBumpers()).onTrue(rumbleCommand(PivotCommands.resetOffset()));
 
         /* Climb */
+        controller.rightDpad().and(noBumpers()).whileTrue(ClimberCommands.safeClimb());
+
         controller.upDpad().and(leftBumperOnly()).whileTrue(RobotCommands.topClimb());
         controller.downDpad().and(leftBumperOnly()).whileTrue(ClimberCommands.midClimb());
         controller.leftDpad().and(leftBumperOnly()).whileTrue(ElevatorCommands.fullExtend());

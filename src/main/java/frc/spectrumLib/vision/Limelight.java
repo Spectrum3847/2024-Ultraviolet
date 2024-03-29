@@ -20,6 +20,7 @@ public class Limelight {
     public final String CAMERA_NAME;
 
     public String logStatus = "";
+    public String tagStatus = "";
     public boolean trustStrong = false;
     /** Physical Config */
     private PhysicalConfig physicalConfig;
@@ -31,6 +32,7 @@ public class Limelight {
         this.CAMERA_NAME = cameraName;
         physicalConfig = new PhysicalConfig();
         logStatus = "Not started";
+        tagStatus = "Not started";
         trustStrong = false;
     }
 

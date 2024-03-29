@@ -19,7 +19,7 @@ public class LeftLauncher extends Mechanism {
         public double testVelocity = 4500;
         public double subwoofer = 4500;
         public double deepShot = 5400;
-        public double intoAmp = 1500;
+        public double intoAmp = 1300;
         public double manualSource = -2000;
 
         /* Percentage LeftLauncher Output */
