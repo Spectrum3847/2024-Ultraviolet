@@ -18,21 +18,9 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "launch"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Part 2 - Source 4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "launch"
           }
         },
         {
@@ -42,21 +30,9 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "launch"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Part 4 - Source 4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "launch"
           }
         }
       ]

@@ -22,7 +22,7 @@ public class Pivot extends Mechanism {
 
         /* Cancoder config */
         public final int CANcoderID = 44;
-        public final double CANcoderOffset = -0.328; // flip sign
+        public final double CANcoderOffset = -0.010254; // flip sign
         public final double CANcoderUp = 0.477295; // flip sign
         public final double CANcoderDown = 0;
         public final CANCoderFeedbackType FeedbackSource = CANCoderFeedbackType.FusedCANcoder;
@@ -50,8 +50,9 @@ public class Pivot extends Mechanism {
         public final double autoLaunch4 = 51; // 5 and 6 on Front 6
         public final double autoLaunch5 = 76.5; // GP 2 on Front 6
         public final double autoLaunch6 = 47; // Gp 3 on Front 6
-        public final double autoLaunch7 = 45; // GP 4 on Front 6
+        public final double autoLaunch7 = 46; // GP 4 on Front 6
         public final double autoLaunch8 = 30; // GP 4 on Front 6
+        public final double autoLaunch9 = 45; // GP 4 on Front 6
 
         public final double zeroSpeed = -0.1;
 

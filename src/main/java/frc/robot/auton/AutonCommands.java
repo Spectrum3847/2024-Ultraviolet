@@ -140,6 +140,12 @@ public class AutonCommands {
                 .withName("AutonCommands.launchReady7");
     }
 
+    public static Command launchReady9() {
+        return PivotCommands.autoLaunch9()
+                .alongWith(LauncherCommands.subwoofer())
+                .withName("AutonCommands.launchReady7");
+    }
+
     public static Command launchReadySubwoofer() {
         return (PivotCommands.subwoofer().alongWith(LauncherCommands.subwoofer()))
                 .withTimeout(1)
