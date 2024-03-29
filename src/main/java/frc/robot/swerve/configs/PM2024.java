@@ -71,7 +71,7 @@ public class PM2024 {
     private static final double kBackRightYPos = Units.inchesToMeters(-trackWidthInches);
 
     // Pivot CANCoder configs
-    public static final double pivotCANcoderOffset = -0.01; // flip sign
+    public static final double pivotCANcoderOffset = -0.004; // flip sign
     public static final CANCoderFeedbackType pivotFeedbackSource =
             CANCoderFeedbackType.FusedCANcoder;
 
