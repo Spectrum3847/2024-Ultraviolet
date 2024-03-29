@@ -134,6 +134,12 @@ public class AutonCommands {
                 .withName("AutonCommands.launchReady7");
     }
 
+    public static Command launchReady8() {
+        return PivotCommands.autoLaunch8()
+                .alongWith(LauncherCommands.subwoofer())
+                .withName("AutonCommands.launchReady7");
+    }
+
     public static Command launchReadySubwoofer() {
         return (PivotCommands.subwoofer().alongWith(LauncherCommands.subwoofer()))
                 .withTimeout(1)
@@ -168,16 +174,6 @@ public class AutonCommands {
                                                         () -> {
                                                             Auton.noteIntaked = true;
                                                         })
-                                                .andThen(
-                                                        PivotCommands.intake()
-                                                                .onlyIf(
-                                                                        () ->
-                                                                                Robot.pivot
-                                                                                                .getMotorPercentAngle()
-                                                                                        < Robot
-                                                                                                .pivot
-                                                                                                .config
-                                                                                                .intake))
                                                 .alongWith(
                                                         IntakeCommands.intake()
                                                                 .withTimeout(0.15)

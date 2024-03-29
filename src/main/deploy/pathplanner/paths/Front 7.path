@@ -16,28 +16,28 @@
     },
     {
       "anchor": {
-        "x": 7.95,
-        "y": 4.2
+        "x": 7.6,
+        "y": 4.3290050284497195
       },
       "prevControl": {
-        "x": 8.055963232803393,
-        "y": 5.0394307594322845
+        "x": 7.705963232803389,
+        "y": 5.168435787882004
       },
       "nextControl": {
-        "x": 7.878003979361313,
-        "y": 3.6296542991193084
+        "x": 7.528003979361312,
+        "y": 3.7586593275690277
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.0,
-        "y": 3.77
+        "x": 5.694021341269997,
+        "y": 3.826136295864733
       },
       "prevControl": {
-        "x": 6.671821333179496,
-        "y": 3.5737069552692513
+        "x": 6.365842674449493,
+        "y": 3.6298432511339844
       },
       "nextControl": null,
       "isLocked": false,
@@ -52,10 +52,68 @@
     }
   ],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Intake",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "smartIntake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "LaunchReady",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "launchReady8"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "stopTracking"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Launch",
+      "waypointRelativePos": 1.85,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "launch"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 6.0,
-    "maxAcceleration": 4.0,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -70,5 +128,5 @@
     "rotation": 180.0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

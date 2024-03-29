@@ -80,7 +80,7 @@
             {
               "type": "named",
               "data": {
-                "name": "visionLaunchReady"
+                "name": "launchReady7"
               }
             },
             {
@@ -104,6 +104,23 @@
               "type": "named",
               "data": {
                 "name": "alignToSpeaker"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Launch",
+      "waypointRelativePos": 1.95,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "launch"
               }
             }
           ]
