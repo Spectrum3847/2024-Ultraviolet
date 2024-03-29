@@ -28,15 +28,6 @@ public class AutoPaths {
                                 .onlyIf(() -> AutonCommands.isNoteIntaked()));
     }
 
-    public static Command FrontAlt6() {
-        return AutoBuilder.buildAuto("Front Alt 6")
-                .until(() -> !AutonCommands.isNoteIntaked())
-                .andThen(
-                        AutonCommands.pathfindingCommandToPose(0, 0, 0, 0, 0)
-                                .andThen(AutoBuilder.buildAuto("Front Alt 6 Part 2"))
-                                .until(() -> !AutonCommands.isNoteIntaked()));
-    }
-
     public static Command Source4() {
         return AutoBuilder.buildAuto("Source 4")
                 .until(() -> !AutonCommands.isNoteIntaked())
@@ -52,6 +43,15 @@ public class AutoPaths {
                                 .until(() -> !AutonCommands.isNoteIntaked()))
                 .andThen(AutonCommands.pathfindingCommandToPose(0, 0, 0, 0, 0))
                 .andThen(AutoBuilder.buildAuto("Source 4 Part 3"));
+    }
+
+    public static Command FrontAlt6() {
+        return AutoBuilder.buildAuto("Front Alt 6")
+                .until(() -> AutonCommands.isNoteIntaked())
+                .andThen(
+                        (AutonCommands.pathfindingCommandToPose(7.05, 5.75, 130, 4, 2)
+                                        .andThen(AutoBuilder.buildAuto("Front Alt 6 Part 2")))
+                                .onlyIf(() -> AutonCommands.isNoteIntaked()));
     }
 
     public static Command Test() {

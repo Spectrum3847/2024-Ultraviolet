@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.0945768159076077,
-        "y": 2.64
+        "x": 0.6885433415394427,
+        "y": 4.38
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.829538809685664,
-        "y": 1.8378706916440963
+        "x": 2.336405496010244,
+        "y": 2.0358580619499884
       },
       "isLocked": false,
-      "linkedName": "GP 1 Shoot - Source 4"
+      "linkedName": null
     },
     {
       "anchor": {
         "x": 8.146473467876776,
-        "y": 1.05
+        "y": 0.9
       },
       "prevControl": {
         "x": 7.117526676587498,
-        "y": 1.3034824443830364
+        "y": 1.1534824443830365
       },
       "nextControl": {
         "x": 9.136863225899214,
-        "y": 0.8060161333115307
+        "y": 0.6560161333115306
       },
       "isLocked": false,
       "linkedName": null
@@ -44,7 +44,13 @@
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.0,
+      "rotationDegrees": 150.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [
     {
@@ -66,7 +72,7 @@
     },
     {
       "name": "LaunchReady",
-      "waypointRelativePos": 0.45,
+      "waypointRelativePos": 0.6,
       "command": {
         "type": "parallel",
         "data": {
@@ -97,40 +103,6 @@
           ]
         }
       }
-    },
-    {
-      "name": "Launch",
-      "waypointRelativePos": 1.95,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "launch"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "StopTracking",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "stopTracking"
-              }
-            }
-          ]
-        }
-      }
     }
   ],
   "globalConstraints": {
@@ -147,7 +119,7 @@
   "reversed": false,
   "folder": "Source Paths",
   "previewStartingState": {
-    "rotation": 140.0,
+    "rotation": 120.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

@@ -3,53 +3,59 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.0945768159076077,
-        "y": 2.64
+        "x": 7.05,
+        "y": 5.75
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.829538809685664,
-        "y": 1.8378706916440963
-      },
-      "isLocked": false,
-      "linkedName": "GP 1 Shoot - Source 4"
-    },
-    {
-      "anchor": {
-        "x": 8.146473467876776,
-        "y": 1.05
-      },
-      "prevControl": {
-        "x": 7.117526676587498,
-        "y": 1.3034824443830364
-      },
-      "nextControl": {
-        "x": 9.136863225899214,
-        "y": 0.8060161333115307
+        "x": 7.336578239742458,
+        "y": 5.4084693532276
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.0945768159076077,
-        "y": 2.64
+        "x": 8.07240297052732,
+        "y": 4.326249931484297
       },
       "prevControl": {
-        "x": 3.9842676504810446,
-        "y": 1.721824061047561
+        "x": 7.382031205831318,
+        "y": 5.349768163585851
+      },
+      "nextControl": {
+        "x": 8.522469321189595,
+        "y": 3.658999126751438
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.278252447992267,
+        "y": 6.49
+      },
+      "prevControl": {
+        "x": 6.98182532133645,
+        "y": 7.214420168091265
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.0,
+      "rotationDegrees": 130.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Intake",
-      "waypointRelativePos": 0.45,
+      "name": "intake",
+      "waypointRelativePos": 0,
       "command": {
         "type": "parallel",
         "data": {
@@ -65,8 +71,8 @@
       }
     },
     {
-      "name": "LaunchReady",
-      "waypointRelativePos": 0.45,
+      "name": "launchReady",
+      "waypointRelativePos": 0,
       "command": {
         "type": "parallel",
         "data": {
@@ -74,7 +80,13 @@
             {
               "type": "named",
               "data": {
-                "name": "visionLaunchReady"
+                "name": "launchReady9"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "stopTracking"
               }
             }
           ]
@@ -82,8 +94,8 @@
       }
     },
     {
-      "name": "AlignToSpeaker",
-      "waypointRelativePos": 1.6,
+      "name": "alignToSpeaker",
+      "waypointRelativePos": 1.8,
       "command": {
         "type": "parallel",
         "data": {
@@ -99,7 +111,7 @@
       }
     },
     {
-      "name": "Launch",
+      "name": "launch",
       "waypointRelativePos": 1.95,
       "command": {
         "type": "parallel",
@@ -114,23 +126,6 @@
           ]
         }
       }
-    },
-    {
-      "name": "StopTracking",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "stopTracking"
-              }
-            }
-          ]
-        }
-      }
     }
   ],
   "globalConstraints": {
@@ -140,14 +135,14 @@
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 140.0,
+    "velocity": 0.0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Source Paths",
+  "folder": "Front Paths",
   "previewStartingState": {
-    "rotation": 140.0,
+    "rotation": 130.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

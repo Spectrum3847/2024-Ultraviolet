@@ -142,7 +142,7 @@
     },
     {
       "name": "LaunchReady",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 0.6,
       "command": {
         "type": "parallel",
         "data": {
@@ -327,6 +327,23 @@
               "type": "named",
               "data": {
                 "name": "stopFeeder"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "IntakeCheck",
+      "waypointRelativePos": 4.25,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "intakeCheck"
               }
             }
           ]

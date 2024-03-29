@@ -47,6 +47,23 @@
           ]
         }
       }
+    },
+    {
+      "name": "Launch",
+      "waypointRelativePos": 0.95,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "launch"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {
@@ -56,7 +73,7 @@
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 2.0,
+    "velocity": 0.0,
     "rotation": 135.0,
     "rotateFast": false
   },

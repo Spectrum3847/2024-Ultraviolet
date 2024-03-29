@@ -137,7 +137,7 @@
     },
     {
       "name": "LaunchReady",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 0.5,
       "command": {
         "type": "parallel",
         "data": {

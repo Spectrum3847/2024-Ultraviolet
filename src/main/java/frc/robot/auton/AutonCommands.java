@@ -39,7 +39,7 @@ public class AutonCommands {
 
         // Since AutoBuilder is configured, we can use it to build pathfinding commands
         Command pathfindingCommand =
-                AutoBuilder.pathfindToPose(
+                AutoBuilder.pathfindToPoseFlipped(
                         targetPose,
                         constraints,
                         0.0, // Goal end velocity in meters/sec
@@ -148,7 +148,7 @@ public class AutonCommands {
 
     public static Command launchReadySubwoofer() {
         return (PivotCommands.subwoofer().alongWith(LauncherCommands.subwoofer()))
-                .withTimeout(1)
+                .withTimeout(0.5)
                 .withName("AutonCommands.launchReady3");
     }
 

@@ -71,7 +71,7 @@
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 1.0,
       "command": {
         "type": "parallel",
         "data": {
@@ -88,7 +88,7 @@
     },
     {
       "name": "LaunchReady",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 2.4000000000000004,
       "command": {
         "type": "parallel",
         "data": {
@@ -97,12 +97,6 @@
               "type": "named",
               "data": {
                 "name": "visionLaunchReady"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "stopTracking"
               }
             }
           ]
@@ -120,6 +114,23 @@
               "type": "named",
               "data": {
                 "name": "alignToSpeaker"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "StopTracking",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "stopTracking"
               }
             }
           ]

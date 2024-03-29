@@ -55,7 +55,7 @@
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 0.6,
       "command": {
         "type": "parallel",
         "data": {
@@ -121,6 +121,23 @@
               "type": "named",
               "data": {
                 "name": "launch"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "StopFeed",
+      "waypointRelativePos": 0.55,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "stopFeeder"
               }
             }
           ]
