@@ -132,7 +132,7 @@ public class PilotCommands {
 
     public static Command alignToAmpClimb() {
         return SwerveCommands.AlignYaimDrive(
-                () -> pilot.getDriveFwdPositive(),
+                () -> Field.Stage.centerClimb.getX(),
                 () -> Field.Stage.ampClimb.getY(),
                 () -> Field.Stage.ampClimb.getRotation().getRadians(),
                 () -> true,
@@ -140,8 +140,8 @@ public class PilotCommands {
     }
 
     public static Command alignToCenterClimb() {
-        return SwerveCommands.AlignAimDrive(
-                () -> Field.Stage.centerClimb.getX(),
+        return SwerveCommands.AlignYaimDrive(
+                () -> pilot.getDriveFwdPositive(),
                 () -> Field.Stage.centerClimb.getY(),
                 () -> Field.Stage.centerClimb.getRotation().getRadians(),
                 () -> true,

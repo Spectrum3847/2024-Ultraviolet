@@ -165,7 +165,8 @@ public class Feeder extends Mechanism {
                         () ->
                                 attached
                                         && config.talonConfig.MotorOutput.NeutralMode
-                                                == NeutralModeValue.Coast);
+                                                == NeutralModeValue.Coast)
+                .ignoringDisable(true);
     }
 
     /* Logging */

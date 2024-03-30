@@ -31,7 +31,8 @@ public class RobotCommands {
                         () ->
                                 DriverStation.isDisabled()
                                         && Robot.feeder.lasercan.intakedNote()
-                                        && Robot.ampTrap.bottomLasercan.closeNote());
+                                        && (Robot.ampTrap.bottomLasercan.closeNote()
+                                                || Robot.ampTrap.topLasercan.closeNote()));
         coastMode.toggleOnTrue(RobotCommands.coastModeMechanisms());
     }
 
@@ -243,7 +244,8 @@ public class RobotCommands {
                         FeederCommands.ensureBrakeMode(),
                         IntakeCommands.ensureBrakeMode(),
                         LauncherCommands.ensureBrakeMode(),
-                        PivotCommands.ensureBrakeMode())
+                        PivotCommands.ensureBrakeMode(),
+                        Commands.runOnce(LEDs::turnOffCoastLEDs).ignoringDisable(true))
                 .withName("RobotCommands.ensureBrakeMode");
     }
 
@@ -315,25 +317,45 @@ public class RobotCommands {
     }
 
     public static Command centerClimbAlign() {
-        return PilotCommands.alignToCenterClimb().alongWith(ClimberCommands.topClimb());
+        return PilotCommands.alignToCenterClimb()
+                .alongWith(
+                        ClimberCommands.topClimb(),
+                        PivotCommands.climbHome(),
+                        FeederCommands.score()
+                                .withTimeout(0.1)
+                                .onlyIf(Robot.feeder::noteIsClose)
+                                .andThen(FeederCommands.feedToAmp())
+                                .alongWith(AmpTrapCommands.amp())
+                                .until(() -> Robot.ampTrap.bottomHasNote())
+                                .onlyIf(() -> !Robot.ampTrap.bottomHasNote())
+                                .andThen(
+                                        AmpTrapCommands.stopMotor()
+                                                .alongWith(FeederCommands.stopMotor())));
     }
 
     public static Command autoClimb() {
         return ClimberCommands.midClimb()
+                .onlyIf(() -> !Robot.elevator.isElevatorUp())
                 .until(
                         () ->
                                 Robot.climber.getMotorPercentAngle()
                                         < Robot.climber.config.midClimb + 4)
                 .andThen(
-                        SwerveCommands.AlignXdrive(
-                                        () -> Field.Stage.ampLeg.getX() + 0.2,
+                        SwerveCommands.Drive(
+                                        () -> 0.1 * Robot.swerve.config.maxVelocity,
                                         () -> 0,
                                         () -> 0,
-                                        () -> true,
-                                        () -> false)
-                                .withTimeout(1),
-                        ElevatorCommands.fullExtend(),
-                        ClimberCommands.topClimb())
+                                        () -> false, // true is field oriented
+                                        () -> true)
+                                .onlyIf(() -> !Robot.elevator.isElevatorUp())
+                                .withTimeout(1)
+                                .andThen(PilotCommands.pilotDrive())
+                                .alongWith(
+                                        Commands.waitSeconds(0.5)
+                                                .andThen(
+                                                        ElevatorCommands.fullExtend()
+                                                                .withTimeout(0.5),
+                                                        ClimberCommands.botClimb())))
                 .until(
                         () ->
                                 Robot.climber.getMotorPercentAngle()

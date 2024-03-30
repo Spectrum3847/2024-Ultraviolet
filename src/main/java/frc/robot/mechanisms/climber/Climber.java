@@ -13,7 +13,7 @@ public class Climber extends Mechanism {
     public class ClimberConfig extends Config {
 
         /* Climber constants in rotations */
-        public final double maxRotation = 77.5;
+        public final double maxRotation = 104;
         public final double minRotation = -1;
 
         /* Climber positions in percent (0 - 100) of full rotation */
@@ -126,7 +126,8 @@ public class Climber extends Mechanism {
                         () ->
                                 attached
                                         && config.talonConfig.MotorOutput.NeutralMode
-                                                == NeutralModeValue.Coast);
+                                                == NeutralModeValue.Coast)
+                .ignoringDisable(true);
     }
 
     /* Custom Commands */

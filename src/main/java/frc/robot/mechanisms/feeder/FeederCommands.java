@@ -7,7 +7,7 @@ public class FeederCommands {
     private static Feeder feeder = Robot.feeder;
 
     public static void setupDefaultCommand() {
-        feeder.setDefaultCommand(stopMotor().withName("Feeder.default"));
+        feeder.setDefaultCommand(stopMotor().ignoringDisable(true).withName("Feeder.default"));
     }
 
     public static Command runFull() {
