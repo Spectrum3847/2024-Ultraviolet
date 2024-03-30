@@ -82,23 +82,6 @@
       }
     },
     {
-      "name": "AlignToSpeaker",
-      "waypointRelativePos": 1.6,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "alignToSpeaker"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
       "name": "Launch",
       "waypointRelativePos": 1.95,
       "command": {
@@ -109,23 +92,6 @@
               "type": "named",
               "data": {
                 "name": "launch"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "StopTracking",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "stopTracking"
               }
             }
           ]

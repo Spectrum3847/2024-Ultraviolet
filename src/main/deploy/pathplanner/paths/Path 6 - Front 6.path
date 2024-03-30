@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 4.278252447992267,
-        "y": 6.49
+        "y": 6.4
       },
       "prevControl": null,
       "nextControl": {
         "x": 5.307199239281546,
-        "y": 6.3430076012443894
+        "y": 6.25300760124439
       },
       "isLocked": false,
       "linkedName": "End - Front 5"
@@ -33,11 +33,11 @@
     {
       "anchor": {
         "x": 4.278252447992267,
-        "y": 6.49
+        "y": 6.4
       },
       "prevControl": {
         "x": 5.082842420128244,
-        "y": 6.389426253483003
+        "y": 6.299426253483003
       },
       "nextControl": null,
       "isLocked": false,
@@ -94,23 +94,6 @@
       }
     },
     {
-      "name": "AlignToSpeaker",
-      "waypointRelativePos": 1.4,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "alignToSpeaker"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
       "name": "Launch",
       "waypointRelativePos": 1.95,
       "command": {
@@ -153,7 +136,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
+    "rotation": -167.5,
     "rotateFast": false
   },
   "reversed": false,

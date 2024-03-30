@@ -4,40 +4,24 @@
     {
       "anchor": {
         "x": 4.278252447992267,
-        "y": 6.49
+        "y": 6.4
       },
       "prevControl": null,
       "nextControl": {
         "x": 6.06324642252498,
-        "y": 6.577972275704577
+        "y": 6.4879722757045775
       },
       "isLocked": false,
       "linkedName": "End - Front 5"
     },
     {
       "anchor": {
-        "x": 7.5,
-        "y": 4.3290050284497195
+        "x": 7.999481069121166,
+        "y": 3.8338727379045032
       },
       "prevControl": {
-        "x": 7.605963232803389,
-        "y": 5.168435787882004
-      },
-      "nextControl": {
-        "x": 7.428003979361312,
-        "y": 3.7586593275690277
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 5.694021341269997,
-        "y": 3.826136295864733
-      },
-      "prevControl": {
-        "x": 6.365842674449493,
-        "y": 3.6298432511339844
+        "x": 8.105444301924553,
+        "y": 4.6733034973367875
       },
       "nextControl": null,
       "isLocked": false,
@@ -95,7 +79,7 @@
     },
     {
       "name": "Launch",
-      "waypointRelativePos": 1.85,
+      "waypointRelativePos": 1,
       "command": {
         "type": "parallel",
         "data": {
@@ -130,13 +114,13 @@
   ],
   "globalConstraints": {
     "maxVelocity": 6.0,
-    "maxAcceleration": 2.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0.0,
-    "rotation": 147.5,
+    "rotation": 115.0,
     "rotateFast": false
   },
   "reversed": false,
