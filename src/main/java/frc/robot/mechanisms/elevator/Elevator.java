@@ -121,7 +121,8 @@ public class Elevator extends Mechanism {
                         () ->
                                 attached
                                         && config.talonConfig.MotorOutput.NeutralMode
-                                                == NeutralModeValue.Coast);
+                                                == NeutralModeValue.Coast)
+                .ignoringDisable(true);
     }
 
     /* Custom Commands */
@@ -176,6 +177,13 @@ public class Elevator extends Mechanism {
                         () -> false, // isFinished
                         this) // requirement
                 .withName("Elevator.zeroElevatorRoutine");
+    }
+
+    public boolean isElevatorUp() {
+        if (attached) {
+            return getMotorPosition() >= 5;
+        }
+        return false;
     }
 
     /* Logging */

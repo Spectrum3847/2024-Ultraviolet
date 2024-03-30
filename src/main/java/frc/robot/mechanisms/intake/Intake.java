@@ -112,7 +112,8 @@ public class Intake extends Mechanism {
                         () ->
                                 attached
                                         && config.talonConfig.MotorOutput.NeutralMode
-                                                == NeutralModeValue.Coast);
+                                                == NeutralModeValue.Coast)
+                .ignoringDisable(true);
     }
 
     /**

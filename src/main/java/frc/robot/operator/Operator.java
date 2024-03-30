@@ -64,7 +64,7 @@ public class Operator extends Gamepad {
                         LEDsCommands.solidGreenLED().alongWith(VisionCommands.resetPoseToVision()));
 
         controller.start().whileTrue(RobotCommands.manualSource());
-        controller.select().whileTrue(Robot.pivot.zeroElevatorRoutine());
+        controller.select().whileTrue(Robot.climber.zeroClimberRoutine());
 
         controller.upDpad().and(noBumpers()).onTrue(rumbleCommand(PivotCommands.increaseOffset()));
         controller

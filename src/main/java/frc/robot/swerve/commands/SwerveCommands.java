@@ -22,6 +22,7 @@ public class SwerveCommands {
                 PilotCommands.pilotDrive()
                         // .withTimeout(0.5)
                         // .andThen(PilotCommands.headingLockDrive())
+                        .ignoringDisable(true)
                         .withName("SwerveCommands.default"));
     }
 

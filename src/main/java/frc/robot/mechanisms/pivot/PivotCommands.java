@@ -8,7 +8,8 @@ public class PivotCommands {
     private static Pivot pivot = Robot.pivot;
 
     public static void setupDefaultCommand() {
-        pivot.setDefaultCommand(pivot.runHoldPivot().withName("Pivot.default"));
+        pivot.setDefaultCommand(
+                pivot.runHoldPivot().ignoringDisable(true).withName("Pivot.default"));
     }
 
     /* Misc Positions */
