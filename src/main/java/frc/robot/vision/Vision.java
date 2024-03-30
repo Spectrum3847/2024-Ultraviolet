@@ -158,9 +158,6 @@ public class Vision extends SubsystemBase {
                         }
                     }
                 }
-                // filterAndAddVisionMeasurment(rightLL);
-                // filterAndAddVisionMeasurment(leftLL);
-                // filterAndAddVisionMeasurment(rearLL);
             }
         } catch (Exception e) {
             RobotTelemetry.print("Vision pose not present but tried to access it");
@@ -179,6 +176,7 @@ public class Vision extends SubsystemBase {
             double timeStamp = ll.getVisionPoseTimestamp();
             Pose2d botpose = botpose3D.toPose2d();
             RawFiducial[] tags = ll.getRawFiducial();
+            ChassisSpeeds robotSpeed = Robot.swerve.getVelocity(true);
 
             // distance from current pose to vision estimated pose
             double poseDifference =
@@ -202,6 +200,9 @@ public class Vision extends SubsystemBase {
                 isPresent = false;
                 ll.logStatus = "bound rejection";
                 return;
+            } else if (Math.abs(robotSpeed.omegaRadiansPerSecond) >= 0.5) {
+                isPresent = false;
+                ll.logStatus = "rotation rejection";
             } else if (Math.abs(botpose3D.getZ()) > 0.25) {
                 // reject if pose is .25 meters in the air
                 isPresent = false;
@@ -220,10 +221,21 @@ public class Vision extends SubsystemBase {
             //     return;
             // }
             /* integrations */
-            else if (multiTags && targetSize > 0.05) {
+            // if almost stationary and extremely close to tag
+            else if (robotSpeed.vxMetersPerSecond + robotSpeed.vyMetersPerSecond <= 0.2
+                    && targetSize > 0.5) {
+                ll.logStatus = "Stationary close";
+                xyStds = 0.1;
+                degStds = 0.1;
+            } else if (multiTags && targetSize > 0.05) {
                 ll.logStatus = "Multi";
                 xyStds = 0.5;
                 degStds = 8;
+                if (targetSize > 0.09) {
+                    ll.logStatus = "Strong Multi";
+                    xyStds = 0.1;
+                    degStds = 0.1;
+                }
             } else if (targetSize > 0.8 && poseDifference < 0.5) {
                 ll.logStatus = "Close";
                 xyStds = 1.0;
@@ -400,8 +412,15 @@ public class Vision extends SubsystemBase {
 
     public Translation2d getAdjustedFeederPos() {
         Translation2d originalLocation = Field.StagingLocations.spikeTranslations[2];
-        return getAdjustedTargetPos(
-                new Translation2d(originalLocation.getX() - 0.5, originalLocation.getY() - 0.5));
+        Translation2d newLocation;
+        if (Field.isBlue()) {
+            newLocation =
+                    new Translation2d(originalLocation.getX() - 2.0, originalLocation.getY() + 0.5);
+        } else {
+            newLocation =
+                    new Translation2d(originalLocation.getX() - 2.0, originalLocation.getY() + 1);
+        }
+        return getAdjustedTargetPos(newLocation);
     }
 
     /**

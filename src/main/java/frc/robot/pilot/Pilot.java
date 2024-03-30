@@ -62,7 +62,7 @@ public class Pilot extends Gamepad {
 
         runWithEndSequence(
                 controller.a().and(noBumpers()),
-                RobotCommands.smartIntake(),
+                RobotCommands.smartIntake().alongWith(PilotCommands.headingLockDrive()),
                 RobotCommands.feedHome());
         controller.a().and(leftBumperOnly()).whileTrue(RobotCommands.eject());
 
