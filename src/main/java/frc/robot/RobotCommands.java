@@ -15,6 +15,7 @@ import frc.robot.mechanisms.intake.IntakeCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.mechanisms.pivot.PivotCommands;
 import frc.robot.pilot.PilotCommands;
+import frc.robot.swerve.commands.SwerveCommands;
 import frc.robot.vision.VisionCommands;
 
 /**
@@ -311,6 +312,33 @@ public class RobotCommands {
                                                 ElevatorCommands.fullExtend())),
                 ElevatorCommands.fullExtend(),
                 Robot.ampTrap.bottomLasercan::validDistance);
+    }
+
+    public static Command centerClimbAlign() {
+        return PilotCommands.alignToCenterClimb().alongWith(ClimberCommands.topClimb());
+    }
+
+    public static Command autoClimb() {
+        return ClimberCommands.midClimb()
+                .until(
+                        () ->
+                                Robot.climber.getMotorPercentAngle()
+                                        < Robot.climber.config.midClimb + 4)
+                .andThen(
+                        SwerveCommands.AlignXdrive(
+                                        () -> Field.Stage.ampLeg.getX() + 0.2,
+                                        () -> 0,
+                                        () -> 0,
+                                        () -> true,
+                                        () -> false)
+                                .withTimeout(1),
+                        ElevatorCommands.fullExtend(),
+                        ClimberCommands.topClimb())
+                .until(
+                        () ->
+                                Robot.climber.getMotorPercentAngle()
+                                        < Robot.climber.config.botClimb + 4)
+                .andThen(AmpTrapCommands.amp());
     }
 
     public static Command manualSource() {
