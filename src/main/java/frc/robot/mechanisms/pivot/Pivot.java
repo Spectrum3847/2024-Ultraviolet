@@ -142,21 +142,21 @@ public class Pivot extends Mechanism {
     }
 
     public PivotConfig config;
-    private CANcoder CANcoder;
+    private CANcoder m_CANcoder;
 
     public Pivot(boolean attached, SwerveConfig swerveConfig) {
         super(attached);
         if (attached) {
             modifyMotorConfig(swerveConfig); // Modify configuration to use remote CANcoder fused
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
-            CANcoder = new CANcoder(config.CANcoderID, "3847");
+            m_CANcoder = new CANcoder(config.CANcoderID, "3847");
             CANcoderConfiguration cancoderConfigs = new CANcoderConfiguration();
             cancoderConfigs.MagnetSensor.MagnetOffset = swerveConfig.pivotCANcoderOffset;
             cancoderConfigs.MagnetSensor.SensorDirection =
                     SensorDirectionValue.CounterClockwise_Positive;
             cancoderConfigs.MagnetSensor.AbsoluteSensorRange =
                     AbsoluteSensorRangeValue.Unsigned_0To1;
-            checkMotorResponse(CANcoder.getConfigurator().apply(cancoderConfigs));
+            checkMotorResponse(m_CANcoder.getConfigurator().apply(cancoderConfigs));
         }
 
         SmartDashboard.putNumber("pivotPercent", config.score);
@@ -255,12 +255,12 @@ public class Pivot extends Mechanism {
                 .ignoringDisable(true);
     }
 
-    public Command zeroElevatorRoutine() {
+    public Command zeroPivotRoutine() {
         return new FunctionalCommand(
                         () -> toggleReverseSoftLimit(false), // init
                         () -> setPercentOutput(config.zeroSpeed), // execute
                         (b) -> {
-                            tareMotor();
+                            m_CANcoder.setPosition(0);
                             toggleReverseSoftLimit(true); // end
                         },
                         () -> false, // isFinished

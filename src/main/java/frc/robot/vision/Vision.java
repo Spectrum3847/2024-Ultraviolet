@@ -107,7 +107,7 @@ public class Vision extends SubsystemBase {
 
     private final DecimalFormat df = new DecimalFormat();
 
-    @AutoLogOutput(key = "Vision/integratingPose")
+    @AutoLogOutput(key = "Vision/a_Integrating")
     public static boolean isIntegrating = false;
 
     private boolean isAiming = false;
@@ -224,7 +224,7 @@ public class Vision extends SubsystemBase {
             /* integrations */
             // if almost stationary and extremely close to tag
             else if (robotSpeed.vxMetersPerSecond + robotSpeed.vyMetersPerSecond <= 0.2
-                    && targetSize > 0.5) {
+                    && targetSize > 0.4) {
                 ll.sendValidStatus("Stationary close integration");
                 xyStds = 0.1;
                 degStds = 0.1;

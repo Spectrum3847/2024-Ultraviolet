@@ -94,7 +94,8 @@ public class Elevator extends Mechanism {
     }
 
     public Command runPercentage(DoubleSupplier percentSupplier) {
-        return runPercentage(percentSupplier.getAsDouble());
+        return run(() -> setPercentOutput(percentSupplier.getAsDouble()))
+                .withName("Elevator.runPercentage");
     }
 
     public Command runStop() {
