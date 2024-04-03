@@ -15,6 +15,7 @@ import frc.robot.mechanisms.intake.IntakeCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.mechanisms.pivot.PivotCommands;
 import frc.robot.pilot.PilotCommands;
+import frc.robot.swerve.commands.SwerveCommands;
 import frc.robot.vision.VisionCommands;
 
 /**
@@ -30,7 +31,8 @@ public class RobotCommands {
                         () ->
                                 DriverStation.isDisabled()
                                         && Robot.feeder.lasercan.intakedNote()
-                                        && Robot.ampTrap.lasercan.closeNote());
+                                        && (Robot.ampTrap.bottomLasercan.closeNote()
+                                                || Robot.ampTrap.topLasercan.closeNote()));
         coastMode.toggleOnTrue(RobotCommands.coastModeMechanisms());
     }
 
@@ -56,7 +58,8 @@ public class RobotCommands {
         return PilotCommands.aimToSpeaker()
                 .alongWith(
                         LauncherCommands.distanceVelocity(() -> Robot.vision.getSpeakerDistance()),
-                        PivotCommands.setPivotOnDistance(() -> Robot.vision.getSpeakerDistance()))
+                        PivotCommands.setPivotOnDistance(() -> Robot.vision.getSpeakerDistance()),
+                        Commands.startEnd(Robot.vision::setAiming, Robot.vision::setNotAiming))
                 .withName("RobotCommands.visionLaunch");
     }
 
@@ -148,16 +151,16 @@ public class RobotCommands {
                 .withTimeout(0.1)
                 .onlyIf(Robot.feeder::noteIsClose)
                 .andThen(FeederCommands.feedToAmp())
-                .alongWith(AmpTrapCommands.amp().onlyIf(() -> !Robot.elevator.isAtAmpHeight()))
-                .until(() -> Robot.ampTrap.hasNote())
-                .andThen(
-                        FeederCommands.stopMotor()
-                                .alongWith(
-                                        ElevatorCommands.amp(),
-                                        AmpTrapCommands.amp()
-                                                .onlyIf(() -> !Robot.elevator.isAtAmpHeight())
-                                                .withTimeout(0.13)
-                                                .andThen(AmpTrapCommands.stopMotor())))
+                .alongWith(AmpTrapCommands.amp())
+                .until(
+                        () ->
+                                // Robot.ampTrap.getBotLaserCanDistance() >= 20
+                                Robot.ampTrap.getTopLaserCanDistance() <= 10)
+                .andThen(FeederCommands.stopMotor().alongWith(AmpTrapCommands.stopMotor()))
+                .alongWith(
+                        ElevatorCommands.amp()
+                                .onlyIf(() -> Robot.ampTrap.getBotLaserCanDistance() < 200)
+                                .repeatedly())
                 .withName("RobotCommands.amp");
     }
 
@@ -241,7 +244,8 @@ public class RobotCommands {
                         FeederCommands.ensureBrakeMode(),
                         IntakeCommands.ensureBrakeMode(),
                         LauncherCommands.ensureBrakeMode(),
-                        PivotCommands.ensureBrakeMode())
+                        PivotCommands.ensureBrakeMode(),
+                        Commands.runOnce(LEDs::turnOffCoastLEDs).ignoringDisable(true))
                 .withName("RobotCommands.ensureBrakeMode");
     }
 
@@ -279,19 +283,19 @@ public class RobotCommands {
         return Commands.either(
                 ClimberCommands.topClimb()
                         .alongWith(
-                                PivotCommands.home(),
+                                PivotCommands.climbHome(),
                                 FeederCommands.score()
                                         .withTimeout(0.1)
                                         .onlyIf(Robot.feeder::noteIsClose)
                                         .andThen(FeederCommands.feedToAmp())
                                         .alongWith(AmpTrapCommands.amp())
-                                        .until(() -> Robot.ampTrap.hasNote())
-                                        .onlyIf(() -> !Robot.ampTrap.hasNote())
+                                        .until(() -> Robot.ampTrap.bottomHasNote())
+                                        .onlyIf(() -> !Robot.ampTrap.bottomHasNote())
                                         .andThen(
                                                 AmpTrapCommands.stopMotor()
                                                         .alongWith(FeederCommands.stopMotor()))),
-                ClimberCommands.topClimb().alongWith(PivotCommands.home()),
-                Robot.ampTrap.lasercan::validDistance);
+                ClimberCommands.topClimb().alongWith(PivotCommands.climbHome()),
+                Robot.ampTrap.bottomLasercan::validDistance);
     }
 
     public static Command trapExtend() {
@@ -301,15 +305,62 @@ public class RobotCommands {
                         .onlyIf(Robot.feeder::noteIsClose)
                         .andThen(FeederCommands.feedToAmp())
                         .alongWith(AmpTrapCommands.amp())
-                        .until(() -> Robot.ampTrap.hasNote())
-                        .onlyIf(() -> !Robot.ampTrap.hasNote())
+                        .until(() -> Robot.ampTrap.bottomHasNote())
+                        .onlyIf(() -> !Robot.ampTrap.bottomHasNote())
                         .andThen(
                                 AmpTrapCommands.stopMotor()
                                         .alongWith(
                                                 FeederCommands.stopMotor(),
                                                 ElevatorCommands.fullExtend())),
                 ElevatorCommands.fullExtend(),
-                Robot.ampTrap.lasercan::validDistance);
+                Robot.ampTrap.bottomLasercan::validDistance);
+    }
+
+    public static Command centerClimbAlign() {
+        return PilotCommands.alignToCenterClimb()
+                .alongWith(
+                        ClimberCommands.topClimb(),
+                        PivotCommands.climbHome(),
+                        FeederCommands.score()
+                                .withTimeout(0.1)
+                                .onlyIf(Robot.feeder::noteIsClose)
+                                .andThen(FeederCommands.feedToAmp())
+                                .alongWith(AmpTrapCommands.amp())
+                                .until(() -> Robot.ampTrap.bottomHasNote())
+                                .onlyIf(() -> !Robot.ampTrap.bottomHasNote())
+                                .andThen(
+                                        AmpTrapCommands.stopMotor()
+                                                .alongWith(FeederCommands.stopMotor())));
+    }
+
+    public static Command autoClimb() {
+        return ClimberCommands.midClimb()
+                .onlyIf(() -> !Robot.elevator.isElevatorUp())
+                .until(
+                        () ->
+                                Robot.climber.getMotorPercentAngle()
+                                        < Robot.climber.config.midClimb + 4)
+                .andThen(
+                        SwerveCommands.Drive(
+                                        () -> 0.1 * Robot.swerve.config.maxVelocity,
+                                        () -> 0,
+                                        () -> 0,
+                                        () -> false, // true is field oriented
+                                        () -> true)
+                                .onlyIf(() -> !Robot.elevator.isElevatorUp())
+                                .withTimeout(1)
+                                .andThen(PilotCommands.pilotDrive())
+                                .alongWith(
+                                        Commands.waitSeconds(0.5)
+                                                .andThen(
+                                                        ElevatorCommands.fullExtend()
+                                                                .withTimeout(0.5),
+                                                        ClimberCommands.botClimb())))
+                .until(
+                        () ->
+                                Robot.climber.getMotorPercentAngle()
+                                        < Robot.climber.config.botClimb + 4)
+                .andThen(AmpTrapCommands.amp());
     }
 
     public static Command manualSource() {

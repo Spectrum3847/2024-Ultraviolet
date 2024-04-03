@@ -3,7 +3,7 @@
   "startingPose": {
     "position": {
       "x": 1.42,
-      "y": 1.6
+      "y": 5.55
     },
     "rotation": 180.0
   },
@@ -14,42 +14,30 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Part 1 - Source Drop"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "launch"
+            "pathName": "Path 1 - Front 6"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Part 2 - Source Drop"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "launch"
+            "pathName": "Path 2 - Front 6.5"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Part 3 - Source Drop"
+            "pathName": "Path 6 - Front 6"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "launch"
+            "pathName": "Front 7"
           }
         }
       ]
     }
   },
-  "folder": "Source Side Autos",
+  "folder": "Front Autos",
   "choreoAuto": false
 }

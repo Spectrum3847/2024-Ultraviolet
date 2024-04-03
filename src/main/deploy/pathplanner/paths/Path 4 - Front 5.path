@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 1.89,
-        "y": 5.55
+        "y": 5.54
       },
       "prevControl": null,
       "nextControl": {
         "x": 2.2358317494932463,
-        "y": 6.14706890779544
+        "y": 6.13706890779544
       },
       "isLocked": false,
       "linkedName": "GP 1 - Test Front"
@@ -58,7 +58,13 @@
             {
               "type": "named",
               "data": {
-                "name": "launchReady7"
+                "name": "visionLaunchReady"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "alignToSpeaker"
               }
             }
           ]
@@ -68,7 +74,7 @@
   ],
   "globalConstraints": {
     "maxVelocity": 6.0,
-    "maxAcceleration": 3.25,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

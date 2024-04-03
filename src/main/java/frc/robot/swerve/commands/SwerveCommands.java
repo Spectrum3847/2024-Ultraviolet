@@ -20,8 +20,9 @@ public class SwerveCommands {
         // Wait a little before enabling heading lock, allows any turns to finish
         swerve.setDefaultCommand(
                 PilotCommands.pilotDrive()
-                        .withTimeout(0.5)
-                        .andThen(PilotCommands.headingLockDrive())
+                        // .withTimeout(0.5)
+                        // .andThen(PilotCommands.headingLockDrive())
+                        .ignoringDisable(true)
                         .withName("SwerveCommands.default"));
     }
 

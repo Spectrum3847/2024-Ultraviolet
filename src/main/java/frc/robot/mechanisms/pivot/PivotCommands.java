@@ -8,7 +8,8 @@ public class PivotCommands {
     private static Pivot pivot = Robot.pivot;
 
     public static void setupDefaultCommand() {
-        pivot.setDefaultCommand(pivot.runHoldPivot().withName("Pivot.default"));
+        pivot.setDefaultCommand(
+                pivot.runHoldPivot().ignoringDisable(true).withName("Pivot.default"));
     }
 
     /* Misc Positions */
@@ -27,6 +28,10 @@ public class PivotCommands {
 
     public static Command home() {
         return pivot.runPosition(pivot.config.home).withName("Pivot.home");
+    }
+
+    public static Command climbHome() {
+        return pivot.runPosition(pivot.config.climbHome).withName("Pivot.climbHome");
     }
 
     /* Scoring Positions */
@@ -81,6 +86,14 @@ public class PivotCommands {
 
     public static Command autoLaunch7() {
         return pivot.runPosition(pivot.config.autoLaunch7).withName("Pivot.subwoofer");
+    }
+
+    public static Command autoLaunch8() {
+        return pivot.runPosition(pivot.config.autoLaunch8).withName("Pivot.subwoofer");
+    }
+
+    public static Command autoLaunch9() {
+        return pivot.runPosition(pivot.config.autoLaunch9).withName("Pivot.subwoofer");
     }
 
     public static Command intake() {

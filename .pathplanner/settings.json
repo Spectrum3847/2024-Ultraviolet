@@ -1,26 +1,25 @@
 {
-  "robotWidth": 0.9,
-  "robotLength": 0.9,
+  "robotWidth": 0.925,
+  "robotLength": 0.925,
   "holonomicMode": true,
   "pathFolders": [
     "Amp Side Paths",
     "Front Paths",
-    "Event Test Autos",
     "PID Config Paths",
-    "Simple Paths",
-    "Source Side Paths"
+    "Source Paths",
+    "Subwoofer Paths"
   ],
   "autoFolders": [
     "Amp Side Autos",
     "Front Autos",
-    "Event Test Autos",
+    "Adjustment Autos",
     "PID Config Autos",
-    "Simple Autos",
-    "Source Side Autos"
+    "Source Side Autos",
+    "Subwoofer Autos"
   ],
   "defaultMaxVel": 6.0,
   "defaultMaxAccel": 4.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
-  "maxModuleSpeed": 4.5
+  "maxModuleSpeed": 6.0
 }

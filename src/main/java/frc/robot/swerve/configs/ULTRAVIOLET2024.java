@@ -1,6 +1,7 @@
 package frc.robot.swerve.configs;
 
 import edu.wpi.first.math.util.Units;
+import frc.robot.mechanisms.pivot.Pivot.CANCoderFeedbackType;
 import frc.spectrumLib.swerve.config.DefaultConfig;
 import frc.spectrumLib.swerve.config.DefaultConfig.SlotGains;
 import frc.spectrumLib.swerve.config.ModuleConfig;
@@ -29,14 +30,14 @@ public class ULTRAVIOLET2024 {
     private static final double kWheelRadiusInches = 3.815 / 2; // Updated for VexIQ Pro Wheels
     private static final double speedAt12VoltsMps = 6;
 
-    private static final double slipCurrent = 80;
+    private static final double slipCurrent = 120;
     private static final double peakForwardTorqueCurrent = 300;
     private static final double peakReverseTorqueCurrent = 300;
     private static final SlotGains steerGains = new SlotGains(100, 0, 0, 0, 0);
     private static final SlotGains driveGains = new SlotGains(8, 0, 0.1, 0, 0.8);
 
     /*Rotation Controller*/
-    private static final double kPRotationController = 7.0;
+    private static final double kPRotationController = 8.0;
     private static final double kIRotationController = 0.0;
     private static final double kDRotationController = 0.0;
 
@@ -69,6 +70,11 @@ public class ULTRAVIOLET2024 {
     private static final double kBackLeftYPos = Units.inchesToMeters(trackWidthInches);
     private static final double kBackRightXPos = Units.inchesToMeters(-backWheelBaseInches);
     private static final double kBackRightYPos = Units.inchesToMeters(-trackWidthInches);
+
+    // Pivot CANCoder configs
+    public static final double pivotCANcoderOffset = -0.05; // flip sign
+    public static final CANCoderFeedbackType pivotFeedbackSource =
+            CANCoderFeedbackType.FusedCANcoder;
 
     public static final ModuleConfig FrontLeft =
             DefaultConfig.FrontLeft.withCANcoderOffset(kFrontLeftCANcoderOffset)
@@ -144,5 +150,6 @@ public class ULTRAVIOLET2024 {
                             kPAlignmentController, kIAlignmentController, kDAlignmentController)
                     .withProfilingConfigs(
                             maxVelocity, maxAccel, maxAngularVelocity, maxAngularAcceleration)
-                    .withDeadbandConfig(deadband, rotationDeadband);
+                    .withDeadbandConfig(deadband, rotationDeadband)
+                    .withPivotConfig(pivotCANcoderOffset, pivotFeedbackSource);
 }

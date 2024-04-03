@@ -13,16 +13,17 @@ public class Climber extends Mechanism {
     public class ClimberConfig extends Config {
 
         /* Climber constants in rotations */
-        public final double maxHeight = 128.5;
-        public final double minHeight = -1;
+        public final double maxRotation = 104;
+        public final double minRotation = -1;
 
-        /* Climber positions in rotations */
-        public double fullExtend = maxHeight;
-        public double home = minHeight;
+        /* Climber positions in percent (0 - 100) of full rotation */
+        public double fullExtend = 100;
+        public double home = 0;
 
-        public double topClimb = maxHeight;
-        public double midClimb = 96;
-        public double botClimb = minHeight;
+        public double topClimb = 100;
+        public double midClimb = 74;
+        public double safeClimb = 60;
+        public double botClimb = 0;
 
         /* Climber Percentage Output */
         public double raisePercentage = 0.2;
@@ -30,22 +31,24 @@ public class Climber extends Mechanism {
 
         /* Climber config settings */
         public final double zeroSpeed = -0.2;
-        public final double positionKp = 0.86; // 20 FOC // 10 Regular
+        public final double positionKp = 1.3; // 20 FOC // 10 Regular
         public final double positionKv = 0.013; // .12 FOC // .15 regular
-        public final double currentLimit = 40;
+        public final double currentLimit = 80;
+        public final double statorCurrentLimit = 200;
         public final double torqueCurrentLimit = 100;
-        public final double threshold = 40;
+        public final double threshold = 80;
 
         public ClimberConfig() {
             super("Climber", 53, "3847");
             configPIDGains(0, positionKp, 0, 0);
             configFeedForwardGains(0, positionKv, 0, 0);
-            configMotionMagic(120, 195, 0); // 40, 120 FOC // 120, 195 Regular
+            configMotionMagic(14700, 16100, 0); // 40, 120 FOC // 120, 195 Regular
             configSupplyCurrentLimit(currentLimit, threshold, true);
+            configStatorCurrentLimit(statorCurrentLimit, true);
             configForwardTorqueCurrentLimit(torqueCurrentLimit);
             configReverseTorqueCurrentLimit(torqueCurrentLimit);
-            configForwardSoftLimit(maxHeight, true);
-            configReverseSoftLimit(minHeight, true);
+            configForwardSoftLimit(maxRotation, true);
+            configReverseSoftLimit(minRotation, true);
             configNeutralBrakeMode(true);
             // configMotionMagicPosition(0.12);
             configClockwise_Positive();
@@ -69,10 +72,11 @@ public class Climber extends Mechanism {
     /**
      * Runs the climber to the specified position.
      *
-     * @param position position in revolutions
+     * @param percent percentage of max rotation (0 is vertical). Note that the percentage is not
+     *     [-1,1] but rather [-100,100]
      */
-    public Command runPosition(double position) {
-        return run(() -> setMMPosition(position)).withName("Climber.runPosition");
+    public Command runPosition(double percent) {
+        return run(() -> setMMPosition(percentToRotation(percent))).withName("Climber.runPosition");
     }
 
     /**
@@ -122,7 +126,8 @@ public class Climber extends Mechanism {
                         () ->
                                 attached
                                         && config.talonConfig.MotorOutput.NeutralMode
-                                                == NeutralModeValue.Coast);
+                                                == NeutralModeValue.Coast)
+                .ignoringDisable(true);
     }
 
     /* Custom Commands */
@@ -179,12 +184,31 @@ public class Climber extends Mechanism {
                 .withName("Climber.zeroClimberRoutine");
     }
 
+    /* Helper */
+
+    public double percentToRotation(double percent) {
+        return config.maxRotation * (percent / 100);
+    }
+
+    public DoubleSupplier percentToRotation(DoubleSupplier percent) {
+        return () -> config.maxRotation * (percent.getAsDouble() / 100);
+    }
+
     /* Logging */
 
     @AutoLogOutput(key = "Climber/Position (rotations)")
     public double getMotorPosition() {
         if (attached) {
             return motor.getPosition().getValueAsDouble();
+        }
+        return 0;
+    }
+
+    /** Returns the position of the motor as a percentage of max rotation */
+    @AutoLogOutput(key = "Climber/Motor Position (percent)")
+    public double getMotorPercentAngle() {
+        if (attached) {
+            return motor.getPosition().getValueAsDouble() / config.maxRotation * 100;
         }
         return 0;
     }

@@ -114,6 +114,7 @@ public class Swerve implements Subsystem {
         Logger.recordOutput("Odometry/Robot", getPose());
         Logger.recordOutput("Odometry/RobotX", getPose().getX());
         Logger.recordOutput("Odometry/RobotY", getPose().getY());
+        Logger.recordOutput("Odemtry/RobotTheta", getPose().getRotation().getDegrees());
 
         // Log Vision Pose
         if (Robot.isReal()) {

@@ -1,15 +1,13 @@
 package frc.spectrumLib.vision;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Robot;
 import frc.robot.vision.Vision.VisionConfig;
 import frc.spectrumLib.vision.LimelightHelpers.LimelightResults;
+import frc.spectrumLib.vision.LimelightHelpers.RawFiducial;
 import java.text.DecimalFormat;
-import java.util.Optional;
 
 public class Limelight {
 
@@ -19,7 +17,8 @@ public class Limelight {
     public final String CAMERA_NAME;
 
     public String logStatus = "";
-    public boolean trustStrong = false;
+    public String tagStatus = "";
+    public boolean isIntegrating;
     /** Physical Config */
     private PhysicalConfig physicalConfig;
 
@@ -30,7 +29,8 @@ public class Limelight {
         this.CAMERA_NAME = cameraName;
         physicalConfig = new PhysicalConfig();
         logStatus = "Not started";
-        trustStrong = false;
+        tagStatus = "Not started";
+        isIntegrating = false;
     }
 
     public Limelight(String cameraName, int pipeline) {
@@ -118,36 +118,15 @@ public class Limelight {
         return multipleTagsInView() && getTargetSize() > 0.1;
     }
 
-    public Optional<Pose2d> getFilteredPose(Pose2d swervePose, double rejectDistance) {
-        Pose2d visionPose = getRawPose3d().toPose2d();
-
-        // if no camera or no target in view, return empty
-        if (!isCameraConnected() || !targetInView()) {
-            logStatus = "No Apriltag in view";
-            return Optional.empty();
-        }
-        // if vision pose is too far off current and we are not very close to a tag, ignore it
-        if (swervePose.getTranslation().getDistance(visionPose.getTranslation()) < rejectDistance
-                || (swervePose.getX() <= 0 || Robot.swerve.getPose().getY() <= 0)
-                || (getDistanceToTagFromCamera() <= 1)
-                || (getTagCountInView() >= 2 && getDistanceToTagFromCamera() <= 3)) {
-            return Optional.of(new Pose2d(visionPose.getTranslation(), swervePose.getRotation()));
-        }
-
-        // dumb
-        if (swervePose.getTranslation().getDistance(visionPose.getTranslation()) > rejectDistance) {
-            logStatus = "Rejected: Too far off odometry";
-        }
-
-        logStatus = "Unknown error";
-        return Optional.empty();
-    }
-
     /** @return the distance of the 2d vector from the camera to closest apriltag */
     public double getDistanceToTagFromCamera() {
         double x = LimelightHelpers.getCameraPose3d_TargetSpace(CAMERA_NAME).getX();
         double y = LimelightHelpers.getCameraPose3d_TargetSpace(CAMERA_NAME).getZ();
         return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+    }
+
+    public RawFiducial[] getRawFiducial() {
+        return LimelightHelpers.getBotPoseEstimate_wpiBlue(CAMERA_NAME).rawFiducials;
     }
 
     /**
@@ -184,6 +163,16 @@ public class Limelight {
     public double getDistanceToTarget(double targetHeight) {
         return (targetHeight - physicalConfig.up)
                 / Math.tan(Units.degreesToRadians(physicalConfig.roll + getVerticalOffset()));
+    }
+
+    public void sendValidStatus(String message) {
+        isIntegrating = true;
+        logStatus = message;
+    }
+
+    public void sendInvalidStatus(String message) {
+        isIntegrating = false;
+        logStatus = message;
     }
 
     /*

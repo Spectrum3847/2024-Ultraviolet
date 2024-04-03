@@ -7,7 +7,8 @@ public class ClimberCommands {
     private static Climber climber = Robot.climber;
 
     public static void setupDefaultCommand() {
-        climber.setDefaultCommand(climber.holdPosition().withName("Climber.default"));
+        climber.setDefaultCommand(
+                climber.holdPosition().ignoringDisable(true).withName("Climber.default"));
     }
 
     public static Command fullExtend() {
@@ -28,6 +29,10 @@ public class ClimberCommands {
 
     public static Command botClimb() {
         return climber.runPosition(climber.config.botClimb).withName("Climber.botClimb");
+    }
+
+    public static Command safeClimb() {
+        return climber.runPosition(climber.config.safeClimb).withName("Climber.safeClimb");
     }
 
     public static Command coastMode() {

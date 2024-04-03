@@ -19,29 +19,39 @@ public class LauncherCommands {
             new InterpolatingDoubleTreeMap();
 
     static {
-        // launching
-        DISTANCE_MAP.put(1.505, 3500.0);
-        DISTANCE_MAP.put(2.629, 4500.0);
-        DISTANCE_MAP.put(3.969, 4500.0);
-        DISTANCE_MAP.put(4.269, 5200.0);
-        DISTANCE_MAP.put(4.899, 5200.0);
-        DISTANCE_MAP.put(5.189, 5200.0);
-        DISTANCE_MAP.put(5.829, 5200.0);
-        DISTANCE_MAP.put(6.229, 5200.0);
+        /* Old Launching */
+        // DISTANCE_MAP.put(1.505, 3500.0);
+        // DISTANCE_MAP.put(2.629, 4500.0);
+        // DISTANCE_MAP.put(3.969, 4500.0);
+        // DISTANCE_MAP.put(4.269, 5200.0);
+        // DISTANCE_MAP.put(4.899, 5200.0);
+        // DISTANCE_MAP.put(5.189, 5200.0);
+        // DISTANCE_MAP.put(5.829, 5200.0);
+        // DISTANCE_MAP.put(6.229, 5200.0);
+
+        /*Launching */
+        // 4500 RPM shots
+        DISTANCE_MAP.put(0.0, 4500.0);
+        DISTANCE_MAP.put(4.1, 4500.0);
+        // 5000 RPM shots
+        DISTANCE_MAP.put(4.11, 5000.0);
+        DISTANCE_MAP.put(5.9, 5000.0);
 
         // feed launching
-        FEED_DISTANCE_MAP.put(6.0, 2600.0);
-        FEED_DISTANCE_MAP.put(6.08, 2600.0);
-        FEED_DISTANCE_MAP.put(6.47, 2700.0);
-        FEED_DISTANCE_MAP.put(6.96, 2700.0);
+        FEED_DISTANCE_MAP.put(6.0, 3000.0);
+        FEED_DISTANCE_MAP.put(6.08, 3000.0);
+        FEED_DISTANCE_MAP.put(6.47, 3000.0);
+        FEED_DISTANCE_MAP.put(6.96, 3000.0);
         FEED_DISTANCE_MAP.put(7.54, 3000.0);
         FEED_DISTANCE_MAP.put(7.74, 3250.0);
-        FEED_DISTANCE_MAP.put(9.05, 3950.0);
+        FEED_DISTANCE_MAP.put(9.05, 4000.0);
     }
 
     public static void setupDefaultCommand() {
-        leftLauncher.setDefaultCommand(stopLeftMotor().withName("LeftLauncher.default"));
-        rightLauncher.setDefaultCommand(stopRightMotor().withName("RightLauncher.default"));
+        leftLauncher.setDefaultCommand(
+                stopLeftMotor().ignoringDisable(true).withName("LeftLauncher.default"));
+        rightLauncher.setDefaultCommand(
+                stopRightMotor().ignoringDisable(true).withName("RightLauncher.default"));
     }
 
     /* Launch Commands */
@@ -97,6 +107,12 @@ public class LauncherCommands {
     public static Command subwoofer() {
         return runTorqueLauncherVelocities(
                         leftLauncher.config.subwoofer, rightLauncher.config.subwoofer)
+                .withName("Launcher.subwoofer");
+    }
+
+    public static Command autoShoot() {
+        return runTorqueLauncherVelocities(
+                        leftLauncher.config.autoShoot, rightLauncher.config.autoShoot)
                 .withName("Launcher.subwoofer");
     }
 

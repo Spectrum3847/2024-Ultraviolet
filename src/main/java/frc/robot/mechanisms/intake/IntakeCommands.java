@@ -7,7 +7,7 @@ public class IntakeCommands {
     private static Intake intake = Robot.intake;
 
     public static void setupDefaultCommand() {
-        intake.setDefaultCommand(stopMotor().withName("Intake.default"));
+        intake.setDefaultCommand(stopMotor().ignoringDisable(true).withName("Intake.default"));
     }
 
     public static Command runFull() {

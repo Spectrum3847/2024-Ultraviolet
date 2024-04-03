@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.72,
-        "y": 5.551362870733224
+        "x": 1.0,
+        "y": 1.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7200000000000002,
-        "y": 5.551362870733224
+        "x": 2.0,
+        "y": 1.0
       },
       "isLocked": false,
-      "linkedName": "Subwoofer GP 2"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.35,
-        "y": 5.551362870733224
+        "x": 1.702017248749184,
+        "y": 5.334742493619693
       },
       "prevControl": {
-        "x": 2.35,
-        "y": 5.551362870733224
+        "x": 0.702017248749184,
+        "y": 5.334742493619693
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Subwoofer"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -39,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Subwoofer Paths",
+  "folder": null,
   "previewStartingState": {
-    "rotation": 180.0,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": true

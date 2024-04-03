@@ -5,7 +5,9 @@ import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.interpolation.TimeInterpolatableBuffer;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
@@ -17,6 +19,7 @@ import frc.robot.Robot;
 import frc.robot.RobotTelemetry;
 import frc.spectrumLib.vision.Limelight;
 import frc.spectrumLib.vision.Limelight.PhysicalConfig;
+import frc.spectrumLib.vision.LimelightHelpers.RawFiducial;
 import java.text.DecimalFormat;
 import org.littletonrobotics.junction.AutoLogOutput;
 
@@ -69,6 +72,12 @@ public class Vision extends SubsystemBase {
                 VecBuilder.fill(VISION_STD_DEV_X, VISION_STD_DEV_Y, VISION_STD_DEV_THETA);
     }
 
+    public record AimingParameters(
+            Rotation2d driveHeading,
+            Rotation2d armAngle,
+            double effectiveDistance,
+            double driveFeedVelocity) {}
+
     /* Limelights */
     public final Limelight rearLL =
             new Limelight(
@@ -98,13 +107,20 @@ public class Vision extends SubsystemBase {
 
     private final DecimalFormat df = new DecimalFormat();
 
-    @AutoLogOutput(key = "Vision/integratingPose")
-    public static boolean isPresent = false;
+    @AutoLogOutput(key = "Vision/a_Integrating")
+    public static boolean isIntegrating = false;
+
+    private boolean isAiming = false;
+
+    /** Cached latest aiming parameters. Calculated in {@code getAimingParameters()} */
+    private AimingParameters latestParameters = null;
+
+    private static final double poseBufferSizeSeconds = 2.0;
+    private final TimeInterpolatableBuffer<Pose2d> poseBuffer =
+            TimeInterpolatableBuffer.createBuffer(poseBufferSizeSeconds);
 
     public Vision() {
         setName("Vision");
-
-        // SmartDashboard.putBoolean("VisionPresent", Vision.isPresent);
 
         // logging
         df.setMaximumFractionDigits(2);
@@ -118,6 +134,7 @@ public class Vision extends SubsystemBase {
     @Override
     public void periodic() {
         try {
+            isIntegrating = false;
             // Will NOT run in auto
             if (DriverStation.isTeleopEnabled()) {
                 // force pose to be vision
@@ -126,17 +143,26 @@ public class Vision extends SubsystemBase {
                     // forcePoseToVision();
                 }
 
-                isPresent = true;
-                Limelight bestLimelight = getBestLimelight(); //excludes limelight-right
-                for (Limelight limelight : limelights) {
-                    // if (limelight.CAMERA_NAME != "limelight-right") {
-                    //     filterAndAddVisionMeasurment(limelight);
-                    // }
-
-                    if(limelight.CAMERA_NAME == bestLimelight.CAMERA_NAME) {
-                        filterAndAddVisionMeasurment(bestLimelight);
-                    } else {
-                        limelight.logStatus = "not best";
+                // if the front camera sees tag and we are aiming, only use that camera
+                if (isAiming && speakerLL.targetInView()) {
+                    for (Limelight limelight : limelights) {
+                        if (limelight.CAMERA_NAME == speakerLL.CAMERA_NAME) {
+                            filterAndAddVisionMeasurment(limelight);
+                        } else {
+                            limelight.sendInvalidStatus("speaker only rejection");
+                        }
+                        isIntegrating |= limelight.isIntegrating;
+                    }
+                } else {
+                    // choose LL with best view of tags and integrate from only that camera
+                    Limelight bestLimelight = getBestLimelight();
+                    for (Limelight limelight : limelights) {
+                        if (limelight.CAMERA_NAME == bestLimelight.CAMERA_NAME) {
+                            filterAndAddVisionMeasurment(bestLimelight);
+                        } else {
+                            limelight.sendInvalidStatus("not best rejection");
+                        }
+                        isIntegrating |= limelight.isIntegrating;
                     }
                 }
             }
@@ -146,37 +172,48 @@ public class Vision extends SubsystemBase {
     }
 
     private void filterAndAddVisionMeasurment(Limelight ll) {
-
         double xyStds = 1000;
         double degStds = 1000;
 
         // integrate vision
         if (ll.targetInView()) {
-            Pose3d botpose3D = ll.getRawPose3d();
+            boolean multiTags = ll.multipleTagsInView();
             double timeStamp = ll.getVisionPoseTimestamp();
+            double targetSize = ll.getTargetSize();
+            Pose3d botpose3D = ll.getRawPose3d();
             Pose2d botpose = botpose3D.toPose2d();
+            RawFiducial[] tags = ll.getRawFiducial();
+            ChassisSpeeds robotSpeed = Robot.swerve.getVelocity(true);
 
             // distance from current pose to vision estimated pose
             double poseDifference =
                     Robot.swerve.getPose().getTranslation().getDistance(botpose.getTranslation());
 
-            double targetSize = ll.getTargetSize();
             /* rejections */
+            // reject pose if individual tag ambiguity is too high
+            ll.tagStatus = "";
+            for (RawFiducial tag : tags) {
+                ll.tagStatus += "Tag " + tag.id + ": " + tag.ambiguity;
+                if (tag.ambiguity > 0.5) {
+                    ll.sendInvalidStatus("ambiguity rejection");
+                    return;
+                }
+            }
             if (Field.poseOutOfField(botpose3D)) {
                 // reject if pose is out of the field
-                isPresent = false;
-                ll.logStatus = "bound rejection";
+                ll.sendInvalidStatus("bound rejection");
                 return;
+            } else if (Math.abs(robotSpeed.omegaRadiansPerSecond) >= 0.5) {
+                // reject if we are rotating more than 0.5 rad/s
+                ll.sendInvalidStatus("rotation rejection");
             } else if (Math.abs(botpose3D.getZ()) > 0.25) {
                 // reject if pose is .25 meters in the air
-                isPresent = false;
-                ll.logStatus = "height rejection";
+                ll.sendInvalidStatus("height rejection");
                 return;
             } else if (Math.abs(botpose3D.getRotation().getX()) > 5
                     || Math.abs(botpose3D.getRotation().getY()) > 5) {
                 // reject if pose is 5 degrees titled in roll or pitch
-                isPresent = false;
-                ll.logStatus = "roll/pitch rejection";
+                ll.sendInvalidStatus("roll/pitch rejection");
             }
             //  else if (poseDifference < Units.inchesToMeters(3)) {
             //     // reject if pose is very close to robot pose
@@ -185,36 +222,36 @@ public class Vision extends SubsystemBase {
             //     return;
             // }
             /* integrations */
-            else if (ll.multipleTagsInView() && targetSize > 0.05) {
-                ll.logStatus = "Multi";
+            // if almost stationary and extremely close to tag
+            else if (robotSpeed.vxMetersPerSecond + robotSpeed.vyMetersPerSecond <= 0.2
+                    && targetSize > 0.4) {
+                ll.sendValidStatus("Stationary close integration");
+                xyStds = 0.1;
+                degStds = 0.1;
+            } else if (multiTags && targetSize > 0.05) {
+                ll.sendValidStatus("Multi integration");
                 xyStds = 0.5;
-                degStds = 6;
+                degStds = 8;
+                if (targetSize > 0.09) {
+                    ll.sendValidStatus("Strong Multi integration");
+                    xyStds = 0.1;
+                    degStds = 0.1;
+                }
             } else if (targetSize > 0.8 && poseDifference < 0.5) {
-                ll.logStatus = "Close";
+                ll.sendValidStatus("Close integration");
                 xyStds = 1.0;
-                degStds = 12;
+                degStds = 16;
             } else if (targetSize > 0.1 && poseDifference < 0.3) {
-                ll.logStatus = "Proximity";
+                ll.sendValidStatus("Proximity integration");
                 xyStds = 2.0;
                 degStds = 999999;
             } else {
-                isPresent = false;
-                ll.logStatus =
+                ll.sendInvalidStatus(
                         "catch rejection: "
                                 + RobotTelemetry.truncatedDouble(poseDifference)
-                                + " poseDiff";
+                                + " poseDiff");
                 return;
             }
-
-            ll.logStatus +=
-                    " Pose integrated; New Odometry: "
-                            + df.format(Robot.swerve.getPose().getX())
-                            + ", "
-                            + df.format(Robot.swerve.getPose().getY())
-                            + " || Vision Pose: "
-                            + df.format(botpose.getX())
-                            + ", "
-                            + df.format(botpose.getY());
 
             // track STDs
             VisionConfig.VISION_STD_DEV_X = xyStds;
@@ -228,9 +265,7 @@ public class Vision extends SubsystemBase {
                             VisionConfig.VISION_STD_DEV_THETA));
             Robot.swerve.addVisionMeasurement(botpose, timeStamp);
         } else {
-            ll.logStatus = "target rejection";
-            isPresent = false;
-            return;
+            ll.sendInvalidStatus("no tag found rejection");
         }
     }
 
@@ -265,12 +300,40 @@ public class Vision extends SubsystemBase {
     /** Returns the distance from the speaker in meters, adjusted for the robot's movement. */
     @AutoLogOutput(key = "Vision/SpeakerDistance")
     public double getSpeakerDistance() {
-        return Robot.swerve.getPose().getTranslation().getDistance(getAdjustedSpeakerPos());
+        double poseDistance =
+                Robot.swerve.getPose().getTranslation().getDistance(getAdjustedSpeakerPos());
+        double tagDistance = getDistanceToCenterSpeakerTagFromRobot();
+        if (tagDistance != -1) {
+            return poseDistance; // tagDistance;
+        }
+        return poseDistance;
+    }
+
+    @AutoLogOutput(key = "Vision/SpeakerYDistance")
+    public double getSpeakerYDelta() {
+        return Robot.swerve.getPose().getTranslation().getY() - getAdjustedSpeakerPos().getY();
     }
 
     public Translation2d getAdjustedSpeakerPos() {
         return getAdjustedTargetPos(
                 new Translation2d(0, Field.Speaker.centerSpeakerOpening.toTranslation2d().getY()));
+    }
+
+    // Returns distance to the center of the speaker tag from the robot or -1 if not found
+    public double getDistanceToCenterSpeakerTagFromRobot() {
+        RawFiducial[] tags = speakerLL.getRawFiducial();
+        int speakerTagID = 7; // Blue Speaker Tag
+        if (Field.isRed()) {
+            speakerTagID = 4; // Red Speaker Tag
+        }
+
+        for (RawFiducial tag : tags) {
+            if (tag.id == speakerTagID) {
+                return tag.distToRobot;
+            }
+        }
+
+        return -1;
     }
 
     /**
@@ -281,11 +344,12 @@ public class Vision extends SubsystemBase {
      */
     public Translation2d getAdjustedTargetPos(Translation2d targetPose) {
         double NORM_FUDGE = 0.075;
-        double tunableNoteVelocity = 5.6;
-        double tunableNormFudge = 0.85;
-        double tunableStrafeFudge = 1.05;
+        double tunableNoteVelocity = 1;
+        double tunableNormFudge = 0;
+        double tunableStrafeFudge = 1;
         double tunableSpeakerYFudge = 0.0;
         double tunableSpeakerXFudge = 0.0;
+        double spinYFudge = 0.05;
 
         targetPose = Field.flipXifRed(targetPose);
         Translation2d robotPos = Robot.swerve.getPose().getTranslation();
@@ -304,17 +368,17 @@ public class Vision extends SubsystemBase {
                                         / Math.PI);
 
         double x =
-                targetPose.getX()
-                        + (Field.isBlue() ? tunableSpeakerXFudge : -tunableSpeakerXFudge)
-                        - (robotVel.vxMetersPerSecond
-                                * (distance / tunableNoteVelocity)
-                                * (1.0 - (tunableNormFudge * normFactor)));
+                targetPose.getX() + (Field.isBlue() ? tunableSpeakerXFudge : -tunableSpeakerXFudge);
+        // - (robotVel.vxMetersPerSecond
+        // * (distance / tunableNoteVelocity)
+        //      * (1.0 - (tunableNormFudge * normFactor)));
         double y =
                 targetPose.getY()
-                        + tunableSpeakerYFudge
-                        - (robotVel.vyMetersPerSecond
-                                * (distance / tunableNoteVelocity)
-                                * tunableStrafeFudge);
+                        + (Field.isBlue() ? -spinYFudge : spinYFudge)
+                        + tunableSpeakerYFudge;
+        // - (robotVel.vyMetersPerSecond
+        // * (distance / tunableNoteVelocity)
+        //       * tunableStrafeFudge);
 
         return new Translation2d(x, y);
     }
@@ -336,8 +400,15 @@ public class Vision extends SubsystemBase {
 
     public Translation2d getAdjustedFeederPos() {
         Translation2d originalLocation = Field.StagingLocations.spikeTranslations[2];
-        return getAdjustedTargetPos(
-                new Translation2d(originalLocation.getX() - 0.5, originalLocation.getY() - 0.5));
+        Translation2d newLocation;
+        if (Field.isBlue()) {
+            newLocation =
+                    new Translation2d(originalLocation.getX() - 2.0, originalLocation.getY() + 0.5);
+        } else {
+            newLocation =
+                    new Translation2d(originalLocation.getX() - 2.0, originalLocation.getY() + 1);
+        }
+        return getAdjustedTargetPos(newLocation);
     }
 
     /**
@@ -364,21 +435,77 @@ public class Vision extends SubsystemBase {
         Limelight bestLimelight = speakerLL;
         double bestScore = 0;
         for (Limelight limelight : limelights) {
-            // exclude right camera
-            if (limelight.CAMERA_NAME != "limelight-right") {
-                double score = 0;
-                //prefer camera with most tags, when equal tag count, prefer the camera closer to tags
-                score += limelight.getTagCountInView();
-                score += limelight.getTargetSize();
+            double score = 0;
+            // prefer LL with most tags, when equal tag count, prefer LL closer to tags
+            score += limelight.getTagCountInView();
+            score += limelight.getTargetSize();
 
-                if (score > bestScore) {
-                    bestScore = score;
-                    bestLimelight = limelight;
-                }
+            if (score > bestScore) {
+                bestScore = score;
+                bestLimelight = limelight;
             }
         }
         return bestLimelight;
     }
+
+    // //6328-2024 Stdev adjustment stuff
+    // public void addVisionObservation(VisionObservation observation) {
+    //     latestParameters = null;
+    //     // If measurement is old enough to be outside the pose buffer's timespan, skip.
+    //     try {
+    //     if (poseBuffer.getInternalBuffer().lastKey() - poseBufferSizeSeconds
+    //         > observation.timestamp()) {
+    //         return;
+    //     }
+    //     } catch (NoSuchElementException ex) {
+    //     return;
+    //     }
+    //     // Get odometry based pose at timestamp
+    //     var sample = poseBuffer.getSample(observation.timestamp());
+    //     if (sample.isEmpty()) {
+    //     // exit if not there
+    //     return;
+    //     }
+
+    //     // sample --> odometryPose transform and backwards of that
+    //     var sampleToOdometryTransform = new Transform2d(sample.get(), odometryPose);
+    //     var odometryToSampleTransform = new Transform2d(odometryPose, sample.get());
+    //     // get old estimate by applying odometryToSample Transform
+    //     Pose2d estimateAtTime = estimatedPose.plus(odometryToSampleTransform);
+
+    //     // Calculate 3 x 3 vision matrix
+    //     var r = new double[3];
+    //     for (int i = 0; i < 3; ++i) {
+    //     r[i] = observation.stdDevs().get(i, 0) * observation.stdDevs().get(i, 0);
+    //     }
+    //     // Solve for closed form Kalman gain for continuous Kalman filter with A = 0
+    //     // and C = I. See wpimath/algorithms.md.
+    //     Matrix<N3, N3> visionK = new Matrix<>(Nat.N3(), Nat.N3());
+    //     for (int row = 0; row < 3; ++row) {
+    //     double stdDev = qStdDevs.get(row, 0);
+    //     if (stdDev == 0.0) {
+    //         visionK.set(row, row, 0.0);
+    //     } else {
+    //         visionK.set(row, row, stdDev / (stdDev + Math.sqrt(stdDev * r[row])));
+    //     }
+    //     }
+    //     // difference between estimate and vision pose
+    //     Transform2d transform = new Transform2d(estimateAtTime, observation.visionPose());
+    //     // scale transform by visionK
+    //     var kTimesTransform =
+    //         visionK.times(
+    //             VecBuilder.fill(
+    //                 transform.getX(), transform.getY(), transform.getRotation().getRadians()));
+    //     Transform2d scaledTransform =
+    //         new Transform2d(
+    //             kTimesTransform.get(0, 0),
+    //             kTimesTransform.get(1, 0),
+    //             Rotation2d.fromRadians(kTimesTransform.get(2, 0)));
+
+    //     // Recalculate current estimate by applying scaled transform to old estimate
+    //     // then replaying odometry data
+    //     estimatedPose = estimateAtTime.plus(scaledTransform).plus(sampleToOdometryTransform);
+    // }
 
     /**
      * If at least one LL has an accurate pose
@@ -415,6 +542,14 @@ public class Vision extends SubsystemBase {
                 .withName("Vision.blinkLimelights");
     }
 
+    public void setAiming() {
+        isAiming = true;
+    }
+
+    public void setNotAiming() {
+        isAiming = false;
+    }
+
     /** Logging */
 
     // can't use autologoutput in library and avoid repetitive loggers
@@ -432,9 +567,19 @@ public class Vision extends SubsystemBase {
             return limelight.isCameraConnected();
         }
 
+        @AutoLogOutput(key = "Vision/{name}/Integrating")
+        public boolean getIntegratingStatus() {
+            return limelight.isIntegrating;
+        }
+
         @AutoLogOutput(key = "Vision/{name}/LogStatus")
         public String getLogStatus() {
             return limelight.logStatus;
+        }
+
+        @AutoLogOutput(key = "Vision/{name}/TagStatus")
+        public String getTagStatus() {
+            return limelight.tagStatus;
         }
 
         @AutoLogOutput(key = "Vision/{name}/Pose")

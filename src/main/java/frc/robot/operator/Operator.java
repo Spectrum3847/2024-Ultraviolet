@@ -1,5 +1,6 @@
 package frc.robot.operator;
 
+import frc.robot.Robot;
 import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
 import frc.robot.leds.LEDsCommands;
@@ -9,6 +10,7 @@ import frc.robot.mechanisms.elevator.ElevatorCommands;
 import frc.robot.mechanisms.feeder.FeederCommands;
 import frc.robot.mechanisms.intake.IntakeCommands;
 import frc.robot.mechanisms.pivot.PivotCommands;
+import frc.robot.vision.VisionCommands;
 import frc.spectrumLib.gamepads.Gamepad;
 
 public class Operator extends Gamepad {
@@ -57,10 +59,18 @@ public class Operator extends Gamepad {
         rightStick().and(leftBumperOnly()).whileTrue(OperatorCommands.manualClimber());
         leftStick().and(leftBumperOnly()).whileTrue(OperatorCommands.manualElevator());
 
-        bothBumpers().whileTrue(LEDsCommands.solidGreenLED());
+        bothBumpers()
+                .whileTrue(
+                        LEDsCommands.solidGreenLED().alongWith(VisionCommands.resetPoseToVision()));
 
         controller.start().whileTrue(RobotCommands.manualSource());
 
+        /* Zero Routines */
+        controller.select().and(noBumpers()).whileTrue(Robot.climber.zeroClimberRoutine());
+        controller.select().and(leftBumperOnly()).whileTrue(Robot.pivot.zeroPivotRoutine());
+        controller.select().and(bothBumpers()).whileTrue(Robot.elevator.zeroElevatorRoutine());
+
+        /* Pivot Adjustment */
         controller.upDpad().and(noBumpers()).onTrue(rumbleCommand(PivotCommands.increaseOffset()));
         controller
                 .downDpad()
@@ -73,12 +83,20 @@ public class Operator extends Gamepad {
         controller.downDpad().and(leftBumperOnly()).whileTrue(ClimberCommands.midClimb());
         controller.leftDpad().and(leftBumperOnly()).whileTrue(ElevatorCommands.fullExtend());
         controller.rightDpad().and(leftBumperOnly()).whileTrue(ClimberCommands.botClimb());
+        controller.rightDpad().and(noBumpers()).whileTrue(ClimberCommands.safeClimb());
     };
 
     /** Setup the Buttons for Disabled mode. */
     public void setupDisabledButtons() {
 
         controller.b().toggleOnTrue(RobotCommands.coastModeMechanisms());
+
+        controller.upDpad().and(noBumpers()).onTrue(rumbleCommand(PivotCommands.increaseOffset()));
+        controller
+                .downDpad()
+                .and(noBumpers())
+                .onTrue(rumbleCommand(PivotCommands.decreaseOffset()));
+        controller.leftDpad().and(noBumpers()).onTrue(rumbleCommand(PivotCommands.resetOffset()));
     };
 
     /** Setup the Buttons for Test mode. */
