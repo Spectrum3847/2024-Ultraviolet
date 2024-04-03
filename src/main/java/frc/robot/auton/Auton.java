@@ -41,12 +41,12 @@ public class Auton extends SubsystemBase {
         autonChooser.addOption(
                 "Front Alt 6 Auto", new PathPlannerAuto("Front Alt 6")); // Runs full Auto
         autonChooser.addOption("Source 4 Auto", new PathPlannerAuto("Source 4")); // Runs full Auto
-        autonChooser.addOption("Front 6.5 Test", AutoPaths.Front6Point5()); // Runs full Auto
-        autonChooser.addOption("Front Alt 6 Test", AutoPaths.FrontAlt6()); // Runs full Auto
-        autonChooser.addOption("Source 4 Test", AutoPaths.Source4()); // Runs full Auto
-        autonChooser.addOption("Front 6", new PathPlannerAuto("Front 6")); // Runs full Auto
+        // autonChooser.addOption("Front 6.5 Test", AutoPaths.Front6Point5()); // Runs full Auto
+        // autonChooser.addOption("Front Alt 6 Test", AutoPaths.FrontAlt6()); // Runs full Auto
+        // autonChooser.addOption("Source 4 Test", AutoPaths.Source4()); // Runs full Auto
+        // autonChooser.addOption("Front 6", new PathPlannerAuto("Front 6")); // Runs full Auto
 
-        autonChooser.addOption("Test", AutoPaths.Test()); // Runs full Auto
+        // autonChooser.addOption("Test", AutoPaths.Test()); // Runs full Auto
 
         autonChooser.addOption("Subwoofer", new PathPlannerAuto("Subwoofer")); // Runs full Auto
 
