@@ -3,57 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.303460750981371,
-        "y": 2.812662388654992
+        "x": 0.72,
+        "y": 4.41
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.303460750981371,
-        "y": 2.812662388654992
-      },
-      "isLocked": false,
-      "linkedName": "Source Drop Shoot"
-    },
-    {
-      "anchor": {
-        "x": 2.7309640400384634,
-        "y": 1.5575412605889405
-      },
-      "prevControl": {
-        "x": 3.705029063650193,
-        "y": 1.572762383484466
-      },
-      "nextControl": {
-        "x": 1.9815373154284097,
-        "y": 1.545830424043158
+        "x": 2.367862154470801,
+        "y": 2.0658580619499887
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.42,
-        "y": 1.6
+        "x": 8.146473467876776,
+        "y": 0.9
       },
       "prevControl": {
-        "x": 1.9300885815829452,
-        "y": 1.6104099710527142
+        "x": 7.117526676587498,
+        "y": 1.1534824443830365
       },
       "nextControl": {
-        "x": 0.846169009256706,
-        "y": 1.5882891634542176
+        "x": 9.136863225899214,
+        "y": 0.6560161333115306
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.303460750981371,
-        "y": 2.812662388654992
+        "x": 3.0945768159076077,
+        "y": 2.64
       },
       "prevControl": {
-        "x": 1.9567813625364605,
-        "y": 2.574745462260734
+        "x": 3.9842676504810446,
+        "y": 1.721824061047561
       },
       "nextControl": null,
       "isLocked": false,
@@ -63,12 +47,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 1.0,
-      "rotationDegrees": 0.0,
-      "rotateFast": false
-    },
-    {
-      "waypointRelativePos": 2.0,
-      "rotationDegrees": 0.0,
+      "rotationDegrees": 150.0,
       "rotateFast": false
     }
   ],
@@ -76,7 +55,7 @@
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 0.45,
       "command": {
         "type": "parallel",
         "data": {
@@ -93,7 +72,7 @@
     },
     {
       "name": "LaunchReady",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 0.6,
       "command": {
         "type": "parallel",
         "data": {
@@ -103,12 +82,6 @@
               "data": {
                 "name": "visionLaunchReady"
               }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "stopTracking"
-              }
             }
           ]
         }
@@ -116,7 +89,7 @@
     },
     {
       "name": "AlignToSpeaker",
-      "waypointRelativePos": 2.0,
+      "waypointRelativePos": 1.6,
       "command": {
         "type": "parallel",
         "data": {
@@ -140,13 +113,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 140.0,
+    "rotation": 137.5,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Source Paths",
   "previewStartingState": {
-    "rotation": 140.0,
+    "rotation": 120.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

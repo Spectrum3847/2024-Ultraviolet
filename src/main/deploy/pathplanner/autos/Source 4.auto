@@ -2,19 +2,19 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4,
-      "y": 3.6375
+      "x": 0.69,
+      "y": 4.38
     },
-    "rotation": 180.0
+    "rotation": 120.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Part 1 - Source 4"
+            "name": "launchReadySubwoofer"
           }
         },
         {
@@ -26,7 +26,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Part 2 - Source 4"
+            "pathName": "Part 1 - Source 4 v2"
           }
         },
         {

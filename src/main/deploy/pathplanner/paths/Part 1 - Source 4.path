@@ -49,8 +49,8 @@
       }
     },
     {
-      "name": "AlignToSpeaker",
-      "waypointRelativePos": 0.35,
+      "name": "Launch",
+      "waypointRelativePos": 0.95,
       "command": {
         "type": "parallel",
         "data": {
@@ -58,7 +58,7 @@
             {
               "type": "named",
               "data": {
-                "name": "alignToSpeaker"
+                "name": "launch"
               }
             }
           ]
@@ -74,11 +74,11 @@
   },
   "goalEndState": {
     "velocity": 0.0,
-    "rotation": 140.0,
-    "rotateFast": true
+    "rotation": 135.0,
+    "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Source Paths",
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0

@@ -33,11 +33,11 @@
     {
       "anchor": {
         "x": 1.89,
-        "y": 5.55
+        "y": 5.54
       },
       "prevControl": {
         "x": 2.063840328649483,
-        "y": 5.198581113719757
+        "y": 5.188581113719757
       },
       "nextControl": null,
       "isLocked": false,
@@ -74,7 +74,7 @@
             {
               "type": "named",
               "data": {
-                "name": "launchReady6"
+                "name": "visionLaunchReady"
               }
             }
           ]

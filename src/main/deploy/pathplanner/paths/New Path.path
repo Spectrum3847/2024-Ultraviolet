@@ -3,57 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.35,
-        "y": 5.551362870733224
+        "x": 2.0,
+        "y": 7.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9062593185990857,
-        "y": 6.047039188238831
-      },
-      "isLocked": false,
-      "linkedName": "Subwoofer"
-    },
-    {
-      "anchor": {
-        "x": 2.05,
-        "y": 6.4679016352022645
-      },
-      "prevControl": {
-        "x": 2.0351094846557656,
-        "y": 6.088193493924278
-      },
-      "nextControl": {
-        "x": 2.0605801030077453,
-        "y": 6.737694261899781
+        "x": 3.0,
+        "y": 7.0
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.778929980685031,
-        "y": 6.984695963458836
+        "x": 4.0,
+        "y": 6.0
       },
       "prevControl": {
-        "x": 2.381617168084041,
-        "y": 6.984695963458836
-      },
-      "nextControl": {
-        "x": 3.1762427932860215,
-        "y": 6.984695963458836
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 1.35,
-        "y": 5.551362870733224
-      },
-      "prevControl": {
-        "x": 2.101217658001265,
-        "y": 6.229619220377379
+        "x": 3.0,
+        "y": 6.0
       },
       "nextControl": null,
       "isLocked": false,
@@ -64,7 +32,7 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Intake",
+      "name": "New Event Marker",
       "waypointRelativePos": 0,
       "command": {
         "type": "parallel",
@@ -81,8 +49,8 @@
       }
     },
     {
-      "name": "StopFeeder",
-      "waypointRelativePos": 0,
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.6,
       "command": {
         "type": "parallel",
         "data": {
@@ -90,7 +58,7 @@
             {
               "type": "named",
               "data": {
-                "name": "stopFeeder"
+                "name": "intakeCheck"
               }
             }
           ]
@@ -106,13 +74,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Subwoofer Paths",
+  "folder": null,
   "previewStartingState": {
-    "rotation": 180.0,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": true

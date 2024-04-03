@@ -33,15 +33,15 @@
     {
       "anchor": {
         "x": 7.929159897335793,
-        "y": 2.65
+        "y": 2.75
       },
       "prevControl": {
         "x": 7.798923764085594,
-        "y": 1.911394185240844
+        "y": 2.011394185240844
       },
       "nextControl": {
         "x": 8.042031212819298,
-        "y": 3.2901250394579353
+        "y": 3.3901250394579354
       },
       "isLocked": false,
       "linkedName": null
@@ -49,11 +49,11 @@
     {
       "anchor": {
         "x": 4.340143984310419,
-        "y": 4.8782924132733205
+        "y": 4.95
       },
       "prevControl": {
         "x": 4.910439970513308,
-        "y": 4.507937869463102
+        "y": 4.579645456189781
       },
       "nextControl": null,
       "isLocked": false,
@@ -71,7 +71,7 @@
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 1.0,
       "command": {
         "type": "parallel",
         "data": {
@@ -88,7 +88,7 @@
     },
     {
       "name": "LaunchReady",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 2.4000000000000004,
       "command": {
         "type": "parallel",
         "data": {
@@ -97,29 +97,6 @@
               "type": "named",
               "data": {
                 "name": "visionLaunchReady"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "stopTracking"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "AlignToSpeaker",
-      "waypointRelativePos": 2.55,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "alignToSpeaker"
               }
             }
           ]
@@ -135,11 +112,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 165.0,
+    "rotation": 175.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Source Paths",
   "previewStartingState": {
     "rotation": 140.0,
     "velocity": 0

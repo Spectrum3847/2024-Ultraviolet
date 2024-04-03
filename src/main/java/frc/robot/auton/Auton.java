@@ -22,6 +22,8 @@ public class Auton extends SubsystemBase {
     public static final SendableChooser<Command> autonChooser = new SendableChooser<>();
     public static boolean trackNote = false;
     public static boolean trackSpeaker = false;
+    public static boolean noteIntaked = false;
+    public static boolean intakeCheck = false;
     private static boolean autoMessagePrinted = true;
     private static double autonStart = 0;
 
@@ -31,14 +33,21 @@ public class Auton extends SubsystemBase {
         // autonChooser.addOption("1 Meter", new PathPlannerAuto("1 Meter Auto")); // Runs full Auto
         // autonChooser.addOption("3 Meter", new PathPlannerAuto("3 Meter Auto")); // Runs full Auto
         // autonChooser.addOption("5 Meter", new PathPlannerAuto("5 Meter Auto")); // Runs full Auto
+        // autonChooser.addOption("Front 5", new PathPlannerAuto("Front 5")); // Runs full Auto
 
         // Competition Autos
-        autonChooser.addOption("Front 5", new PathPlannerAuto("Front 5")); // Runs full Auto
+        autonChooser.addOption(
+                "Front 6.5 Auto", new PathPlannerAuto("Front 6.5")); // Runs full Auto
+        autonChooser.addOption(
+                "Front Alt 6 Auto", new PathPlannerAuto("Front Alt 6")); // Runs full Auto
+        autonChooser.addOption("Source 4 Auto", new PathPlannerAuto("Source 4")); // Runs full Auto
+        autonChooser.addOption("Front 6.5 Test", AutoPaths.Front6Point5()); // Runs full Auto
+        autonChooser.addOption("Front Alt 6 Test", AutoPaths.FrontAlt6()); // Runs full Auto
+        autonChooser.addOption("Source 4 Test", AutoPaths.Source4()); // Runs full Auto
         autonChooser.addOption("Front 6", new PathPlannerAuto("Front 6")); // Runs full Auto
-        autonChooser.addOption("Source 4", new PathPlannerAuto("Source 4")); // Runs full Auto
-        autonChooser.addOption("Source Drop", new PathPlannerAuto("Source Drop")); // Runs full Auto
 
-        autonChooser.addOption("Front Alt 5", new PathPlannerAuto("Front Alt 5")); // Runs full Auto
+        autonChooser.addOption("Test", AutoPaths.Test()); // Runs full Auto
+
         autonChooser.addOption("Subwoofer", new PathPlannerAuto("Subwoofer")); // Runs full Auto
 
         SmartDashboard.putData("Auto Chooser", autonChooser);
@@ -58,14 +67,19 @@ public class Auton extends SubsystemBase {
         NamedCommands.registerCommand("launchReady5", AutonCommands.launchReady5());
         NamedCommands.registerCommand("launchReady6", AutonCommands.launchReady6());
         NamedCommands.registerCommand("launchReady7", AutonCommands.launchReady7());
+        NamedCommands.registerCommand("launchReady8", AutonCommands.launchReady8());
+        NamedCommands.registerCommand("launchReady9", AutonCommands.launchReady9());
         NamedCommands.registerCommand("visionLaunchReady", AutonCommands.visionLaunch());
         NamedCommands.registerCommand("launch", AutonCommands.launch());
         NamedCommands.registerCommand("launchShort", AutonCommands.launchShort());
         NamedCommands.registerCommand("smartIntake", AutonCommands.intake());
+        NamedCommands.registerCommand("intakeCheck", AutonCommands.intakeCheck());
+        NamedCommands.registerCommand("intakeFeed", AutonCommands.intakeFeed());
 
         /* Stop Commands */
         NamedCommands.registerCommand("stopTracking", AutonCommands.stopTracking());
         NamedCommands.registerCommand("stopSmartIntake", AutonCommands.stopFeed());
+        NamedCommands.registerCommand("stophIntakeCheck", AutonCommands.stopIntakeCheck());
         NamedCommands.registerCommand("stopIntake", IntakeCommands.stopMotor());
         NamedCommands.registerCommand("stopFeeder", FeederCommands.stopMotor());
         NamedCommands.registerCommand("stopAmpTrap", AmpTrapCommands.stopMotor());

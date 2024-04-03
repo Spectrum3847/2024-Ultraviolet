@@ -88,6 +88,14 @@ public class PivotCommands {
         return pivot.runPosition(pivot.config.autoLaunch7).withName("Pivot.subwoofer");
     }
 
+    public static Command autoLaunch8() {
+        return pivot.runPosition(pivot.config.autoLaunch8).withName("Pivot.subwoofer");
+    }
+
+    public static Command autoLaunch9() {
+        return pivot.runPosition(pivot.config.autoLaunch9).withName("Pivot.subwoofer");
+    }
+
     public static Command intake() {
         return pivot.runPosition(pivot.config.intake).withName("Pivot.intake");
     }
