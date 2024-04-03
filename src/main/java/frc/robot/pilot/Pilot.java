@@ -61,8 +61,8 @@ public class Pilot extends Gamepad {
     public void setupTeleopButtons() {
 
         runWithEndSequence(
-                controller.a().and(noBumpers()),
-                RobotCommands.smartIntake().alongWith(PilotCommands.headingLockDrive()),
+                controller.a().and(noBumpers()).and(controller.x().negate()),
+                RobotCommands.smartIntake(),
                 RobotCommands.feedHome());
         controller.a().and(leftBumperOnly()).whileTrue(RobotCommands.eject());
 
@@ -77,6 +77,7 @@ public class Pilot extends Gamepad {
         controller
                 .x()
                 .and(noBumpers().or(rightBumperOnly()))
+                .and(controller.a().negate())
                 .whileTrue(RobotCommands.visionLaunch());
         controller
                 .x()
@@ -91,6 +92,8 @@ public class Pilot extends Gamepad {
                 .y()
                 .and(leftBumperOnly().or(bothBumpers()))
                 .whileTrue(RobotCommands.centerClimbAlign());
+
+        controller.a().and(controller.x()).and(noBumpers()).whileTrue(RobotCommands.autoFeed());
 
         controller.start().whileTrue(RobotCommands.autoClimb());
         controller.select().whileTrue(SwerveCommands.cardinalReorient());

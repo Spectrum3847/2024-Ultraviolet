@@ -117,6 +117,18 @@ public class RobotCommands {
                                                                                                 .blinkGreen())))));
     }
 
+    public static Command autoFeed() {
+        return RobotCommands.visionLaunch()
+                .alongWith(launchFromIntake())
+                .withName("RobotCommands.autoFeed");
+    }
+
+    public static Command launchFromIntake() {
+        return IntakeCommands.intake()
+                .alongWith(AmpTrapCommands.score(), FeederCommands.score())
+                .withName("RobotCommands.feedShoot");
+    }
+
     public static Command feedHome() {
         return IntakeCommands.intake()
                 .withTimeout(0.15)
