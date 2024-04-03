@@ -302,6 +302,13 @@ public class Pivot extends Mechanism {
         };
     }
 
+    public boolean pivotHasError() {
+        if (attached) {
+            return getMotorPosition() > config.maxRotation;
+        }
+        return false;
+    }
+
     /* Logging */
 
     /** Returns the position of the motor in rotations */
@@ -319,6 +326,11 @@ public class Pivot extends Mechanism {
             return config.OFFSET;
         }
         return 0;
+    }
+
+    @AutoLogOutput(key = "Pivot/Status")
+    public boolean pivotStatus() {
+        return !pivotHasError();
     }
 
     /** Returns the position of the motor as a percentage of max rotation */

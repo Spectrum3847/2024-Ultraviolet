@@ -143,6 +143,8 @@ public class Robot extends LoggedRobot {
             PilotCommands.setupDefaultCommand();
             OperatorCommands.setupDefaultCommand();
 
+            pilot.setupTeleopButtons();
+
             RobotTelemetry.print("--- Robot Init Complete ---");
 
         } catch (Throwable t) {
@@ -200,8 +202,11 @@ public class Robot extends LoggedRobot {
     /** This method is called once when disabled exits */
     public void disabledExit() {
         RobotCommands.ensureBrakeMode().schedule(); // sets all motors to brake mode if not already
-        LEDs.turnOffCoastLEDs(); // turn off coast mode LED in case button was not manually
-        // pressed again
+        if (pivot.pivotHasError()) {
+            DriverStation.reportError(
+                    "Pivot is above maximum commanded position! If pivot is all the way up on the robot, this warning can be ignored. If not, do not use pivot commands before restarting robot",
+                    false);
+        }
 
         RobotTelemetry.print("### Disabled Exit### ");
     }
