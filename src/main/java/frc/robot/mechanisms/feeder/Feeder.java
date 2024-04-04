@@ -21,6 +21,7 @@ public class Feeder extends Mechanism {
         public double feedToAmp = -3500; // Needs to be greater than or equal to amp roller speed
         public double launchEject = 1000;
         public double autoFeed = 3000;
+        public double ejectFromIntake = 3000;
         public double manualSource = -2000;
 
         /* Rotations config */

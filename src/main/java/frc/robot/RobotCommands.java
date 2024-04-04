@@ -124,8 +124,8 @@ public class RobotCommands {
     }
 
     public static Command launchFromIntake() {
-        return IntakeCommands.intake()
-                .alongWith(AmpTrapCommands.score(), FeederCommands.score())
+        return IntakeCommands.runFull()
+                .alongWith(AmpTrapCommands.intake(), FeederCommands.ejectFromIntake())
                 .withName("RobotCommands.feedShoot");
     }
 
