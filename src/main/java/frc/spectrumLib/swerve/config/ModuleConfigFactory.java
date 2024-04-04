@@ -14,6 +14,11 @@ public class ModuleConfigFactory {
     public double WheelRadius = 0;
     /** The maximum amount of current the drive motors can apply without slippage */
     public double SlipCurrent = 0;
+
+    public double SupplyCurrentLimit = 0;
+
+    public double SupplyCurrentThreshold = 0;
+
     /** The maximum amount of forward torque current the drive motors can apply */
     public double PeakForwardTorqueCurrent = 0;
     /** The maximum amount of reverse torque current the drive motors can apply */
@@ -129,6 +134,7 @@ public class ModuleConfigFactory {
                 .withCouplingGearRatio(CouplingGearRatio)
                 .withWheelRadius(WheelRadius)
                 .withSlipCurrent(SlipCurrent)
+                .withSupplyCurrent(SupplyCurrentLimit, SupplyCurrentThreshold)
                 .withForwardTorqueCurrentLimit(PeakForwardTorqueCurrent)
                 .withReverseTorqueCurrentLimit(PeakReverseTorqueCurrent)
                 .withSteerMotorGains(SteerMotorGains)

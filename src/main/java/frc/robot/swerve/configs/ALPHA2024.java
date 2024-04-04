@@ -29,6 +29,8 @@ public class ALPHA2024 {
     private static final double speedAt12VoltsMps = 6;
 
     private static final double slipCurrent = 80;
+    private static final double supplyCurrentLimit = 75;
+    private static final double supplyCurrentThreshold = 75;
     private static final double peakForwardTorqueCurrent = 300;
     private static final double peakReverseTorqueCurrent = 300;
     private static final SlotGains steerGains = new SlotGains(100, 0, 0, 0, 0);
@@ -69,6 +71,7 @@ public class ALPHA2024 {
                     .withLocationX(kFrontLeftXPos)
                     .withLocationY(kFrontLeftYPos)
                     .withSlipCurrent(slipCurrent)
+                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
                     .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
                     .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
@@ -84,6 +87,7 @@ public class ALPHA2024 {
                     .withLocationX(kFrontRightXPos)
                     .withLocationY(kFrontRightYPos)
                     .withSlipCurrent(slipCurrent)
+                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
                     .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
                     .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
@@ -99,6 +103,7 @@ public class ALPHA2024 {
                     .withLocationX(kBackLeftXPos)
                     .withLocationY(kBackLeftYPos)
                     .withSlipCurrent(slipCurrent)
+                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
                     .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
                     .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
@@ -114,6 +119,7 @@ public class ALPHA2024 {
                     .withLocationX(kBackRightXPos)
                     .withLocationY(kBackRightYPos)
                     .withSlipCurrent(slipCurrent)
+                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
                     .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
                     .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
