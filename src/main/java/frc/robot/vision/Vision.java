@@ -407,11 +407,9 @@ public class Vision extends SubsystemBase {
         Translation2d originalLocation = Field.StagingLocations.spikeTranslations[2];
         Translation2d newLocation;
         if (Field.isBlue()) {
-            newLocation =
-                    new Translation2d(originalLocation.getX() - 2.0, originalLocation.getY() + 0.5);
+            newLocation = new Translation2d(originalLocation.getX() - 0.0, originalLocation.getY());
         } else {
-            newLocation =
-                    new Translation2d(originalLocation.getX() - 2.0, originalLocation.getY() + 1);
+            newLocation = new Translation2d(originalLocation.getX() - 0.0, originalLocation.getY());
         }
         return getAdjustedTargetPos(newLocation);
     }

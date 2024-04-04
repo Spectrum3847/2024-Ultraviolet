@@ -329,9 +329,8 @@ public class RobotCommands {
     }
 
     public static Command centerClimbAlign() {
-        return PilotCommands.alignToCenterClimb()
+        return ClimberCommands.topClimb()
                 .alongWith(
-                        ClimberCommands.topClimb(),
                         PivotCommands.climbHome(),
                         FeederCommands.score()
                                 .withTimeout(0.1)
