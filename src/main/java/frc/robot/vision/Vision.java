@@ -594,6 +594,14 @@ public class Vision extends SubsystemBase {
             return limelight.getRawPose3d().toPose2d();
         }
 
+        @AutoLogOutput(key = "Vision/{name}/MegaPose")
+        public Pose2d getMegaPose() {
+            if (limelight.CAMERA_NAME == "limelight-rear") {
+                return new Pose2d();
+            }
+            return limelight.getMegaPose2d();
+        }
+
         @AutoLogOutput(key = "Vision/{name}/PoseX")
         public double getPoseX() {
             return getPose().getX();
