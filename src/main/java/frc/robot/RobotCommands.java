@@ -118,7 +118,7 @@ public class RobotCommands {
     }
 
     public static Command autoFeed() {
-        return RobotCommands.visionLaunch()
+        return RobotCommands.visionFeedLaunch()
                 .alongWith(launchFromIntake())
                 .withName("RobotCommands.autoFeed");
     }
