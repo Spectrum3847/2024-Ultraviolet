@@ -215,23 +215,6 @@
       }
     },
     {
-      "name": "launch",
-      "waypointRelativePos": 2.9,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "launch"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
       "name": "intake",
       "waypointRelativePos": 3.5,
       "command": {
