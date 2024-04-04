@@ -271,8 +271,8 @@ public class Vision extends SubsystemBase {
                 return;
             }
 
-            //strict with degree std and ambiguity because this is megatag1
-            if(highestAmbiguity > 0.5) {
+            // strict with degree std and ambiguity because this is megatag1
+            if (highestAmbiguity > 0.5) {
                 degStds = 15;
             }
 
