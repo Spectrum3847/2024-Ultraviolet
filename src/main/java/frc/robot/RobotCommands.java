@@ -301,7 +301,10 @@ public class RobotCommands {
                                         .onlyIf(Robot.feeder::noteIsClose)
                                         .andThen(FeederCommands.feedToAmp())
                                         .alongWith(AmpTrapCommands.amp())
-                                        .until(() -> Robot.ampTrap.bottomHasNote())
+                                        .until(
+                                                () ->
+                                                        Robot.ampTrap.bottomHasNote()
+                                                                || Robot.ampTrap.topHasNote())
                                         .onlyIf(() -> !Robot.ampTrap.bottomHasNote())
                                         .andThen(
                                                 AmpTrapCommands.stopMotor()
@@ -317,7 +320,7 @@ public class RobotCommands {
                         .onlyIf(Robot.feeder::noteIsClose)
                         .andThen(FeederCommands.feedToAmp())
                         .alongWith(AmpTrapCommands.amp())
-                        .until(() -> Robot.ampTrap.bottomHasNote())
+                        .until(() -> Robot.ampTrap.bottomHasNote() || Robot.ampTrap.topHasNote())
                         .onlyIf(() -> !Robot.ampTrap.bottomHasNote())
                         .andThen(
                                 AmpTrapCommands.stopMotor()
@@ -337,7 +340,10 @@ public class RobotCommands {
                                 .onlyIf(Robot.feeder::noteIsClose)
                                 .andThen(FeederCommands.feedToAmp())
                                 .alongWith(AmpTrapCommands.amp())
-                                .until(() -> Robot.ampTrap.bottomHasNote())
+                                .until(
+                                        () ->
+                                                Robot.ampTrap.bottomHasNote()
+                                                        || Robot.ampTrap.topHasNote())
                                 .onlyIf(() -> !Robot.ampTrap.bottomHasNote())
                                 .andThen(
                                         AmpTrapCommands.stopMotor()

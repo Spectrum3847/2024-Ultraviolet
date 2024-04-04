@@ -30,7 +30,8 @@ public class AmpTrap extends Mechanism {
         public double velocityKv = 0.12;
         public double velocityKs = 0.24;
 
-        public double hasNoteDistance = 55;
+        public double hasNoteDistance = 300;
+        public double topHasNoteDistance = 150;
 
         public AmpTrapConfig() {
             super("AmpTrap", 51, "rio");
@@ -91,7 +92,7 @@ public class AmpTrap extends Mechanism {
         if (getTopLaserCanDistance() <= 0) {
             return false;
         }
-        return getTopLaserCanDistance() < config.hasNoteDistance;
+        return getTopLaserCanDistance() < config.topHasNoteDistance;
     }
 
     @Override

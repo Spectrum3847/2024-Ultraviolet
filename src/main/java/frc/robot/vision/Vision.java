@@ -453,6 +453,11 @@ public class Vision extends SubsystemBase {
         return bestLimelight;
     }
 
+    @AutoLogOutput(key = "Vision/BestLimelight")
+    public String logBestLimelight() {
+        return getBestLimelight().CAMERA_NAME;
+    }
+
     // //6328-2024 Stdev adjustment stuff
     // public void addVisionObservation(VisionObservation observation) {
     //     latestParameters = null;
