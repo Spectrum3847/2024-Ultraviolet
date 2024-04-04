@@ -12,10 +12,10 @@ import frc.spectrumLib.swerve.config.SwerveConfig;
 public class ULTRAVIOLET2024 {
 
     // Angle Offsets: from cancoder Absolute Position No Offset, opposite sign
-    private static final double kFrontLeftCANcoderOffset = 0.043945; // 0.046631
-    private static final double kFrontRightCANncoderOffset = 0.225342; // 0.227783
-    private static final double kBackLeftCANcoderOffset = -0.305908; // -0.301270
-    private static final double kBackRightCANcoderOffset = -0.260742; // -0.259277
+    private static final double kFrontLeftCANcoderOffset = 0.044189; // 0.043945
+    private static final double kFrontRightCANncoderOffset = 0.224609; // 0.225342
+    private static final double kBackLeftCANcoderOffset = -0.304932; // -0.305908
+    private static final double kBackRightCANcoderOffset = -0.260986; // -0.260742
 
     // Physical Config
     private static final double frontWheelBaseInches = 11.875;
@@ -99,8 +99,7 @@ public class ULTRAVIOLET2024 {
                     .withLocationX(kFrontRightXPos)
                     .withLocationY(kFrontRightYPos)
                     .withSlipCurrent(slipCurrent)
-                                        .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
-
+                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
                     .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
                     .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
@@ -118,8 +117,7 @@ public class ULTRAVIOLET2024 {
                     .withLocationX(kBackLeftXPos)
                     .withLocationY(kBackLeftYPos)
                     .withSlipCurrent(slipCurrent)
-                                        .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
-
+                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
                     .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
                     .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
