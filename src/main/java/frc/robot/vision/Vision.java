@@ -547,6 +547,18 @@ public class Vision extends SubsystemBase {
                 .withName("Vision.blinkLimelights");
     }
 
+    /** Set rear LL to blink */
+    public Command solidLimelight() {
+        return startEnd(
+                        () -> {
+                            rearLL.setLEDMode(true);
+                        },
+                        () -> {
+                            rearLL.setLEDMode(false);
+                        })
+                .withName("Vision.blinkLimelights");
+    }
+
     public void setAiming() {
         isAiming = true;
     }
