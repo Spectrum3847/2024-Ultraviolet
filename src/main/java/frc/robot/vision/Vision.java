@@ -200,16 +200,16 @@ public class Vision extends SubsystemBase {
             // reject pose if individual tag ambiguity is too high
             ll.tagStatus = "";
             for (RawFiducial tag : tags) {
-                //search for highest ambiguity tag for later checks
-                if(highestAmbiguity == 2) {
+                // search for highest ambiguity tag for later checks
+                if (highestAmbiguity == 2) {
                     highestAmbiguity = tag.ambiguity;
-                } else if(tag.ambiguity > highestAmbiguity) {
+                } else if (tag.ambiguity > highestAmbiguity) {
                     highestAmbiguity = tag.ambiguity;
                 }
-                //log ambiguities 
+                // log ambiguities
                 ll.tagStatus += "Tag " + tag.id + ": " + tag.ambiguity;
-                //ambiguity rejection check
-                if (tag.ambiguity > 0.5) {
+                // ambiguity rejection check
+                if (tag.ambiguity > 0.9) {
                     ll.sendInvalidStatus("ambiguity rejection");
                     return;
                 }
@@ -231,7 +231,7 @@ public class Vision extends SubsystemBase {
                 // reject if pose is 5 degrees titled in roll or pitch
                 ll.sendInvalidStatus("roll/pitch rejection");
                 return;
-            } else if(targetSize <= 0.025) {
+            } else if (targetSize <= 0.025) {
                 ll.sendInvalidStatus("size rejection");
                 return;
             }
@@ -259,17 +259,21 @@ public class Vision extends SubsystemBase {
                 ll.sendValidStatus("Proximity integration");
                 xyStds = 2.0;
                 degStds = 999999;
-            } else if(highestAmbiguity < 0.2 && targetSize >= 0.03) {
+            } else if (highestAmbiguity < 0.2 && targetSize >= 0.03) {
                 ll.sendValidStatus("Stable integration");
                 xyStds = 0.5;
                 degStds = 999999;
-            }
-            else {
+            } else {
                 ll.sendInvalidStatus(
                         "catch rejection: "
                                 + RobotTelemetry.truncatedDouble(poseDifference)
                                 + " poseDiff");
                 return;
+            }
+
+            //strict with degree std and ambiguity because this is megatag1
+            if(highestAmbiguity > 0.5) {
+                degStds = 15;
             }
 
             // track STDs
