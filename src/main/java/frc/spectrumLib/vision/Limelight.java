@@ -1,8 +1,8 @@
 package frc.spectrumLib.vision;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.vision.Vision.VisionConfig;
 import frc.spectrumLib.vision.LimelightHelpers.LimelightResults;
@@ -108,10 +108,16 @@ public class Limelight {
 
     /* ::: Pose Retrieval ::: */
 
-    /** @return the corresponding LL Pose3d for the alliance in DriverStation.java */
+    /** @return the corresponding LL Pose3d (MEGATAG1) for the alliance in DriverStation.java */
     public Pose3d getRawPose3d() {
         return LimelightHelpers.getBotPose3d_wpiBlue(
                 CAMERA_NAME); // 2024: all alliances use blue as 0,0
+    }
+
+    /** @return the corresponding LL Pose3d (MEGATAG2) for the alliance in DriverStation.java */
+    public Pose2d getMegaPose2d() {
+        return LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(CAMERA_NAME)
+                .pose; // 2024: all alliances use blue as 0,0
     }
 
     public boolean hasAccuratePose() {
@@ -130,12 +136,21 @@ public class Limelight {
     }
 
     /**
-     * Returns the timestamp of the pose estimation from the Limelight camera.
+     * Returns the timestamp of the MEGATAG1 pose estimation from the Limelight camera.
      *
      * @return The timestamp of the pose estimation in seconds.
      */
-    public double getVisionPoseTimestamp() {
-        return Timer.getFPGATimestamp() - getPoseLatency();
+    public double getRawPoseTimestamp() {
+        return LimelightHelpers.getBotPoseEstimate_wpiBlue(CAMERA_NAME).timestampSeconds;
+    }
+
+    /**
+     * Returns the timestamp of the MEGATAG2 pose estimation from the Limelight camera.
+     *
+     * @return The timestamp of the pose estimation in seconds.
+     */
+    public double getMegaPoseTimestamp() {
+        return LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(CAMERA_NAME).timestampSeconds;
     }
 
     /**
@@ -143,6 +158,7 @@ public class Limelight {
      *
      * @return The latency of the pose estimation in seconds.
      */
+    @Deprecated(forRemoval = true)
     public double getPoseLatency() {
         return Units.millisecondsToSeconds(LimelightHelpers.getBotPose_wpiBlue(CAMERA_NAME)[6]);
     }
@@ -190,6 +206,15 @@ public class Limelight {
     /** @param pipelineIndex use pipeline indexes in {@link VisionConfig} //TODO: come back */
     public void setLimelightPipeline(int pipelineIndex) {
         LimelightHelpers.setPipelineIndex(CAMERA_NAME, pipelineIndex);
+    }
+
+    /** */
+    public void setRobotOrientation(double degrees) {
+        LimelightHelpers.SetRobotOrientation(CAMERA_NAME, degrees, 0, 0, 0, 0, 0);
+    }
+
+    public void setRobotOrientation(double degrees, double angularRate) {
+        LimelightHelpers.SetRobotOrientation(CAMERA_NAME, degrees, angularRate, 0, 0, 0, 0);
     }
 
     /**

@@ -338,7 +338,6 @@ public class Module {
         return m_cancoder;
     }
 
-    // TODO: NEEDS TO BE TESTED
     public void setModuleNeutralMode(NeutralModeValue mode) {
         setDriveNeutralMode(mode);
         setSteerNeutralMode(mode);
