@@ -189,6 +189,7 @@ public class Vision extends SubsystemBase {
             Pose2d botpose = botpose3D.toPose2d();
             Pose2d megaPose2d = ll.getMegaPose2d();
             RawFiducial[] tags = ll.getRawFiducial();
+            double highestAmbiguity = 2;
             ChassisSpeeds robotSpeed = Robot.swerve.getVelocity(true);
 
             // distance from current pose to vision estimated pose
@@ -199,7 +200,15 @@ public class Vision extends SubsystemBase {
             // reject pose if individual tag ambiguity is too high
             ll.tagStatus = "";
             for (RawFiducial tag : tags) {
+                //search for highest ambiguity tag for later checks
+                if(highestAmbiguity == 2) {
+                    highestAmbiguity = tag.ambiguity;
+                } else if(tag.ambiguity > highestAmbiguity) {
+                    highestAmbiguity = tag.ambiguity;
+                }
+                //log ambiguities 
                 ll.tagStatus += "Tag " + tag.id + ": " + tag.ambiguity;
+                //ambiguity rejection check
                 if (tag.ambiguity > 0.5) {
                     ll.sendInvalidStatus("ambiguity rejection");
                     return;
@@ -221,6 +230,9 @@ public class Vision extends SubsystemBase {
                     || Math.abs(botpose3D.getRotation().getY()) > 5) {
                 // reject if pose is 5 degrees titled in roll or pitch
                 ll.sendInvalidStatus("roll/pitch rejection");
+                return;
+            } else if(targetSize <= 0.025) {
+                ll.sendInvalidStatus("size rejection");
                 return;
             }
             /* integrations */
@@ -247,7 +259,12 @@ public class Vision extends SubsystemBase {
                 ll.sendValidStatus("Proximity integration");
                 xyStds = 2.0;
                 degStds = 999999;
-            } else {
+            } else if(highestAmbiguity < 0.2 && targetSize >= 0.03) {
+                ll.sendValidStatus("Stable integration");
+                xyStds = 0.5;
+                degStds = 999999;
+            }
+            else {
                 ll.sendInvalidStatus(
                         "catch rejection: "
                                 + RobotTelemetry.truncatedDouble(poseDifference)
@@ -407,9 +424,11 @@ public class Vision extends SubsystemBase {
         Translation2d originalLocation = Field.StagingLocations.spikeTranslations[2];
         Translation2d newLocation;
         if (Field.isBlue()) {
-            newLocation = new Translation2d(originalLocation.getX() - 0.0, originalLocation.getY());
+            newLocation =
+                    new Translation2d(originalLocation.getX() - 0.0, originalLocation.getY() - 1);
         } else {
-            newLocation = new Translation2d(originalLocation.getX() - 0.0, originalLocation.getY());
+            newLocation =
+                    new Translation2d(originalLocation.getX() - 0.0, originalLocation.getY() - 1);
         }
         return getAdjustedTargetPos(newLocation);
     }
