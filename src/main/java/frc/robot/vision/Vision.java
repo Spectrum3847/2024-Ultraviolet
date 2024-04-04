@@ -133,6 +133,11 @@ public class Vision extends SubsystemBase {
 
     @Override
     public void periodic() {
+        double yaw = Robot.swerve.getRotation().getDegrees();
+        speakerLL.setRobotOrientation(yaw);
+        leftLL.setRobotOrientation(yaw);
+        rightLL.setRobotOrientation(yaw);
+
         try {
             isIntegrating = false;
             // Will NOT run in auto
@@ -147,7 +152,7 @@ public class Vision extends SubsystemBase {
                 if (isAiming && speakerLL.targetInView()) {
                     for (Limelight limelight : limelights) {
                         if (limelight.CAMERA_NAME == speakerLL.CAMERA_NAME) {
-                            filterAndAddVisionMeasurment(limelight);
+                            addFilteredVisionInput(limelight);
                         } else {
                             limelight.sendInvalidStatus("speaker only rejection");
                         }
@@ -155,10 +160,10 @@ public class Vision extends SubsystemBase {
                     }
                 } else {
                     // choose LL with best view of tags and integrate from only that camera
-                    Limelight bestLimelight = getBestLimelight();
+                    Limelight bestLimelight = getBestLimelight(); // exclude rear LL
                     for (Limelight limelight : limelights) {
                         if (limelight.CAMERA_NAME == bestLimelight.CAMERA_NAME) {
-                            filterAndAddVisionMeasurment(bestLimelight);
+                            addFilteredVisionInput(bestLimelight);
                         } else {
                             limelight.sendInvalidStatus("not best rejection");
                         }
@@ -171,17 +176,18 @@ public class Vision extends SubsystemBase {
         }
     }
 
-    private void filterAndAddVisionMeasurment(Limelight ll) {
+    private void addFilteredVisionInput(Limelight ll) {
         double xyStds = 1000;
         double degStds = 1000;
 
         // integrate vision
         if (ll.targetInView()) {
             boolean multiTags = ll.multipleTagsInView();
-            double timeStamp = ll.getVisionPoseTimestamp();
+            double timeStamp = ll.getRawPoseTimestamp();
             double targetSize = ll.getTargetSize();
             Pose3d botpose3D = ll.getRawPose3d();
             Pose2d botpose = botpose3D.toPose2d();
+            Pose2d megaPose2d = ll.getMegaPose2d();
             RawFiducial[] tags = ll.getRawFiducial();
             ChassisSpeeds robotSpeed = Robot.swerve.getVelocity(true);
 
@@ -206,6 +212,7 @@ public class Vision extends SubsystemBase {
             } else if (Math.abs(robotSpeed.omegaRadiansPerSecond) >= 0.5) {
                 // reject if we are rotating more than 0.5 rad/s
                 ll.sendInvalidStatus("rotation rejection");
+                return;
             } else if (Math.abs(botpose3D.getZ()) > 0.25) {
                 // reject if pose is .25 meters in the air
                 ll.sendInvalidStatus("height rejection");
@@ -214,13 +221,8 @@ public class Vision extends SubsystemBase {
                     || Math.abs(botpose3D.getRotation().getY()) > 5) {
                 // reject if pose is 5 degrees titled in roll or pitch
                 ll.sendInvalidStatus("roll/pitch rejection");
+                return;
             }
-            //  else if (poseDifference < Units.inchesToMeters(3)) {
-            //     // reject if pose is very close to robot pose
-            //     isPresent = false;
-            //     ll.logStatus = "proximity rejection";
-            //     return;
-            // }
             /* integrations */
             // if almost stationary and extremely close to tag
             else if (robotSpeed.vxMetersPerSecond + robotSpeed.vyMetersPerSecond <= 0.2
@@ -230,7 +232,7 @@ public class Vision extends SubsystemBase {
                 degStds = 0.1;
             } else if (multiTags && targetSize > 0.05) {
                 ll.sendValidStatus("Multi integration");
-                xyStds = 0.5;
+                xyStds = 0.25;
                 degStds = 8;
                 if (targetSize > 0.09) {
                     ll.sendValidStatus("Strong Multi integration");
@@ -239,7 +241,7 @@ public class Vision extends SubsystemBase {
                 }
             } else if (targetSize > 0.8 && poseDifference < 0.5) {
                 ll.sendValidStatus("Close integration");
-                xyStds = 1.0;
+                xyStds = 0.5;
                 degStds = 16;
             } else if (targetSize > 0.1 && poseDifference < 0.3) {
                 ll.sendValidStatus("Proximity integration");
@@ -263,8 +265,11 @@ public class Vision extends SubsystemBase {
                             VisionConfig.VISION_STD_DEV_X,
                             VisionConfig.VISION_STD_DEV_Y,
                             VisionConfig.VISION_STD_DEV_THETA));
-            Robot.swerve.addVisionMeasurement(botpose, timeStamp);
+
+            Pose2d integratedPose = new Pose2d(megaPose2d.getTranslation(), botpose.getRotation());
+            Robot.swerve.addVisionMeasurement(integratedPose, timeStamp);
         } else {
+            ll.tagStatus = "no tags";
             ll.sendInvalidStatus("no tag found rejection");
         }
     }
@@ -435,14 +440,16 @@ public class Vision extends SubsystemBase {
         Limelight bestLimelight = speakerLL;
         double bestScore = 0;
         for (Limelight limelight : limelights) {
-            double score = 0;
-            // prefer LL with most tags, when equal tag count, prefer LL closer to tags
-            score += limelight.getTagCountInView();
-            score += limelight.getTargetSize();
+            if (limelight.CAMERA_NAME != rearLL.CAMERA_NAME) {
+                double score = 0;
+                // prefer LL with most tags, when equal tag count, prefer LL closer to tags
+                score += limelight.getTagCountInView();
+                score += limelight.getTargetSize();
 
-            if (score > bestScore) {
-                bestScore = score;
-                bestLimelight = limelight;
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestLimelight = limelight;
+                }
             }
         }
         return bestLimelight;
