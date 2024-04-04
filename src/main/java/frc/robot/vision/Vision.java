@@ -149,27 +149,27 @@ public class Vision extends SubsystemBase {
                 }
 
                 // if the front camera sees tag and we are aiming, only use that camera
-                if (isAiming && speakerLL.targetInView()) {
-                    for (Limelight limelight : limelights) {
-                        if (limelight.CAMERA_NAME == speakerLL.CAMERA_NAME) {
-                            addFilteredVisionInput(limelight);
-                        } else {
-                            limelight.sendInvalidStatus("speaker only rejection");
-                        }
-                        isIntegrating |= limelight.isIntegrating;
+                // if (isAiming && speakerLL.targetInView()) {
+                //     for (Limelight limelight : limelights) {
+                //         if (limelight.CAMERA_NAME == speakerLL.CAMERA_NAME) {
+                //             addFilteredVisionInput(limelight);
+                //         } else {
+                //             limelight.sendInvalidStatus("speaker only rejection");
+                //         }
+                //         isIntegrating |= limelight.isIntegrating;
+                //     }
+                // } else {
+                // choose LL with best view of tags and integrate from only that camera
+                Limelight bestLimelight = getBestLimelight(); // exclude rear LL
+                for (Limelight limelight : limelights) {
+                    if (limelight.CAMERA_NAME == bestLimelight.CAMERA_NAME) {
+                        addFilteredVisionInput(bestLimelight);
+                    } else {
+                        limelight.sendInvalidStatus("not best rejection");
                     }
-                } else {
-                    // choose LL with best view of tags and integrate from only that camera
-                    Limelight bestLimelight = getBestLimelight(); // exclude rear LL
-                    for (Limelight limelight : limelights) {
-                        if (limelight.CAMERA_NAME == bestLimelight.CAMERA_NAME) {
-                            addFilteredVisionInput(bestLimelight);
-                        } else {
-                            limelight.sendInvalidStatus("not best rejection");
-                        }
-                        isIntegrating |= limelight.isIntegrating;
-                    }
+                    isIntegrating |= limelight.isIntegrating;
                 }
+                // }
             }
         } catch (Exception e) {
             RobotTelemetry.print("Vision pose not present but tried to access it");

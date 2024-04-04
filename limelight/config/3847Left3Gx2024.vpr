@@ -35,16 +35,16 @@ dilation_steps:0
 direction_filter:0
 dual_close_sort_origin:0
 erosion_steps:0
-exposure:200
+exposure:100
 fiducial_backend:umich
 fiducial_decoder_strictness:strict
 fiducial_denoise:0.000000
-fiducial_idfilters:
+fiducial_idfilters:1,2,3,4,7,8,9,10,11,12,13,14,15,16
 fiducial_locfilters:
 fiducial_method:sqpnp
 fiducial_qualitythreshold:2.0
 fiducial_refine:1
-fiducial_resdiv:0
+fiducial_resdiv:2
 fiducial_size:165.1
 fiducial_skip3d:0
 fiducial_type:aprilClassic36h11
@@ -58,7 +58,7 @@ image_source:0
 img_to_show:0
 intersection_filter:0
 invert_hue:0
-lcgain:6
+lcgain:4.4
 multigroup_max:7
 multigroup_min:1
 multigroup_rejector:0
@@ -68,6 +68,7 @@ pipeline_res:0
 pipeline_type:4
 python_snapscript_name:
 red_balance:500
+reverse_morpho:0
 roi_x:0.000000
 roi_y:0.000000
 rsf:-0.135
