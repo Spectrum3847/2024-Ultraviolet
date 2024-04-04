@@ -6,6 +6,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -170,6 +171,8 @@ public class Robot extends LoggedRobot {
              * robot's periodic block in order for anything in the Command-based framework to work.
              */
             CommandScheduler.getInstance().run();
+
+            SmartDashboard.putNumber("MatchTime", DriverStation.getMatchTime());
         } catch (Throwable t) {
             // intercept error and log it
             CrashTracker.logThrowableCrash(t);
