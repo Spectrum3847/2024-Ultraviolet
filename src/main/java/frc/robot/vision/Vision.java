@@ -259,7 +259,7 @@ public class Vision extends SubsystemBase {
                 ll.sendValidStatus("Proximity integration");
                 xyStds = 2.0;
                 degStds = 999999;
-            } else if (highestAmbiguity < 0.2 && targetSize >= 0.03) {
+            } else if (highestAmbiguity < 0.25 && targetSize >= 0.03) {
                 ll.sendValidStatus("Stable integration");
                 xyStds = 0.5;
                 degStds = 999999;
@@ -428,7 +428,8 @@ public class Vision extends SubsystemBase {
         Translation2d originalLocation = Field.StagingLocations.spikeTranslations[1];
         Translation2d newLocation;
         if (Field.isBlue()) {
-            newLocation = new Translation2d(originalLocation.getX(), originalLocation.getY());
+            newLocation =
+                    new Translation2d(originalLocation.getX() - 0.5, originalLocation.getY() + 0.5);
         } else {
             newLocation = new Translation2d(originalLocation.getX(), originalLocation.getY());
         }

@@ -37,14 +37,23 @@ public class LauncherCommands {
         DISTANCE_MAP.put(4.11, 5000.0);
         DISTANCE_MAP.put(5.9, 5000.0);
 
-        // feed launching
-        FEED_DISTANCE_MAP.put(6.0, 3000.0);
-        FEED_DISTANCE_MAP.put(6.08, 3000.0);
-        FEED_DISTANCE_MAP.put(6.47, 3000.0);
+        // feed launching -- OLD
+        // FEED_DISTANCE_MAP.put(6.0, 3000.0);
+        // FEED_DISTANCE_MAP.put(6.08, 3000.0);
+        // FEED_DISTANCE_MAP.put(6.47, 3000.0);
+        // FEED_DISTANCE_MAP.put(6.96, 3000.0);
+        // FEED_DISTANCE_MAP.put(7.54, 3000.0);
+        // FEED_DISTANCE_MAP.put(7.74, 3250.0);
+        // FEED_DISTANCE_MAP.put(9.05, 4000.0);
+
+        // feed launching -- REVERT
+        FEED_DISTANCE_MAP.put(6.0, 2600.0);
+        FEED_DISTANCE_MAP.put(6.08, 2600.0);
+        FEED_DISTANCE_MAP.put(6.47, 2900.0);
         FEED_DISTANCE_MAP.put(6.96, 3000.0);
-        FEED_DISTANCE_MAP.put(7.54, 3000.0);
-        FEED_DISTANCE_MAP.put(7.74, 3250.0);
-        FEED_DISTANCE_MAP.put(9.05, 4000.0);
+        FEED_DISTANCE_MAP.put(7.54, 3500.0);
+        FEED_DISTANCE_MAP.put(7.74, 3600.0);
+        FEED_DISTANCE_MAP.put(9.05, 3950.0);
     }
 
     public static void setupDefaultCommand() {
