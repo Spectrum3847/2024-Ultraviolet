@@ -117,10 +117,31 @@ public class RobotCommands {
                                                                                                 .blinkGreen())))));
     }
 
-    public static Command autoFeed() {
+    public static Command instantFeedLaunch() {
         return RobotCommands.visionFeedLaunch()
                 .alongWith(launchFromIntake())
                 .withName("RobotCommands.autoFeed");
+    }
+
+    public static Command automaticVisionFeedLaunch() {
+        return visionFeedLaunch()
+                .alongWith(conditionalLaunch())
+                .withName("RobotCommands.automaticVisionFeedLaunch");
+    }
+
+    public static Command conditionalLaunch() {
+        return FeederCommands.stopMotor()
+                .until(
+                        () -> {
+                            return ((Math.abs(Robot.swerve.getVelocity(true).vxMetersPerSecond)
+                                            + Math.abs(
+                                                    Robot.swerve.getVelocity(true)
+                                                            .vyMetersPerSecond))
+                                    <= 0.2);
+                        })
+                .andThen(Commands.waitSeconds(0.4))
+                .raceWith(SwerveCommands.getSwerveSwitch().andThen(Commands.waitSeconds(0.1)))
+                .andThen(FeederCommands.ejectFromIntake());
     }
 
     public static Command launchFromIntake() {
