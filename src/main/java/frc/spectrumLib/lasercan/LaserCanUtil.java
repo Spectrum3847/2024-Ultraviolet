@@ -131,7 +131,7 @@ public class LaserCanUtil {
             } else {
                 if (measurement.status != 2) {
                     DriverStation.reportWarning(
-                            "LaserCan status went bad: " + measurement.status, false);
+                            "LaserCan #" + id + " status went bad: " + measurement.status, false);
                 }
                 return measurement.distance_mm;
             }

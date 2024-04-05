@@ -2,6 +2,7 @@ package frc.robot.mechanisms.feeder;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotTelemetry;
 import frc.spectrumLib.lasercan.LaserCanUtil;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
@@ -89,6 +90,7 @@ public class Feeder extends Mechanism {
         if (lasercan.validDistance()) {
             return lasercan.intakedNote();
         } else {
+            RobotTelemetry.print("RESORTED TO FALLBACK INTAKE NOTE CHECK");
             return getMotorVelocity() > 0.01;
         }
     }
