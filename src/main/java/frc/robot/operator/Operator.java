@@ -102,6 +102,9 @@ public class Operator extends Gamepad {
     /** Setup the Buttons for Test mode. */
     public void setupTestButtons() {
         // This is just for training, robots may have different buttons during test
-        setupTeleopButtons();
+        // controller.b().and(leftBumperOnly()).onTrue(rumbleCommand(SwerveCommands.resetPose(new
+        // Pose2d(1, 1, Robot.swerve.getRotation())))); //blue half field
+        // controller.b().and(rightBumperOnly()).onTrue(rumbleCommand(SwerveCommands.resetPose(new
+        // Pose2d(Field.fieldLength - 1, 1, Robot.swerve.getRotation())))); //red half field
     };
 }
