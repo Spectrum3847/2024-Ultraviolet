@@ -141,7 +141,11 @@ public class RobotCommands {
                         })
                 .andThen(Commands.waitSeconds(0.4))
                 .raceWith(SwerveCommands.getSwerveSwitch().andThen(Commands.waitSeconds(0.1)))
-                .andThen(FeederCommands.ejectFromIntake());
+                .andThen(
+                        FeederCommands.ejectFromIntake()
+                                .alongWith(
+                                        Commands.waitSeconds(0.1)
+                                                .andThen(PilotCommands.rumble(1, 0.5))));
     }
 
     public static Command launchFromIntake() {

@@ -218,7 +218,7 @@ public class Vision extends SubsystemBase {
                 // reject if pose is out of the field
                 ll.sendInvalidStatus("bound rejection");
                 return;
-            } else if (Math.abs(robotSpeed.omegaRadiansPerSecond) >= 0.5) {
+            } else if (Math.abs(robotSpeed.omegaRadiansPerSecond) >= 0.9) {
                 // reject if we are rotating more than 0.5 rad/s
                 ll.sendInvalidStatus("rotation rejection");
                 return;
@@ -271,8 +271,12 @@ public class Vision extends SubsystemBase {
                 return;
             }
 
-            // strict with degree std and ambiguity because this is megatag1
+            // strict with degree std and ambiguity and rotation because this is megatag1
             if (highestAmbiguity > 0.5) {
+                degStds = 15;
+            }
+
+            if (robotSpeed.omegaRadiansPerSecond >= 0.5) {
                 degStds = 15;
             }
 
