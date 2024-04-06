@@ -139,8 +139,22 @@ public class RobotCommands {
                                                             .vyMetersPerSecond))
                                     <= 0.2);
                         })
-                .andThen(Commands.waitSeconds(0.4))
-                .raceWith(SwerveCommands.getSwerveSwitch().andThen(Commands.waitSeconds(0.1)))
+                .andThen(
+                        Commands.waitSeconds(0.4)
+                                .alongWith(
+                                        Commands.runOnce(
+                                                () ->
+                                                        RobotTelemetry.print(
+                                                                "Speed Conditional Launch"))))
+                .raceWith(
+                        SwerveCommands.getSwerveSwitch()
+                                .andThen(
+                                        Commands.waitSeconds(0.3)
+                                                .alongWith(
+                                                        Commands.runOnce(
+                                                                () ->
+                                                                        RobotTelemetry.print(
+                                                                                "SwerveSwitch Conditional Launch")))))
                 .andThen(
                         FeederCommands.ejectFromIntake()
                                 .alongWith(
