@@ -2,6 +2,7 @@ package frc.robot.mechanisms.feeder;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotConfig;
 import frc.robot.RobotTelemetry;
 import frc.spectrumLib.lasercan.LaserCanUtil;
 import frc.spectrumLib.mechanism.Mechanism;
@@ -42,7 +43,7 @@ public class Feeder extends Mechanism {
         public double positionKv = 0.013;
 
         public FeederConfig() {
-            super("Feeder", 40, "3847");
+            super("Feeder", 40, RobotConfig.CANIVORE);
             configPIDGains(0, velocityKp, 0, 0); // velocity
             configFeedForwardGains(velocityKs, velocityKv, 0, 0); // velocity
             configPIDGains(1, positionKp, 0, 0);

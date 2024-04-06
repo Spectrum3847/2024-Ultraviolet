@@ -4,6 +4,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import frc.robot.RobotConfig;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
 import java.util.function.DoubleSupplier;
@@ -31,7 +32,7 @@ public class Elevator extends Mechanism {
         public final double threshold = 20;
 
         public ElevatorConfig() {
-            super("Elevator", 52, "3847");
+            super("Elevator", 52, RobotConfig.CANIVORE);
             configPIDGains(0, positionKp, 0, 0);
             configFeedForwardGains(0, positionKv, 0, 0);
             configMotionMagic(700, 900, 0); // 40, 120 FOC // 120, 195 Regular

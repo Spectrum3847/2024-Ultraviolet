@@ -2,6 +2,7 @@ package frc.robot.mechanisms.amptrap;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotConfig;
 import frc.spectrumLib.lasercan.LaserCanUtil;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
@@ -34,7 +35,7 @@ public class AmpTrap extends Mechanism {
         public double topHasNoteDistance = 150;
 
         public AmpTrapConfig() {
-            super("AmpTrap", 51, "rio");
+            super("AmpTrap", 51, RobotConfig.RIO_CANBUS);
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
             configGearRatio(12 / 30);

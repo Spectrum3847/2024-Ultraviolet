@@ -11,6 +11,7 @@ import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import frc.robot.RobotConfig;
 import frc.robot.RobotTelemetry;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
@@ -140,7 +141,7 @@ public class Pivot extends Mechanism {
         }
 
         public PivotConfig() {
-            super("Pivot", 41, "3847");
+            super("Pivot", 41, RobotConfig.CANIVORE);
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
             configGearRatio(1);
@@ -163,7 +164,7 @@ public class Pivot extends Mechanism {
         if (attached) {
             modifyMotorConfig(swerveConfig); // Modify configuration to use remote CANcoder fused
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
-            m_CANcoder = new CANcoder(config.CANcoderID, "3847");
+            m_CANcoder = new CANcoder(config.CANcoderID, RobotConfig.CANIVORE);
             CANcoderConfiguration cancoderConfigs = new CANcoderConfiguration();
             cancoderConfigs.MagnetSensor.MagnetOffset = swerveConfig.pivotCANcoderOffset;
             cancoderConfigs.MagnetSensor.SensorDirection =

@@ -1,6 +1,7 @@
 package frc.robot.swerve.configs;
 
 import edu.wpi.first.math.util.Units;
+import frc.robot.RobotConfig;
 import frc.spectrumLib.swerve.config.DefaultConfig;
 import frc.spectrumLib.swerve.config.DefaultConfig.SlotGains;
 import frc.spectrumLib.swerve.config.ModuleConfig;
@@ -52,7 +53,7 @@ public class NOTEBLOCK2023 {
     private static final double maxAngularAcceleration = Math.pow(maxAngularVelocity, 2);
 
     // Device Setup
-    private static final String kCANbusName = "3847";
+    private static final String kCANbusName = RobotConfig.CANIVORE;
     private static final boolean supportsPro = true;
     private static final SwerveModuleSteerFeedbackType steerFeedbackType =
             SwerveModuleSteerFeedbackType.FusedCANcoder;
