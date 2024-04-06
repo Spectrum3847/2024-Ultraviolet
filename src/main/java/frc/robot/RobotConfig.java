@@ -23,23 +23,23 @@ public final class RobotConfig {
     public final String XRAY2023MAC = "00:80:2F:22:50:6D";
 
     /**
-     * Name of the CAN bus this device is on. Possible CAN bus
-     *                 strings are:
-     *                 <ul>
-     *                   <li>"rio" for the native roboRIO CAN bus
-     *                   <li>CANivore name or serial number
-     *                   <li>SocketCAN interface (non-FRC Linux only)
-     *                   <li>"*" for any CANivore seen by the program
-     *                   <li>empty string (default) to select the default for the
-     *                       system:
-     *                   <ul>
-     *                     <li>"rio" on roboRIO
-     *                     <li>"can0" on Linux
-     *                     <li>"*" on Windows
-     *                   </ul>
-     *                 </ul>
+     * Name of the CAN bus this device is on. Possible CAN bus strings are:
+     *
+     * <ul>
+     *   <li>"rio" for the native roboRIO CAN bus
+     *   <li>CANivore name or serial number
+     *   <li>SocketCAN interface (non-FRC Linux only)
+     *   <li>"*" for any CANivore seen by the program
+     *   <li>empty string (default) to select the default for the system:
+     *       <ul>
+     *         <li>"rio" on roboRIO
+     *         <li>"can0" on Linux
+     *         <li>"*" on Windows
+     *       </ul>
+     * </ul>
      */
-    public static final String CANIVORE = "*"; //CANbus name is 3847
+    public static final String CANIVORE = "*"; // CANbus name is 3847
+
     public static final String RIO_CANBUS = "rio";
 
     public static final int ledPWMport = 0;
