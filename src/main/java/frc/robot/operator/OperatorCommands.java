@@ -54,6 +54,6 @@ public class OperatorCommands {
     }
 
     public static Command manualElevator() {
-        return elevator.runPercentage(() -> -operator.controller.getRightY());
+        return elevator.runPercentage(() -> -operator.controller.getLeftY());
     }
 }
