@@ -70,8 +70,8 @@ public class Pivot extends Mechanism {
         public double currentLimit = 30;
         public double torqueCurrentLimit = 100;
         public double threshold = 40;
-        public double velocityKp = 224.64;
-        public double velocityKv = 0.013;
+        public double velocityKp = 186; // 200 w/ 0.013 good
+        public double velocityKv = 0.018;
         public double velocityKs = 0;
 
         // TreeMap - Shooting position lookup table
