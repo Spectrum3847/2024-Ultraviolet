@@ -47,9 +47,9 @@ public class LauncherCommands {
         // FEED_DISTANCE_MAP.put(9.05, 4000.0);
 
         // feed launching -- REVERT
-        FEED_DISTANCE_MAP.put(6.0, 2600.0);
-        FEED_DISTANCE_MAP.put(6.08, 2600.0);
-        FEED_DISTANCE_MAP.put(6.47, 2900.0);
+        FEED_DISTANCE_MAP.put(6.0, 3000.0);
+        FEED_DISTANCE_MAP.put(6.08, 3000.0);
+        FEED_DISTANCE_MAP.put(6.47, 3000.0);
         FEED_DISTANCE_MAP.put(6.96, 3000.0);
         FEED_DISTANCE_MAP.put(7.54, 3500.0);
         FEED_DISTANCE_MAP.put(7.74, 3600.0);
