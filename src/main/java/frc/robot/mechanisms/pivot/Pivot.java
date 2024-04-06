@@ -131,10 +131,10 @@ public class Pivot extends Mechanism {
             // FEED_DISTANCE_MAP.put(9.05, 65.0);
 
             // feed -- REVERT
-            FEED_DISTANCE_MAP.put(6.0, 80.0);
-            FEED_DISTANCE_MAP.put(6.08, 80.0);
-            FEED_DISTANCE_MAP.put(6.47, 74.0);
-            FEED_DISTANCE_MAP.put(6.96, 72.0);
+            FEED_DISTANCE_MAP.put(6.0, 82.0);
+            FEED_DISTANCE_MAP.put(6.08, 81.0);
+            FEED_DISTANCE_MAP.put(6.47, 75.0);
+            FEED_DISTANCE_MAP.put(6.96, 72.5);
             FEED_DISTANCE_MAP.put(7.54, 70.0);
             FEED_DISTANCE_MAP.put(7.74, 65.0);
             FEED_DISTANCE_MAP.put(9.05, 65.0);
