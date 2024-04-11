@@ -1,5 +1,6 @@
 package frc.robot.leds;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -7,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Robot;
 import frc.robot.leds.LEDsConfig.Section;
+import frc.robot.vision.VisionCommands;
 
 public class LEDsCommands {
     private static LEDs leds = Robot.leds;
@@ -24,6 +26,15 @@ public class LEDsCommands {
         noteIntaked.whileTrue(intakedNote());
         coastMode.whileTrue(coastLEDs());
         launchReady.whileTrue(launchReadyStrobe());
+
+        if (DriverStation.isTeleopEnabled()) {
+            Trigger hooksUp =
+                    new Trigger(
+                            () ->
+                                    Robot.climber.getMotorPercentAngle()
+                                            >= Robot.climber.config.topClimb - 5);
+            hooksUp.whileTrue(solidGreenLED().alongWith(VisionCommands.solidLimelight()));
+        }
     }
 
     /* Default Command */

@@ -2,6 +2,7 @@ package frc.robot.mechanisms.intake;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotConfig;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
 import frc.spectrumLib.util.Conversions;
@@ -29,7 +30,7 @@ public class Intake extends Mechanism {
         public double velocityKs = 14;
 
         public IntakeConfig() {
-            super("Intake", 5, "3847");
+            super("Intake", 5, RobotConfig.CANIVORE);
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
             configGearRatio(12 / 30);

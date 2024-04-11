@@ -76,8 +76,9 @@ public class Module {
         talonConfigs.TorqueCurrent.PeakReverseTorqueCurrent = -config.SlipCurrent;
         talonConfigs.CurrentLimits.StatorCurrentLimit = config.SlipCurrent;
         talonConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
-        talonConfigs.TorqueCurrent.PeakForwardTorqueCurrent = config.PeakForwardTorqueCurrent;
-        talonConfigs.TorqueCurrent.PeakReverseTorqueCurrent = config.PeakReverseTorqueCurrent;
+        talonConfigs.CurrentLimits.SupplyCurrentLimit = config.SupplyCurrentLimit;
+        talonConfigs.CurrentLimits.SupplyCurrentThreshold = config.SupplyCurrentThreshold;
+        talonConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
 
         talonConfigs.MotorOutput.Inverted =
                 config.DriveMotorInverted
@@ -338,7 +339,6 @@ public class Module {
         return m_cancoder;
     }
 
-    // TODO: NEEDS TO BE TESTED
     public void setModuleNeutralMode(NeutralModeValue mode) {
         setDriveNeutralMode(mode);
         setSteerNeutralMode(mode);

@@ -1,5 +1,6 @@
 package frc.robot.swerve.commands;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -270,5 +271,45 @@ public class SwerveCommands {
         return swerve.startEnd(() -> swerve.setCoastMode(), () -> swerve.setBrakeMode())
                 .ignoringDisable(true)
                 .withName("Swerve.coastMode");
+    }
+
+    public static Command resetPose(Pose2d pose) {
+        return swerve.runOnce(() -> swerve.resetPose(pose)).withName("SwerveCommands.resetPose");
+    }
+
+    public static Command getSwerveSwitch() {
+        return new Command() {
+            boolean positiveSpeed;
+            boolean started = false;
+
+            // constructor
+            {
+            }
+
+            @Override
+            public void initialize() {
+                double speed = swerve.getVelocity(true).vxMetersPerSecond;
+                positiveSpeed = speed >= 0;
+                started = true;
+            }
+
+            @Override
+            public void execute() {}
+
+            @Override
+            public void end(boolean interrupted) {
+                started = false;
+            }
+
+            @Override
+            public boolean isFinished() {
+                if (started) {
+                    double speed = swerve.getVelocity(true).vxMetersPerSecond;
+                    return speed >= 0 != positiveSpeed;
+                } else {
+                    return false;
+                }
+            }
+        }.withName("Swerve.getSwerveSwitch");
     }
 }

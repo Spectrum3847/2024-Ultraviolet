@@ -10,6 +10,9 @@ public class VisionCommands {
         return vision.blinkLimelights().withName("VisionCommands.blinkLimelights");
     }
 
+    public static Command solidLimelight() {
+        return vision.solidLimelight().withName("VisionCommands.solidLimelight");
+    }
     /** Set robot pose to vision pose only if LL has good tag reading */
     public static Command resetPoseToVision() {
         return vision.runOnce(vision::resetPoseToVision)

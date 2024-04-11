@@ -31,6 +31,10 @@ public class FeederCommands {
         return feeder.runVelocity(feeder.config.autoFeed).withName("Feeder.score");
     }
 
+    public static Command ejectFromIntake() {
+        return feeder.runVelocity(feeder.config.ejectFromIntake).withName("Feeder.ejectFromIntake");
+    }
+
     public static Command slowFeed() {
         return feeder.runVelocity(feeder.config.slowFeed).withName("Feeder.slowFeed");
     }

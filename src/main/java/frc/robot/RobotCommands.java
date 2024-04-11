@@ -117,6 +117,57 @@ public class RobotCommands {
                                                                                                 .blinkGreen())))));
     }
 
+    public static Command instantFeedLaunch() {
+        return RobotCommands.visionFeedLaunch()
+                .alongWith(launchFromIntake())
+                .withName("RobotCommands.autoFeed");
+    }
+
+    public static Command automaticVisionFeedLaunch() {
+        return visionFeedLaunch()
+                .alongWith(conditionalLaunch())
+                .withName("RobotCommands.automaticVisionFeedLaunch");
+    }
+
+    public static Command conditionalLaunch() {
+        return FeederCommands.stopMotor()
+                .until(
+                        () -> {
+                            return ((Math.abs(Robot.swerve.getVelocity(true).vxMetersPerSecond)
+                                            + Math.abs(
+                                                    Robot.swerve.getVelocity(true)
+                                                            .vyMetersPerSecond))
+                                    <= 0.2);
+                        })
+                .andThen(
+                        Commands.waitSeconds(0.4)
+                                .alongWith(
+                                        Commands.runOnce(
+                                                () ->
+                                                        RobotTelemetry.print(
+                                                                "Speed Conditional Launch"))))
+                .raceWith(
+                        SwerveCommands.getSwerveSwitch()
+                                .andThen(
+                                        Commands.waitSeconds(0.3)
+                                                .alongWith(
+                                                        Commands.runOnce(
+                                                                () ->
+                                                                        RobotTelemetry.print(
+                                                                                "SwerveSwitch Conditional Launch")))))
+                .andThen(
+                        FeederCommands.ejectFromIntake()
+                                .alongWith(
+                                        Commands.waitSeconds(0.1)
+                                                .andThen(PilotCommands.rumble(1, 0.5))));
+    }
+
+    public static Command launchFromIntake() {
+        return IntakeCommands.runFull()
+                .alongWith(AmpTrapCommands.intake(), FeederCommands.ejectFromIntake())
+                .withName("RobotCommands.feedShoot");
+    }
+
     public static Command feedHome() {
         return IntakeCommands.intake()
                 .withTimeout(0.15)
@@ -289,7 +340,10 @@ public class RobotCommands {
                                         .onlyIf(Robot.feeder::noteIsClose)
                                         .andThen(FeederCommands.feedToAmp())
                                         .alongWith(AmpTrapCommands.amp())
-                                        .until(() -> Robot.ampTrap.bottomHasNote())
+                                        .until(
+                                                () ->
+                                                        Robot.ampTrap.bottomHasNote()
+                                                                || Robot.ampTrap.topHasNote())
                                         .onlyIf(() -> !Robot.ampTrap.bottomHasNote())
                                         .andThen(
                                                 AmpTrapCommands.stopMotor()
@@ -305,7 +359,7 @@ public class RobotCommands {
                         .onlyIf(Robot.feeder::noteIsClose)
                         .andThen(FeederCommands.feedToAmp())
                         .alongWith(AmpTrapCommands.amp())
-                        .until(() -> Robot.ampTrap.bottomHasNote())
+                        .until(() -> Robot.ampTrap.bottomHasNote() || Robot.ampTrap.topHasNote())
                         .onlyIf(() -> !Robot.ampTrap.bottomHasNote())
                         .andThen(
                                 AmpTrapCommands.stopMotor()
@@ -317,16 +371,18 @@ public class RobotCommands {
     }
 
     public static Command centerClimbAlign() {
-        return PilotCommands.alignToCenterClimb()
+        return ClimberCommands.topClimb()
                 .alongWith(
-                        ClimberCommands.topClimb(),
                         PivotCommands.climbHome(),
                         FeederCommands.score()
                                 .withTimeout(0.1)
                                 .onlyIf(Robot.feeder::noteIsClose)
                                 .andThen(FeederCommands.feedToAmp())
                                 .alongWith(AmpTrapCommands.amp())
-                                .until(() -> Robot.ampTrap.bottomHasNote())
+                                .until(
+                                        () ->
+                                                Robot.ampTrap.bottomHasNote()
+                                                        || Robot.ampTrap.topHasNote())
                                 .onlyIf(() -> !Robot.ampTrap.bottomHasNote())
                                 .andThen(
                                         AmpTrapCommands.stopMotor()

@@ -1,6 +1,7 @@
 package frc.robot.swerve.configs;
 
 import edu.wpi.first.math.util.Units;
+import frc.robot.RobotConfig;
 import frc.spectrumLib.swerve.config.DefaultConfig;
 import frc.spectrumLib.swerve.config.DefaultConfig.SlotGains;
 import frc.spectrumLib.swerve.config.ModuleConfig;
@@ -32,6 +33,8 @@ public class NOTEBLOCK2023 {
     private static final double kWheelRadiusInches = 3.9 / 2;
     private static final double speedAt12VoltsMps = 6;
     private static final double slipCurrent = 80;
+    private static final double supplyCurrentLimit = 75;
+    private static final double supplyCurrentThreshold = 75;
     private static final SlotGains steerGains = new SlotGains(80.42574, 0, 0, 0.2767262, 0);
     private static final SlotGains driveGains = new SlotGains(5.883745, 0, 0, 0.01806, 1.8289);
 
@@ -50,7 +53,7 @@ public class NOTEBLOCK2023 {
     private static final double maxAngularAcceleration = Math.pow(maxAngularVelocity, 2);
 
     // Device Setup
-    private static final String kCANbusName = "3847";
+    private static final String kCANbusName = RobotConfig.CANIVORE;
     private static final boolean supportsPro = true;
     private static final SwerveModuleSteerFeedbackType steerFeedbackType =
             SwerveModuleSteerFeedbackType.FusedCANcoder;
@@ -70,6 +73,7 @@ public class NOTEBLOCK2023 {
                     .withLocationX(kFrontLeftXPos)
                     .withLocationY(kFrontLeftYPos)
                     .withSlipCurrent(slipCurrent)
+                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
                     .withDriveMotorGearRatio(kDriveGearRatio)
                     .withSteerMotorGearRatio(kSteerGearRatio)
@@ -83,6 +87,7 @@ public class NOTEBLOCK2023 {
                     .withLocationX(kFrontRightXPos)
                     .withLocationY(kFrontRightYPos)
                     .withSlipCurrent(slipCurrent)
+                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
                     .withDriveMotorGearRatio(kDriveGearRatio)
                     .withSteerMotorGearRatio(kSteerGearRatio)
@@ -96,6 +101,7 @@ public class NOTEBLOCK2023 {
                     .withLocationX(kBackLeftXPos)
                     .withLocationY(kBackLeftYPos)
                     .withSlipCurrent(slipCurrent)
+                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
                     .withDriveMotorGearRatio(kDriveGearRatio)
                     .withSteerMotorGearRatio(kSteerGearRatio)
@@ -109,6 +115,7 @@ public class NOTEBLOCK2023 {
                     .withLocationX(kBackRightXPos)
                     .withLocationY(kBackRightYPos)
                     .withSlipCurrent(slipCurrent)
+                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
                     .withDriveMotorGearRatio(kDriveGearRatio)
                     .withSteerMotorGearRatio(kSteerGearRatio)

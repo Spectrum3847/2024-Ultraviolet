@@ -3,6 +3,7 @@ package frc.robot.mechanisms.launcher;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotConfig;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
 import frc.spectrumLib.util.Conversions;
@@ -37,7 +38,7 @@ public class LeftLauncher extends Mechanism {
         public double velocityKs = 14;
 
         public LeftLauncherConfig() {
-            super("LeftLauncher", 42, "3847");
+            super("LeftLauncher", 42, RobotConfig.CANIVORE);
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
             configGearRatio(1 / 2);

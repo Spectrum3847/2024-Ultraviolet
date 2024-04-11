@@ -1,6 +1,7 @@
 package frc.robot.swerve.configs;
 
 import edu.wpi.first.math.util.Units;
+import frc.robot.RobotConfig;
 import frc.robot.mechanisms.pivot.Pivot.CANCoderFeedbackType;
 import frc.spectrumLib.swerve.config.DefaultConfig;
 import frc.spectrumLib.swerve.config.DefaultConfig.SlotGains;
@@ -12,10 +13,10 @@ import frc.spectrumLib.swerve.config.SwerveConfig;
 public class ULTRAVIOLET2024 {
 
     // Angle Offsets: from cancoder Absolute Position No Offset, opposite sign
-    private static final double kFrontLeftCANcoderOffset = 0.043945; // 0.046631
-    private static final double kFrontRightCANncoderOffset = 0.225342; // 0.227783
-    private static final double kBackLeftCANcoderOffset = -0.305908; // -0.301270
-    private static final double kBackRightCANcoderOffset = -0.260742; // -0.259277
+    private static final double kFrontLeftCANcoderOffset = 0.043701; // 0.044189
+    private static final double kFrontRightCANncoderOffset = 0.225586; // 0.225098 0.225586
+    private static final double kBackLeftCANcoderOffset = -0.304932; // -0.304443
+    private static final double kBackRightCANcoderOffset = -0.260742; // -0.261475
 
     // Physical Config
     private static final double frontWheelBaseInches = 11.875;
@@ -30,7 +31,9 @@ public class ULTRAVIOLET2024 {
     private static final double kWheelRadiusInches = 3.815 / 2; // Updated for VexIQ Pro Wheels
     private static final double speedAt12VoltsMps = 6;
 
-    private static final double slipCurrent = 120;
+    private static final double slipCurrent = 80;
+    private static final double supplyCurrentLimit = 75;
+    private static final double supplyCurrentThreshold = 75;
     private static final double peakForwardTorqueCurrent = 300;
     private static final double peakReverseTorqueCurrent = 300;
     private static final SlotGains steerGains = new SlotGains(100, 0, 0, 0, 0);
@@ -56,7 +59,7 @@ public class ULTRAVIOLET2024 {
     private static final double rotationDeadband = 0.1;
 
     // Device Setup
-    private static final String kCANbusName = "3847";
+    private static final String kCANbusName = RobotConfig.CANIVORE;
     private static final boolean supportsPro = true;
     private static final SwerveModuleSteerFeedbackType steerFeedbackType =
             SwerveModuleSteerFeedbackType.FusedCANcoder;
@@ -81,6 +84,7 @@ public class ULTRAVIOLET2024 {
                     .withLocationX(kFrontLeftXPos)
                     .withLocationY(kFrontLeftYPos)
                     .withSlipCurrent(slipCurrent)
+                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
                     .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
                     .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
@@ -96,6 +100,7 @@ public class ULTRAVIOLET2024 {
                     .withLocationX(kFrontRightXPos)
                     .withLocationY(kFrontRightYPos)
                     .withSlipCurrent(slipCurrent)
+                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
                     .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
                     .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
@@ -113,6 +118,7 @@ public class ULTRAVIOLET2024 {
                     .withLocationX(kBackLeftXPos)
                     .withLocationY(kBackLeftYPos)
                     .withSlipCurrent(slipCurrent)
+                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
                     .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
                     .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
@@ -128,6 +134,7 @@ public class ULTRAVIOLET2024 {
                     .withLocationX(kBackRightXPos)
                     .withLocationY(kBackRightYPos)
                     .withSlipCurrent(slipCurrent)
+                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
                     .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
                     .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)

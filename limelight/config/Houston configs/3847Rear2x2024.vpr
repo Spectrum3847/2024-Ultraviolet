@@ -44,7 +44,7 @@ fiducial_locfilters:
 fiducial_method:sqpnp
 fiducial_qualitythreshold:2.0
 fiducial_refine:1
-fiducial_resdiv:2
+fiducial_resdiv:0
 fiducial_size:165.1
 fiducial_skip3d:0
 fiducial_type:aprilClassic36h11
@@ -64,7 +64,7 @@ multigroup_min:1
 multigroup_rejector:0
 pipeline_led_enabled:0
 pipeline_led_power:100
-pipeline_res:0
+pipeline_res:3
 pipeline_type:4
 python_snapscript_name:
 red_balance:1200

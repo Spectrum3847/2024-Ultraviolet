@@ -1,5 +1,6 @@
 package frc.robot.swerve.configs;
 
+import frc.robot.RobotConfig;
 import frc.spectrumLib.swerve.config.DefaultConfig;
 import frc.spectrumLib.swerve.config.ModuleConfig;
 import frc.spectrumLib.swerve.config.ModuleConfig.SwerveModuleSteerFeedbackType;
@@ -13,7 +14,7 @@ public class MUSICDISC2023 {
     private static final double kBackRightCANcoderOffset = 20;
 
     // Device Setup
-    private static final String kCANbusName = "rio";
+    private static final String kCANbusName = RobotConfig.RIO_CANBUS;
     private static final boolean supportsPro = false;
     private static final SwerveModuleSteerFeedbackType steerFeedbackType =
             SwerveModuleSteerFeedbackType.RemoteCANcoder;

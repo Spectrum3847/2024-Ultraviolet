@@ -2,6 +2,8 @@ package frc.robot.mechanisms.feeder;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotConfig;
+import frc.robot.RobotTelemetry;
 import frc.spectrumLib.lasercan.LaserCanUtil;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
@@ -21,6 +23,7 @@ public class Feeder extends Mechanism {
         public double feedToAmp = -3500; // Needs to be greater than or equal to amp roller speed
         public double launchEject = 1000;
         public double autoFeed = 3000;
+        public double ejectFromIntake = 3000;
         public double manualSource = -2000;
 
         /* Rotations config */
@@ -40,7 +43,7 @@ public class Feeder extends Mechanism {
         public double positionKv = 0.013;
 
         public FeederConfig() {
-            super("Feeder", 40, "3847");
+            super("Feeder", 40, RobotConfig.CANIVORE);
             configPIDGains(0, velocityKp, 0, 0); // velocity
             configFeedForwardGains(velocityKs, velocityKv, 0, 0); // velocity
             configPIDGains(1, positionKp, 0, 0);
@@ -88,6 +91,7 @@ public class Feeder extends Mechanism {
         if (lasercan.validDistance()) {
             return lasercan.intakedNote();
         } else {
+            RobotTelemetry.print("RESORTED TO FALLBACK INTAKE NOTE CHECK");
             return getMotorVelocity() > 0.01;
         }
     }

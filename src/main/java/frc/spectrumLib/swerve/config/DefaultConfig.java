@@ -28,7 +28,7 @@ public class DefaultConfig {
     private static final double kDRotationController = 0.0;
 
     // Device Setup
-    private static final String kCANbusName = "3847";
+    private static final String kCANbusName = "*"; // canivore
     private static final boolean supportsPro = false;
     private static final SwerveModuleSteerFeedbackType steerFeedbackType =
             SwerveModuleSteerFeedbackType.RemoteCANcoder;

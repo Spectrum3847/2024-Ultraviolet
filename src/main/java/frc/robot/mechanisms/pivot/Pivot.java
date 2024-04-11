@@ -11,6 +11,7 @@ import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import frc.robot.RobotConfig;
 import frc.robot.RobotTelemetry;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
@@ -61,16 +62,16 @@ public class Pivot extends Mechanism {
          * of the CHANGE in angle you set to, not +- the angle you set to) (the actual offset to
          * angles gets bigger as you get farther away)
          */
-        public final double STARTING_OFFSET = 0;
+        public final double STARTING_OFFSET = 2;
 
-        public double OFFSET = STARTING_OFFSET; // do not change this
+        public double OFFSET = STARTING_OFFSET; // do not change this line
 
         /* Pivot config values */
         public double currentLimit = 30;
         public double torqueCurrentLimit = 100;
         public double threshold = 40;
-        public double velocityKp = 224.64;
-        public double velocityKv = 0.013;
+        public double velocityKp = 186; // 200 w/ 0.013 good
+        public double velocityKv = 0.018;
         public double velocityKs = 0;
 
         // TreeMap - Shooting position lookup table
@@ -120,18 +121,27 @@ public class Pivot extends Mechanism {
             DISTANCE_MAP.put(4.8, 43.0);
             DISTANCE_MAP.put(5.0, 42.1);
 
-            // feed
-            FEED_DISTANCE_MAP.put(6.0, 69.0);
-            FEED_DISTANCE_MAP.put(6.08, 69.0);
-            FEED_DISTANCE_MAP.put(6.47, 69.0);
-            FEED_DISTANCE_MAP.put(6.96, 69.0);
-            FEED_DISTANCE_MAP.put(7.54, 68.0);
-            FEED_DISTANCE_MAP.put(7.74, 68.0);
+            // feed -- OLD
+            // FEED_DISTANCE_MAP.put(6.0, 69.0);
+            // FEED_DISTANCE_MAP.put(6.08, 69.0);
+            // FEED_DISTANCE_MAP.put(6.47, 69.0);
+            // FEED_DISTANCE_MAP.put(6.96, 69.0);
+            // FEED_DISTANCE_MAP.put(7.54, 68.0);
+            // FEED_DISTANCE_MAP.put(7.74, 68.0);
+            // FEED_DISTANCE_MAP.put(9.05, 65.0);
+
+            // feed -- REVERT
+            FEED_DISTANCE_MAP.put(6.0, 82.0);
+            FEED_DISTANCE_MAP.put(6.08, 81.0);
+            FEED_DISTANCE_MAP.put(6.47, 75.0);
+            FEED_DISTANCE_MAP.put(6.96, 72.5);
+            FEED_DISTANCE_MAP.put(7.54, 70.0);
+            FEED_DISTANCE_MAP.put(7.74, 65.0);
             FEED_DISTANCE_MAP.put(9.05, 65.0);
         }
 
         public PivotConfig() {
-            super("Pivot", 41, "3847");
+            super("Pivot", 41, RobotConfig.CANIVORE);
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
             configGearRatio(1);
@@ -154,7 +164,7 @@ public class Pivot extends Mechanism {
         if (attached) {
             modifyMotorConfig(swerveConfig); // Modify configuration to use remote CANcoder fused
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
-            m_CANcoder = new CANcoder(config.CANcoderID, "3847");
+            m_CANcoder = new CANcoder(config.CANcoderID, RobotConfig.CANIVORE);
             CANcoderConfiguration cancoderConfigs = new CANcoderConfiguration();
             cancoderConfigs.MagnetSensor.MagnetOffset = swerveConfig.pivotCANcoderOffset;
             cancoderConfigs.MagnetSensor.SensorDirection =
@@ -302,6 +312,13 @@ public class Pivot extends Mechanism {
         };
     }
 
+    public boolean pivotHasError() {
+        if (attached) {
+            return getMotorPosition() > config.maxRotation;
+        }
+        return false;
+    }
+
     /* Logging */
 
     /** Returns the position of the motor in rotations */
@@ -319,6 +336,11 @@ public class Pivot extends Mechanism {
             return config.OFFSET;
         }
         return 0;
+    }
+
+    @AutoLogOutput(key = "Pivot/Status")
+    public boolean pivotStatus() {
+        return !pivotHasError();
     }
 
     /** Returns the position of the motor as a percentage of max rotation */

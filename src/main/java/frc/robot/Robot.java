@@ -6,6 +6,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -143,6 +144,8 @@ public class Robot extends LoggedRobot {
             PilotCommands.setupDefaultCommand();
             OperatorCommands.setupDefaultCommand();
 
+            pilot.setupTeleopButtons();
+
             RobotTelemetry.print("--- Robot Init Complete ---");
 
         } catch (Throwable t) {
@@ -168,6 +171,8 @@ public class Robot extends LoggedRobot {
              * robot's periodic block in order for anything in the Command-based framework to work.
              */
             CommandScheduler.getInstance().run();
+
+            SmartDashboard.putNumber("MatchTime", DriverStation.getMatchTime());
         } catch (Throwable t) {
             // intercept error and log it
             CrashTracker.logThrowableCrash(t);
@@ -200,8 +205,11 @@ public class Robot extends LoggedRobot {
     /** This method is called once when disabled exits */
     public void disabledExit() {
         RobotCommands.ensureBrakeMode().schedule(); // sets all motors to brake mode if not already
-        LEDs.turnOffCoastLEDs(); // turn off coast mode LED in case button was not manually
-        // pressed again
+        if (pivot.pivotHasError()) {
+            DriverStation.reportError(
+                    "Pivot is above maximum commanded position! If pivot is all the way up on the robot, this warning can be ignored. If not, do not use pivot commands before restarting robot",
+                    false);
+        }
 
         RobotTelemetry.print("### Disabled Exit### ");
     }

@@ -133,6 +133,11 @@ public class Vision extends SubsystemBase {
 
     @Override
     public void periodic() {
+        double yaw = Robot.swerve.getRotation().getDegrees();
+        speakerLL.setRobotOrientation(yaw);
+        leftLL.setRobotOrientation(yaw);
+        rightLL.setRobotOrientation(yaw);
+
         try {
             isIntegrating = false;
             // Will NOT run in auto
@@ -144,45 +149,47 @@ public class Vision extends SubsystemBase {
                 }
 
                 // if the front camera sees tag and we are aiming, only use that camera
-                if (isAiming && speakerLL.targetInView()) {
-                    for (Limelight limelight : limelights) {
-                        if (limelight.CAMERA_NAME == speakerLL.CAMERA_NAME) {
-                            filterAndAddVisionMeasurment(limelight);
-                        } else {
-                            limelight.sendInvalidStatus("speaker only rejection");
-                        }
-                        isIntegrating |= limelight.isIntegrating;
+                // if (isAiming && speakerLL.targetInView()) {
+                //     for (Limelight limelight : limelights) {
+                //         if (limelight.CAMERA_NAME == speakerLL.CAMERA_NAME) {
+                //             addFilteredVisionInput(limelight);
+                //         } else {
+                //             limelight.sendInvalidStatus("speaker only rejection");
+                //         }
+                //         isIntegrating |= limelight.isIntegrating;
+                //     }
+                // } else {
+                // choose LL with best view of tags and integrate from only that camera
+                Limelight bestLimelight = getBestLimelight(); // exclude rear LL
+                for (Limelight limelight : limelights) {
+                    if (limelight.CAMERA_NAME == bestLimelight.CAMERA_NAME) {
+                        addFilteredVisionInput(bestLimelight);
+                    } else {
+                        limelight.sendInvalidStatus("not best rejection");
                     }
-                } else {
-                    // choose LL with best view of tags and integrate from only that camera
-                    Limelight bestLimelight = getBestLimelight();
-                    for (Limelight limelight : limelights) {
-                        if (limelight.CAMERA_NAME == bestLimelight.CAMERA_NAME) {
-                            filterAndAddVisionMeasurment(bestLimelight);
-                        } else {
-                            limelight.sendInvalidStatus("not best rejection");
-                        }
-                        isIntegrating |= limelight.isIntegrating;
-                    }
+                    isIntegrating |= limelight.isIntegrating;
                 }
+                // }
             }
         } catch (Exception e) {
             RobotTelemetry.print("Vision pose not present but tried to access it");
         }
     }
 
-    private void filterAndAddVisionMeasurment(Limelight ll) {
+    private void addFilteredVisionInput(Limelight ll) {
         double xyStds = 1000;
         double degStds = 1000;
 
         // integrate vision
         if (ll.targetInView()) {
             boolean multiTags = ll.multipleTagsInView();
-            double timeStamp = ll.getVisionPoseTimestamp();
+            double timeStamp = ll.getRawPoseTimestamp();
             double targetSize = ll.getTargetSize();
             Pose3d botpose3D = ll.getRawPose3d();
             Pose2d botpose = botpose3D.toPose2d();
+            Pose2d megaPose2d = ll.getMegaPose2d();
             RawFiducial[] tags = ll.getRawFiducial();
+            double highestAmbiguity = 2;
             ChassisSpeeds robotSpeed = Robot.swerve.getVelocity(true);
 
             // distance from current pose to vision estimated pose
@@ -193,8 +200,16 @@ public class Vision extends SubsystemBase {
             // reject pose if individual tag ambiguity is too high
             ll.tagStatus = "";
             for (RawFiducial tag : tags) {
+                // search for highest ambiguity tag for later checks
+                if (highestAmbiguity == 2) {
+                    highestAmbiguity = tag.ambiguity;
+                } else if (tag.ambiguity > highestAmbiguity) {
+                    highestAmbiguity = tag.ambiguity;
+                }
+                // log ambiguities
                 ll.tagStatus += "Tag " + tag.id + ": " + tag.ambiguity;
-                if (tag.ambiguity > 0.5) {
+                // ambiguity rejection check
+                if (tag.ambiguity > 0.9) {
                     ll.sendInvalidStatus("ambiguity rejection");
                     return;
                 }
@@ -203,9 +218,10 @@ public class Vision extends SubsystemBase {
                 // reject if pose is out of the field
                 ll.sendInvalidStatus("bound rejection");
                 return;
-            } else if (Math.abs(robotSpeed.omegaRadiansPerSecond) >= 0.5) {
+            } else if (Math.abs(robotSpeed.omegaRadiansPerSecond) >= 1.6) {
                 // reject if we are rotating more than 0.5 rad/s
                 ll.sendInvalidStatus("rotation rejection");
+                return;
             } else if (Math.abs(botpose3D.getZ()) > 0.25) {
                 // reject if pose is .25 meters in the air
                 ll.sendInvalidStatus("height rejection");
@@ -214,13 +230,11 @@ public class Vision extends SubsystemBase {
                     || Math.abs(botpose3D.getRotation().getY()) > 5) {
                 // reject if pose is 5 degrees titled in roll or pitch
                 ll.sendInvalidStatus("roll/pitch rejection");
+                return;
+            } else if (targetSize <= 0.025) {
+                ll.sendInvalidStatus("size rejection");
+                return;
             }
-            //  else if (poseDifference < Units.inchesToMeters(3)) {
-            //     // reject if pose is very close to robot pose
-            //     isPresent = false;
-            //     ll.logStatus = "proximity rejection";
-            //     return;
-            // }
             /* integrations */
             // if almost stationary and extremely close to tag
             else if (robotSpeed.vxMetersPerSecond + robotSpeed.vyMetersPerSecond <= 0.2
@@ -230,7 +244,7 @@ public class Vision extends SubsystemBase {
                 degStds = 0.1;
             } else if (multiTags && targetSize > 0.05) {
                 ll.sendValidStatus("Multi integration");
-                xyStds = 0.5;
+                xyStds = 0.25;
                 degStds = 8;
                 if (targetSize > 0.09) {
                     ll.sendValidStatus("Strong Multi integration");
@@ -239,11 +253,15 @@ public class Vision extends SubsystemBase {
                 }
             } else if (targetSize > 0.8 && poseDifference < 0.5) {
                 ll.sendValidStatus("Close integration");
-                xyStds = 1.0;
+                xyStds = 0.5;
                 degStds = 16;
             } else if (targetSize > 0.1 && poseDifference < 0.3) {
                 ll.sendValidStatus("Proximity integration");
                 xyStds = 2.0;
+                degStds = 999999;
+            } else if (highestAmbiguity < 0.25 && targetSize >= 0.03) {
+                ll.sendValidStatus("Stable integration");
+                xyStds = 0.5;
                 degStds = 999999;
             } else {
                 ll.sendInvalidStatus(
@@ -251,6 +269,15 @@ public class Vision extends SubsystemBase {
                                 + RobotTelemetry.truncatedDouble(poseDifference)
                                 + " poseDiff");
                 return;
+            }
+
+            // strict with degree std and ambiguity and rotation because this is megatag1
+            if (highestAmbiguity > 0.5) {
+                degStds = 15;
+            }
+
+            if (robotSpeed.omegaRadiansPerSecond >= 0.5) {
+                degStds = 15;
             }
 
             // track STDs
@@ -263,8 +290,11 @@ public class Vision extends SubsystemBase {
                             VisionConfig.VISION_STD_DEV_X,
                             VisionConfig.VISION_STD_DEV_Y,
                             VisionConfig.VISION_STD_DEV_THETA));
-            Robot.swerve.addVisionMeasurement(botpose, timeStamp);
+
+            Pose2d integratedPose = new Pose2d(megaPose2d.getTranslation(), botpose.getRotation());
+            Robot.swerve.addVisionMeasurement(integratedPose, timeStamp);
         } else {
+            ll.tagStatus = "no tags";
             ll.sendInvalidStatus("no tag found rejection");
         }
     }
@@ -399,14 +429,13 @@ public class Vision extends SubsystemBase {
     }
 
     public Translation2d getAdjustedFeederPos() {
-        Translation2d originalLocation = Field.StagingLocations.spikeTranslations[2];
+        Translation2d originalLocation = Field.StagingLocations.spikeTranslations[1];
         Translation2d newLocation;
         if (Field.isBlue()) {
             newLocation =
-                    new Translation2d(originalLocation.getX() - 2.0, originalLocation.getY() + 0.5);
+                    new Translation2d(originalLocation.getX() - 0.5, originalLocation.getY() + 0.5);
         } else {
-            newLocation =
-                    new Translation2d(originalLocation.getX() - 2.0, originalLocation.getY() + 1);
+            newLocation = new Translation2d(originalLocation.getX(), originalLocation.getY());
         }
         return getAdjustedTargetPos(newLocation);
     }
@@ -435,17 +464,24 @@ public class Vision extends SubsystemBase {
         Limelight bestLimelight = speakerLL;
         double bestScore = 0;
         for (Limelight limelight : limelights) {
-            double score = 0;
-            // prefer LL with most tags, when equal tag count, prefer LL closer to tags
-            score += limelight.getTagCountInView();
-            score += limelight.getTargetSize();
+            if (limelight.CAMERA_NAME != rearLL.CAMERA_NAME) {
+                double score = 0;
+                // prefer LL with most tags, when equal tag count, prefer LL closer to tags
+                score += limelight.getTagCountInView();
+                score += limelight.getTargetSize();
 
-            if (score > bestScore) {
-                bestScore = score;
-                bestLimelight = limelight;
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestLimelight = limelight;
+                }
             }
         }
         return bestLimelight;
+    }
+
+    @AutoLogOutput(key = "Vision/BestLimelight")
+    public String logBestLimelight() {
+        return getBestLimelight().CAMERA_NAME;
     }
 
     // //6328-2024 Stdev adjustment stuff
@@ -542,6 +578,18 @@ public class Vision extends SubsystemBase {
                 .withName("Vision.blinkLimelights");
     }
 
+    /** Set rear LL to blink */
+    public Command solidLimelight() {
+        return startEnd(
+                        () -> {
+                            rearLL.setLEDMode(true);
+                        },
+                        () -> {
+                            rearLL.setLEDMode(false);
+                        })
+                .withName("Vision.blinkLimelights");
+    }
+
     public void setAiming() {
         isAiming = true;
     }
@@ -585,6 +633,14 @@ public class Vision extends SubsystemBase {
         @AutoLogOutput(key = "Vision/{name}/Pose")
         public Pose2d getPose() {
             return limelight.getRawPose3d().toPose2d();
+        }
+
+        @AutoLogOutput(key = "Vision/{name}/MegaPose")
+        public Pose2d getMegaPose() {
+            if (limelight.CAMERA_NAME == "limelight-rear") {
+                return new Pose2d();
+            }
+            return limelight.getMegaPose2d();
         }
 
         @AutoLogOutput(key = "Vision/{name}/PoseX")

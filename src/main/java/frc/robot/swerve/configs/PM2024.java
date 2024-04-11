@@ -1,6 +1,7 @@
 package frc.robot.swerve.configs;
 
 import edu.wpi.first.math.util.Units;
+import frc.robot.RobotConfig;
 import frc.robot.mechanisms.pivot.Pivot.CANCoderFeedbackType;
 import frc.spectrumLib.swerve.config.DefaultConfig;
 import frc.spectrumLib.swerve.config.DefaultConfig.SlotGains;
@@ -30,6 +31,8 @@ public class PM2024 {
     private static final double speedAt12VoltsMps = 6;
 
     private static final double slipCurrent = 80;
+    private static final double supplyCurrentLimit = 75;
+    private static final double supplyCurrentThreshold = 75;
     private static final double peakForwardTorqueCurrent = 300;
     private static final double peakReverseTorqueCurrent = 300;
     private static final SlotGains steerGains = new SlotGains(100, 0, 0, 0, 0);
@@ -55,7 +58,7 @@ public class PM2024 {
     private static final double rotationDeadband = 0.1;
 
     // Device Setup
-    private static final String kCANbusName = "3847";
+    private static final String kCANbusName = RobotConfig.CANIVORE;
     private static final boolean supportsPro = true;
     private static final SwerveModuleSteerFeedbackType steerFeedbackType =
             SwerveModuleSteerFeedbackType.FusedCANcoder;
@@ -80,6 +83,7 @@ public class PM2024 {
                     .withLocationX(kFrontLeftXPos)
                     .withLocationY(kFrontLeftYPos)
                     .withSlipCurrent(slipCurrent)
+                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
                     .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
                     .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
@@ -95,6 +99,7 @@ public class PM2024 {
                     .withLocationX(kFrontRightXPos)
                     .withLocationY(kFrontRightYPos)
                     .withSlipCurrent(slipCurrent)
+                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
                     .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
                     .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
@@ -112,6 +117,7 @@ public class PM2024 {
                     .withLocationX(kBackLeftXPos)
                     .withLocationY(kBackLeftYPos)
                     .withSlipCurrent(slipCurrent)
+                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
                     .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
                     .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
@@ -127,6 +133,7 @@ public class PM2024 {
                     .withLocationX(kBackRightXPos)
                     .withLocationY(kBackRightYPos)
                     .withSlipCurrent(slipCurrent)
+                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
                     .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
                     .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
