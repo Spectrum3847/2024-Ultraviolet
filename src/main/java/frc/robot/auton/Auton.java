@@ -50,6 +50,7 @@ public class Auton extends SubsystemBase {
         // autonChooser.addOption("Test", AutoPaths.Test()); // Runs full Auto
 
         autonChooser.addOption("Subwoofer", new PathPlannerAuto("Subwoofer")); // Runs full Auto
+        autonChooser.addOption("Test Auto", AutoPaths.Test()); // Runs full Auto
 
         SmartDashboard.putData("Auto Chooser", autonChooser);
     }
