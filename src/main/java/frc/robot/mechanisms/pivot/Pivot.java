@@ -40,6 +40,8 @@ public class Pivot extends Mechanism {
         public final double fromAmp = 52;
         public final double ampWing = 41;
         public final double intake = 50;
+        public final double manualFeed = 70;
+        /* Auto Launch Positions */
         public final double autoLaunchPreload = 60;
         public final double autoLaunch1 = 70;
         public final double autoLaunch2 =

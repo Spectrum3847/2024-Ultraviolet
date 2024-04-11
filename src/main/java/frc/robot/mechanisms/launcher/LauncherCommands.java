@@ -101,6 +101,12 @@ public class LauncherCommands {
                 .withName("Launcher.launch");
     }
 
+    public static Command manualFeed() {
+        return runLauncherVelocities(
+                        leftLauncher.config.manualFeed, rightLauncher.config.manualFeed)
+                .withName("Launcher.manualFeed");
+    }
+
     public static Command intoAmp() {
         return runLauncherVelocities(leftLauncher.config.intoAmp, rightLauncher.config.intoAmp)
                 .withName("Launcher.intoAmp");

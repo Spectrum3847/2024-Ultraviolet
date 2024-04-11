@@ -23,6 +23,7 @@ public class LeftLauncher extends Mechanism {
         public double intoAmp = 1300;
         public double manualSource = -2000;
         public double autoShoot = 5500;
+        public double manualFeed = 4000;
 
         /* Percentage LeftLauncher Output */
         public double slowLeftLauncherPercent = 0.06;

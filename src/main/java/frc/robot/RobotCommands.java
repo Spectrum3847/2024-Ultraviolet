@@ -72,6 +72,12 @@ public class RobotCommands {
                 .withName("RobotCommands.visionLaunch");
     }
 
+    public static Command manualFeedLaunch() {
+        return PilotCommands.aimToManualFeed()
+                .alongWith(LauncherCommands.manualFeed(), PivotCommands.manualFeed())
+                .withName("RobotCommands.manualFeedLaunch");
+    }
+
     public static Command testMap() {
         return PilotCommands.aimToFeed().alongWith(RobotCommands.onDemandLaunching());
     }

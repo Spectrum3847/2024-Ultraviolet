@@ -103,6 +103,16 @@ public class PilotCommands {
                 .withName("Swerve.aimToRedSpeaker");
     }
 
+    public static Command aimToManualFeed() {
+        return SwerveCommands.aimDrive(
+                        () -> pilot.getDriveFwdPositive(),
+                        () -> pilot.getDriveLeftPositive(),
+                        () -> Units.degreesToRadians(Field.flipAngleIfBlue(300)),
+                        () -> pilot.getFieldOriented(), // true is field oriented
+                        () -> true)
+                .withName("Swerve.aimToRedSpeaker");
+    }
+
     public static Command alignToAmp() {
         return SwerveCommands.AlignXaimDrive(
                 () -> Field.flipXifRed(Field.ampCenter.getX()),
