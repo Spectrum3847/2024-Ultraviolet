@@ -1,0 +1,37 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.42,
+      "y": 5.55
+    },
+    "rotation": 180.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path 1 - Front Rush Alt"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path 2 - Front Rush Alt"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path 2 - Front 6.5"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Front Autos",
+  "choreoAuto": false
+}
