@@ -80,30 +80,7 @@
             {
               "type": "named",
               "data": {
-                "name": "launchReady9"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "stopTracking"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "Launch",
-      "waypointRelativePos": 1.95,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "launch"
+                "name": "visionLaunchReady"
               }
             }
           ]

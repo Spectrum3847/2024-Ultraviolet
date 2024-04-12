@@ -32,16 +32,16 @@
     },
     {
       "anchor": {
-        "x": 7.824952114602658,
-        "y": 2.68
+        "x": 7.98,
+        "y": 2.4
       },
       "prevControl": {
-        "x": 6.885259493816749,
-        "y": 3.0220201433256695
+        "x": 7.0403073792140916,
+        "y": 2.7420201433256692
       },
       "nextControl": {
-        "x": 8.247813793956317,
-        "y": 2.526090935503449
+        "x": 8.40286167935366,
+        "y": 2.2460909355034486
       },
       "isLocked": false,
       "linkedName": null
@@ -49,15 +49,15 @@
     {
       "anchor": {
         "x": 6.2,
-        "y": 3.5555356153030013
+        "y": 3.4
       },
       "prevControl": {
         "x": 6.505648331192086,
-        "y": 3.134846778228029
+        "y": 2.9793111629250277
       },
       "nextControl": {
         "x": 5.894351668807914,
-        "y": 3.9762244523779735
+        "y": 3.820688837074972
       },
       "isLocked": false,
       "linkedName": null
@@ -173,6 +173,125 @@
               "type": "named",
               "data": {
                 "name": "launchReady4"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Intake",
+      "waypointRelativePos": 1.6500000000000001,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "smartIntake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "SpitReady",
+      "waypointRelativePos": 2.5,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "spitReady"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Spit",
+      "waypointRelativePos": 2.7,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "spit"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Intake",
+      "waypointRelativePos": 3.4499999999999997,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "smartIntake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "StopFeeder",
+      "waypointRelativePos": 1.4000000000000001,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "stopFeeder"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "StopFeeder",
+      "waypointRelativePos": 3.4000000000000004,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "stopFeeder"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "LaunchReady",
+      "waypointRelativePos": 3.4499999999999997,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "launchReady10"
               }
             }
           ]

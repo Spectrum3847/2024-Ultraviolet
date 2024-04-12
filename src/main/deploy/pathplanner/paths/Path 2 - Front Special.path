@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 4.674022897923145,
-        "y": 3.724914763577841
+        "x": 4.9977415576907855,
+        "y": 3.8802913901431166
       },
       "prevControl": {
-        "x": 4.4012505717329935,
-        "y": 3.9289844513256407
+        "x": 4.724969231500634,
+        "y": 4.084361077890915
       },
       "nextControl": {
-        "x": 5.861835380766534,
-        "y": 2.8362743143710802
+        "x": 6.185554040534175,
+        "y": 2.991650940936356
       },
       "isLocked": false,
       "linkedName": null
@@ -52,7 +52,59 @@
     }
   ],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Intake",
+      "waypointRelativePos": 0.2,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "smartIntake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "StopFeeder",
+      "waypointRelativePos": 0.15,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "stopFeeder"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "LaunchReady",
+      "waypointRelativePos": 1.8,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "launchReady11"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 6.0,
     "maxAcceleration": 4.0,
