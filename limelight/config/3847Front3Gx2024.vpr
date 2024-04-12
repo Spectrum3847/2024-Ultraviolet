@@ -49,6 +49,7 @@ fiducial_size:165.1
 fiducial_skip3d:0
 fiducial_type:aprilClassic36h11
 fiducial_vis_mode:3dbotposefieldspace
+flicker:0
 flicker_correction:0
 force_convex:1
 hue_max:85
@@ -62,6 +63,7 @@ lcgain:4.4
 multigroup_max:7
 multigroup_min:1
 multigroup_rejector:0
+nnp_rotate:0
 pipeline_led_enabled:1
 pipeline_led_power:100
 pipeline_res:0

@@ -41,14 +41,14 @@ public class Limelight {
     public Limelight(String cameraName, int pipeline, PhysicalConfig physicalConfig) {
         this(cameraName, pipeline);
         this.physicalConfig = physicalConfig;
-        LimelightHelpers.setCameraPose_RobotSpace(
-                this.CAMERA_NAME,
-                physicalConfig.forward,
-                physicalConfig.right,
-                physicalConfig.up,
-                physicalConfig.roll,
-                physicalConfig.pitch,
-                physicalConfig.yaw);
+        // LimelightHelpers.setCameraPose_RobotSpace(
+        //         this.CAMERA_NAME,
+        //         physicalConfig.forward,
+        //         physicalConfig.right,
+        //         physicalConfig.up,
+        //         physicalConfig.roll,
+        //         physicalConfig.pitch,
+        //         physicalConfig.yaw);
     }
 
     /*

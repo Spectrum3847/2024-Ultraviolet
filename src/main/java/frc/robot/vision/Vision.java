@@ -7,7 +7,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.interpolation.TimeInterpolatableBuffer;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
@@ -24,41 +23,41 @@ import java.text.DecimalFormat;
 import org.littletonrobotics.junction.AutoLogOutput;
 
 public class Vision extends SubsystemBase {
+    /**
+     * Configs must be initialized and added as limelights to {@link Vision} {@code allLimelights} &
+     * {@code poseLimelights}
+     */
     public static final class VisionConfig {
         /* Limelight Configuration */
-        public static final String REAR_LL = "limelight-rear";
-        // These don't seem to actually be setting at the limelight, had to manually adjust them
-        public static final PhysicalConfig REAR_CONFIG =
-                new PhysicalConfig().withTranslation(-0.296, 0, 0.226).withRotation(0, 50, 180);
 
-        public static final String SPEAKER_LL = "limelight-aim";
-
-        public static final PhysicalConfig SPEAKER_CONFIG =
+        public static final String FRONT_LL = "limelight-front";
+        public static final PhysicalConfig FRONT_CONFIG =
                 new PhysicalConfig().withTranslation(-0.085, 0, 0.636).withRotation(0, 15, 0);
 
-        public static final String LEFT_LL = "limelight-left";
+        public static final String REAR_LL = "limelight-rear";
+        public static final PhysicalConfig REAR_CONFIG =
+                new PhysicalConfig()
+                        .withTranslation(-0.287, -0.095, 0.37)
+                        .withRotation(0, 15.744, 180);
 
+        public static final String LEFT_LL = "limelight-left";
         public static final PhysicalConfig LEFT_CONFIG =
-                new PhysicalConfig().withTranslation(0, 0, 0).withRotation(0, 0, 0); // TODO: input
+                new PhysicalConfig().withTranslation(-0.135, -0.315, 0.417).withRotation(0, 10, 90);
 
         public static final String RIGHT_LL = "limelight-right";
-
         public static final PhysicalConfig RIGHT_CONFIG =
+                new PhysicalConfig().withTranslation(-0.135, 0.315, 0.417).withRotation(0, 10, -90);
+
+        public static final String DETECT_LL = "limelight-detect";
+        public static final PhysicalConfig DETECT_CONFIG =
                 new PhysicalConfig().withTranslation(0, 0, 0).withRotation(0, 0, 0); // TODO: input
 
-        // Limelight 2+
-        // public static final PhysicalConfig SPEAKER_CONFIG =
-        //         new PhysicalConfig().withTranslation(-0.085, 0, 0.636).withRotation(0, 15, 0);
-
-        /* Pipeline config */
-        public static final int rearDetectorPipeline = 0;
-        public static final int speakerDetectorPipeline = 0;
-        public static final int leftDetectorPipeline = 0;
-        public static final int rightDetectorPipeline = 0;
-
-        /* AprilTag Heights (meters) */
-        public static final double speakerTagHeight = 1.45;
-        public static final int speakerTagID = 4;
+        /* Pipeline configs */
+        public static final int frontTagPipeline = 0;
+        public static final int rearTagPipeline = 0;
+        public static final int leftTagPipeline = 0;
+        public static final int rightTagPipeline = 0;
+        public static final int detectNotePipeline = 0;
 
         /* Pose Estimation Constants */
         public static final double VISION_REJECT_DISTANCE = 1.8; // 2.3;
@@ -81,29 +80,35 @@ public class Vision extends SubsystemBase {
     /* Limelights */
     public final Limelight rearLL =
             new Limelight(
-                    VisionConfig.REAR_LL,
-                    VisionConfig.rearDetectorPipeline,
-                    VisionConfig.REAR_CONFIG);
+                    VisionConfig.REAR_LL, VisionConfig.rearTagPipeline, VisionConfig.REAR_CONFIG);
     public final LimelightLogger rearLogger = new LimelightLogger("Rear", rearLL);
-    public final Limelight speakerLL =
+    public final Limelight frontLL =
             new Limelight(
-                    VisionConfig.SPEAKER_LL,
-                    VisionConfig.speakerDetectorPipeline,
-                    VisionConfig.SPEAKER_CONFIG);
-    public final LimelightLogger speakerLogger = new LimelightLogger("Front", speakerLL);
+                    VisionConfig.FRONT_LL,
+                    VisionConfig.frontTagPipeline,
+                    VisionConfig.FRONT_CONFIG);
+    public final LimelightLogger frontLogger = new LimelightLogger("Front", frontLL);
     public final Limelight leftLL =
             new Limelight(
-                    VisionConfig.LEFT_LL,
-                    VisionConfig.leftDetectorPipeline,
-                    VisionConfig.LEFT_CONFIG);
+                    VisionConfig.LEFT_LL, VisionConfig.leftTagPipeline, VisionConfig.LEFT_CONFIG);
     public final LimelightLogger leftLogger = new LimelightLogger("Left", leftLL);
     public final Limelight rightLL =
             new Limelight(
                     VisionConfig.RIGHT_LL,
-                    VisionConfig.rightDetectorPipeline,
+                    VisionConfig.rightTagPipeline,
                     VisionConfig.RIGHT_CONFIG);
     public final LimelightLogger rightLogger = new LimelightLogger("Right", rightLL);
-    public final Limelight[] limelights = {speakerLL, rearLL, leftLL, rightLL};
+    public final Limelight detectLL =
+            new Limelight(
+                    VisionConfig.DETECT_LL,
+                    VisionConfig.detectNotePipeline,
+                    VisionConfig.DETECT_CONFIG);
+    public final Limelight[] allLimelights = {
+        frontLL, rearLL, leftLL, rightLL, detectLL
+    }; // EXCLUDES DETECT LL
+    public final Limelight[] poseLimelights = {
+        frontLL, rearLL, leftLL, rightLL
+    }; // EXCLUDES DETECT LL
 
     private final DecimalFormat df = new DecimalFormat();
 
@@ -112,13 +117,6 @@ public class Vision extends SubsystemBase {
 
     private boolean isAiming = false;
 
-    /** Cached latest aiming parameters. Calculated in {@code getAimingParameters()} */
-    private AimingParameters latestParameters = null;
-
-    private static final double poseBufferSizeSeconds = 2.0;
-    private final TimeInterpolatableBuffer<Pose2d> poseBuffer =
-            TimeInterpolatableBuffer.createBuffer(poseBufferSizeSeconds);
-
     public Vision() {
         setName("Vision");
 
@@ -126,7 +124,7 @@ public class Vision extends SubsystemBase {
         df.setMaximumFractionDigits(2);
 
         /* Configure Limelight Settings Here */
-        for (Limelight limelight : limelights) {
+        for (Limelight limelight : allLimelights) {
             limelight.setLEDMode(false);
         }
     }
@@ -134,20 +132,14 @@ public class Vision extends SubsystemBase {
     @Override
     public void periodic() {
         double yaw = Robot.swerve.getRotation().getDegrees();
-        speakerLL.setRobotOrientation(yaw);
-        leftLL.setRobotOrientation(yaw);
-        rightLL.setRobotOrientation(yaw);
+        for (Limelight limelight : poseLimelights) {
+            limelight.setRobotOrientation(yaw);
+        }
 
         try {
             isIntegrating = false;
             // Will NOT run in auto
             if (DriverStation.isTeleopEnabled()) {
-                // force pose to be vision
-                Pose2d estimatedPose = Robot.swerve.getPose();
-                if ((estimatedPose.getX() <= 0.1 || estimatedPose.getY() <= 0.1)) {
-                    // forcePoseToVision();
-                }
-
                 // if the front camera sees tag and we are aiming, only use that camera
                 // if (isAiming && speakerLL.targetInView()) {
                 //     for (Limelight limelight : limelights) {
@@ -161,7 +153,7 @@ public class Vision extends SubsystemBase {
                 // } else {
                 // choose LL with best view of tags and integrate from only that camera
                 Limelight bestLimelight = getBestLimelight(); // exclude rear LL
-                for (Limelight limelight : limelights) {
+                for (Limelight limelight : poseLimelights) {
                     if (limelight.CAMERA_NAME == bestLimelight.CAMERA_NAME) {
                         addFilteredVisionInput(bestLimelight);
                     } else {
@@ -351,7 +343,7 @@ public class Vision extends SubsystemBase {
 
     // Returns distance to the center of the speaker tag from the robot or -1 if not found
     public double getDistanceToCenterSpeakerTagFromRobot() {
-        RawFiducial[] tags = speakerLL.getRawFiducial();
+        RawFiducial[] tags = frontLL.getRawFiducial();
         int speakerTagID = 7; // Blue Speaker Tag
         if (Field.isRed()) {
             speakerTagID = 4; // Red Speaker Tag
@@ -446,13 +438,12 @@ public class Vision extends SubsystemBase {
      */
     public void forcePoseToVision() {
         // TODO: add more fallback logic here
-        Robot.swerve.resetPose(
-                Robot.swerve.convertPoseWithGyro(speakerLL.getRawPose3d().toPose2d()));
+        Robot.swerve.resetPose(Robot.swerve.convertPoseWithGyro(frontLL.getRawPose3d().toPose2d()));
     }
 
     /** Set robot pose to vision pose only if LL has good tag reading */
     public void resetPoseToVision() {
-        for (Limelight limelight : limelights) {
+        for (Limelight limelight : poseLimelights) {
             if (limelight.hasAccuratePose()) {
                 Robot.swerve.resetPose(limelight.getRawPose3d().toPose2d());
                 break;
@@ -461,19 +452,17 @@ public class Vision extends SubsystemBase {
     }
 
     public Limelight getBestLimelight() {
-        Limelight bestLimelight = speakerLL;
+        Limelight bestLimelight = frontLL;
         double bestScore = 0;
-        for (Limelight limelight : limelights) {
-            if (limelight.CAMERA_NAME != rearLL.CAMERA_NAME) {
-                double score = 0;
-                // prefer LL with most tags, when equal tag count, prefer LL closer to tags
-                score += limelight.getTagCountInView();
-                score += limelight.getTargetSize();
+        for (Limelight limelight : poseLimelights) {
+            double score = 0;
+            // prefer LL with most tags, when equal tag count, prefer LL closer to tags
+            score += limelight.getTagCountInView();
+            score += limelight.getTargetSize();
 
-                if (score > bestScore) {
-                    bestScore = score;
-                    bestLimelight = limelight;
-                }
+            if (score > bestScore) {
+                bestScore = score;
+                bestLimelight = limelight;
             }
         }
         return bestLimelight;
@@ -549,15 +538,15 @@ public class Vision extends SubsystemBase {
      * @return
      */
     public boolean hasAccuratePose() {
-        for (Limelight limelight : limelights) {
+        for (Limelight limelight : poseLimelights) {
             if (limelight.hasAccuratePose()) return true;
         }
         return false;
     }
 
-    /** Change both LL pipelines to the same pipeline */
+    /** Change all LL pipelines to the same pipeline */
     public void setLimelightPipelines(int pipeline) {
-        for (Limelight limelight : limelights) {
+        for (Limelight limelight : allLimelights) {
             limelight.setLimelightPipeline(pipeline);
         }
     }
@@ -566,12 +555,12 @@ public class Vision extends SubsystemBase {
     public Command blinkLimelights() {
         return startEnd(
                         () -> {
-                            for (Limelight limelight : limelights) {
+                            for (Limelight limelight : allLimelights) {
                                 limelight.blinkLEDs();
                             }
                         },
                         () -> {
-                            for (Limelight limelight : limelights) {
+                            for (Limelight limelight : allLimelights) {
                                 limelight.setLEDMode(false);
                             }
                         })
