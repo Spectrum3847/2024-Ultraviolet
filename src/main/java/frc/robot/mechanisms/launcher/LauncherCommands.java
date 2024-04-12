@@ -114,9 +114,16 @@ public class LauncherCommands {
 
     public static Command dump() {
         return runLauncherPercentages(
-                        leftLauncher.config.dumpLuancherPercent,
-                        rightLauncher.config.dumpLuancherPercent)
+                        leftLauncher.config.dumpLauncherPercent,
+                        rightLauncher.config.dumpLauncherPercent)
                 .withName("Launcher.dump");
+    }
+
+    public static Command autoDump() {
+        return runLauncherPercentages(
+                        leftLauncher.config.autoDumpLauncherPercent,
+                        rightLauncher.config.autoDumpLauncherPercent)
+                .withName("Launcher.autoDump");
     }
 
     public static Command subwoofer() {
