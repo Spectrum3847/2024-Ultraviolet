@@ -443,11 +443,50 @@ public class Vision extends SubsystemBase {
 
     /** Set robot pose to vision pose only if LL has good tag reading */
     public void resetPoseToVision() {
-        for (Limelight limelight : poseLimelights) {
-            if (limelight.hasAccuratePose()) {
-                Robot.swerve.resetPose(limelight.getRawPose3d().toPose2d());
-                break;
+        Limelight ll = getBestLimelight();
+        if (ll.targetInView()) {
+            Pose3d botpose3D = ll.getRawPose3d();
+            Pose2d botpose = botpose3D.toPose2d();
+            Pose2d megaPose2d = ll.getMegaPose2d();
+            Pose2d robotPose = Robot.swerve.getPose();
+            double timeStamp = ll.getRawPoseTimestamp();
+            if (Field.poseOutOfField(botpose3D)
+                    || Math.abs(botpose3D.getZ()) > 0.25
+                    || (Math.abs(botpose3D.getRotation().getX()) > 5
+                            || Math.abs(botpose3D.getRotation().getY()) > 5)) {
+                RobotTelemetry.print(
+                        "ResetPoseToVision: FAIL || DID NOT RESET POSE TO VISION BECAUSE BAD POSE");
+                return;
             }
+
+            // track STDs
+            VisionConfig.VISION_STD_DEV_X = 0.001;
+            VisionConfig.VISION_STD_DEV_Y = 0.001;
+            VisionConfig.VISION_STD_DEV_THETA = 0.001;
+
+            RobotTelemetry.print(
+                    "ResetPoseToVision: Old Pose X: "
+                            + RobotTelemetry.truncatedDouble(robotPose.getX())
+                            + " Y: "
+                            + RobotTelemetry.truncatedDouble(robotPose.getY())
+                            + " Theta: "
+                            + RobotTelemetry.truncatedDouble(robotPose.getRotation().getDegrees()));
+            Robot.swerve.setVisionMeasurementStdDevs(
+                    VecBuilder.fill(
+                            VisionConfig.VISION_STD_DEV_X,
+                            VisionConfig.VISION_STD_DEV_Y,
+                            VisionConfig.VISION_STD_DEV_THETA));
+
+            Pose2d integratedPose = new Pose2d(megaPose2d.getTranslation(), botpose.getRotation());
+            Robot.swerve.addVisionMeasurement(integratedPose, timeStamp);
+            RobotTelemetry.print(
+                    "ResetPoseToVision: New Pose X: "
+                            + RobotTelemetry.truncatedDouble(robotPose.getX())
+                            + " Y: "
+                            + RobotTelemetry.truncatedDouble(robotPose.getY())
+                            + " Theta: "
+                            + RobotTelemetry.truncatedDouble(robotPose.getRotation().getDegrees()));
+            RobotTelemetry.print("ResetPoseToVision: SUCCESS");
         }
     }
 
