@@ -101,6 +101,12 @@ public class LauncherCommands {
                 .withName("Launcher.launch");
     }
 
+    public static Command manualFeed() {
+        return runLauncherVelocities(
+                        leftLauncher.config.manualFeed, rightLauncher.config.manualFeed)
+                .withName("Launcher.manualFeed");
+    }
+
     public static Command intoAmp() {
         return runLauncherVelocities(leftLauncher.config.intoAmp, rightLauncher.config.intoAmp)
                 .withName("Launcher.intoAmp");
@@ -108,9 +114,16 @@ public class LauncherCommands {
 
     public static Command dump() {
         return runLauncherPercentages(
-                        leftLauncher.config.dumpLuancherPercent,
-                        rightLauncher.config.dumpLuancherPercent)
+                        leftLauncher.config.dumpLauncherPercent,
+                        rightLauncher.config.dumpLauncherPercent)
                 .withName("Launcher.dump");
+    }
+
+    public static Command autoDump() {
+        return runLauncherPercentages(
+                        leftLauncher.config.autoDumpLauncherPercent,
+                        rightLauncher.config.autoDumpLauncherPercent)
+                .withName("Launcher.autoDump");
     }
 
     public static Command subwoofer() {

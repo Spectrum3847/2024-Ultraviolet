@@ -23,11 +23,13 @@ public class RightLauncher extends Mechanism {
         public double intoAmp = 650;
         public double manualSource = -2000;
         public double autoShoot = 5500;
+        public double manualFeed = 4000;
 
         /* Percentage LeftLauncher Output */
         public double slowLeftLauncherPercent = 0.06;
         public double ejectLauncherPercent = -0.3;
-        public double dumpLuancherPercent = 0.13;
+        public double dumpLauncherPercent = 0.13;
+        public double autoDumpLauncherPercent = 0.07;
 
         /* RightLauncher config values */
         public double currentLimit = 60;

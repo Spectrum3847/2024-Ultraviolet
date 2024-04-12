@@ -146,7 +146,7 @@ public class Swerve implements Subsystem {
 
         // Update Field object for smartdashboard
         field.setRobotPose(getPose());
-        field.getObject("Vision").setPose(Robot.vision.speakerLL.getRawPose3d().toPose2d());
+        field.getObject("Vision").setPose(Robot.vision.frontLL.getRawPose3d().toPose2d());
     }
 
     @Override

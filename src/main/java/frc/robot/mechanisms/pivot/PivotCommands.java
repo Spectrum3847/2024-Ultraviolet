@@ -34,6 +34,10 @@ public class PivotCommands {
         return pivot.runPosition(pivot.config.climbHome).withName("Pivot.climbHome");
     }
 
+    public static Command manualFeed() {
+        return pivot.runPosition(pivot.config.manualFeed).withName("Pivot.manualFeed");
+    }
+
     /* Scoring Positions */
 
     public static Command subwoofer() {
