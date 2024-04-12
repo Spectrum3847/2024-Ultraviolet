@@ -27,7 +27,7 @@ public class Pivot extends Mechanism {
         public final double CANcoderGearRatio = 35.1;
 
         /* Pivot constants in motor rotations */
-        public final double maxRotation = 0.967; // 0.967
+        public final double maxRotation = 0.96; // 0.967
         public final double minRotation = 0;
 
         /* Pivot positions in percentage of max rotation || 0 is horizontal */
