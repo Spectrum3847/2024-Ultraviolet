@@ -16,6 +16,7 @@ import frc.robot.mechanisms.feeder.FeederCommands;
 import frc.robot.mechanisms.intake.IntakeCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.mechanisms.pivot.PivotCommands;
+import frc.robot.vision.VisionCommands;
 
 public class AutonCommands {
     public static Command followSinglePath(String PathName) {
@@ -164,6 +165,12 @@ public class AutonCommands {
                 .withName("AutonCommands.launchReady7");
     }
 
+    public static Command launchReady12() {
+        return PivotCommands.autoLaunch12()
+                .alongWith(LauncherCommands.subwoofer())
+                .withName("AutonCommands.launchReady7");
+    }
+
     public static Command launchReadySubwoofer() {
         return (PivotCommands.subwoofer().alongWith(LauncherCommands.subwoofer()))
                 .withTimeout(0.5)
@@ -264,5 +271,9 @@ public class AutonCommands {
     public static Command intakeFeed() {
         return IntakeCommands.runFull()
                 .alongWith(AmpTrapCommands.intake().alongWith(FeederCommands.autoFeed()));
+    }
+
+    public static Command resetPoseToVision() {
+        return VisionCommands.resetPoseToVision().withTimeout(0.01);
     }
 }

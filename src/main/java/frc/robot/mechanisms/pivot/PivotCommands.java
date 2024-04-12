@@ -108,6 +108,10 @@ public class PivotCommands {
         return pivot.runPosition(pivot.config.autoLaunch11).withName("Pivot.subwoofer");
     }
 
+    public static Command autoLaunch12() {
+        return pivot.runPosition(pivot.config.autoLaunch12).withName("Pivot.subwoofer");
+    }
+
     public static Command spitReady() {
         return pivot.runPosition(pivot.config.spitReady).withName("Pivot.subwoofer");
     }

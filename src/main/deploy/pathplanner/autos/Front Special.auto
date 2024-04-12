@@ -36,6 +36,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "resetPose"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Path 2 - Front 6.5"
