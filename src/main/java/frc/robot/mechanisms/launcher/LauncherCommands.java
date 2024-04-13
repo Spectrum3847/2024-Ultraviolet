@@ -17,6 +17,8 @@ public class LauncherCommands {
     public static final InterpolatingDoubleTreeMap DISTANCE_MAP = new InterpolatingDoubleTreeMap();
     public static final InterpolatingDoubleTreeMap FEED_DISTANCE_MAP =
             new InterpolatingDoubleTreeMap();
+    public static final InterpolatingDoubleTreeMap DEEP_FEED_DISTANCE_MAP =
+            new InterpolatingDoubleTreeMap();
 
     static {
         /* Old Launching */
@@ -47,13 +49,16 @@ public class LauncherCommands {
         // FEED_DISTANCE_MAP.put(9.05, 4000.0);
 
         // feed launching -- REVERT
-        FEED_DISTANCE_MAP.put(6.0, 3300.0);
-        FEED_DISTANCE_MAP.put(6.08, 3200.0);
-        FEED_DISTANCE_MAP.put(6.47, 3200.0);
-        FEED_DISTANCE_MAP.put(6.96, 3200.0);
-        FEED_DISTANCE_MAP.put(7.54, 3700.0);
-        FEED_DISTANCE_MAP.put(7.74, 3800.0);
-        FEED_DISTANCE_MAP.put(9.05, 3950.0);
+        // FEED_DISTANCE_MAP.put(6.0, 3300.0);
+        // FEED_DISTANCE_MAP.put(6.08, 3200.0);
+        // FEED_DISTANCE_MAP.put(6.47, 3200.0);
+        // FEED_DISTANCE_MAP.put(6.96, 3200.0);
+        // FEED_DISTANCE_MAP.put(7.54, 3700.0);
+        // FEED_DISTANCE_MAP.put(7.74, 3800.0);
+        // FEED_DISTANCE_MAP.put(9.05, 3950.0);
+        FEED_DISTANCE_MAP.put(7.0, 5000.0);
+
+        DEEP_FEED_DISTANCE_MAP.put(7.0, 5200.0);
     }
 
     public static void setupDefaultCommand() {
@@ -75,12 +80,21 @@ public class LauncherCommands {
         // return () -> FEED_DISTANCE_MAP.get(distance.getAsDouble());
     }
 
+    public static DoubleSupplier getRPMFromDeepFeedDistance(DoubleSupplier distance) {
+        return () -> getMapRPM(DEEP_FEED_DISTANCE_MAP, distance.getAsDouble());
+        // return () -> FEED_DISTANCE_MAP.get(distance.getAsDouble());
+    }
+
     public static Command distanceVelocity(DoubleSupplier distance) {
         return velocityTCFOCrpm(getRPMfromDistance(distance));
     }
 
     public static Command feedDistanceVelocity(DoubleSupplier distance) {
         return velocityTCFOCrpm(getRPMFromFeedDistance(distance));
+    }
+
+    public static Command deepFeedDistanceVelocity(DoubleSupplier distance) {
+        return velocityTCFOCrpm(getRPMFromDeepFeedDistance(distance));
     }
 
     public static Command velocityTCFOCrpm(DoubleSupplier velocityRPM) {

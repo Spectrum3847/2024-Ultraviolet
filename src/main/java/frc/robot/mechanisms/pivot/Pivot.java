@@ -11,6 +11,8 @@ import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import frc.crescendo.Field;
+import frc.robot.Robot;
 import frc.robot.RobotConfig;
 import frc.robot.RobotTelemetry;
 import frc.spectrumLib.mechanism.Mechanism;
@@ -89,6 +91,8 @@ public class Pivot extends Mechanism {
                 new InterpolatingDoubleTreeMap();
         public static final InterpolatingDoubleTreeMap FEED_DISTANCE_MAP =
                 new InterpolatingDoubleTreeMap();
+        public static final InterpolatingDoubleTreeMap DEEP_FEED_DISTANCE_MAP =
+                new InterpolatingDoubleTreeMap();
 
         static {
             // old map
@@ -141,13 +145,16 @@ public class Pivot extends Mechanism {
             // FEED_DISTANCE_MAP.put(9.05, 65.0);
 
             // feed -- REVERT
-            FEED_DISTANCE_MAP.put(6.0, 82.0);
-            FEED_DISTANCE_MAP.put(6.08, 81.0);
-            FEED_DISTANCE_MAP.put(6.47, 75.0);
-            FEED_DISTANCE_MAP.put(6.96, 72.5);
-            FEED_DISTANCE_MAP.put(7.54, 70.0);
-            FEED_DISTANCE_MAP.put(7.74, 65.0);
-            FEED_DISTANCE_MAP.put(9.05, 65.0);
+            // FEED_DISTANCE_MAP.put(6.0, 82.0);
+            // FEED_DISTANCE_MAP.put(6.08, 81.0);
+            // FEED_DISTANCE_MAP.put(6.47, 75.0);
+            // FEED_DISTANCE_MAP.put(6.96, 72.5);
+            // FEED_DISTANCE_MAP.put(7.54, 70.0);
+            // FEED_DISTANCE_MAP.put(7.74, 65.0);
+            // FEED_DISTANCE_MAP.put(9.05, 65.0);
+            FEED_DISTANCE_MAP.put(7.00, 82.0);
+
+            DEEP_FEED_DISTANCE_MAP.put(7.0, 72.0);
         }
 
         public PivotConfig() {
@@ -198,9 +205,13 @@ public class Pivot extends Mechanism {
     }
 
     public DoubleSupplier getAngleFromFeedDistance(DoubleSupplier distance) {
-        return () ->
-                getMapAngle(PivotConfig.FEED_DISTANCE_MAP, distance.getAsDouble(), config.OFFSET);
+        return () -> getMapAngleAtSpeed(PivotConfig.FEED_DISTANCE_MAP, distance.getAsDouble(), 0);
         // return () -> PivotConfig.FEED_DISTANCE_MAP.get(distance.getAsDouble());
+    }
+
+    public DoubleSupplier getAngleFromDeepFeedDistance(DoubleSupplier distance) {
+        return () ->
+                getMapAngleAtSpeed(PivotConfig.DEEP_FEED_DISTANCE_MAP, distance.getAsDouble(), 0);
     }
 
     public static double getMapAngle(
@@ -214,6 +225,23 @@ public class Pivot extends Mechanism {
                         + RobotTelemetry.truncatedDouble(distance)
                         + " meters");
         return angle;
+    }
+
+    public static double getMapAngleAtSpeed(
+            InterpolatingDoubleTreeMap map, double distance, double offset) {
+        double tunableSpeedFactor = 4;
+        double angle = map.get(distance);
+        angle += (angle * (offset / 100));
+        double speed = Robot.swerve.getRobotRelativeSpeeds().vxMetersPerSecond;
+        double speedOffset = speed * tunableSpeedFactor;
+        angle += Field.isBlue() ? -speedOffset : speedOffset;
+        RobotTelemetry.print(
+                "VisionLaunching: interpolating "
+                        + RobotTelemetry.truncatedDouble(angle)
+                        + " percent rotation from "
+                        + RobotTelemetry.truncatedDouble(distance)
+                        + " meters");
+        return Math.min(angle, 95);
     }
 
     public Command runPosition(DoubleSupplier percent) {

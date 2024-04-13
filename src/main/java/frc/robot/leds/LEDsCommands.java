@@ -124,8 +124,6 @@ public class LEDsCommands {
         return ombre(Section.FULL, Color.kOrange, Color.kOrangeRed, 5);
     }
 
-
-
     /*
      *
      * Helper LED commands

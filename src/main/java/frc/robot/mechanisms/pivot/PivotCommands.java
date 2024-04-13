@@ -22,6 +22,10 @@ public class PivotCommands {
         return pivot.runPosition(pivot.getAngleFromFeedDistance(distance));
     }
 
+    public static Command setPivotOnDeepFeedDistance(DoubleSupplier distance) {
+        return pivot.runPosition(pivot.getAngleFromDeepFeedDistance(distance));
+    }
+
     public static Command onDemandPivot() {
         return new OnDemandPivot(pivot.config.score).withName("Pivot.onDemandPivot");
     }

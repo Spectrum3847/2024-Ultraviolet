@@ -367,7 +367,7 @@ public class Vision extends SubsystemBase {
      */
     public Translation2d getAdjustedTargetPos(Translation2d targetPose) {
         double NORM_FUDGE = 0.075;
-        double tunableNoteVelocity = 1;
+        double tunableNoteVelocity = 5;
         double tunableNormFudge = 0;
         double tunableStrafeFudge = 1;
         double tunableSpeakerYFudge = 0.0;
@@ -392,15 +392,58 @@ public class Vision extends SubsystemBase {
 
         double x =
                 targetPose.getX() + (Field.isBlue() ? tunableSpeakerXFudge : -tunableSpeakerXFudge);
-        // - (robotVel.vxMetersPerSecond
-        // * (distance / tunableNoteVelocity)
+        // - (robotVel.vxMetersPerSecond * (distance / tunableNoteVelocity));
         //      * (1.0 - (tunableNormFudge * normFactor)));
         double y =
                 targetPose.getY()
                         + (Field.isBlue() ? -spinYFudge : spinYFudge)
                         + tunableSpeakerYFudge;
-        // - (robotVel.vyMetersPerSecond
-        // * (distance / tunableNoteVelocity)
+        // - (robotVel.vyMetersPerSecond * (distance / tunableNoteVelocity));
+        //       * tunableStrafeFudge);
+
+        return new Translation2d(x, y);
+    }
+
+    /**
+     * Gets a field-relative position for the shot to the speaker the robot should take, adjusted
+     * for the robot's movement.
+     *
+     * @return A {@link Translation2d} representing a field relative position in meters.
+     */
+    public Translation2d getFeedAdjustedTargetPos(Translation2d targetPose) {
+        double NORM_FUDGE = 0.075;
+        double tunableNoteVelocity = 5;
+        double tunableNormFudge = 0;
+        double tunableStrafeFudge = 1;
+        double tunableSpeakerYFudge = 0.0;
+        double tunableSpeakerXFudge = 0.0;
+        double spinYFudge = 0.8;
+
+        targetPose = Field.flipXifRed(targetPose);
+        Translation2d robotPos = Robot.swerve.getPose().getTranslation();
+        ChassisSpeeds robotVel = Robot.swerve.getVelocity(true); // TODO: change
+
+        double distance = robotPos.getDistance(targetPose);
+        double normFactor =
+                Math.hypot(robotVel.vxMetersPerSecond, robotVel.vyMetersPerSecond) < NORM_FUDGE
+                        ? 0.0
+                        : Math.abs(
+                                MathUtil.angleModulus(
+                                                robotPos.minus(targetPose).getAngle().getRadians()
+                                                        - Math.atan2(
+                                                                robotVel.vyMetersPerSecond,
+                                                                robotVel.vxMetersPerSecond))
+                                        / Math.PI);
+
+        double x =
+                targetPose.getX() + (Field.isBlue() ? tunableSpeakerXFudge : -tunableSpeakerXFudge);
+        // - (robotVel.vxMetersPerSecond * (distance / tunableNoteVelocity));
+        //      * (1.0 - (tunableNormFudge * normFactor)));
+        double y =
+                targetPose.getY()
+                        + (Field.isBlue() ? -spinYFudge : spinYFudge)
+                        + tunableSpeakerYFudge;
+        // - (robotVel.vyMetersPerSecond * (distance / tunableNoteVelocity));
         //       * tunableStrafeFudge);
 
         return new Translation2d(x, y);
@@ -415,10 +458,28 @@ public class Vision extends SubsystemBase {
         return angleBetweenRobotAndFeeder;
     }
 
+    public double getAdjustedThetaToDeepFeeder() {
+        Translation2d feeder = getAdjustedDeepFeederPos();
+        Translation2d robotXY = Robot.swerve.getPose().getTranslation();
+        double angleBetweenRobotAndDeepFeeder =
+                MathUtil.angleModulus(feeder.minus(robotXY).getAngle().getRadians());
+
+        return angleBetweenRobotAndDeepFeeder;
+    }
+
     /** Returns the distance from the feed position in meters, adjusted for the robot's movement. */
     @AutoLogOutput(key = "Vision/FeedDistance")
     public double getFeedDistance() {
         return Robot.swerve.getPose().getTranslation().getDistance(getAdjustedFeederPos());
+    }
+
+    /**
+     * Returns the distance from the deep feed position in meters, adjusted for the robot's
+     * movement.
+     */
+    @AutoLogOutput(key = "Vision/DeepFeedDistance")
+    public double getDeepFeedDistance() {
+        return Robot.swerve.getPose().getTranslation().getDistance(getAdjustedDeepFeederPos());
     }
 
     public Translation2d getAdjustedFeederPos() {
@@ -430,7 +491,18 @@ public class Vision extends SubsystemBase {
         } else {
             newLocation = new Translation2d(originalLocation.getX(), originalLocation.getY());
         }
-        return getAdjustedTargetPos(newLocation);
+        return getFeedAdjustedTargetPos(newLocation);
+    }
+
+    public Translation2d getAdjustedDeepFeederPos() {
+        Translation2d originalLocation = Field.StagingLocations.spikeTranslations[1];
+        Translation2d newLocation;
+        if (Field.isBlue()) {
+            newLocation = new Translation2d(originalLocation.getX(), originalLocation.getY());
+        } else {
+            newLocation = new Translation2d(originalLocation.getX(), originalLocation.getY());
+        }
+        return getFeedAdjustedTargetPos(newLocation);
     }
 
     /**
