@@ -50,6 +50,11 @@ public class Auton extends SubsystemBase {
                 "Front Rush Alt", new PathPlannerAuto("Front Rush Alt")); // Runs full Auto
         autonChooser.addOption(
                 "Front Rush 13", new PathPlannerAuto("Front Rush 13")); // Runs full Auto
+        autonChooser.addOption(
+                "Front Rush 3", new PathPlannerAuto("Front Rush 3")); // Runs full Auto
+
+        autonChooser.addOption(
+                "Front Rush 23 Spit", new PathPlannerAuto("Front Rush 23 Spit")); // Runs full Auto
         // autonChooser.addOption("Source 4 Auto", new PathPlannerAuto("Source 4")); // Runs full
         // Auto
         // autonChooser.addOption("Front 6.5 Test", AutoPaths.Front6Point5()); // Runs full Auto
@@ -100,6 +105,9 @@ public class Auton extends SubsystemBase {
         NamedCommands.registerCommand("intakeFeed", AutonCommands.intakeFeed());
         NamedCommands.registerCommand("spit", AutonCommands.spit());
         NamedCommands.registerCommand("spitReady", AutonCommands.spitReady());
+
+        NamedCommands.registerCommand("spit2", AutonCommands.spit2());
+        NamedCommands.registerCommand("spitReady2", AutonCommands.spitReady2());
 
         NamedCommands.registerCommand("resetPose", AutonCommands.resetPoseToVision());
 

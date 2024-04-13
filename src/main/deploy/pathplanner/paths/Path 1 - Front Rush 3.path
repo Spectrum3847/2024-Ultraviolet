@@ -32,60 +32,44 @@
     },
     {
       "anchor": {
-        "x": 7.98,
-        "y": 2.47
+        "x": 7.844752228325786,
+        "y": 3.99
       },
       "prevControl": {
-        "x": 7.0403073792140916,
-        "y": 2.8120201433256695
+        "x": 6.266518052212906,
+        "y": 2.8590810408936056
       },
       "nextControl": {
-        "x": 8.40286167935366,
-        "y": 2.316090935503449
+        "x": 8.210536271371206,
+        "y": 4.252110728230148
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.0,
-        "y": 3.45
+        "x": 5.330408565400854,
+        "y": 4.3522143545690275
       },
       "prevControl": {
-        "x": 6.305648331192086,
-        "y": 3.029311162925028
+        "x": 6.39572230936821,
+        "y": 3.943710588085304
       },
       "nextControl": {
-        "x": 5.694351668807914,
-        "y": 3.8706888370749724
+        "x": 4.301461774111575,
+        "y": 4.746772898597248
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.82,
-        "y": 4.17
+        "x": 2.8,
+        "y": 5.55
       },
       "prevControl": {
-        "x": 7.63092424810393,
-        "y": 3.8288983142156354
-      },
-      "nextControl": {
-        "x": 8.038164329110849,
-        "y": 4.563578868212724
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 4.475169915734352,
-        "y": 4.72635846627255
-      },
-      "prevControl": {
-        "x": 5.656821046758607,
-        "y": 4.154335258300527
+        "x": 3.981651131024254,
+        "y": 4.977976792027977
       },
       "nextControl": null,
       "isLocked": false,
@@ -95,17 +79,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 2.0,
-      "rotationDegrees": 150.0,
-      "rotateFast": false
-    },
-    {
-      "waypointRelativePos": 1.0,
-      "rotationDegrees": 180.0,
-      "rotateFast": false
-    },
-    {
-      "waypointRelativePos": 3.0,
-      "rotationDegrees": 180.0,
+      "rotationDegrees": -166.0,
       "rotateFast": false
     }
   ],
@@ -197,76 +171,8 @@
       }
     },
     {
-      "name": "SpitReady",
-      "waypointRelativePos": 2.5,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "spitReady"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "Spit",
-      "waypointRelativePos": 2.7,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "spit"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "Intake",
-      "waypointRelativePos": 3.4499999999999997,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "smartIntake"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
       "name": "StopFeeder",
-      "waypointRelativePos": 1.4000000000000001,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "stopFeeder"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "StopFeeder",
-      "waypointRelativePos": 3.4000000000000004,
+      "waypointRelativePos": 1.35,
       "command": {
         "type": "parallel",
         "data": {
@@ -283,7 +189,7 @@
     },
     {
       "name": "LaunchReady",
-      "waypointRelativePos": 3.4499999999999997,
+      "waypointRelativePos": 3.3,
       "command": {
         "type": "parallel",
         "data": {
@@ -291,24 +197,7 @@
             {
               "type": "named",
               "data": {
-                "name": "launchReady10"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "Launch",
-      "waypointRelativePos": 4.95,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "launch"
+                "name": "launchReady11"
               }
             }
           ]
@@ -324,7 +213,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 170.0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
