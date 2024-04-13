@@ -460,22 +460,22 @@ public class Vision extends SubsystemBase {
                         "ResetPoseToVision: FAIL || DID NOT RESET POSE TO VISION BECAUSE BAD POSE");
                 reject = true;
             }
-            if(Field.poseOutOfField(botpose3D)) {
+            if (Field.poseOutOfField(botpose3D)) {
                 RobotTelemetry.print(
                         "ResetPoseToVision: FAIL || DID NOT RESET POSE TO VISION BECAUSE OUT OF FIELD");
-                        reject = true;
-            } else if(Math.abs(botpose3D.getZ()) > 0.25) {
-                        RobotTelemetry.print(
-                "ResetPoseToVision: FAIL || DID NOT RESET POSE TO VISION BECAUSE IN AIR");
                 reject = true;
-            } else if((Math.abs(botpose3D.getRotation().getX()) > 5
-                            || Math.abs(botpose3D.getRotation().getY()) > 5)) {
-                                                        RobotTelemetry.print(
-                "ResetPoseToVision: FAIL || DID NOT RESET POSE TO VISION BECAUSE TILTED");
+            } else if (Math.abs(botpose3D.getZ()) > 0.25) {
+                RobotTelemetry.print(
+                        "ResetPoseToVision: FAIL || DID NOT RESET POSE TO VISION BECAUSE IN AIR");
                 reject = true;
-                            }
+            } else if ((Math.abs(botpose3D.getRotation().getX()) > 5
+                    || Math.abs(botpose3D.getRotation().getY()) > 5)) {
+                RobotTelemetry.print(
+                        "ResetPoseToVision: FAIL || DID NOT RESET POSE TO VISION BECAUSE TILTED");
+                reject = true;
+            }
 
-            if(reject) {
+            if (reject) {
                 LEDsCommands.solidErrorLED().withTimeout(0.5).schedule();
                 return;
             } else {
