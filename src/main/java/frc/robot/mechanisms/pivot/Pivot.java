@@ -45,6 +45,8 @@ public class Pivot extends Mechanism {
         public final double manualFeed = 70;
         /* Auto Launch Positions */
         public final double autoLaunchPreload = 60;
+
+        public final double autoLaunchPreload2 = 61;
         public final double spitReady = 5; // GP 4 on Front 6
 
         public final double spitReady2 = 32; // GP 4 on Front 6
@@ -60,12 +62,12 @@ public class Pivot extends Mechanism {
         public final double autoLaunch9 = 43.5; // GP 4 on Front 6
 
         public final double autoLaunch10 = 43.5;
-        public final double autoLaunch11 = 53;
+        public final double autoLaunch11 = 54;
         public final double autoLaunch12 = 46;
 
         public final double autoLaunch13 = 46.5;
 
-        public final double autoLaunch14 = 44;
+        public final double autoLaunch14 = 44.5;
 
         public final double autoLaunch15 = 43.5;
 

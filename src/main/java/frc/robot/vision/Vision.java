@@ -518,31 +518,39 @@ public class Vision extends SubsystemBase {
         double batchSize = 5;
         for (int i = autonPoses.size() - 1; i > autonPoses.size() - (batchSize + 1); i--) {
             Trio<Pose3d, Pose2d, Double> poseInfo = autonPoses.get(i);
-            boolean success = resetPoseToVision(true, poseInfo.getFirst(), poseInfo.getSecond(), poseInfo.getThird());
-            if(success) {
+            boolean success =
+                    resetPoseToVision(
+                            true, poseInfo.getFirst(), poseInfo.getSecond(), poseInfo.getThird());
+            if (success) {
                 reject = false;
-                RobotTelemetry.print("AutonResetPoseToVision succeeded on " + (autonPoses.size() - i) + "try");
-                return;
+                RobotTelemetry.print(
+                        "AutonResetPoseToVision succeeded on " + (autonPoses.size() - i) + " try");
+                break;
             }
         }
 
         if (reject) {
-                RobotTelemetry.print("AutonResetPoseToVision failed after " + batchSize + " of " + autonPoses.size() + " possible tries");
-                LEDsCommands.solidErrorLED().withTimeout(1).schedule();
+            RobotTelemetry.print(
+                    "AutonResetPoseToVision failed after "
+                            + batchSize
+                            + " of "
+                            + autonPoses.size()
+                            + " possible tries");
+            LEDsCommands.solidErrorLED().withTimeout(1).schedule();
         } else {
-                LEDsCommands.solidGreenLED().withTimeout(1).schedule();
+            LEDsCommands.solidGreenLED().withTimeout(1).schedule();
         }
-
-        
     }
 
     public void resetPoseToVision() {
         Limelight ll = getBestLimelight();
-        resetPoseToVision(ll.targetInView(), ll.getRawPose3d(), ll.getMegaPose2d(), ll.getRawPoseTimestamp());
+        resetPoseToVision(
+                ll.targetInView(), ll.getRawPose3d(), ll.getMegaPose2d(), ll.getRawPoseTimestamp());
     }
 
     /** Set robot pose to vision pose only if LL has good tag reading */
-    public boolean resetPoseToVision(boolean targetInView, Pose3d botpose3D, Pose2d megaPose, double poseTimestamp) {
+    public boolean resetPoseToVision(
+            boolean targetInView, Pose3d botpose3D, Pose2d megaPose, double poseTimestamp) {
         boolean reject = false;
         if (targetInView) {
             Pose2d botpose = botpose3D.toPose2d();
@@ -570,9 +578,9 @@ public class Vision extends SubsystemBase {
                 reject = true;
             }
 
-            //don't continue
-            if(reject) {
-                return reject;
+            // don't continue
+            if (reject) {
+                return !reject;
             }
 
             // track STDs
@@ -604,9 +612,9 @@ public class Vision extends SubsystemBase {
                             + " Theta: "
                             + RobotTelemetry.truncatedDouble(robotPose.getRotation().getDegrees()));
             RobotTelemetry.print("ResetPoseToVision: SUCCESS");
-            return false;
+            return true;
         }
-        return true; //target not in view
+        return false; // target not in view
     }
 
     public Limelight getBestLimelight() {
