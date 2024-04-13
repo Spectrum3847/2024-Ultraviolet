@@ -48,15 +48,15 @@
     },
     {
       "anchor": {
-        "x": 6.2,
+        "x": 6.15,
         "y": 3.4
       },
       "prevControl": {
-        "x": 6.505648331192086,
+        "x": 6.455648331192086,
         "y": 2.9793111629250277
       },
       "nextControl": {
-        "x": 5.894351668807914,
+        "x": 5.8443516688079145,
         "y": 3.820688837074972
       },
       "isLocked": false,
@@ -292,6 +292,23 @@
               "type": "named",
               "data": {
                 "name": "launchReady10"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Launch",
+      "waypointRelativePos": 4.95,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "launch"
               }
             }
           ]

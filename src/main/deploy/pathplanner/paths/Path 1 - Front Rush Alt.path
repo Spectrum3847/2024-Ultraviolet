@@ -17,31 +17,31 @@
     {
       "anchor": {
         "x": 2.8,
-        "y": 5.67
+        "y": 5.55
       },
       "prevControl": {
-        "x": 2.157124524473414,
-        "y": 5.283721443817462
+        "x": 2.05,
+        "y": 5.55
       },
       "nextControl": {
-        "x": 3.8714591258776405,
-        "y": 6.313797593637568
+        "x": 4.05,
+        "y": 5.55
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.78,
-        "y": 5.9
+        "x": 7.68,
+        "y": 5.65
       },
       "prevControl": {
-        "x": 6.0479491924311235,
-        "y": 6.9
+        "x": 6.394424780626922,
+        "y": 7.182088886237955
       },
       "nextControl": {
-        "x": 8.646025403784439,
-        "y": 5.4
+        "x": 8.32278760968654,
+        "y": 4.883955556881022
       },
       "isLocked": false,
       "linkedName": null
@@ -67,7 +67,7 @@
       "rotateFast": false
     },
     {
-      "waypointRelativePos": 1.0,
+      "waypointRelativePos": 1.4,
       "rotationDegrees": 180.0,
       "rotateFast": false
     }
@@ -135,7 +135,7 @@
             {
               "type": "named",
               "data": {
-                "name": "launchReady4"
+                "name": "launchReady13"
               }
             }
           ]
@@ -186,7 +186,24 @@
             {
               "type": "named",
               "data": {
-                "name": "visionLaunchReady"
+                "name": "launchReady14"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Launch",
+      "waypointRelativePos": 2.9499999999999997,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "launch"
               }
             }
           ]

@@ -171,6 +171,24 @@ public class AutonCommands {
                 .withName("AutonCommands.launchReady7");
     }
 
+    public static Command launchReady13() {
+        return PivotCommands.autoLaunch13()
+                .alongWith(LauncherCommands.subwoofer())
+                .withName("AutonCommands.launchReady13");
+    }
+
+    public static Command launchReady14() {
+        return PivotCommands.autoLaunch14()
+                .alongWith(LauncherCommands.subwoofer())
+                .withName("AutonCommands.launchReady13");
+    }
+
+    public static Command launchReady15() {
+        return PivotCommands.autoLaunch15()
+                .alongWith(LauncherCommands.subwoofer())
+                .withName("AutonCommands.launchReady13");
+    }
+
     public static Command launchReadySubwoofer() {
         return (PivotCommands.subwoofer().alongWith(LauncherCommands.subwoofer()))
                 .withTimeout(0.5)

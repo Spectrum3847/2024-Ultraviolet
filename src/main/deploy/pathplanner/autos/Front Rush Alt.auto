@@ -18,12 +18,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "launch"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Path 2 - Front Rush Alt"
@@ -36,9 +30,15 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "resetPose"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "Path 2 - Front 6.5"
+            "pathName": "Copy of Path 2 - Front 6.5"
           }
         }
       ]

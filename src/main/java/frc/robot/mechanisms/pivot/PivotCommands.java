@@ -112,6 +112,18 @@ public class PivotCommands {
         return pivot.runPosition(pivot.config.autoLaunch12).withName("Pivot.subwoofer");
     }
 
+    public static Command autoLaunch13() {
+        return pivot.runPosition(pivot.config.autoLaunch13).withName("Pivot.subwoofer");
+    }
+
+    public static Command autoLaunch14() {
+        return pivot.runPosition(pivot.config.autoLaunch14).withName("Pivot.subwoofer");
+    }
+
+    public static Command autoLaunch15() {
+        return pivot.runPosition(pivot.config.autoLaunch15).withName("Pivot.subwoofer");
+    }
+
     public static Command spitReady() {
         return pivot.runPosition(pivot.config.spitReady).withName("Pivot.subwoofer");
     }
