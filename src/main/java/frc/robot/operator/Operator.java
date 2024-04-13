@@ -78,6 +78,11 @@ public class Operator extends Gamepad {
                 .onTrue(rumbleCommand(PivotCommands.decreaseOffset()));
         controller.leftDpad().and(noBumpers()).onTrue(rumbleCommand(PivotCommands.resetOffset()));
 
+        controller
+                .rightDpad()
+                .and(noBumpers())
+                .onTrue(rumbleCommand(PivotCommands.switchFeedSpot()));
+
         /* Climb */
         controller.upDpad().and(leftBumperOnly()).whileTrue(RobotCommands.topClimb());
         controller.downDpad().and(leftBumperOnly()).whileTrue(ClimberCommands.midClimb());
@@ -97,6 +102,11 @@ public class Operator extends Gamepad {
                 .and(noBumpers())
                 .onTrue(rumbleCommand(PivotCommands.decreaseOffset()));
         controller.leftDpad().and(noBumpers()).onTrue(rumbleCommand(PivotCommands.resetOffset()));
+
+        controller
+                .rightDpad()
+                .and(noBumpers())
+                .onTrue(rumbleCommand(PivotCommands.switchFeedSpot()));
     };
 
     /** Setup the Buttons for Test mode. */

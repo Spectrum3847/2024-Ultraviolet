@@ -40,7 +40,7 @@ public class RobotCommands {
     public static Command visionLaunch() {
         return Commands.either(
                         visionSpeakerLaunch(),
-                        visionFeedLaunch(),
+                        dynamicFeed(),
                         () -> {
                             if (Field.isBlue()) {
                                 return Robot.swerve.getPose().getTranslation().getX()
@@ -81,6 +81,11 @@ public class RobotCommands {
                         PivotCommands.setPivotOnDeepFeedDistance(
                                 () -> Robot.vision.getDeepFeedDistance()))
                 .withName("RobotCommands.visionLaunch");
+    }
+
+    public static Command dynamicFeed() {
+        return Commands.either(
+                visionFeedLaunch(), visionDeepFeedLaunch(), Robot.pivot::isFeedShort);
     }
 
     public static Command manualFeedLaunch() {

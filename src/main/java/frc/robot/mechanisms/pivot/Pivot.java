@@ -78,6 +78,8 @@ public class Pivot extends Mechanism {
 
         public double OFFSET = STARTING_OFFSET; // do not change this line
 
+        public boolean shortFeed = true;
+
         /* Pivot config values */
         public double currentLimit = 30;
         public double torqueCurrentLimit = 100;
@@ -154,7 +156,7 @@ public class Pivot extends Mechanism {
             // FEED_DISTANCE_MAP.put(9.05, 65.0);
             FEED_DISTANCE_MAP.put(7.00, 82.0);
 
-            DEEP_FEED_DISTANCE_MAP.put(7.0, 72.0);
+            DEEP_FEED_DISTANCE_MAP.put(7.0, 70.0);
         }
 
         public PivotConfig() {
@@ -229,7 +231,7 @@ public class Pivot extends Mechanism {
 
     public static double getMapAngleAtSpeed(
             InterpolatingDoubleTreeMap map, double distance, double offset) {
-        double tunableSpeedFactor = 4;
+        double tunableSpeedFactor = 5;
         double angle = map.get(distance);
         angle += (angle * (offset / 100));
         double speed = Robot.swerve.getRobotRelativeSpeeds().vxMetersPerSecond;
@@ -421,6 +423,16 @@ public class Pivot extends Mechanism {
     public void resetOffset() {
         config.OFFSET = config.STARTING_OFFSET;
         RobotTelemetry.print("Pivot offset reset to: " + config.OFFSET);
+    }
+
+    public void switchFeedSpot() {
+        config.shortFeed = !config.shortFeed;
+        RobotTelemetry.print("Feed spot switched to " + ((config.shortFeed) ? " short" : " long"));
+    }
+
+    @AutoLogOutput(key = "Pivot/isShortFeed")
+    public boolean isFeedShort() {
+        return config.shortFeed;
     }
 
     public void checkMotorResponse(StatusCode response) {
