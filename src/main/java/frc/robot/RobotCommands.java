@@ -342,7 +342,7 @@ public class RobotCommands {
 
     public static Command intoAmpShot() {
         return LauncherCommands.intoAmp()
-                .alongWith(PivotCommands.intoAmp(), PilotCommands.turnToAmp())
+                .alongWith(PivotCommands.intoAmp(), PilotCommands.turnLaunchToAmp())
                 .withName("RobotCommands.intoAmp");
     }
 
@@ -443,7 +443,7 @@ public class RobotCommands {
 
     public static Command manualSource() {
         return LauncherCommands.manualSource()
-                .alongWith(FeederCommands.manualSource())
+                .alongWith(FeederCommands.manualSource(), PivotCommands.subwoofer())
                 .withName("RobotCommands.manualSource");
     }
 

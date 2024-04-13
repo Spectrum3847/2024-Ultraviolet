@@ -6,6 +6,7 @@ import frc.robot.RobotTelemetry;
 import frc.robot.leds.LEDsCommands;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
 import frc.robot.swerve.commands.SwerveCommands;
+import frc.robot.vision.VisionCommands;
 import frc.spectrumLib.gamepads.Gamepad;
 import frc.spectrumLib.util.ExpCurve;
 
@@ -72,7 +73,12 @@ public class Pilot extends Gamepad {
         controller
                 .b()
                 .and(leftBumperOnly().or(bothBumpers()))
-                .whileTrue(RobotCommands.intoAmpShot());
+                .whileTrue(RobotCommands.centerClimbAlign());
+
+        runWithEndSequence(
+                controller.rightDpad().and(noBumpers().or(rightBumperOnly())),
+                RobotCommands.intoAmpShot(),
+                RobotCommands.feedHome());
 
         controller
                 .x()
@@ -87,11 +93,11 @@ public class Pilot extends Gamepad {
         controller
                 .y()
                 .and(noBumpers().or(rightBumperOnly()))
-                .whileTrue(RobotCommands.subwooferShot());
+                .whileTrue(VisionCommands.driveToNote().alongWith(RobotCommands.smartIntake()));
         controller
                 .y()
                 .and(leftBumperOnly().or(bothBumpers()))
-                .whileTrue(RobotCommands.centerClimbAlign());
+                .whileTrue(RobotCommands.subwooferShot());
 
         controller
                 .a()
@@ -111,11 +117,6 @@ public class Pilot extends Gamepad {
         controller.rightStick().whileTrue(PilotCommands.slowMode());
 
         rightStick().and(leftBumperOnly()).whileTrue(PilotCommands.manualPivot());
-
-        controller
-                .rightDpad()
-                .and(noBumpers().or(rightBumperOnly()))
-                .whileTrue(RobotCommands.podiumShot());
 
         controller.leftDpad().and(noBumpers()).whileTrue(RobotCommands.manualSource());
 
