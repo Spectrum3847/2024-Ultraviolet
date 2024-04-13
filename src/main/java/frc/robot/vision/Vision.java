@@ -16,10 +16,12 @@ import frc.crescendo.Field;
 import frc.robot.Robot;
 import frc.robot.RobotTelemetry;
 import frc.robot.leds.LEDsCommands;
+import frc.spectrumLib.util.Trio;
 import frc.spectrumLib.vision.Limelight;
 import frc.spectrumLib.vision.Limelight.PhysicalConfig;
 import frc.spectrumLib.vision.LimelightHelpers.RawFiducial;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import org.littletonrobotics.junction.AutoLogOutput;
 
 public class Vision extends SubsystemBase {
@@ -73,7 +75,7 @@ public class Vision extends SubsystemBase {
         /* Vision Command Configs */
         public static final class AlignToNote extends CommandConfig {
             private AlignToNote() {
-                configKp(0.04);
+                configKp(0.02);
                 configTolerance(0.01);
                 configMaxOutput(Robot.swerve.config.maxVelocity * 0.5);
                 configError(0.3);
@@ -88,11 +90,11 @@ public class Vision extends SubsystemBase {
 
         public static final class DriveToNote extends CommandConfig {
             private DriveToNote() {
-                configKp(0.3);
+                configKp(0.2);
                 configTolerance(0.05);
                 configMaxOutput(Robot.swerve.config.maxVelocity * 0.5);
-                configVerticalSetpoint(-8);
-                configVerticalMaxView(6);
+                configVerticalSetpoint(-23);
+                configVerticalMaxView(15);
                 configLimelight(Robot.vision.detectLL);
                 configAlignCommand(AlignToNote.getConfig());
             }
@@ -141,6 +143,9 @@ public class Vision extends SubsystemBase {
     @AutoLogOutput(key = "Vision/a_Integrating")
     public static boolean isIntegrating = false;
 
+    public ArrayList<Trio<Pose3d, Pose2d, Double>> autonPoses =
+            new ArrayList<Trio<Pose3d, Pose2d, Double>>();
+
     private boolean isAiming = false;
 
     public Vision() {
@@ -160,6 +165,15 @@ public class Vision extends SubsystemBase {
         double yaw = Robot.swerve.getRotation().getDegrees();
         for (Limelight limelight : poseLimelights) {
             limelight.setRobotOrientation(yaw);
+
+            if (DriverStation.isAutonomousEnabled() && limelight.targetInView()) {
+                Pose3d botpose3D = limelight.getRawPose3d();
+                Pose2d megaPose2d = limelight.getMegaPose2d();
+                double timeStamp = limelight.getRawPoseTimestamp();
+                Pose2d integratablePose =
+                        new Pose2d(megaPose2d.getTranslation(), botpose3D.toPose2d().getRotation());
+                autonPoses.add(Trio.of(botpose3D, integratablePose, timeStamp));
+            }
         }
 
         try {
@@ -398,16 +412,13 @@ public class Vision extends SubsystemBase {
         double tunableSpeakerYFudge = 0.0;
         double tunableSpeakerXFudge = 0.0;
 
-
         Translation2d robotPos = Robot.swerve.getPose().getTranslation();
         targetPose = Field.flipXifRed(targetPose);
         double xDifference = Math.abs(robotPos.getX() - targetPose.getX());
-        if(xDifference < 5.8) {
-            RobotTelemetry.print("detected speaker shot");
-        } else {
-            RobotTelemetry.print("detected feeder shot");
-        }
-        double spinYFudge = (xDifference < 5.8) ? 0.05  : 0.8; //change spin factor for score distances vs. feed distances 
+        double spinYFudge =
+                (xDifference < 5.8)
+                        ? 0.05
+                        : 0.8; // change spin fudge for score distances vs. feed distances
 
         ChassisSpeeds robotVel = Robot.swerve.getVelocity(true); // TODO: change
 
@@ -502,16 +513,40 @@ public class Vision extends SubsystemBase {
         Robot.swerve.resetPose(Robot.swerve.convertPoseWithGyro(frontLL.getRawPose3d().toPose2d()));
     }
 
-    /** Set robot pose to vision pose only if LL has good tag reading */
+    public void autonResetPoseToVision() {
+        boolean reject = true;
+        double batchSize = 5;
+        for (int i = autonPoses.size() - 1; i > autonPoses.size() - (batchSize + 1); i--) {
+            Trio<Pose3d, Pose2d, Double> poseInfo = autonPoses.get(i);
+            boolean success = resetPoseToVision(true, poseInfo.getFirst(), poseInfo.getSecond(), poseInfo.getThird());
+            if(success) {
+                reject = false;
+                RobotTelemetry.print("AutonResetPoseToVision succeeded on " + (autonPoses.size() - i) + "try");
+                return;
+            }
+        }
+
+        if (reject) {
+                RobotTelemetry.print("AutonResetPoseToVision failed after " + batchSize + " of " + autonPoses.size() + " possible tries");
+                LEDsCommands.solidErrorLED().withTimeout(1).schedule();
+        } else {
+                LEDsCommands.solidGreenLED().withTimeout(1).schedule();
+        }
+
+        
+    }
+
     public void resetPoseToVision() {
-        boolean reject = false;
         Limelight ll = getBestLimelight();
-        if (ll.targetInView()) {
-            Pose3d botpose3D = ll.getRawPose3d();
+        resetPoseToVision(ll.targetInView(), ll.getRawPose3d(), ll.getMegaPose2d(), ll.getRawPoseTimestamp());
+    }
+
+    /** Set robot pose to vision pose only if LL has good tag reading */
+    public boolean resetPoseToVision(boolean targetInView, Pose3d botpose3D, Pose2d megaPose, double poseTimestamp) {
+        boolean reject = false;
+        if (targetInView) {
             Pose2d botpose = botpose3D.toPose2d();
-            Pose2d megaPose2d = ll.getMegaPose2d();
             Pose2d robotPose = Robot.swerve.getPose();
-            double timeStamp = ll.getRawPoseTimestamp();
             if (Field.poseOutOfField(botpose3D)
                     || Math.abs(botpose3D.getZ()) > 0.25
                     || (Math.abs(botpose3D.getRotation().getX()) > 5
@@ -535,11 +570,9 @@ public class Vision extends SubsystemBase {
                 reject = true;
             }
 
-            if (reject) {
-                LEDsCommands.solidErrorLED().withTimeout(1).schedule();
-                return;
-            } else {
-                LEDsCommands.solidGreenLED().withTimeout(1).schedule();
+            //don't continue
+            if(reject) {
+                return reject;
             }
 
             // track STDs
@@ -560,8 +593,8 @@ public class Vision extends SubsystemBase {
                             VisionConfig.VISION_STD_DEV_Y,
                             VisionConfig.VISION_STD_DEV_THETA));
 
-            Pose2d integratedPose = new Pose2d(megaPose2d.getTranslation(), botpose.getRotation());
-            Robot.swerve.addVisionMeasurement(integratedPose, timeStamp);
+            Pose2d integratedPose = new Pose2d(megaPose.getTranslation(), botpose.getRotation());
+            Robot.swerve.addVisionMeasurement(integratedPose, poseTimestamp);
             robotPose = Robot.swerve.getPose(); // get updated pose
             RobotTelemetry.print(
                     "ResetPoseToVision: New Pose X: "
@@ -571,7 +604,9 @@ public class Vision extends SubsystemBase {
                             + " Theta: "
                             + RobotTelemetry.truncatedDouble(robotPose.getRotation().getDegrees()));
             RobotTelemetry.print("ResetPoseToVision: SUCCESS");
+            return false;
         }
+        return true; //target not in view
     }
 
     public Limelight getBestLimelight() {
@@ -596,64 +631,10 @@ public class Vision extends SubsystemBase {
         return getBestLimelight().CAMERA_NAME;
     }
 
-    // //6328-2024 Stdev adjustment stuff
-    // public void addVisionObservation(VisionObservation observation) {
-    //     latestParameters = null;
-    //     // If measurement is old enough to be outside the pose buffer's timespan, skip.
-    //     try {
-    //     if (poseBuffer.getInternalBuffer().lastKey() - poseBufferSizeSeconds
-    //         > observation.timestamp()) {
-    //         return;
-    //     }
-    //     } catch (NoSuchElementException ex) {
-    //     return;
-    //     }
-    //     // Get odometry based pose at timestamp
-    //     var sample = poseBuffer.getSample(observation.timestamp());
-    //     if (sample.isEmpty()) {
-    //     // exit if not there
-    //     return;
-    //     }
-
-    //     // sample --> odometryPose transform and backwards of that
-    //     var sampleToOdometryTransform = new Transform2d(sample.get(), odometryPose);
-    //     var odometryToSampleTransform = new Transform2d(odometryPose, sample.get());
-    //     // get old estimate by applying odometryToSample Transform
-    //     Pose2d estimateAtTime = estimatedPose.plus(odometryToSampleTransform);
-
-    //     // Calculate 3 x 3 vision matrix
-    //     var r = new double[3];
-    //     for (int i = 0; i < 3; ++i) {
-    //     r[i] = observation.stdDevs().get(i, 0) * observation.stdDevs().get(i, 0);
-    //     }
-    //     // Solve for closed form Kalman gain for continuous Kalman filter with A = 0
-    //     // and C = I. See wpimath/algorithms.md.
-    //     Matrix<N3, N3> visionK = new Matrix<>(Nat.N3(), Nat.N3());
-    //     for (int row = 0; row < 3; ++row) {
-    //     double stdDev = qStdDevs.get(row, 0);
-    //     if (stdDev == 0.0) {
-    //         visionK.set(row, row, 0.0);
-    //     } else {
-    //         visionK.set(row, row, stdDev / (stdDev + Math.sqrt(stdDev * r[row])));
-    //     }
-    //     }
-    //     // difference between estimate and vision pose
-    //     Transform2d transform = new Transform2d(estimateAtTime, observation.visionPose());
-    //     // scale transform by visionK
-    //     var kTimesTransform =
-    //         visionK.times(
-    //             VecBuilder.fill(
-    //                 transform.getX(), transform.getY(), transform.getRotation().getRadians()));
-    //     Transform2d scaledTransform =
-    //         new Transform2d(
-    //             kTimesTransform.get(0, 0),
-    //             kTimesTransform.get(1, 0),
-    //             Rotation2d.fromRadians(kTimesTransform.get(2, 0)));
-
-    //     // Recalculate current estimate by applying scaled transform to old estimate
-    //     // then replaying odometry data
-    //     estimatedPose = estimateAtTime.plus(scaledTransform).plus(sampleToOdometryTransform);
-    // }
+    @AutoLogOutput(key = "Vision/NoteInView")
+    public boolean noteInView() {
+        return detectLL.targetInView();
+    }
 
     /**
      * If at least one LL has an accurate pose

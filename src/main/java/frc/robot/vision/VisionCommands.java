@@ -23,6 +23,12 @@ public class VisionCommands {
                 .withName("VisionCommands.resetPoseToVision");
     }
 
+    /** Set robot pose to vision pose looking at 5 of the last available poses in auto */
+    public static Command autonResetPoseToVision() {
+        return vision.runOnce(vision::autonResetPoseToVision)
+                .withName("VisionCommands.autonResetPoseToVision");
+    }
+
     /** Set robot pose to vision pose regardless of validity. Does not reset rotation. */
     public static Command forcePoseToVision() {
         return vision.run(vision::forcePoseToVision).withName("VisionCommands.forcePoseToVision");
