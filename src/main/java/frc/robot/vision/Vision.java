@@ -5,7 +5,6 @@ import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
@@ -70,13 +69,39 @@ public class Vision extends SubsystemBase {
 
         public static final Matrix<N3, N1> visionStdMatrix =
                 VecBuilder.fill(VISION_STD_DEV_X, VISION_STD_DEV_Y, VISION_STD_DEV_THETA);
-    }
 
-    public record AimingParameters(
-            Rotation2d driveHeading,
-            Rotation2d armAngle,
-            double effectiveDistance,
-            double driveFeedVelocity) {}
+        /* Vision Command Configs */
+        public static final class AlignToNote extends CommandConfig {
+            private AlignToNote() {
+                configKp(0.04);
+                configTolerance(0.01);
+                configMaxOutput(Robot.swerve.config.maxVelocity * 0.5);
+                configError(0.3);
+                configPipelineIndex(detectNotePipeline);
+                configLimelight(Robot.vision.detectLL);
+            }
+
+            public static AlignToNote getConfig() {
+                return new AlignToNote();
+            }
+        }
+
+        public static final class DriveToNote extends CommandConfig {
+            private DriveToNote() {
+                configKp(0.3);
+                configTolerance(0.05);
+                configMaxOutput(Robot.swerve.config.maxVelocity * 0.5);
+                configVerticalSetpoint(-8);
+                configVerticalMaxView(6);
+                configLimelight(Robot.vision.detectLL);
+                configAlignCommand(AlignToNote.getConfig());
+            }
+
+            public static DriveToNote getConfig() {
+                return new DriveToNote();
+            }
+        }
+    }
 
     /* Limelights */
     public final Limelight rearLL =
