@@ -52,6 +52,10 @@ public class LEDsCommands {
         return LEDsCommands.solid(Section.FULL, Color.kWhite, 1).withName("LEDs.solidWhiteLED");
     }
 
+    public static Command solidErrorLED() {
+        return LEDsCommands.solid(Section.FULL, Color.kRed, 20).withName("LEDs.solidErrorLED");
+    }
+
     public static Command solidPurpleLED() {
         return LEDsCommands.solid(Section.FULL, LEDsConfig.SPECTRUM_COLOR, 2)
                 .withName("LEDs.solidPurpleLED");
@@ -119,6 +123,8 @@ public class LEDsCommands {
     public static Command coastLEDs() {
         return ombre(Section.FULL, Color.kOrange, Color.kOrangeRed, 5);
     }
+
+
 
     /*
      *

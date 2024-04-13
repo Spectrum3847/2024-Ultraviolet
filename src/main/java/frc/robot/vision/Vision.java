@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.crescendo.Field;
 import frc.robot.Robot;
 import frc.robot.RobotTelemetry;
+import frc.robot.leds.LEDsCommands;
 import frc.spectrumLib.vision.Limelight;
 import frc.spectrumLib.vision.Limelight.PhysicalConfig;
 import frc.spectrumLib.vision.LimelightHelpers.RawFiducial;
@@ -443,6 +444,7 @@ public class Vision extends SubsystemBase {
 
     /** Set robot pose to vision pose only if LL has good tag reading */
     public void resetPoseToVision() {
+        boolean reject = false;
         Limelight ll = getBestLimelight();
         if (ll.targetInView()) {
             Pose3d botpose3D = ll.getRawPose3d();
@@ -456,7 +458,28 @@ public class Vision extends SubsystemBase {
                             || Math.abs(botpose3D.getRotation().getY()) > 5)) {
                 RobotTelemetry.print(
                         "ResetPoseToVision: FAIL || DID NOT RESET POSE TO VISION BECAUSE BAD POSE");
+                reject = true;
+            }
+            if(Field.poseOutOfField(botpose3D)) {
+                RobotTelemetry.print(
+                        "ResetPoseToVision: FAIL || DID NOT RESET POSE TO VISION BECAUSE OUT OF FIELD");
+                        reject = true;
+            } else if(Math.abs(botpose3D.getZ()) > 0.25) {
+                        RobotTelemetry.print(
+                "ResetPoseToVision: FAIL || DID NOT RESET POSE TO VISION BECAUSE IN AIR");
+                reject = true;
+            } else if((Math.abs(botpose3D.getRotation().getX()) > 5
+                            || Math.abs(botpose3D.getRotation().getY()) > 5)) {
+                                                        RobotTelemetry.print(
+                "ResetPoseToVision: FAIL || DID NOT RESET POSE TO VISION BECAUSE TILTED");
+                reject = true;
+                            }
+
+            if(reject) {
+                LEDsCommands.solidErrorLED().withTimeout(0.5).schedule();
                 return;
+            } else {
+                LEDsCommands.solidGreenLED().withTimeout(0.5).schedule();
             }
 
             // track STDs
