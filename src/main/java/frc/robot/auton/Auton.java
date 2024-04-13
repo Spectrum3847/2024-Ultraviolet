@@ -55,7 +55,7 @@ public class Auton extends SubsystemBase {
 
         autonChooser.addOption(
                 "Front Rush 23 Spit", new PathPlannerAuto("Front Rush 23 Spit")); // Runs full Auto
-        // autonChooser.addOption("Source 4 Auto", new PathPlannerAuto("Source 4")); // Runs full
+        autonChooser.addOption("Source 4 Auto", new PathPlannerAuto("Source 4")); // Runs full
         // Auto
         // autonChooser.addOption("Front 6.5 Test", AutoPaths.Front6Point5()); // Runs full Auto
         // autonChooser.addOption("Front Alt 6 Test", AutoPaths.FrontAlt6()); // Runs full Auto
@@ -65,7 +65,6 @@ public class Auton extends SubsystemBase {
         // autonChooser.addOption("Test", AutoPaths.Test()); // Runs full Auto
 
         autonChooser.addOption("Subwoofer", new PathPlannerAuto("Subwoofer")); // Runs full Auto
-        autonChooser.addOption("Test Auto", AutoPaths.Test()); // Runs full Auto
 
         SmartDashboard.putData("Auto Chooser", autonChooser);
     }
