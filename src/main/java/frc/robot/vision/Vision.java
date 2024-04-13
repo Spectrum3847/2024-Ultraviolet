@@ -515,25 +515,31 @@ public class Vision extends SubsystemBase {
 
     public void autonResetPoseToVision() {
         boolean reject = true;
+        boolean firstSuccess = false;
         double batchSize = 5;
         for (int i = autonPoses.size() - 1; i > autonPoses.size() - (batchSize + 1); i--) {
             Trio<Pose3d, Pose2d, Double> poseInfo = autonPoses.get(i);
             boolean success = resetPoseToVision(true, poseInfo.getFirst(), poseInfo.getSecond(), poseInfo.getThird());
             if(success) {
+                if(i == autonPoses.size() - 1) {
+                    firstSuccess = true;
+                }
                 reject = false;
-                RobotTelemetry.print("AutonResetPoseToVision succeeded on " + (autonPoses.size() - i) + "try");
-                return;
+                RobotTelemetry.print("AutonResetPoseToVision succeeded on " + (autonPoses.size() - i) + " try");
+                break;
             }
         }
 
         if (reject) {
                 RobotTelemetry.print("AutonResetPoseToVision failed after " + batchSize + " of " + autonPoses.size() + " possible tries");
-                LEDsCommands.solidErrorLED().withTimeout(1).schedule();
+                LEDsCommands.solidErrorLED().withTimeout(0.8).schedule();
         } else {
-                LEDsCommands.solidGreenLED().withTimeout(1).schedule();
-        }
-
-        
+            if(firstSuccess) {
+                LEDsCommands.solidGreenLED().withTimeout(0.8).schedule();
+            } else {
+                LEDsCommands.solidOrangeLED().withTimeout(0.8).schedule();
+            }
+        }   
     }
 
     public void resetPoseToVision() {
@@ -541,7 +547,9 @@ public class Vision extends SubsystemBase {
         resetPoseToVision(ll.targetInView(), ll.getRawPose3d(), ll.getMegaPose2d(), ll.getRawPoseTimestamp());
     }
 
-    /** Set robot pose to vision pose only if LL has good tag reading */
+    /** Set robot pose to vision pose only if LL has good tag reading
+     * @return if the pose was accepted and integrated
+     */
     public boolean resetPoseToVision(boolean targetInView, Pose3d botpose3D, Pose2d megaPose, double poseTimestamp) {
         boolean reject = false;
         if (targetInView) {
@@ -572,7 +580,7 @@ public class Vision extends SubsystemBase {
 
             //don't continue
             if(reject) {
-                return reject;
+                return !reject; //return the success status
             }
 
             // track STDs
@@ -604,9 +612,9 @@ public class Vision extends SubsystemBase {
                             + " Theta: "
                             + RobotTelemetry.truncatedDouble(robotPose.getRotation().getDegrees()));
             RobotTelemetry.print("ResetPoseToVision: SUCCESS");
-            return false;
+            return true;
         }
-        return true; //target not in view
+        return false; //target not in view
     }
 
     public Limelight getBestLimelight() {
