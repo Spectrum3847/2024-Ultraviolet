@@ -284,6 +284,7 @@ public class Robot extends LoggedRobot {
 
     /** This method is called once when teleop exits */
     public void teleopExit() {
+        AmpTrapCommands.stayCoastMode().schedule();
         RobotTelemetry.print("!!! Teleop Exit !!! ");
     }
 

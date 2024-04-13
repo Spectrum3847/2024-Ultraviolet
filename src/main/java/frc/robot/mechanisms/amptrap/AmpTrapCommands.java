@@ -42,6 +42,11 @@ public class AmpTrapCommands {
         return ampTrap.coastMode();
     }
 
+    /** Sets amptrap to coast mode. Does not automatically set it back to brake mode */
+    public static Command stayCoastMode() {
+        return ampTrap.stayCoastMode();
+    }
+
     public static Command ensureBrakeMode() {
         return ampTrap.ensureBrakeMode();
     }
