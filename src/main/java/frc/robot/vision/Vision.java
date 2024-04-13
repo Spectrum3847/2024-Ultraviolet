@@ -392,60 +392,23 @@ public class Vision extends SubsystemBase {
      */
     public Translation2d getAdjustedTargetPos(Translation2d targetPose) {
         double NORM_FUDGE = 0.075;
-        double tunableNoteVelocity = 5;
+        double tunableNoteVelocity = 1;
         double tunableNormFudge = 0;
         double tunableStrafeFudge = 1;
         double tunableSpeakerYFudge = 0.0;
         double tunableSpeakerXFudge = 0.0;
-        double spinYFudge = 0.05;
 
-        targetPose = Field.flipXifRed(targetPose);
+
         Translation2d robotPos = Robot.swerve.getPose().getTranslation();
-        ChassisSpeeds robotVel = Robot.swerve.getVelocity(true); // TODO: change
-
-        double distance = robotPos.getDistance(targetPose);
-        double normFactor =
-                Math.hypot(robotVel.vxMetersPerSecond, robotVel.vyMetersPerSecond) < NORM_FUDGE
-                        ? 0.0
-                        : Math.abs(
-                                MathUtil.angleModulus(
-                                                robotPos.minus(targetPose).getAngle().getRadians()
-                                                        - Math.atan2(
-                                                                robotVel.vyMetersPerSecond,
-                                                                robotVel.vxMetersPerSecond))
-                                        / Math.PI);
-
-        double x =
-                targetPose.getX() + (Field.isBlue() ? tunableSpeakerXFudge : -tunableSpeakerXFudge);
-        // - (robotVel.vxMetersPerSecond * (distance / tunableNoteVelocity));
-        //      * (1.0 - (tunableNormFudge * normFactor)));
-        double y =
-                targetPose.getY()
-                        + (Field.isBlue() ? -spinYFudge : spinYFudge)
-                        + tunableSpeakerYFudge;
-        // - (robotVel.vyMetersPerSecond * (distance / tunableNoteVelocity));
-        //       * tunableStrafeFudge);
-
-        return new Translation2d(x, y);
-    }
-
-    /**
-     * Gets a field-relative position for the shot to the speaker the robot should take, adjusted
-     * for the robot's movement.
-     *
-     * @return A {@link Translation2d} representing a field relative position in meters.
-     */
-    public Translation2d getFeedAdjustedTargetPos(Translation2d targetPose) {
-        double NORM_FUDGE = 0.075;
-        double tunableNoteVelocity = 5;
-        double tunableNormFudge = 0;
-        double tunableStrafeFudge = 1;
-        double tunableSpeakerYFudge = 0.0;
-        double tunableSpeakerXFudge = 0.0;
-        double spinYFudge = 0.8;
-
         targetPose = Field.flipXifRed(targetPose);
-        Translation2d robotPos = Robot.swerve.getPose().getTranslation();
+        double xDifference = Math.abs(robotPos.getX() - targetPose.getX());
+        if(xDifference < 5.8) {
+            RobotTelemetry.print("detected speaker shot");
+        } else {
+            RobotTelemetry.print("detected feeder shot");
+        }
+        double spinYFudge = (xDifference < 5.8) ? 0.05  : 0.8; //change spin factor for score distances vs. feed distances 
+
         ChassisSpeeds robotVel = Robot.swerve.getVelocity(true); // TODO: change
 
         double distance = robotPos.getDistance(targetPose);
@@ -516,7 +479,7 @@ public class Vision extends SubsystemBase {
         } else {
             newLocation = new Translation2d(originalLocation.getX(), originalLocation.getY());
         }
-        return getFeedAdjustedTargetPos(newLocation);
+        return getAdjustedTargetPos(newLocation);
     }
 
     public Translation2d getAdjustedDeepFeederPos() {
@@ -527,7 +490,7 @@ public class Vision extends SubsystemBase {
         } else {
             newLocation = new Translation2d(originalLocation.getX(), originalLocation.getY());
         }
-        return getFeedAdjustedTargetPos(newLocation);
+        return getAdjustedTargetPos(newLocation);
     }
 
     /**
