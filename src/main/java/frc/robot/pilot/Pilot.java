@@ -117,6 +117,8 @@ public class Pilot extends Gamepad {
                 .and(noBumpers().or(rightBumperOnly()))
                 .whileTrue(RobotCommands.podiumShot());
 
+        controller.leftDpad().and(noBumpers()).whileTrue(RobotCommands.manualSource());
+
         controller
                 .upDpad()
                 .and(leftBumperOnly())

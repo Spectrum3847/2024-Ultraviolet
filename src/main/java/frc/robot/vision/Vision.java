@@ -593,7 +593,7 @@ public class Vision extends SubsystemBase {
             // don't continue
             if (reject) {
                 return !reject; // return the success status
-            }
+                }
 
             // track STDs
             VisionConfig.VISION_STD_DEV_X = 0.001;
