@@ -515,6 +515,7 @@ public class Vision extends SubsystemBase {
 
     public void autonResetPoseToVision() {
         boolean reject = true;
+        boolean firstSuccess = false;
         double batchSize = 5;
         for (int i = autonPoses.size() - 1; i > autonPoses.size() - (batchSize + 1); i--) {
             Trio<Pose3d, Pose2d, Double> poseInfo = autonPoses.get(i);
@@ -522,6 +523,9 @@ public class Vision extends SubsystemBase {
                     resetPoseToVision(
                             true, poseInfo.getFirst(), poseInfo.getSecond(), poseInfo.getThird());
             if (success) {
+                if (i == autonPoses.size() - 1) {
+                    firstSuccess = true;
+                }
                 reject = false;
                 RobotTelemetry.print(
                         "AutonResetPoseToVision succeeded on " + (autonPoses.size() - i) + " try");
@@ -536,9 +540,13 @@ public class Vision extends SubsystemBase {
                             + " of "
                             + autonPoses.size()
                             + " possible tries");
-            LEDsCommands.solidErrorLED().withTimeout(1).schedule();
+            LEDsCommands.solidErrorLED().withTimeout(0.8).schedule();
         } else {
-            LEDsCommands.solidGreenLED().withTimeout(1).schedule();
+            if (firstSuccess) {
+                LEDsCommands.solidGreenLED().withTimeout(0.8).schedule();
+            } else {
+                LEDsCommands.solidOrangeLED().withTimeout(0.8).schedule();
+            }
         }
     }
 
@@ -548,7 +556,11 @@ public class Vision extends SubsystemBase {
                 ll.targetInView(), ll.getRawPose3d(), ll.getMegaPose2d(), ll.getRawPoseTimestamp());
     }
 
-    /** Set robot pose to vision pose only if LL has good tag reading */
+    /**
+     * Set robot pose to vision pose only if LL has good tag reading
+     *
+     * @return if the pose was accepted and integrated
+     */
     public boolean resetPoseToVision(
             boolean targetInView, Pose3d botpose3D, Pose2d megaPose, double poseTimestamp) {
         boolean reject = false;
@@ -580,7 +592,7 @@ public class Vision extends SubsystemBase {
 
             // don't continue
             if (reject) {
-                return !reject;
+                return !reject; // return the success status
             }
 
             // track STDs
