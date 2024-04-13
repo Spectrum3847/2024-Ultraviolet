@@ -460,26 +460,26 @@ public class Vision extends SubsystemBase {
                         "ResetPoseToVision: FAIL || DID NOT RESET POSE TO VISION BECAUSE BAD POSE");
                 reject = true;
             }
-            if(Field.poseOutOfField(botpose3D)) {
+            if (Field.poseOutOfField(botpose3D)) {
                 RobotTelemetry.print(
                         "ResetPoseToVision: FAIL || DID NOT RESET POSE TO VISION BECAUSE OUT OF FIELD");
-                        reject = true;
-            } else if(Math.abs(botpose3D.getZ()) > 0.25) {
-                        RobotTelemetry.print(
-                "ResetPoseToVision: FAIL || DID NOT RESET POSE TO VISION BECAUSE IN AIR");
                 reject = true;
-            } else if((Math.abs(botpose3D.getRotation().getX()) > 5
-                            || Math.abs(botpose3D.getRotation().getY()) > 5)) {
-                                                        RobotTelemetry.print(
-                "ResetPoseToVision: FAIL || DID NOT RESET POSE TO VISION BECAUSE TILTED");
+            } else if (Math.abs(botpose3D.getZ()) > 0.25) {
+                RobotTelemetry.print(
+                        "ResetPoseToVision: FAIL || DID NOT RESET POSE TO VISION BECAUSE IN AIR");
                 reject = true;
-                            }
+            } else if ((Math.abs(botpose3D.getRotation().getX()) > 5
+                    || Math.abs(botpose3D.getRotation().getY()) > 5)) {
+                RobotTelemetry.print(
+                        "ResetPoseToVision: FAIL || DID NOT RESET POSE TO VISION BECAUSE TILTED");
+                reject = true;
+            }
 
-            if(reject) {
-                LEDsCommands.solidErrorLED().withTimeout(0.5).schedule();
+            if (reject) {
+                LEDsCommands.solidErrorLED().withTimeout(1).schedule();
                 return;
             } else {
-                LEDsCommands.solidGreenLED().withTimeout(0.5).schedule();
+                LEDsCommands.solidGreenLED().withTimeout(1).schedule();
             }
 
             // track STDs
@@ -502,6 +502,7 @@ public class Vision extends SubsystemBase {
 
             Pose2d integratedPose = new Pose2d(megaPose2d.getTranslation(), botpose.getRotation());
             Robot.swerve.addVisionMeasurement(integratedPose, timeStamp);
+            robotPose = Robot.swerve.getPose(); // get updated pose
             RobotTelemetry.print(
                     "ResetPoseToVision: New Pose X: "
                             + RobotTelemetry.truncatedDouble(robotPose.getX())

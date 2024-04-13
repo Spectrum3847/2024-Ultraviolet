@@ -52,28 +52,28 @@
         "y": 6.9
       },
       "prevControl": {
-        "x": 2.030586670825876,
-        "y": 6.695339806694083
+        "x": 2.0937822173508938,
+        "y": 6.550000000000001
       },
       "nextControl": {
-        "x": 3.656304755963035,
-        "y": 7.19237170472274
+        "x": 3.5660254037844386,
+        "y": 7.4
       },
       "isLocked": false,
       "linkedName": "GP 4 - Front 5"
     },
     {
       "anchor": {
-        "x": 8.019941529210627,
-        "y": 5.75
+        "x": 7.85,
+        "y": 7.28
       },
       "prevControl": {
-        "x": 8.019941529210627,
-        "y": 6.55
+        "x": 6.88407417371093,
+        "y": 7.538819045102521
       },
       "nextControl": {
-        "x": 8.019941529210627,
-        "y": 5.45
+        "x": 8.719333243660163,
+        "y": 7.047062859407732
       },
       "isLocked": false,
       "linkedName": null
@@ -84,8 +84,8 @@
         "y": 6.4
       },
       "prevControl": {
-        "x": 5.3344843335175565,
-        "y": 6.826745382315535
+        "x": 5.263060201004475,
+        "y": 6.22635182233307
       },
       "nextControl": null,
       "isLocked": false,
@@ -102,21 +102,16 @@
       "waypointRelativePos": 3,
       "rotationDegrees": -156.0,
       "rotateFast": false
-    },
-    {
-      "waypointRelativePos": 4.0,
-      "rotationDegrees": 150.0,
-      "rotateFast": false
     }
   ],
   "constraintZones": [
     {
       "name": "New Constraints Zone",
       "minWaypointRelativePos": 1.7999999999999998,
-      "maxWaypointRelativePos": 3.05,
+      "maxWaypointRelativePos": 3.35,
       "constraints": {
         "maxVelocity": 3.0,
-        "maxAcceleration": 3.0,
+        "maxAcceleration": 2.5,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0
       }
@@ -125,7 +120,7 @@
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 0.6,
+      "waypointRelativePos": 0.5,
       "command": {
         "type": "parallel",
         "data": {
@@ -142,7 +137,7 @@
     },
     {
       "name": "LaunchReady",
-      "waypointRelativePos": 0.6,
+      "waypointRelativePos": 0.5,
       "command": {
         "type": "parallel",
         "data": {
@@ -158,7 +153,7 @@
       }
     },
     {
-      "name": "launch",
+      "name": "Launch",
       "waypointRelativePos": 1.7999999999999998,
       "command": {
         "type": "parallel",
@@ -176,7 +171,7 @@
     },
     {
       "name": "LaunchReady",
-      "waypointRelativePos": 2.3000000000000003,
+      "waypointRelativePos": 2.3499999999999996,
       "command": {
         "type": "parallel",
         "data": {
@@ -198,8 +193,8 @@
       }
     },
     {
-      "name": "intake",
-      "waypointRelativePos": 2.4,
+      "name": "Intake",
+      "waypointRelativePos": 2.3499999999999996,
       "command": {
         "type": "parallel",
         "data": {
@@ -215,8 +210,8 @@
       }
     },
     {
-      "name": "intake",
-      "waypointRelativePos": 3.5,
+      "name": "Intake",
+      "waypointRelativePos": 3.5999999999999996,
       "command": {
         "type": "parallel",
         "data": {
@@ -232,8 +227,8 @@
       }
     },
     {
-      "name": "launchReady",
-      "waypointRelativePos": 3.5,
+      "name": "LaunchReady",
+      "waypointRelativePos": 3.5999999999999996,
       "command": {
         "type": "parallel",
         "data": {
@@ -249,24 +244,7 @@
       }
     },
     {
-      "name": "alignToSpeaker",
-      "waypointRelativePos": 4.699999999999999,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "alignToSpeaker"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "launch",
+      "name": "Launch",
       "waypointRelativePos": 4.95,
       "command": {
         "type": "parallel",
@@ -283,7 +261,7 @@
       }
     },
     {
-      "name": "stopFeeder",
+      "name": "StopFeeder",
       "waypointRelativePos": 0,
       "command": {
         "type": "parallel",
@@ -300,8 +278,8 @@
       }
     },
     {
-      "name": "stopFeeder",
-      "waypointRelativePos": 3.4000000000000004,
+      "name": "StopFeeder",
+      "waypointRelativePos": 3.4499999999999997,
       "command": {
         "type": "parallel",
         "data": {
@@ -310,23 +288,6 @@
               "type": "named",
               "data": {
                 "name": "stopFeeder"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "IntakeCheck",
-      "waypointRelativePos": 4.25,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "intakeCheck"
               }
             }
           ]
@@ -342,7 +303,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
+    "rotation": -167.5,
     "rotateFast": false
   },
   "reversed": false,

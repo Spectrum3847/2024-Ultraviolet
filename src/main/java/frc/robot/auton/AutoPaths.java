@@ -3,6 +3,7 @@ package frc.robot.auton;
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.Robot;
 
 public class AutoPaths {
     public static boolean front6Point5Note2 = false;
@@ -55,11 +56,14 @@ public class AutoPaths {
     }
 
     public static Command Test() {
-        return AutoBuilder.buildAuto("New Auto")
-                .until(() -> AutonCommands.isNoteIntaked())
+        return AutoBuilder.buildAuto("Detection Start")
                 .andThen(
-                        (AutonCommands.pathfindingCommandToPose(1, 1, 0, 2, 2)
-                                        .andThen(AutoBuilder.buildAuto("New New Auto")))
-                                .onlyIf(() -> AutonCommands.isNoteIntaked()));
+                        (AutonCommands.pathfindingCommandToPose(4.5, 6, 180, 2, 2))
+                                .andThen(AutoBuilder.buildAuto("Detection Accept"))
+                                .onlyIf(() -> Robot.feeder.intakedNote()))
+                .andThen(
+                        AutonCommands.pathfindingCommandToPose(4.5, 6, 180, 2, 2)
+                                .andThen(AutoBuilder.buildAuto("Detection Decline"))
+                                .onlyIf(() -> !Robot.feeder.intakedNote()));
     }
 }

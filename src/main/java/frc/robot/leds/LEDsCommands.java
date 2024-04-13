@@ -62,7 +62,7 @@ public class LEDsCommands {
     }
 
     public static Command solidGreenLED() {
-        return LEDsCommands.solid(Section.FULL, Color.kGreen, 10).withName("LEDs.solidGreenLED");
+        return LEDsCommands.solid(Section.FULL, Color.kGreen, 20).withName("LEDs.solidGreenLED");
     }
 
     public static Command exampleOmbre() {

@@ -43,6 +43,7 @@ public class Pivot extends Mechanism {
         public final double manualFeed = 70;
         /* Auto Launch Positions */
         public final double autoLaunchPreload = 60;
+        public final double spitReady = 5; // GP 4 on Front 6
         public final double autoLaunch1 = 70;
         public final double autoLaunch2 =
                 55; // works for GP2/GP3/GP5/GP6 in Front 5 and GP2/GP4/5 in Front 5 Alt
@@ -54,8 +55,15 @@ public class Pivot extends Mechanism {
         public final double autoLaunch8 = 30; // GP 4 on Front 6
         public final double autoLaunch9 = 43.5; // GP 4 on Front 6
 
-        public final double autoLaunch10 = 41;
-        public final double autoLaunch11 = 45;
+        public final double autoLaunch10 = 43;
+        public final double autoLaunch11 = 53;
+        public final double autoLaunch12 = 46;
+
+        public final double autoLaunch13 = 46.5;
+
+        public final double autoLaunch14 = 44;
+
+        public final double autoLaunch15 = 43.5;
 
         public final double zeroSpeed = -0.1;
 
@@ -64,7 +72,7 @@ public class Pivot extends Mechanism {
          * of the CHANGE in angle you set to, not +- the angle you set to) (the actual offset to
          * angles gets bigger as you get farther away)
          */
-        public final double STARTING_OFFSET = 2;
+        public final double STARTING_OFFSET = -1.5;
 
         public double OFFSET = STARTING_OFFSET; // do not change this line
 
