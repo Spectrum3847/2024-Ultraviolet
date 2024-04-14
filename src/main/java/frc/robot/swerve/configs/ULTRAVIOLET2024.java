@@ -42,7 +42,7 @@ public class ULTRAVIOLET2024 {
     /*Rotation Controller*/
     private static final double kPRotationController = 8.0;
     private static final double kIRotationController = 0.0;
-    private static final double kDRotationController = 0.0;
+    private static final double kDRotationController = 0.2;
 
     /*Alignment Controllers */
     private static final double kPAlignmentController = 12.0;

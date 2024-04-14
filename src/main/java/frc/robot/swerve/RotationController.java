@@ -12,13 +12,16 @@ import org.littletonrobotics.junction.AutoLogOutput;
  * angle.
  */
 public class RotationController {
+    // private static final double launchingKPRotationController = 8.0;
+    // private static final double launchingKIRotationController = 2.5;
+    // private static final double launchingKDRotationController = 0.3;
     Swerve swerve;
     SwerveConfig config;
     ProfiledPIDController controller;
     PIDController holdController;
     Constraints constraints;
 
-    @AutoLogOutput(key = "Serve/RotationController/Output")
+    // @AutoLogOutput(key = "Swerve/RotationController/Output")
     double calculatedValue = 0;
 
     double feedbackSetpoint;
@@ -94,4 +97,22 @@ public class RotationController {
         controller.reset(swerve.getRotation().getRadians());
         holdController.reset();
     }
+
+    public void updatePID(double kP, double kI, double kD) {
+        controller.setPID(kP, kI, kD);
+    }
+
+    // public void setLaunchPID() {
+    //     controller.setPID(
+    //             launchingKPRotationController,
+    //             launchingKIRotationController,
+    //             launchingKDRotationController);
+    // }
+
+    // public void setConfigPID() {
+    //     controller.setPID(
+    //             config.kPRotationController,
+    //             config.kIRotationController,
+    //             config.kDRotationController);
+    // }
 }
