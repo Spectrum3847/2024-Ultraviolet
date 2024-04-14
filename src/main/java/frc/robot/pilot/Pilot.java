@@ -73,12 +73,7 @@ public class Pilot extends Gamepad {
         controller
                 .b()
                 .and(leftBumperOnly().or(bothBumpers()))
-                .whileTrue(RobotCommands.centerClimbAlign());
-
-        runWithEndSequence(
-                controller.rightDpad().and(noBumpers().or(rightBumperOnly())),
-                RobotCommands.intoAmpShot(),
-                RobotCommands.feedHome());
+                .whileTrue(RobotCommands.intoAmpShot());
 
         controller
                 .x()
@@ -119,6 +114,7 @@ public class Pilot extends Gamepad {
         rightStick().and(leftBumperOnly()).whileTrue(PilotCommands.manualPivot());
 
         controller.leftDpad().and(noBumpers()).whileTrue(RobotCommands.manualSource());
+        controller.rightDpad().and(noBumpers()).whileTrue(RobotCommands.centerClimbAlign());
 
         controller
                 .upDpad()
