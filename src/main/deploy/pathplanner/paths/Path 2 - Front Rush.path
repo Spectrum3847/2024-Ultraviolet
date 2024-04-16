@@ -3,53 +3,59 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.7,
-        "y": 6.9
+        "x": 4.28,
+        "y": 6.4
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.0970184606565283,
-        "y": 6.948747737362059
+        "x": 5.30894679128928,
+        "y": 6.25300760124439
       },
       "isLocked": false,
-      "linkedName": "GP 4 - Front 5"
+      "linkedName": "End - Front 5"
     },
     {
       "anchor": {
-        "x": 8.1,
-        "y": 7.24
+        "x": 8.0,
+        "y": 5.7
       },
       "prevControl": {
-        "x": 8.20886485301985,
-        "y": 7.6766330768241975
+        "x": 7.049456015029355,
+        "y": 5.990610460281506
       },
       "nextControl": {
-        "x": 7.99113514698015,
-        "y": 6.803366923175803
+        "x": 8.669413329174128,
+        "y": 5.4953398066940835
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.28,
-        "y": 6.4
+        "x": 2.8,
+        "y": 5.55
       },
       "prevControl": {
-        "x": 4.712805121210775,
-        "y": 6.430264682319095
+        "x": 4.648319863903376,
+        "y": 7.401417994393373
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "End - Front 5"
+      "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.95,
+      "rotationDegrees": 160.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 0.6,
       "command": {
         "type": "parallel",
         "data": {
@@ -74,13 +80,7 @@
             {
               "type": "named",
               "data": {
-                "name": "visionLaunchReady"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "stopTracking"
+                "name": "launchReady11"
               }
             }
           ]
@@ -88,8 +88,8 @@
       }
     },
     {
-      "name": "AlignToSpeaker",
-      "waypointRelativePos": 1.5500000000000003,
+      "name": "StopFeed",
+      "waypointRelativePos": 0.55,
       "command": {
         "type": "parallel",
         "data": {
@@ -97,7 +97,7 @@
             {
               "type": "named",
               "data": {
-                "name": "alignToSpeaker"
+                "name": "stopFeeder"
               }
             }
           ]
@@ -119,7 +119,7 @@
   "reversed": false,
   "folder": "Front Paths",
   "previewStartingState": {
-    "rotation": -145.0,
+    "rotation": 180.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

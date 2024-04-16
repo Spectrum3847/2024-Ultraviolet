@@ -11,6 +11,8 @@ import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import frc.crescendo.Field;
+import frc.robot.Robot;
 import frc.robot.RobotConfig;
 import frc.robot.RobotTelemetry;
 import frc.spectrumLib.mechanism.Mechanism;
@@ -43,6 +45,11 @@ public class Pivot extends Mechanism {
         public final double manualFeed = 70;
         /* Auto Launch Positions */
         public final double autoLaunchPreload = 60;
+
+        public final double autoLaunchPreload2 = 61;
+        public final double spitReady = 5; // GP 4 on Front 6
+
+        public final double spitReady2 = 32; // GP 4 on Front 6
         public final double autoLaunch1 = 70;
         public final double autoLaunch2 =
                 55; // works for GP2/GP3/GP5/GP6 in Front 5 and GP2/GP4/5 in Front 5 Alt
@@ -54,8 +61,15 @@ public class Pivot extends Mechanism {
         public final double autoLaunch8 = 30; // GP 4 on Front 6
         public final double autoLaunch9 = 43.5; // GP 4 on Front 6
 
-        public final double autoLaunch10 = 41;
-        public final double autoLaunch11 = 45;
+        public final double autoLaunch10 = 43.5;
+        public final double autoLaunch11 = 54;
+        public final double autoLaunch12 = 46;
+
+        public final double autoLaunch13 = 46.5;
+
+        public final double autoLaunch14 = 44.5;
+
+        public final double autoLaunch15 = 43.5;
 
         public final double zeroSpeed = -0.1;
 
@@ -64,7 +78,7 @@ public class Pivot extends Mechanism {
          * of the CHANGE in angle you set to, not +- the angle you set to) (the actual offset to
          * angles gets bigger as you get farther away)
          */
-        public final double STARTING_OFFSET = 2;
+        public final double STARTING_OFFSET = -1.5;
 
         public double OFFSET = STARTING_OFFSET; // do not change this line
 
@@ -80,6 +94,8 @@ public class Pivot extends Mechanism {
         public static final InterpolatingDoubleTreeMap DISTANCE_MAP =
                 new InterpolatingDoubleTreeMap();
         public static final InterpolatingDoubleTreeMap FEED_DISTANCE_MAP =
+                new InterpolatingDoubleTreeMap();
+        public static final InterpolatingDoubleTreeMap DEEP_FEED_DISTANCE_MAP =
                 new InterpolatingDoubleTreeMap();
 
         static {
@@ -133,13 +149,16 @@ public class Pivot extends Mechanism {
             // FEED_DISTANCE_MAP.put(9.05, 65.0);
 
             // feed -- REVERT
-            FEED_DISTANCE_MAP.put(6.0, 82.0);
-            FEED_DISTANCE_MAP.put(6.08, 81.0);
-            FEED_DISTANCE_MAP.put(6.47, 75.0);
-            FEED_DISTANCE_MAP.put(6.96, 72.5);
-            FEED_DISTANCE_MAP.put(7.54, 70.0);
-            FEED_DISTANCE_MAP.put(7.74, 65.0);
-            FEED_DISTANCE_MAP.put(9.05, 65.0);
+            // FEED_DISTANCE_MAP.put(6.0, 82.0);
+            // FEED_DISTANCE_MAP.put(6.08, 81.0);
+            // FEED_DISTANCE_MAP.put(6.47, 75.0);
+            // FEED_DISTANCE_MAP.put(6.96, 72.5);
+            // FEED_DISTANCE_MAP.put(7.54, 70.0);
+            // FEED_DISTANCE_MAP.put(7.74, 65.0);
+            // FEED_DISTANCE_MAP.put(9.05, 65.0);
+            FEED_DISTANCE_MAP.put(7.00, 82.0);
+
+            DEEP_FEED_DISTANCE_MAP.put(7.0, 72.0);
         }
 
         public PivotConfig() {
@@ -190,9 +209,13 @@ public class Pivot extends Mechanism {
     }
 
     public DoubleSupplier getAngleFromFeedDistance(DoubleSupplier distance) {
-        return () ->
-                getMapAngle(PivotConfig.FEED_DISTANCE_MAP, distance.getAsDouble(), config.OFFSET);
+        return () -> getMapAngleAtSpeed(PivotConfig.FEED_DISTANCE_MAP, distance.getAsDouble(), 0);
         // return () -> PivotConfig.FEED_DISTANCE_MAP.get(distance.getAsDouble());
+    }
+
+    public DoubleSupplier getAngleFromDeepFeedDistance(DoubleSupplier distance) {
+        return () ->
+                getMapAngleAtSpeed(PivotConfig.DEEP_FEED_DISTANCE_MAP, distance.getAsDouble(), 0);
     }
 
     public static double getMapAngle(
@@ -206,6 +229,23 @@ public class Pivot extends Mechanism {
                         + RobotTelemetry.truncatedDouble(distance)
                         + " meters");
         return angle;
+    }
+
+    public static double getMapAngleAtSpeed(
+            InterpolatingDoubleTreeMap map, double distance, double offset) {
+        double tunableSpeedFactor = 4;
+        double angle = map.get(distance);
+        angle += (angle * (offset / 100));
+        double speed = Robot.swerve.getRobotRelativeSpeeds().vxMetersPerSecond;
+        double speedOffset = speed * tunableSpeedFactor;
+        angle += Field.isBlue() ? -speedOffset : speedOffset;
+        RobotTelemetry.print(
+                "VisionLaunching: interpolating "
+                        + RobotTelemetry.truncatedDouble(angle)
+                        + " percent rotation from "
+                        + RobotTelemetry.truncatedDouble(distance)
+                        + " meters");
+        return Math.min(angle, 95);
     }
 
     public Command runPosition(DoubleSupplier percent) {

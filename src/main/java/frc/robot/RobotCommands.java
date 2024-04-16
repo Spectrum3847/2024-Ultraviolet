@@ -72,6 +72,17 @@ public class RobotCommands {
                 .withName("RobotCommands.visionLaunch");
     }
 
+    // Auto aim, set pivot, and launcher velocities
+    public static Command visionDeepFeedLaunch() {
+        return PilotCommands.aimToDeepFeed()
+                .alongWith(
+                        LauncherCommands.deepFeedDistanceVelocity(
+                                () -> Robot.vision.getDeepFeedDistance()),
+                        PivotCommands.setPivotOnDeepFeedDistance(
+                                () -> Robot.vision.getDeepFeedDistance()))
+                .withName("RobotCommands.visionLaunch");
+    }
+
     public static Command manualFeedLaunch() {
         return PilotCommands.aimToManualFeed()
                 .alongWith(LauncherCommands.manualFeed(), PivotCommands.manualFeed())

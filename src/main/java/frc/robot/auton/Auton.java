@@ -40,7 +40,22 @@ public class Auton extends SubsystemBase {
                 "Front 6.5 Auto", new PathPlannerAuto("Front 6.5")); // Runs full Auto
         autonChooser.addOption(
                 "Front Alt 6 Auto", new PathPlannerAuto("Front Alt 6")); // Runs full Auto
-        // autonChooser.addOption("Source 4 Auto", new PathPlannerAuto("Source 4")); // Runs full
+
+        autonChooser.addOption(
+                "Front Special", new PathPlannerAuto("Front Special")); // Runs full Auto
+
+        autonChooser.addOption("Front Rush", new PathPlannerAuto("Front Rush")); // Runs full Auto
+
+        autonChooser.addOption(
+                "Front Rush Alt", new PathPlannerAuto("Front Rush Alt")); // Runs full Auto
+        autonChooser.addOption(
+                "Front Rush 13", new PathPlannerAuto("Front Rush 13")); // Runs full Auto
+        autonChooser.addOption(
+                "Front Rush 3", new PathPlannerAuto("Front Rush 3")); // Runs full Auto
+
+        autonChooser.addOption(
+                "Front Rush 23 Spit", new PathPlannerAuto("Front Rush 23 Spit")); // Runs full Auto
+        autonChooser.addOption("Source 4 Auto", new PathPlannerAuto("Source 4")); // Runs full
         // Auto
         // autonChooser.addOption("Front 6.5 Test", AutoPaths.Front6Point5()); // Runs full Auto
         // autonChooser.addOption("Front Alt 6 Test", AutoPaths.FrontAlt6()); // Runs full Auto
@@ -61,6 +76,8 @@ public class Auton extends SubsystemBase {
         NamedCommands.registerCommand("alignToNote", AutonCommands.trackNote());
         NamedCommands.registerCommand("launchReadySubwoofer", AutonCommands.launchReadySubwoofer());
         NamedCommands.registerCommand("launchReadyPreload", AutonCommands.launchReadyPreload());
+
+        NamedCommands.registerCommand("launchReadyPreload2", AutonCommands.launchReadyPreload2());
         NamedCommands.registerCommand("launchReady1", AutonCommands.launchReady1());
         NamedCommands.registerCommand("launchReady2", AutonCommands.launchReady2());
         NamedCommands.registerCommand("launchReady3", AutonCommands.launchReady3());
@@ -70,12 +87,30 @@ public class Auton extends SubsystemBase {
         NamedCommands.registerCommand("launchReady7", AutonCommands.launchReady7());
         NamedCommands.registerCommand("launchReady8", AutonCommands.launchReady8());
         NamedCommands.registerCommand("launchReady9", AutonCommands.launchReady9());
+
+        NamedCommands.registerCommand("launchReady10", AutonCommands.launchReady10());
+        NamedCommands.registerCommand("launchReady11", AutonCommands.launchReady11());
+
+        NamedCommands.registerCommand("launchReady12", AutonCommands.launchReady12());
+
+        NamedCommands.registerCommand("launchReady13", AutonCommands.launchReady13());
+
+        NamedCommands.registerCommand("launchReady14", AutonCommands.launchReady14());
+
+        NamedCommands.registerCommand("launchReady15", AutonCommands.launchReady15());
         NamedCommands.registerCommand("visionLaunchReady", AutonCommands.visionLaunch());
         NamedCommands.registerCommand("launch", AutonCommands.launch());
         NamedCommands.registerCommand("launchShort", AutonCommands.launchShort());
         NamedCommands.registerCommand("smartIntake", AutonCommands.intake());
         NamedCommands.registerCommand("intakeCheck", AutonCommands.intakeCheck());
         NamedCommands.registerCommand("intakeFeed", AutonCommands.intakeFeed());
+        NamedCommands.registerCommand("spit", AutonCommands.spit());
+        NamedCommands.registerCommand("spitReady", AutonCommands.spitReady());
+
+        NamedCommands.registerCommand("spit2", AutonCommands.spit2());
+        NamedCommands.registerCommand("spitReady2", AutonCommands.spitReady2());
+
+        NamedCommands.registerCommand("resetPose", AutonCommands.resetPoseToVision());
 
         /* Stop Commands */
         NamedCommands.registerCommand("stopTracking", AutonCommands.stopTracking());

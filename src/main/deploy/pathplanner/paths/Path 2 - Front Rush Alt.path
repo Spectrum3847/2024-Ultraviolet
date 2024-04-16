@@ -3,37 +3,59 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.0,
-        "y": 7.0
+        "x": 4.28,
+        "y": 6.4
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.0,
-        "y": 7.0
+        "x": 6.280000000000001,
+        "y": 6.4
+      },
+      "isLocked": false,
+      "linkedName": "End - Front 5"
+    },
+    {
+      "anchor": {
+        "x": 8.0,
+        "y": 4.3
+      },
+      "prevControl": {
+        "x": 7.154763476518602,
+        "y": 6.1126155740733
+      },
+      "nextControl": {
+        "x": 8.481784818384396,
+        "y": 3.266809122778219
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.0,
-        "y": 6.0
+        "x": 2.8,
+        "y": 5.55
       },
       "prevControl": {
-        "x": 3.0,
-        "y": 6.0
+        "x": 4.537674050535744,
+        "y": 4.091918345089126
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.0,
+      "rotationDegrees": 120.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0,
+      "name": "Intake",
+      "waypointRelativePos": 0.6,
       "command": {
         "type": "parallel",
         "data": {
@@ -49,8 +71,8 @@
       }
     },
     {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0.6,
+      "name": "LaunchReady",
+      "waypointRelativePos": 1.75,
       "command": {
         "type": "parallel",
         "data": {
@@ -58,7 +80,24 @@
             {
               "type": "named",
               "data": {
-                "name": "intakeCheck"
+                "name": "launchReady11"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "StopFeed",
+      "waypointRelativePos": 0.55,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "stopFeeder"
               }
             }
           ]
@@ -74,13 +113,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Front Paths",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 180.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

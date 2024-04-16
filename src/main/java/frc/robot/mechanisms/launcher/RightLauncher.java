@@ -30,6 +30,7 @@ public class RightLauncher extends Mechanism {
         public double ejectLauncherPercent = -0.3;
         public double dumpLauncherPercent = 0.13;
         public double autoDumpLauncherPercent = 0.07;
+        public double auto2DumpLauncherPercent = 0.3;
 
         /* RightLauncher config values */
         public double currentLimit = 60;

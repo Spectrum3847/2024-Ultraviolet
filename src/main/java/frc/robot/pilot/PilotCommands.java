@@ -103,6 +103,16 @@ public class PilotCommands {
                 .withName("Swerve.aimToRedSpeaker");
     }
 
+    public static Command aimToDeepFeed() {
+        return SwerveCommands.aimDrive(
+                        () -> pilot.getDriveFwdPositive(),
+                        () -> pilot.getDriveLeftPositive(),
+                        () -> Robot.vision.getAdjustedThetaToDeepFeeder(),
+                        () -> pilot.getFieldOriented(), // true is field oriented
+                        () -> true)
+                .withName("Swerve.aimToRedSpeaker");
+    }
+
     public static Command aimToManualFeed() {
         return SwerveCommands.aimDrive(
                         () -> pilot.getDriveFwdPositive(),

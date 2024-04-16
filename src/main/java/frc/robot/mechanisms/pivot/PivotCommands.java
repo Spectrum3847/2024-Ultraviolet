@@ -22,6 +22,10 @@ public class PivotCommands {
         return pivot.runPosition(pivot.getAngleFromFeedDistance(distance));
     }
 
+    public static Command setPivotOnDeepFeedDistance(DoubleSupplier distance) {
+        return pivot.runPosition(pivot.getAngleFromDeepFeedDistance(distance));
+    }
+
     public static Command onDemandPivot() {
         return new OnDemandPivot(pivot.config.score).withName("Pivot.onDemandPivot");
     }
@@ -64,6 +68,10 @@ public class PivotCommands {
         return pivot.runPosition(pivot.config.autoLaunchPreload).withName("Pivot.subwoofer");
     }
 
+    public static Command autoLaunchPreload2() {
+        return pivot.runPosition(pivot.config.autoLaunchPreload2).withName("Pivot.subwoofer");
+    }
+
     public static Command autoLaunch1() {
         return pivot.runPosition(pivot.config.autoLaunch1).withName("Pivot.subwoofer");
     }
@@ -98,6 +106,38 @@ public class PivotCommands {
 
     public static Command autoLaunch9() {
         return pivot.runPosition(pivot.config.autoLaunch9).withName("Pivot.subwoofer");
+    }
+
+    public static Command autoLaunch10() {
+        return pivot.runPosition(pivot.config.autoLaunch10).withName("Pivot.subwoofer");
+    }
+
+    public static Command autoLaunch11() {
+        return pivot.runPosition(pivot.config.autoLaunch11).withName("Pivot.subwoofer");
+    }
+
+    public static Command autoLaunch12() {
+        return pivot.runPosition(pivot.config.autoLaunch12).withName("Pivot.subwoofer");
+    }
+
+    public static Command autoLaunch13() {
+        return pivot.runPosition(pivot.config.autoLaunch13).withName("Pivot.subwoofer");
+    }
+
+    public static Command autoLaunch14() {
+        return pivot.runPosition(pivot.config.autoLaunch14).withName("Pivot.subwoofer");
+    }
+
+    public static Command autoLaunch15() {
+        return pivot.runPosition(pivot.config.autoLaunch15).withName("Pivot.subwoofer");
+    }
+
+    public static Command spitReady() {
+        return pivot.runPosition(pivot.config.spitReady).withName("Pivot.subwoofer");
+    }
+
+    public static Command spitReady2() {
+        return pivot.runPosition(pivot.config.spitReady2).withName("Pivot.subwoofer");
     }
 
     public static Command intake() {

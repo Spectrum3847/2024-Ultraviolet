@@ -3,41 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.340143984310419,
-        "y": 4.95
+        "x": 2.5,
+        "y": 6.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.245307702963395,
-        "y": 4.5244956878127045
-      },
-      "isLocked": false,
-      "linkedName": "GP 3 Shoot - Source 4"
-    },
-    {
-      "anchor": {
-        "x": 8.03042683728024,
-        "y": 4.25
-      },
-      "prevControl": {
-        "x": 7.150036617924303,
-        "y": 4.342532740740787
-      },
-      "nextControl": {
-        "x": 9.024948732648513,
-        "y": 4.145471536732346
+        "x": 3.500000000000001,
+        "y": 6.0
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.1,
-        "y": 5.05
+        "x": 4.5,
+        "y": 6.0
       },
       "prevControl": {
-        "x": 5.020636602732513,
-        "y": 4.624495687812704
+        "x": 3.5,
+        "y": 6.0
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,8 +32,8 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Intake",
-      "waypointRelativePos": 0.55,
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.0,
       "command": {
         "type": "parallel",
         "data": {
@@ -65,8 +49,8 @@
       }
     },
     {
-      "name": "LaunchReady",
-      "waypointRelativePos": 1.6,
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.55,
       "command": {
         "type": "parallel",
         "data": {
@@ -74,7 +58,7 @@
             {
               "type": "named",
               "data": {
-                "name": "visionLaunchReady"
+                "name": "intakeCheck"
               }
             }
           ]
@@ -83,21 +67,21 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 6.0,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 2.0,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 175.0,
+    "velocity": 0.0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Source Paths",
+  "folder": null,
   "previewStartingState": {
-    "rotation": 175.0,
+    "rotation": 180.0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

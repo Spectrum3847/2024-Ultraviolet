@@ -56,13 +56,17 @@ public class LEDsCommands {
         return LEDsCommands.solid(Section.FULL, Color.kRed, 20).withName("LEDs.solidErrorLED");
     }
 
+    public static Command solidOrangeLED() {
+        return LEDsCommands.solid(Section.FULL, Color.kOrange, 20).withName("LEDs.solidOrangeLED");
+    }
+
     public static Command solidPurpleLED() {
         return LEDsCommands.solid(Section.FULL, LEDsConfig.SPECTRUM_COLOR, 2)
                 .withName("LEDs.solidPurpleLED");
     }
 
     public static Command solidGreenLED() {
-        return LEDsCommands.solid(Section.FULL, Color.kGreen, 10).withName("LEDs.solidGreenLED");
+        return LEDsCommands.solid(Section.FULL, Color.kGreen, 20).withName("LEDs.solidGreenLED");
     }
 
     public static Command exampleOmbre() {

@@ -16,6 +16,7 @@ import frc.robot.mechanisms.feeder.FeederCommands;
 import frc.robot.mechanisms.intake.IntakeCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.mechanisms.pivot.PivotCommands;
+import frc.robot.vision.VisionCommands;
 
 public class AutonCommands {
     public static Command followSinglePath(String PathName) {
@@ -80,6 +81,26 @@ public class AutonCommands {
                 .withName("AutonCommands.stopTracking");
     }
 
+    public static Command spit() {
+        return LauncherCommands.autoDump()
+                .alongWith(FeederCommands.autoFeed())
+                .withName("AutoCommands.spit");
+    }
+
+    public static Command spit2() {
+        return LauncherCommands.autoDump2()
+                .alongWith(FeederCommands.autoFeed())
+                .withName("AutoCommands.spit");
+    }
+
+    public static Command spitReady() {
+        return PivotCommands.spitReady().withName("AutonCommands.spitReady");
+    }
+
+    public static Command spitReady2() {
+        return PivotCommands.spitReady2().alongWith(spit2()).withName("AutonCommands.spitReady2");
+    }
+
     public static Command stopFeed() {
         return IntakeCommands.stopMotor()
                 .alongWith(AmpTrapCommands.stopMotor(), FeederCommands.stopMotor())
@@ -88,6 +109,12 @@ public class AutonCommands {
 
     public static Command launchReadyPreload() {
         return PivotCommands.autoLaunchPreload()
+                .alongWith(LauncherCommands.subwoofer())
+                .withName("AutonCommands.launchReadyPreload");
+    }
+
+    public static Command launchReadyPreload2() {
+        return PivotCommands.autoLaunchPreload2()
                 .alongWith(LauncherCommands.subwoofer())
                 .withName("AutonCommands.launchReadyPreload");
     }
@@ -144,6 +171,42 @@ public class AutonCommands {
         return PivotCommands.autoLaunch9()
                 .alongWith(LauncherCommands.subwoofer())
                 .withName("AutonCommands.launchReady7");
+    }
+
+    public static Command launchReady10() {
+        return PivotCommands.autoLaunch10()
+                .alongWith(LauncherCommands.subwoofer())
+                .withName("AutonCommands.launchReady7");
+    }
+
+    public static Command launchReady11() {
+        return PivotCommands.autoLaunch11()
+                .alongWith(LauncherCommands.subwoofer())
+                .withName("AutonCommands.launchReady7");
+    }
+
+    public static Command launchReady12() {
+        return PivotCommands.autoLaunch12()
+                .alongWith(LauncherCommands.subwoofer())
+                .withName("AutonCommands.launchReady7");
+    }
+
+    public static Command launchReady13() {
+        return PivotCommands.autoLaunch13()
+                .alongWith(LauncherCommands.subwoofer())
+                .withName("AutonCommands.launchReady13");
+    }
+
+    public static Command launchReady14() {
+        return PivotCommands.autoLaunch14()
+                .alongWith(LauncherCommands.subwoofer())
+                .withName("AutonCommands.launchReady13");
+    }
+
+    public static Command launchReady15() {
+        return PivotCommands.autoLaunch15()
+                .alongWith(LauncherCommands.subwoofer())
+                .withName("AutonCommands.launchReady13");
     }
 
     public static Command launchReadySubwoofer() {
@@ -242,5 +305,9 @@ public class AutonCommands {
     public static Command intakeFeed() {
         return IntakeCommands.runFull()
                 .alongWith(AmpTrapCommands.intake().alongWith(FeederCommands.autoFeed()));
+    }
+
+    public static Command resetPoseToVision() {
+        return VisionCommands.autonResetPoseToVision().withTimeout(0.01);
     }
 }

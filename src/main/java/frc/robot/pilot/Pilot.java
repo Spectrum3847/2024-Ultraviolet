@@ -81,7 +81,7 @@ public class Pilot extends Gamepad {
                 .whileTrue(RobotCommands.visionLaunch());
         controller
                 .x()
-                .and(leftBumperOnly().or(rightBumperOnly()))
+                .and(leftBumperOnly().or(bothBumpers()))
                 .whileTrue(RobotCommands.manualFeedLaunch());
 
         controller
