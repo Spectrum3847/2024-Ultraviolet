@@ -176,4 +176,10 @@ public class PivotCommands {
                 .withName("Pivot.resetFudgeFactor")
                 .ignoringDisable(true);
     }
+
+    public static Command switchFeedSpot() {
+        return pivot.runOnce(pivot::switchFeedSpot)
+                .withName("Pivot.switchFeedSpot")
+                .ignoringDisable(true);
+    }
 }

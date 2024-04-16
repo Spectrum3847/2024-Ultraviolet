@@ -92,6 +92,10 @@ public class Swerve implements Subsystem {
 
         setVisionMeasurementStdDevs(VisionConfig.visionStdMatrix);
 
+        SmartDashboard.putNumber("rotationControllerkP", config.kPRotationController);
+        SmartDashboard.putNumber("rotationControllerkI", config.kIRotationController);
+        SmartDashboard.putNumber("rotationControllerkD", config.kDRotationController);
+
         SmartDashboard.putData("Odometry/Field", field);
         RobotTelemetry.print("Swerve Subsystem Initialized: ");
     }
@@ -228,6 +232,18 @@ public class Swerve implements Subsystem {
     public ChassisSpeeds getRobotRelativeSpeeds() {
         return drivetrain.getChassisSpeeds();
     }
+
+    public void updateRotationControllerPID(double kP, double kI, double KD, double iZone) {
+        rotationController.updatePID(kP, kI, KD);
+    }
+
+    // public void setLaunchRotationPID() {
+    //     rotationController.setLaunchPID();
+    // }
+
+    // public void setConfigRotationPID() {
+    //     rotationController.setConfigPID();
+    // }
 
     /**
      * Gets the robot's velocity.

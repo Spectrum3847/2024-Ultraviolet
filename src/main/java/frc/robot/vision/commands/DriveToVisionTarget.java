@@ -84,6 +84,10 @@ public class DriveToVisionTarget extends PIDCommand {
         if (getVerticalOffset() > config.verticalMaxView) {
             return true;
         }
+
+        if (Robot.feeder.intakedNote()) {
+            return true;
+        }
         return false;
     }
 

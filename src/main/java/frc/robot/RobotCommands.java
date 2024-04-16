@@ -40,7 +40,7 @@ public class RobotCommands {
     public static Command visionLaunch() {
         return Commands.either(
                         visionSpeakerLaunch(),
-                        visionFeedLaunch(),
+                        dynamicFeed(),
                         () -> {
                             if (Field.isBlue()) {
                                 return Robot.swerve.getPose().getTranslation().getX()
@@ -81,6 +81,11 @@ public class RobotCommands {
                         PivotCommands.setPivotOnDeepFeedDistance(
                                 () -> Robot.vision.getDeepFeedDistance()))
                 .withName("RobotCommands.visionLaunch");
+    }
+
+    public static Command dynamicFeed() {
+        return Commands.either(
+                visionFeedLaunch(), visionDeepFeedLaunch(), Robot.pivot::isFeedShort);
     }
 
     public static Command manualFeedLaunch() {
@@ -337,7 +342,7 @@ public class RobotCommands {
 
     public static Command intoAmpShot() {
         return LauncherCommands.intoAmp()
-                .alongWith(PivotCommands.intoAmp(), PilotCommands.turnToAmp())
+                .alongWith(PivotCommands.intoAmp(), PilotCommands.turnLaunchToAmp())
                 .withName("RobotCommands.intoAmp");
     }
 
@@ -438,7 +443,7 @@ public class RobotCommands {
 
     public static Command manualSource() {
         return LauncherCommands.manualSource()
-                .alongWith(FeederCommands.manualSource())
+                .alongWith(FeederCommands.manualSource(), PivotCommands.subwoofer())
                 .withName("RobotCommands.manualSource");
     }
 

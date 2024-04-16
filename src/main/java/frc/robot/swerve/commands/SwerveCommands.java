@@ -4,6 +4,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.crescendo.Field;
 import frc.robot.Robot;
 import frc.robot.pilot.PilotCommands;
 import frc.robot.swerve.Swerve;
@@ -21,8 +22,8 @@ public class SwerveCommands {
         // Wait a little before enabling heading lock, allows any turns to finish
         swerve.setDefaultCommand(
                 PilotCommands.pilotDrive()
-                        // .withTimeout(0.5)
-                        // .andThen(PilotCommands.headingLockDrive())
+                        .withTimeout(0.5)
+                        .andThen(PilotCommands.headingLockDrive())
                         .ignoringDisable(true)
                         .withName("SwerveCommands.default"));
     }
@@ -88,6 +89,15 @@ public class SwerveCommands {
                                 velocityX,
                                 velocityY,
                                 () -> {
+                                    if (Field.isBlue()) {
+                                        if (swerve.getPose().getX() <= Field.fieldLength / 2) {
+                                            return 0.0;
+                                        }
+                                    } else {
+                                        if (swerve.getPose().getX() >= Field.fieldLength / 2) {
+                                            return 0.0;
+                                        }
+                                    }
                                     if (velocityX.getAsDouble() == 0
                                             && velocityY.getAsDouble() == 0) {
                                         return 0.0;
