@@ -140,6 +140,13 @@ public class LauncherCommands {
                 .withName("Launcher.autoDump");
     }
 
+    public static Command autoDump2() {
+        return runLauncherPercentages(
+                        leftLauncher.config.auto2DumpLauncherPercent,
+                        rightLauncher.config.auto2DumpLauncherPercent)
+                .withName("Launcher.autoDump2");
+    }
+
     public static Command subwoofer() {
         return runTorqueLauncherVelocities(
                         leftLauncher.config.subwoofer, rightLauncher.config.subwoofer)

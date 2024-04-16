@@ -36,6 +36,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "resetPose"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Part 3 - Source 4"
@@ -45,6 +51,12 @@
           "type": "named",
           "data": {
             "name": "launch"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "resetPose"
           }
         },
         {
