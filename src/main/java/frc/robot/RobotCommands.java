@@ -337,7 +337,7 @@ public class RobotCommands {
 
     public static Command intoAmpShot() {
         return LauncherCommands.intoAmp()
-                .alongWith(PivotCommands.intoAmp())
+                .alongWith(PivotCommands.intoAmp(), PilotCommands.turnToAmp())
                 .withName("RobotCommands.intoAmp");
     }
 

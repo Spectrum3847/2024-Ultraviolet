@@ -130,6 +130,10 @@ public class AmpTrap extends Mechanism {
                 .withName("AmpTrap.coastMode");
     }
 
+    public Command stayCoastMode() {
+        return runOnce(() -> setBrakeMode(false)).ignoringDisable(true).withName("AmpTrap.stayCoastMode");
+    }
+
     /** Sets the motor to brake mode if it is in coast mode */
     public Command ensureBrakeMode() {
         return runOnce(
