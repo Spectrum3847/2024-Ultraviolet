@@ -78,7 +78,7 @@ public class Pivot extends Mechanism {
          * of the CHANGE in angle you set to, not +- the angle you set to) (the actual offset to
          * angles gets bigger as you get farther away)
          */
-        public final double STARTING_OFFSET = 2;
+        public final double STARTING_OFFSET = 3;
 
         public double OFFSET = STARTING_OFFSET; // do not change this line
 
@@ -158,7 +158,7 @@ public class Pivot extends Mechanism {
             // FEED_DISTANCE_MAP.put(7.54, 70.0);
             // FEED_DISTANCE_MAP.put(7.74, 65.0);
             // FEED_DISTANCE_MAP.put(9.05, 65.0);
-            FEED_DISTANCE_MAP.put(7.00, 82.0);
+            FEED_DISTANCE_MAP.put(7.00, 81.0);
 
             DEEP_FEED_DISTANCE_MAP.put(7.0, 70.0);
         }

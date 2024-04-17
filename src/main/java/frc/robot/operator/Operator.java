@@ -63,7 +63,7 @@ public class Operator extends Gamepad {
                 .whileTrue(
                         LEDsCommands.solidGreenLED().alongWith(VisionCommands.resetPoseToVision()));
 
-        controller.start().and(noBumpers()).whileTrue(PivotCommands.switchFeedSpot());
+        controller.start().and(noBumpers()).whileTrue(ClimberCommands.safeClimb());
 
         /* Zero Routines */
         controller.select().and(noBumpers()).whileTrue(Robot.climber.zeroClimberRoutine());
@@ -77,13 +77,13 @@ public class Operator extends Gamepad {
                 .and(noBumpers())
                 .onTrue(rumbleCommand(PivotCommands.decreaseOffset()));
         controller.leftDpad().and(noBumpers()).onTrue(rumbleCommand(PivotCommands.resetOffset()));
+        controller.rightDpad().and(noBumpers()).onTrue(PivotCommands.switchFeedSpot());
 
         /* Climb */
         controller.upDpad().and(leftBumperOnly()).whileTrue(RobotCommands.topClimb());
         controller.downDpad().and(leftBumperOnly()).whileTrue(ClimberCommands.midClimb());
         controller.leftDpad().and(leftBumperOnly()).whileTrue(ElevatorCommands.fullExtend());
         controller.rightDpad().and(leftBumperOnly()).whileTrue(ClimberCommands.botClimb());
-        controller.rightDpad().and(noBumpers()).whileTrue(ClimberCommands.safeClimb());
     };
 
     /** Setup the Buttons for Disabled mode. */
