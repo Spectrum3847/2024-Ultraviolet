@@ -99,7 +99,6 @@ public class Operator extends Gamepad {
         controller.leftDpad().and(noBumpers()).onTrue(rumbleCommand(PivotCommands.resetOffset()));
 
         controller.start().and(noBumpers()).whileTrue(PivotCommands.switchFeedSpot());
-
     };
 
     /** Setup the Buttons for Test mode. */

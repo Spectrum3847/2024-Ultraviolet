@@ -41,13 +41,13 @@ public class Auton extends SubsystemBase {
         autonChooser.addOption(
                 "Front Alt 6 Auto", new PathPlannerAuto("Front Alt 6")); // Runs full Auto
 
-        autonChooser.addOption(
-                "Front Special", new PathPlannerAuto("Front Special")); // Runs full Auto
-
-        autonChooser.addOption("Front Rush", new PathPlannerAuto("Front Rush")); // Runs full Auto
+        autonChooser.addOption("Front 43", new PathPlannerAuto("Front 43")); // Runs full Auto
 
         autonChooser.addOption(
-                "Front Rush Alt", new PathPlannerAuto("Front Rush Alt")); // Runs full Auto
+                "Front Rush 12", new PathPlannerAuto("Front Rush 12")); // Runs full Auto
+
+        autonChooser.addOption(
+                "Front Rush 23", new PathPlannerAuto("Front Rush 23")); // Runs full Auto
         autonChooser.addOption(
                 "Front Rush 13", new PathPlannerAuto("Front Rush 13")); // Runs full Auto
         autonChooser.addOption(
