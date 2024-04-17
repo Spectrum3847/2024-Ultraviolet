@@ -244,9 +244,14 @@ public class Pivot extends Mechanism {
         RobotTelemetry.print(
                 "VisionLaunching: interpolating "
                         + RobotTelemetry.truncatedDouble(angle)
-                        + " percent rotation " + " [original was " + map.get(distance) + "] from "
+                        + " percent rotation "
+                        + " [original was "
+                        + map.get(distance)
+                        + "] from "
                         + RobotTelemetry.truncatedDouble(distance)
-                        + " meters" + " and detected X-speed: " + speed);
+                        + " meters"
+                        + " and detected X-speed: "
+                        + speed);
         return Math.min(angle, 95);
     }
 
