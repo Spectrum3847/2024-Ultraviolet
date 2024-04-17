@@ -141,24 +141,6 @@ public class Pilot extends Gamepad {
                 .or(controller.leftTrigger(config.triggersDeadzone))
                 .whileTrue(PilotCommands.pilotDrive());
 
-        // Trigger onFarHalfField =
-        //         new Trigger(
-        //                 () -> {
-        //                     if (Field.isBlue()) {
-        //                         return Robot.swerve.getPose().getTranslation().getX()
-        //                                 >= (Field.fieldLength / 2);
-        //                     } else {
-        //                         return Robot.swerve.getPose().getTranslation().getX()
-        //                                 <= (Field.fieldLength / 2);
-        //                     }
-        //                 });
-        // Trigger isSteering = controller
-        //         .rightTrigger(config.triggersDeadzone)
-        //         .or(controller.leftTrigger(config.triggersDeadzone));
-        // onFarHalfField.and(isSteering.negate()).whileTrue(PilotCommands.pilotDrive()
-        //                 .withTimeout(0.5)
-        //                 .andThen(PilotCommands.headingLockDrive()));
-
         // Use the right stick to set a cardinal direction to aim at
         (leftBumperOnly().negate())
                 .and(

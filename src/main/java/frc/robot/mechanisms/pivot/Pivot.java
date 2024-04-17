@@ -78,7 +78,7 @@ public class Pivot extends Mechanism {
          * of the CHANGE in angle you set to, not +- the angle you set to) (the actual offset to
          * angles gets bigger as you get farther away)
          */
-        public final double STARTING_OFFSET = 1;
+        public final double STARTING_OFFSET = 2;
 
         public double OFFSET = STARTING_OFFSET; // do not change this line
 

@@ -63,7 +63,7 @@ public class Operator extends Gamepad {
                 .whileTrue(
                         LEDsCommands.solidGreenLED().alongWith(VisionCommands.resetPoseToVision()));
 
-        controller.start().whileTrue(PivotCommands.switchFeedSpot());
+        controller.start().and(noBumpers()).whileTrue(PivotCommands.switchFeedSpot());
 
         /* Zero Routines */
         controller.select().and(noBumpers()).whileTrue(Robot.climber.zeroClimberRoutine());
@@ -98,10 +98,8 @@ public class Operator extends Gamepad {
                 .onTrue(rumbleCommand(PivotCommands.decreaseOffset()));
         controller.leftDpad().and(noBumpers()).onTrue(rumbleCommand(PivotCommands.resetOffset()));
 
-        controller
-                .rightDpad()
-                .and(noBumpers())
-                .onTrue(rumbleCommand(PivotCommands.switchFeedSpot()));
+        controller.start().and(noBumpers()).whileTrue(PivotCommands.switchFeedSpot());
+
     };
 
     /** Setup the Buttons for Test mode. */
