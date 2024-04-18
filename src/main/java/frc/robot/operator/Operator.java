@@ -17,6 +17,8 @@ public class Operator extends Gamepad {
     public class OperatorConfig {
         public static final String name = "Operator";
         public static final int port = 1;
+
+        public final double triggersDeadzone = 0;
         /**
          * in order to run a PS5 controller, you must use DS4Windows to emulate a XBOX controller as
          * well and move the controller to emulatedPS5Port
@@ -62,6 +64,11 @@ public class Operator extends Gamepad {
         bothBumpers()
                 .whileTrue(
                         LEDsCommands.solidGreenLED().alongWith(VisionCommands.resetPoseToVision()));
+
+        controller
+                .rightTrigger(config.triggersDeadzone)
+                .and(leftBumperOnly())
+                .whileTrue(IntakeCommands.intakeWithoutCurrentLimit());
 
         controller.start().and(noBumpers()).whileTrue(ClimberCommands.safeClimb());
 

@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
@@ -65,6 +66,8 @@ public class Auton extends SubsystemBase {
         // autonChooser.addOption("Test", AutoPaths.Test()); // Runs full Auto
 
         autonChooser.addOption("Subwoofer", new PathPlannerAuto("Subwoofer")); // Runs full Auto
+
+        autonChooser.addOption("Do Nothing", Commands.print("Do Nothing Auto ran"));
 
         SmartDashboard.putData("Auto Chooser", autonChooser);
     }
