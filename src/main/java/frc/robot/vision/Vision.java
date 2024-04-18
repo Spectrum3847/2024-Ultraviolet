@@ -131,9 +131,7 @@ public class Vision extends SubsystemBase {
                     VisionConfig.DETECT_LL,
                     VisionConfig.detectNotePipeline,
                     VisionConfig.DETECT_CONFIG);
-    public final Limelight[] allLimelights = {
-        frontLL, rearLL, leftLL, rightLL, detectLL
-    }; // EXCLUDES DETECT LL
+    public final Limelight[] allLimelights = {frontLL, rearLL, leftLL, rightLL, detectLL};
     public final Limelight[] poseLimelights = {
         frontLL, rearLL, leftLL, rightLL
     }; // EXCLUDES DETECT LL
@@ -192,7 +190,7 @@ public class Vision extends SubsystemBase {
                 //     }
                 // } else {
                 // choose LL with best view of tags and integrate from only that camera
-                Limelight bestLimelight = getBestLimelight(); // exclude rear LL
+                Limelight bestLimelight = getBestLimelight();
                 for (Limelight limelight : poseLimelights) {
                     if (limelight.CAMERA_NAME == bestLimelight.CAMERA_NAME) {
                         addFilteredVisionInput(bestLimelight);
@@ -750,9 +748,6 @@ public class Vision extends SubsystemBase {
 
         @AutoLogOutput(key = "Vision/{name}/MegaPose")
         public Pose2d getMegaPose() {
-            if (limelight.CAMERA_NAME == "limelight-rear") {
-                return new Pose2d();
-            }
             return limelight.getMegaPose2d();
         }
 

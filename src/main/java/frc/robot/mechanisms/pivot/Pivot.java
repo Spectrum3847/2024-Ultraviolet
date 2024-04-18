@@ -82,7 +82,7 @@ public class Pivot extends Mechanism {
 
         public double OFFSET = STARTING_OFFSET; // do not change this line
 
-        public boolean shortFeed = true;
+        public boolean shortFeed = false;
 
         /* Pivot config values */
         public double currentLimit = 30;
