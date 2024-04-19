@@ -211,13 +211,12 @@ public class Pivot extends Mechanism {
     }
 
     public DoubleSupplier getAngleFromFeedDistance(DoubleSupplier distance) {
-        return () -> getMapAngleAtSpeed(PivotConfig.FEED_DISTANCE_MAP, distance.getAsDouble(), 0);
-        // return () -> PivotConfig.FEED_DISTANCE_MAP.get(distance.getAsDouble());
+        return () -> getMapAngleAtSpeed(5, PivotConfig.FEED_DISTANCE_MAP, distance.getAsDouble(), 0);
     }
 
     public DoubleSupplier getAngleFromDeepFeedDistance(DoubleSupplier distance) {
         return () ->
-                getMapAngleAtSpeed(PivotConfig.DEEP_FEED_DISTANCE_MAP, distance.getAsDouble(), 0);
+                getMapAngleAtSpeed(3, PivotConfig.DEEP_FEED_DISTANCE_MAP, distance.getAsDouble(), 0);
     }
 
     public static double getMapAngle(
@@ -234,13 +233,13 @@ public class Pivot extends Mechanism {
     }
 
     public static double getMapAngleAtSpeed(
-            InterpolatingDoubleTreeMap map, double distance, double offset) {
-        double tunableSpeedFactor = 5;
+            double speedFactor, InterpolatingDoubleTreeMap map, double distance, double offset) {
+        double tunableSpeedFactor = speedFactor;
         double angle = map.get(distance);
         angle += (angle * (offset / 100));
         double speed = Robot.swerve.getRobotRelativeSpeeds().vxMetersPerSecond;
         double speedOffset = speed * tunableSpeedFactor;
-        angle += Field.isBlue() ? -speedOffset : speedOffset;
+        angle += speedOffset;
         RobotTelemetry.print(
                 "VisionLaunching: interpolating "
                         + RobotTelemetry.truncatedDouble(angle)
