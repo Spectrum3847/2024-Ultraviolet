@@ -205,19 +205,14 @@ public class Pivot extends Mechanism {
     // Lookup angle in tree map, add fudge factor, and return angle
     public DoubleSupplier getAngleFromDistance(DoubleSupplier distance) {
         return () -> getMapAngle(PivotConfig.DISTANCE_MAP, distance.getAsDouble(), config.OFFSET);
-        // return () -> (PivotConfig.DISTANCE_MAP.get(distance.getAsDouble()) + config.OFFSET);
-
     }
 
     public DoubleSupplier getAngleFromFeedDistance(DoubleSupplier distance) {
-        return () ->
-                getMapAngleAtSpeed(5, PivotConfig.FEED_DISTANCE_MAP, distance.getAsDouble(), 0);
+        return () -> getMapAngle(PivotConfig.FEED_DISTANCE_MAP, distance.getAsDouble(), 0);
     }
 
     public DoubleSupplier getAngleFromDeepFeedDistance(DoubleSupplier distance) {
-        return () ->
-                getMapAngleAtSpeed(
-                        5, PivotConfig.DEEP_FEED_DISTANCE_MAP, distance.getAsDouble(), 0);
+        return () -> getMapAngle(PivotConfig.DEEP_FEED_DISTANCE_MAP, distance.getAsDouble(), 0);
     }
 
     public static double getMapAngle(
@@ -233,14 +228,13 @@ public class Pivot extends Mechanism {
         return angle;
     }
 
-    public static double getMapAngleAtSpeed(
-            double speedFactor, InterpolatingDoubleTreeMap map, double distance, double offset) {
-        double tunableSpeedFactor = speedFactor;
+    public static double getMapAngleAtSpeed(InterpolatingDoubleTreeMap map, double distance, double offset) {
+        double tunableSpeedFactor = 5;
         double angle = map.get(distance);
         angle += (angle * (offset / 100));
         double speed = Robot.swerve.getRobotRelativeSpeeds().vxMetersPerSecond;
         double speedOffset = speed * tunableSpeedFactor;
-        angle += speedOffset;
+        angle += -speedOffset;
         RobotTelemetry.print(
                 "VisionLaunching: interpolating "
                         + RobotTelemetry.truncatedDouble(angle)
