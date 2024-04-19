@@ -45,7 +45,7 @@ public class Pivot extends Mechanism {
         /* Auto Launch Positions */
         public final double autoLaunchPreload = 60;
 
-        public final double autoLaunchPreload2 = 61;
+        public final double autoLaunchPreload2 = 62;
         public final double spitReady = 5; // GP 4 on Front 6
 
         public final double spitReady2 = 32; // GP 4 on Front 6
@@ -55,8 +55,8 @@ public class Pivot extends Mechanism {
         public final double autoLaunch3 = 54; // works for GP4 in Front 5 and GP3 in Front 5 Alt
         public final double autoLaunch4 = 50; // 5 and 6 on Front 6
         public final double autoLaunch5 = 74; // GP 2 on Front 6
-        public final double autoLaunch6 = 45.5; // Gp 3 on Front 6
-        public final double autoLaunch7 = 44.5; // GP 4 on Front 6
+        public final double autoLaunch6 = 47; // Gp 3 on Front 6
+        public final double autoLaunch7 = 45; // GP 4 on Front 6
         public final double autoLaunch8 = 30; // GP 4 on Front 6
         public final double autoLaunch9 = 43.5; // GP 4 on Front 6
 
@@ -217,7 +217,7 @@ public class Pivot extends Mechanism {
     public DoubleSupplier getAngleFromDeepFeedDistance(DoubleSupplier distance) {
         return () ->
                 getMapAngleAtSpeed(
-                        3, PivotConfig.DEEP_FEED_DISTANCE_MAP, distance.getAsDouble(), 0);
+                        5, PivotConfig.DEEP_FEED_DISTANCE_MAP, distance.getAsDouble(), 0);
     }
 
     public static double getMapAngle(
