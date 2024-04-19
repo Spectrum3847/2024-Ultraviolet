@@ -11,7 +11,6 @@ import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
-import frc.crescendo.Field;
 import frc.robot.Robot;
 import frc.robot.RobotConfig;
 import frc.robot.RobotTelemetry;
@@ -61,7 +60,7 @@ public class Pivot extends Mechanism {
         public final double autoLaunch8 = 30; // GP 4 on Front 6
         public final double autoLaunch9 = 43.5; // GP 4 on Front 6
 
-        public final double autoLaunch10 = 43.5;
+        public final double autoLaunch10 = 44;
         public final double autoLaunch11 = 54;
         public final double autoLaunch12 = 46;
 
@@ -211,12 +210,14 @@ public class Pivot extends Mechanism {
     }
 
     public DoubleSupplier getAngleFromFeedDistance(DoubleSupplier distance) {
-        return () -> getMapAngleAtSpeed(5, PivotConfig.FEED_DISTANCE_MAP, distance.getAsDouble(), 0);
+        return () ->
+                getMapAngleAtSpeed(5, PivotConfig.FEED_DISTANCE_MAP, distance.getAsDouble(), 0);
     }
 
     public DoubleSupplier getAngleFromDeepFeedDistance(DoubleSupplier distance) {
         return () ->
-                getMapAngleAtSpeed(3, PivotConfig.DEEP_FEED_DISTANCE_MAP, distance.getAsDouble(), 0);
+                getMapAngleAtSpeed(
+                        3, PivotConfig.DEEP_FEED_DISTANCE_MAP, distance.getAsDouble(), 0);
     }
 
     public static double getMapAngle(
