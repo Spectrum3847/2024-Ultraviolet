@@ -56,7 +56,7 @@ public class Pivot extends Mechanism {
         public final double autoLaunch4 = 50; // 5 and 6 on Front 6
         public final double autoLaunch5 = 74; // GP 2 on Front 6
         public final double autoLaunch6 = 47; // Gp 3 on Front 6
-        public final double autoLaunch7 = 45; // GP 4 on Front 6
+        public final double autoLaunch7 = 45.5; // GP 4 on Front 6
         public final double autoLaunch8 = 30; // GP 4 on Front 6
         public final double autoLaunch9 = 43.5; // GP 4 on Front 6
 
@@ -66,7 +66,7 @@ public class Pivot extends Mechanism {
 
         public final double autoLaunch13 = 47;
 
-        public final double autoLaunch14 = 45.5;
+        public final double autoLaunch14 = 46;
 
         public final double autoLaunch15 = 43.5;
 
@@ -157,9 +157,9 @@ public class Pivot extends Mechanism {
             // FEED_DISTANCE_MAP.put(7.54, 70.0);
             // FEED_DISTANCE_MAP.put(7.74, 65.0);
             // FEED_DISTANCE_MAP.put(9.05, 65.0);
-            FEED_DISTANCE_MAP.put(7.00, 81.0);
+            FEED_DISTANCE_MAP.put(7.0, 80.5);
 
-            DEEP_FEED_DISTANCE_MAP.put(7.0, 70.0);
+            DEEP_FEED_DISTANCE_MAP.put(7.0, 79.0);
         }
 
         public PivotConfig() {
@@ -228,7 +228,8 @@ public class Pivot extends Mechanism {
         return angle;
     }
 
-    public static double getMapAngleAtSpeed(InterpolatingDoubleTreeMap map, double distance, double offset) {
+    public static double getMapAngleAtSpeed(
+            InterpolatingDoubleTreeMap map, double distance, double offset) {
         double tunableSpeedFactor = 5;
         double angle = map.get(distance);
         angle += (angle * (offset / 100));
