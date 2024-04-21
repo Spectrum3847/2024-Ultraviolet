@@ -13,10 +13,10 @@ import frc.spectrumLib.swerve.config.SwerveConfig;
 public class ULTRAVIOLET2024 {
 
     // Angle Offsets: from cancoder Absolute Position No Offset, opposite sign
-    private static final double kFrontLeftCANcoderOffset = 0.043701; // 0.044189
-    private static final double kFrontRightCANncoderOffset = 0.225586; // 0.225098 0.225586
-    private static final double kBackLeftCANcoderOffset = -0.304932; // -0.304443
-    private static final double kBackRightCANcoderOffset = -0.260742; // -0.261475
+    private static final double kFrontLeftCANcoderOffset = 0.044922; // 0.044678
+    private static final double kFrontRightCANncoderOffset = 0.225586; // 0.224854
+    private static final double kBackLeftCANcoderOffset = -0.306396; // -0.307129
+    private static final double kBackRightCANcoderOffset = -0.296875; // -0.296631
 
     // Physical Config
     private static final double frontWheelBaseInches = 11.875;
@@ -75,7 +75,16 @@ public class ULTRAVIOLET2024 {
     private static final double kBackRightYPos = Units.inchesToMeters(-trackWidthInches);
 
     // Pivot CANCoder configs
-    public static final double pivotCANcoderOffset = -0.93; // flip sign
+    /**
+     * Flip sign of absolute position no offset. Enter value closer to 0 than recorded value.
+     *
+     * <p>Target 0.05 < motor position (rotations) < 0.015 when all the way down to keep shots
+     * consistent
+     *
+     * <p>ex: absolute pos no offset = 0.87; pivotCANcoderOffset = -0.86; read motor position = 0.13
+     */
+    public static final double pivotCANcoderOffset = -0.86;
+
     public static final CANCoderFeedbackType pivotFeedbackSource =
             CANCoderFeedbackType.FusedCANcoder;
 

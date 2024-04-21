@@ -2,6 +2,7 @@ package frc.robot.mechanisms.intake;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import frc.robot.RobotConfig;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
@@ -23,7 +24,7 @@ public class Intake extends Mechanism {
 
         /* Intake config values */
         public double currentLimit = 30;
-        public double torqueCurrentLimit = 100;
+        public double torqueCurrentLimit = 120;
         public double threshold = 40;
         public double velocityKp = 12; // 0.156152;
         public double velocityKv = 0.2; // 0.12;
@@ -115,6 +116,25 @@ public class Intake extends Mechanism {
                                         && config.talonConfig.MotorOutput.NeutralMode
                                                 == NeutralModeValue.Coast)
                 .ignoringDisable(true);
+    }
+
+    public Command intakeWithoutCurrentLimit() {
+        return new FunctionalCommand(
+                        () ->
+                                toggleTorqueCurrentLimit(
+                                        config.torqueCurrentLimit,
+                                        false), // init -- turn off current limits
+                        () ->
+                                setVelocityTorqueCurrentFOC(
+                                        config.intake), // execute -- run at intake velocity
+                        (b) -> {
+                            toggleTorqueCurrentLimit(
+                                    config.torqueCurrentLimit,
+                                    true); // end -- reenable current limits
+                        },
+                        () -> false, // isFinished
+                        this) // requirement
+                .withName("Intake.intakeWithoutCurrentLimit");
     }
 
     /**

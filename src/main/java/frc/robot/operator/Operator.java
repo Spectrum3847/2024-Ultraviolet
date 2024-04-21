@@ -17,6 +17,8 @@ public class Operator extends Gamepad {
     public class OperatorConfig {
         public static final String name = "Operator";
         public static final int port = 1;
+
+        public final double triggersDeadzone = 0;
         /**
          * in order to run a PS5 controller, you must use DS4Windows to emulate a XBOX controller as
          * well and move the controller to emulatedPS5Port
@@ -63,7 +65,12 @@ public class Operator extends Gamepad {
                 .whileTrue(
                         LEDsCommands.solidGreenLED().alongWith(VisionCommands.resetPoseToVision()));
 
-        controller.start().whileTrue(PivotCommands.switchFeedSpot());
+        controller
+                .rightTrigger(config.triggersDeadzone)
+                .and(leftBumperOnly())
+                .whileTrue(IntakeCommands.intakeWithoutCurrentLimit());
+
+        controller.start().and(noBumpers()).whileTrue(ClimberCommands.safeClimb());
 
         /* Zero Routines */
         controller.select().and(noBumpers()).whileTrue(Robot.climber.zeroClimberRoutine());
@@ -77,13 +84,16 @@ public class Operator extends Gamepad {
                 .and(noBumpers())
                 .onTrue(rumbleCommand(PivotCommands.decreaseOffset()));
         controller.leftDpad().and(noBumpers()).onTrue(rumbleCommand(PivotCommands.resetOffset()));
+        controller
+                .rightDpad()
+                .and(noBumpers())
+                .onTrue(rumbleCommand(PivotCommands.switchFeedSpot()));
 
         /* Climb */
         controller.upDpad().and(leftBumperOnly()).whileTrue(RobotCommands.topClimb());
         controller.downDpad().and(leftBumperOnly()).whileTrue(ClimberCommands.midClimb());
         controller.leftDpad().and(leftBumperOnly()).whileTrue(ElevatorCommands.fullExtend());
         controller.rightDpad().and(leftBumperOnly()).whileTrue(ClimberCommands.botClimb());
-        controller.rightDpad().and(noBumpers()).whileTrue(ClimberCommands.safeClimb());
     };
 
     /** Setup the Buttons for Disabled mode. */
@@ -99,9 +109,9 @@ public class Operator extends Gamepad {
         controller.leftDpad().and(noBumpers()).onTrue(rumbleCommand(PivotCommands.resetOffset()));
 
         controller
-                .rightDpad()
+                .start()
                 .and(noBumpers())
-                .onTrue(rumbleCommand(PivotCommands.switchFeedSpot()));
+                .whileTrue(rumbleCommand(PivotCommands.switchFeedSpot()));
     };
 
     /** Setup the Buttons for Test mode. */

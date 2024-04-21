@@ -271,6 +271,9 @@ public class Robot extends LoggedRobot {
                                     ? 0
                                     : 180));
 
+            // if(DriverStation.isFMSAttached()) {
+            //     ClimberCommands.safeClimb().withTimeout(2).schedule();
+            // }
             RobotTelemetry.print("!!! Teleop Init Complete !!! ");
         } catch (Throwable t) {
             // intercept error and log it

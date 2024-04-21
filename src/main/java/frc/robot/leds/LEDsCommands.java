@@ -116,6 +116,10 @@ public class LEDsCommands {
                 .withName("LEDs.launchReadyStrobe");
     }
 
+    public static Command manualSourceStrobe() {
+        return customStrobe(Section.FULL, Color.kRed, 3, 20).withName("LEDs.manualSourceStrobe");
+    }
+
     public static Command intakeReadyStrobe() {
         return customStrobe(Section.FULL, Color.kGreen, 5, 10).withName("LEDs.intakeReadyStrobe");
     }

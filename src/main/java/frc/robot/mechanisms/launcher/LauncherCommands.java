@@ -56,9 +56,9 @@ public class LauncherCommands {
         // FEED_DISTANCE_MAP.put(7.54, 3700.0);
         // FEED_DISTANCE_MAP.put(7.74, 3800.0);
         // FEED_DISTANCE_MAP.put(9.05, 3950.0);
-        FEED_DISTANCE_MAP.put(7.0, 5000.0);
+        FEED_DISTANCE_MAP.put(7.0, 4900.0);
 
-        DEEP_FEED_DISTANCE_MAP.put(7.0, 5200.0);
+        DEEP_FEED_DISTANCE_MAP.put(7.0, 5000.0);
     }
 
     public static void setupDefaultCommand() {

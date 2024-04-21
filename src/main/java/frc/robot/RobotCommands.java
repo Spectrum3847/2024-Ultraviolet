@@ -443,7 +443,10 @@ public class RobotCommands {
 
     public static Command manualSource() {
         return LauncherCommands.manualSource()
-                .alongWith(FeederCommands.manualSource(), PivotCommands.subwoofer())
+                .alongWith(
+                        FeederCommands.manualSource(),
+                        PivotCommands.subwoofer(),
+                        LEDsCommands.manualSourceStrobe())
                 .withName("RobotCommands.manualSource");
     }
 
