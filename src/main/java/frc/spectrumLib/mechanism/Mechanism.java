@@ -196,6 +196,20 @@ public abstract class Mechanism implements Subsystem {
         }
     }
 
+    public void toggleTorqueCurrentLimit(double enabledLimit, boolean enabled) {
+        if (attached) {
+            if (enabled) {
+                config.configForwardTorqueCurrentLimit(enabledLimit);
+                config.configReverseTorqueCurrentLimit(enabledLimit);
+                config.applyTalonConfig(motor);
+            } else {
+                config.configForwardTorqueCurrentLimit(800);
+                config.configReverseTorqueCurrentLimit(800);
+                config.applyTalonConfig(motor);
+            }
+        }
+    }
+
     public static class Config {
         public String name;
         public CanDeviceId id;

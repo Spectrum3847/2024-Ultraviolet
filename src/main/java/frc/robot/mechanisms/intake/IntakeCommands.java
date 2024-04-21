@@ -32,6 +32,10 @@ public class IntakeCommands {
         return intake.coastMode();
     }
 
+    public static Command intakeWithoutCurrentLimit() {
+        return intake.intakeWithoutCurrentLimit();
+    }
+
     public static Command stopMotor() {
         return intake.runStop().withName("Intake.stopMotor");
     }
