@@ -1,18 +1,20 @@
 {
-  "robotWidth": 0.925,
+  "robotWidth": 0.93,
   "robotLength": 0.925,
   "holonomicMode": true,
   "pathFolders": [
     "Amp Side Paths",
     "Front Paths",
+    "Madtown Paths",
     "PID Config Paths",
     "Source Paths",
     "Subwoofer Paths"
   ],
   "autoFolders": [
+    "Adjustment Autos",
     "Amp Side Autos",
     "Front Autos",
-    "Adjustment Autos",
+    "Madtown Autos",
     "PID Config Autos",
     "Source Side Autos",
     "Subwoofer Autos"

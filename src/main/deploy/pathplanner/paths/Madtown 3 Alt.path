@@ -1,0 +1,74 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.25,
+        "y": 3.0
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.491663078211257,
+        "y": 2.351280254821443
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.95,
+        "y": 1.014796988823035
+      },
+      "prevControl": {
+        "x": 7.747688312945196,
+        "y": 1.517510877868308
+      },
+      "nextControl": {
+        "x": 8.197743198904684,
+        "y": 0.3991926763932103
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.5258307595933207,
+        "y": 3.240225546425889
+      },
+      "prevControl": {
+        "x": 3.9542738833439124,
+        "y": 2.228667111151864
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.0,
+      "rotationDegrees": 141.0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 6.0,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 142.5,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Madtown Paths",
+  "previewStartingState": {
+    "rotation": 155.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

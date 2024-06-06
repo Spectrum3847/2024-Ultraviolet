@@ -1,0 +1,49 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.41,
+      "y": 3.65
+    },
+    "rotation": 180.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Madtown 1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Madtown 2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Madtown 3 Alt"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Madtown 4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Madtown 5"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Madtown Autos",
+  "choreoAuto": false
+}
