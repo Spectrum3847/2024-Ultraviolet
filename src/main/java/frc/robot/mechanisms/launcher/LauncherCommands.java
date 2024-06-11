@@ -147,6 +147,20 @@ public class LauncherCommands {
                 .withName("Launcher.autoDump2");
     }
 
+    public static Command autoDump3() {
+        return runLauncherPercentages(
+                        leftLauncher.config.auto3DumpLauncherPercent,
+                        rightLauncher.config.auto3DumpLauncherPercent)
+                .withName("Launcher.autoDump2");
+    }
+
+    public static Command autoDump4() {
+        return runLauncherPercentages(
+                        leftLauncher.config.auto4DumpLauncherPercent,
+                        rightLauncher.config.auto4DumpLauncherPercent)
+                .withName("Launcher.autoDump2");
+    }
+
     public static Command subwoofer() {
         return runTorqueLauncherVelocities(
                         leftLauncher.config.subwoofer, rightLauncher.config.subwoofer)

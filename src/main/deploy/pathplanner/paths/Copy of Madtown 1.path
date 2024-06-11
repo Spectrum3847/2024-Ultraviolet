@@ -3,64 +3,37 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.5258307595933207,
-        "y": 3.240225546425889
+        "x": 1.41,
+        "y": 3.65
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.7764848250230227,
-        "y": 3.0256525450041263
+        "x": 3.0950360716681917,
+        "y": 2.3802342436251323
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.6,
-        "y": 3.85
+        "x": 7.12,
+        "y": 4.105
       },
       "prevControl": {
-        "x": 4.1453658548330505,
-        "y": 3.058274522664954
-      },
-      "nextControl": {
-        "x": 4.880003118049231,
-        "y": 4.337613182268618
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 4.383419886187437,
-        "y": 4.91
-      },
-      "prevControl": {
-        "x": 4.640907487893553,
-        "y": 4.542160568991265
+        "x": 5.12,
+        "y": 4.105
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.45,
-      "rotationDegrees": -170.0,
-      "rotateFast": false
-    },
-    {
-      "waypointRelativePos": 1.0,
-      "rotationDegrees": -160.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "launchReady17",
-      "waypointRelativePos": 0,
+      "name": "spit3",
+      "waypointRelativePos": 0.45,
       "command": {
         "type": "parallel",
         "data": {
@@ -68,7 +41,24 @@
             {
               "type": "named",
               "data": {
-                "name": "launchReady17"
+                "name": "spit4"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "spitReady",
+      "waypointRelativePos": 0.05,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "spitReady"
               }
             }
           ]
@@ -77,7 +67,7 @@
     },
     {
       "name": "smartIntake",
-      "waypointRelativePos": 0.1,
+      "waypointRelativePos": 0.7,
       "command": {
         "type": "parallel",
         "data": {
@@ -86,6 +76,23 @@
               "type": "named",
               "data": {
                 "name": "smartIntake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "spitReady3",
+      "waypointRelativePos": 0.75,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "spitReady3"
               }
             }
           ]
@@ -101,14 +108,14 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 171.5,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Madtown Paths",
   "previewStartingState": {
-    "rotation": 142.5,
-    "velocity": 0.0
+    "rotation": 180.0,
+    "velocity": 0
   },
   "useDefaultConstraints": true
 }

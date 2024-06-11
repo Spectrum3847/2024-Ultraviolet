@@ -13,10 +13,10 @@ import frc.spectrumLib.swerve.config.SwerveConfig;
 public class ULTRAVIOLET2024 {
 
     // Angle Offsets: from cancoder Absolute Position No Offset, opposite sign
-    private static final double kFrontLeftCANcoderOffset = 0.044922; // 0.044678
-    private static final double kFrontRightCANncoderOffset = 0.225586; // 0.224854
-    private static final double kBackLeftCANcoderOffset = -0.306396; // -0.307129
-    private static final double kBackRightCANcoderOffset = -0.296875; // -0.296631
+    private static final double kFrontLeftCANcoderOffset = 0.044922; // 0.044922
+    private static final double kFrontRightCANncoderOffset = 0.224365; // 0.225586
+    private static final double kBackLeftCANcoderOffset = -0.304199; // -0.306396
+    private static final double kBackRightCANcoderOffset = -0.296631; // -0.296875
 
     // Physical Config
     private static final double frontWheelBaseInches = 11.875;

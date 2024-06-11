@@ -67,6 +67,9 @@ public class Auton extends SubsystemBase {
 
         autonChooser.addOption("Subwoofer", new PathPlannerAuto("Subwoofer")); // Runs full Auto
 
+        autonChooser.addOption("Madtown Test", new PathPlannerAuto("Madtown Test"));
+        autonChooser.addOption("Madtown Test 2", new PathPlannerAuto("Madtown Test 2"));
+
         autonChooser.addOption("Do Nothing", Commands.print("Do Nothing Auto ran"));
 
         SmartDashboard.putData("Auto Chooser", autonChooser);
@@ -101,6 +104,10 @@ public class Auton extends SubsystemBase {
         NamedCommands.registerCommand("launchReady14", AutonCommands.launchReady14());
 
         NamedCommands.registerCommand("launchReady15", AutonCommands.launchReady15());
+
+        NamedCommands.registerCommand("launchReady16", AutonCommands.launchReady16());
+        NamedCommands.registerCommand("launchReady17", AutonCommands.launchReady17());
+
         NamedCommands.registerCommand("visionLaunchReady", AutonCommands.visionLaunch());
         NamedCommands.registerCommand("launch", AutonCommands.launch());
         NamedCommands.registerCommand("launchShort", AutonCommands.launchShort());
@@ -112,6 +119,11 @@ public class Auton extends SubsystemBase {
 
         NamedCommands.registerCommand("spit2", AutonCommands.spit2());
         NamedCommands.registerCommand("spitReady2", AutonCommands.spitReady2());
+
+        NamedCommands.registerCommand("spit3", AutonCommands.spit3());
+        NamedCommands.registerCommand("spitReady3", AutonCommands.spitReady3());
+
+        NamedCommands.registerCommand("spit4", AutonCommands.spit4());
 
         NamedCommands.registerCommand("resetPose", AutonCommands.resetPoseToVision());
 
