@@ -81,6 +81,16 @@ public class AutonCommands {
                 .withName("AutonCommands.stopTracking");
     }
 
+    public static Command madtownRan() {
+        return new InstantCommand(
+                        () -> {
+                            AutoPaths.madtownPathRan = true;
+                            System.out.println("Madtown Path Ran!");
+                        })
+                .withName("AutonCommands.madtownRan")
+                .withTimeout(0.01);
+    }
+
     public static Command spit() {
         return LauncherCommands.autoDump()
                 .alongWith(FeederCommands.autoFeed())
@@ -337,5 +347,9 @@ public class AutonCommands {
 
     public static Command resetPoseToVision() {
         return VisionCommands.autonResetPoseToVision().withTimeout(0.01);
+    }
+
+    public static boolean noteInView() {
+        return Robot.vision.detectLL.targetInView();
     }
 }

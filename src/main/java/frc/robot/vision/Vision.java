@@ -156,6 +156,8 @@ public class Vision extends SubsystemBase {
         for (Limelight limelight : allLimelights) {
             limelight.setLEDMode(false);
         }
+
+        detectLL.setLEDMode(true);
     }
 
     @Override

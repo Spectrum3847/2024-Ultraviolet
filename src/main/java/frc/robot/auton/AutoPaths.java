@@ -10,6 +10,7 @@ public class AutoPaths {
     public static boolean front6Point5Note2Picked = false;
     public static boolean source4Note2 = false;
     public static boolean Source4Note2Picked = false;
+    public static boolean madtownPathRan = false;
 
     public static Command Front6Point5() {
         return AutoBuilder.buildAuto("Front 6.5")
@@ -65,5 +66,13 @@ public class AutoPaths {
                         AutonCommands.pathfindingCommandToPose(4.5, 6, 180, 2, 2)
                                 .andThen(AutoBuilder.buildAuto("Detection Decline"))
                                 .onlyIf(() -> !Robot.feeder.intakedNote()));
+    }
+
+    public static Command MadtownTest() {
+        return AutoBuilder.buildAuto("Madtown Detection Test")
+                .onlyIf(() -> AutonCommands.noteInView())
+                .andThen(
+                        AutoBuilder.buildAuto("Madtown Detection Test 2")
+                                .onlyIf(() -> !madtownPathRan));
     }
 }

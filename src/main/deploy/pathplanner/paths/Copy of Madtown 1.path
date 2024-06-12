@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 7.12,
-        "y": 4.105
+        "y": 4.2
       },
       "prevControl": {
-        "x": 5.12,
-        "y": 4.105
+        "x": 5.02,
+        "y": 4.2
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,23 +31,6 @@
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
-    {
-      "name": "spit3",
-      "waypointRelativePos": 0.45,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "spit4"
-              }
-            }
-          ]
-        }
-      }
-    },
     {
       "name": "spitReady",
       "waypointRelativePos": 0.05,
@@ -66,8 +49,25 @@
       }
     },
     {
+      "name": "spit4",
+      "waypointRelativePos": 0.5,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "spit4"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
       "name": "smartIntake",
-      "waypointRelativePos": 0.7,
+      "waypointRelativePos": 0.65,
       "command": {
         "type": "parallel",
         "data": {
@@ -84,7 +84,7 @@
     },
     {
       "name": "spitReady3",
-      "waypointRelativePos": 0.75,
+      "waypointRelativePos": 0.7,
       "command": {
         "type": "parallel",
         "data": {

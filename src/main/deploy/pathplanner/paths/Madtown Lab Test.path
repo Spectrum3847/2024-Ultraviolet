@@ -3,41 +3,57 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.383419886187437,
-        "y": 4.91
+        "x": 7.12,
+        "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.264776332879601,
-        "y": 4.35926736835436
+        "x": 7.12,
+        "y": 3.4196013042463225
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.0,
-        "y": 4.0
+        "x": 7.12,
+        "y": 2.51867759114377
       },
       "prevControl": {
-        "x": 4.5531649046989715,
-        "y": 3.9796605496917437
+        "x": 7.12,
+        "y": 3.0186775911437698
       },
       "nextControl": {
-        "x": 6.9999012024913005,
-        "y": 4.014056502283701
+        "x": 7.12,
+        "y": 1.890675789447359
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.383419886187437,
-        "y": 4.91
+        "x": 5.585711152713232,
+        "y": 1.65
       },
       "prevControl": {
-        "x": 5.290744437190025,
-        "y": 4.148664303895638
+        "x": 6.309016767398172,
+        "y": 1.65
+      },
+      "nextControl": {
+        "x": 4.862405538028292,
+        "y": 1.65
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.53,
+        "y": 3.24
+      },
+      "prevControl": {
+        "x": 3.789131799989139,
+        "y": 2.5011697852020593
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,33 +62,21 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.0,
-      "rotationDegrees": 180.0,
+      "waypointRelativePos": 0.55,
+      "rotationDegrees": 90.0,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 0.9,
+      "rotationDegrees": 90.0,
       "rotateFast": false
     }
   ],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "launchReady17",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "launchReady17"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
       "name": "smartIntake",
-      "waypointRelativePos": 0.1,
+      "waypointRelativePos": 0,
       "command": {
         "type": "parallel",
         "data": {
@@ -86,24 +90,41 @@
           ]
         }
       }
+    },
+    {
+      "name": "launchReady",
+      "waypointRelativePos": 2.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "launchReady16"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 1.0,
+    "maxAcceleration": 1.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 171.0,
+    "rotation": 138.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Madtown Paths",
   "previewStartingState": {
-    "rotation": 171.5,
-    "velocity": 0.0
+    "rotation": 180.0,
+    "velocity": 0
   },
   "useDefaultConstraints": false
 }

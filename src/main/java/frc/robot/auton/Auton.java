@@ -69,6 +69,8 @@ public class Auton extends SubsystemBase {
 
         autonChooser.addOption("Madtown Test", new PathPlannerAuto("Madtown Test"));
         autonChooser.addOption("Madtown Test 2", new PathPlannerAuto("Madtown Test 2"));
+        autonChooser.addOption("Madtown Test 3", new PathPlannerAuto("Madtown Test 3"));
+        autonChooser.addOption("Madtown Dect", AutoPaths.MadtownTest());
 
         autonChooser.addOption("Do Nothing", Commands.print("Do Nothing Auto ran"));
 
@@ -80,6 +82,8 @@ public class Auton extends SubsystemBase {
         // Register Named Commands
         NamedCommands.registerCommand("alignToSpeaker", AutonCommands.trackSpeaker());
         NamedCommands.registerCommand("alignToNote", AutonCommands.trackNote());
+
+        NamedCommands.registerCommand("madtownRan", AutonCommands.madtownRan());
         NamedCommands.registerCommand("launchReadySubwoofer", AutonCommands.launchReadySubwoofer());
         NamedCommands.registerCommand("launchReadyPreload", AutonCommands.launchReadyPreload());
 
