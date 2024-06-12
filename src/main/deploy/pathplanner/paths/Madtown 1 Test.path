@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.0950360716681917,
-        "y": 2.3802342436251323
+        "x": 3.1510254119030985,
+        "y": 2.3380432495285346
       },
       "isLocked": false,
       "linkedName": null
@@ -17,18 +17,24 @@
     {
       "anchor": {
         "x": 7.12,
-        "y": 4.2
+        "y": 4.3
       },
       "prevControl": {
         "x": 5.02,
-        "y": 4.2
+        "y": 4.3
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": -170.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [
     {
@@ -50,7 +56,7 @@
     },
     {
       "name": "spit4",
-      "waypointRelativePos": 0.5,
+      "waypointRelativePos": 0.525,
       "command": {
         "type": "parallel",
         "data": {

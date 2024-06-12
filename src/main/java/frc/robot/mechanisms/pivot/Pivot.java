@@ -48,7 +48,7 @@ public class Pivot extends Mechanism {
         public final double autoLaunchPreload2 = 62;
         public final double spitReady = 5; // GP 4 on Front 6
 
-        public final double spitReady2 = 32; // GP 4 on Front 6
+        public final double spitReady2 = 35; // GP 4 on Front 6
         public final double autoLaunch1 = 70;
         public final double autoLaunch2 =
                 55; // works for GP2/GP3/GP5/GP6 in Front 5 and GP2/GP4/5 in Front 5 Alt
@@ -70,8 +70,8 @@ public class Pivot extends Mechanism {
 
         public final double autoLaunch15 = 43.5;
 
-        public final double autoLaunch16 = 50.5;
-        public final double autoLaunch17 = 45.75;
+        public final double autoLaunch16 = 55;
+        public final double autoLaunch17 = 47.75;
 
         public final double zeroSpeed = -0.1;
 

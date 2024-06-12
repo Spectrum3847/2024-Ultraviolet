@@ -32,7 +32,7 @@ public class RightLauncher extends Mechanism {
         public double autoDumpLauncherPercent = 0.07;
         public double auto2DumpLauncherPercent = 0.3;
         public double auto3DumpLauncherPercent = 0.17;
-        public double auto4DumpLauncherPercent = 0.2;
+        public double auto4DumpLauncherPercent = 0.185;
 
         /* RightLauncher config values */
         public double currentLimit = 60;

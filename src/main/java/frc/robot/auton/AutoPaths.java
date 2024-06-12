@@ -75,4 +75,14 @@ public class AutoPaths {
                         AutoBuilder.buildAuto("Madtown Detection Test 2")
                                 .onlyIf(() -> !madtownPathRan));
     }
+
+    public static Command MadtownAdaptive() {
+        return AutoBuilder.buildAuto("Madtown Adaptive")
+                .andThen(
+                        AutoBuilder.buildAuto("Madtown Adaptive 1")
+                                .onlyIf(() -> AutonCommands.noteInView())
+                                .andThen(
+                                        AutoBuilder.buildAuto("Madtown Adaptive 2")
+                                                .onlyIf(() -> !madtownPathRan)));
+    }
 }

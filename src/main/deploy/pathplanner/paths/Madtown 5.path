@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.383419886187437,
-        "y": 4.91
+        "x": 3.95,
+        "y": 5.21
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.264776332879601,
-        "y": 4.35926736835436
+        "x": 4.750175412418178,
+        "y": 4.514679637404177
       },
       "isLocked": false,
       "linkedName": null
@@ -17,27 +17,27 @@
     {
       "anchor": {
         "x": 6.75,
-        "y": 4.105
+        "y": 4.21
       },
       "prevControl": {
         "x": 5.3031649046989715,
-        "y": 4.084660549691744
+        "y": 4.189660549691744
       },
       "nextControl": {
         "x": 7.7499012024913005,
-        "y": 4.119056502283701
+        "y": 4.224056502283701
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.383419886187437,
-        "y": 4.91
+        "x": 3.95,
+        "y": 5.21
       },
       "prevControl": {
-        "x": 5.290744437190025,
-        "y": 4.148664303895638
+        "x": 4.742438970378408,
+        "y": 4.251640608052029
       },
       "nextControl": null,
       "isLocked": false,
@@ -52,23 +52,58 @@
     }
   ],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "launchReady17",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "launchReady17"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "smartIntake",
+      "waypointRelativePos": 0.1,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "smartIntake"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 6.0,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 171.0,
+    "rotation": 176.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Madtown Paths",
   "previewStartingState": {
-    "rotation": 174.0,
+    "rotation": 178.0,
     "velocity": 0.0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }
