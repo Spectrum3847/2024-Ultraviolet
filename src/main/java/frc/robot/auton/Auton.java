@@ -67,10 +67,10 @@ public class Auton extends SubsystemBase {
 
         autonChooser.addOption("Subwoofer", new PathPlannerAuto("Subwoofer")); // Runs full Auto
 
-        autonChooser.addOption("Madtown Test", new PathPlannerAuto("Madtown Test"));
-        autonChooser.addOption("Madtown Test 2", new PathPlannerAuto("Madtown Test 2"));
-        autonChooser.addOption("Madtown Test 3", new PathPlannerAuto("Madtown Test 3"));
-        autonChooser.addOption("Madtown Dect", AutoPaths.MadtownTest());
+        // autonChooser.addOption("Madtown Test", new PathPlannerAuto("Madtown Test"));
+        // autonChooser.addOption("Madtown Test 2", new PathPlannerAuto("Madtown Test 2"));
+        // autonChooser.addOption("Madtown Test 3", new PathPlannerAuto("Madtown Test 3"));
+        // autonChooser.addOption("Madtown Dect", AutoPaths.MadtownTest());
 
         // Madtown Autos
         autonChooser.addOption("Madtown Adaptive", AutoPaths.MadtownAdaptive());
