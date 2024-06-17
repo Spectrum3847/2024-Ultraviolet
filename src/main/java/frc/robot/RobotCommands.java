@@ -111,7 +111,7 @@ public class RobotCommands {
         return PivotCommands.ampScore()
                 .alongWith(
                         LEDsCommands.Pivot(),
-                        PilotCommands.turnToAmp(),
+                        // PilotCommands.turnToAmp(),
                         LauncherCommands.runAmpVelocity())
                 .withName("RobotCommands.ampReady8515");
     }
