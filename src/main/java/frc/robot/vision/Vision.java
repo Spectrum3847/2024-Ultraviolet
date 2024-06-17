@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.crescendo.Field;
 import frc.robot.Robot;
 import frc.robot.RobotTelemetry;
-import frc.robot.leds.LEDsCommands;
 import frc.spectrumLib.util.Trio;
 import frc.spectrumLib.vision.Limelight;
 import frc.spectrumLib.vision.Limelight.PhysicalConfig;
@@ -540,12 +539,12 @@ public class Vision extends SubsystemBase {
                             + " of "
                             + autonPoses.size()
                             + " possible tries");
-            LEDsCommands.solidErrorLED().withTimeout(0.8).schedule();
+            // LEDsCommands.solidErrorLED().withTimeout(0.8).schedule();
         } else {
             if (firstSuccess) {
-                LEDsCommands.solidGreenLED().withTimeout(0.8).schedule();
+                //  LEDsCommands.solidGreenLED().withTimeout(0.8).schedule();
             } else {
-                LEDsCommands.solidOrangeLED().withTimeout(0.8).schedule();
+                // LEDsCommands.solidOrangeLED().withTimeout(0.8).schedule();
             }
         }
     }
