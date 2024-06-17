@@ -18,7 +18,8 @@ public class PilotCommands {
 
     /** Set default command to turn off the rumble */
     public static void setupDefaultCommand() {
-        pilot.setDefaultCommand(rumble(0, 99999).repeatedly().withName("Pilot.default"));
+        pilot.setDefaultCommand(
+                rumble(0, 99999).repeatedly().withName("Pilot.default").ignoringDisable(true));
     }
 
     /** Command that can be used to rumble the pilot controller */

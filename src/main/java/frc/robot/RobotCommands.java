@@ -194,9 +194,10 @@ public class RobotCommands {
     }
 
     public static Command subwooferReady() {
-        return LauncherCommands.runOnDemandVelocity()
+        return LauncherCommands.runLauncherVelocities(2960, 6000)
                 .alongWith(PivotCommands.subwoofer()) // 25
                 // rumble on ready
+
                 // .until(
                 //         () ->
                 //                 (Robot.leftLauncher.getMotorVelocity() >= 4500

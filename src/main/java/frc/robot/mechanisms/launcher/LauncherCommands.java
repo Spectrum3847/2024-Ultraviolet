@@ -26,8 +26,10 @@ public class LauncherCommands {
     }
 
     public static void setupDefaultCommand() {
-        leftLauncher.setDefaultCommand(stopLeftMotor().withName("LeftLauncher.default"));
-        rightLauncher.setDefaultCommand(stopRightMotor().withName("RightLauncher.default"));
+        leftLauncher.setDefaultCommand(
+                stopLeftMotor().withName("LeftLauncher.default").ignoringDisable(true));
+        rightLauncher.setDefaultCommand(
+                stopRightMotor().withName("RightLauncher.default").ignoringDisable(true));
     }
 
     /* Launch Commands */

@@ -14,7 +14,8 @@ public class OperatorCommands {
 
     /** Set default command to turn off the rumble */
     public static void setupDefaultCommand() {
-        operator.setDefaultCommand(rumble(0, 99999).repeatedly().withName("Operator.default"));
+        operator.setDefaultCommand(
+                rumble(0, 99999).repeatedly().withName("Operator.default").ignoringDisable(true));
     }
 
     /** Command that can be used to rumble the Operator controller */

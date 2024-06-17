@@ -7,7 +7,7 @@ public class AmpTrapCommands {
     private static AmpTrap ampTrap = Robot.ampTrap;
 
     public static void setupDefaultCommand() {
-        ampTrap.setDefaultCommand(stopMotor().withName("AmpTrap.default"));
+        ampTrap.setDefaultCommand(stopMotor().withName("AmpTrap.default").ignoringDisable(true));
     }
 
     public static Command runFull() {

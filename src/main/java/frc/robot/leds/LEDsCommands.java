@@ -12,7 +12,7 @@ public class LEDsCommands {
     private static LEDs leds = Robot.leds;
 
     public static void setupDefaultCommand() {
-        leds.setDefaultCommand(defaultCommand());
+        leds.setDefaultCommand(defaultCommand().ignoringDisable(true));
     }
 
     /**

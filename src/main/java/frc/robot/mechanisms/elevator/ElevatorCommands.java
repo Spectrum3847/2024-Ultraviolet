@@ -7,7 +7,8 @@ public class ElevatorCommands {
     private static Elevator elevator = Robot.elevator;
 
     public static void setupDefaultCommand() {
-        elevator.setDefaultCommand(elevator.holdPosition().withName("Elevator.default"));
+        elevator.setDefaultCommand(
+                elevator.holdPosition().withName("Elevator.default").ignoringDisable(true));
     }
 
     public static Command fullExtend() {
