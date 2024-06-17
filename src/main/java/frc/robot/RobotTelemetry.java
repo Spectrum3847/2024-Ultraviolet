@@ -123,4 +123,10 @@ public class RobotTelemetry extends Telemetry {
             //     SmartDashboard.putData("Module " + i, m_moduleMechanisms[i]);
         }
     }
+
+    
+	public static String truncatedDouble(double number) {
+        return df.format(number);
+    }
+
 }
