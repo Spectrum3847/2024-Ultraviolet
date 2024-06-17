@@ -10,13 +10,16 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.crescendo.Field;
 import frc.robot.Robot;
+import frc.robot.RobotTelemetry;
 import frc.spectrumLib.vision.Limelight;
 import frc.spectrumLib.vision.Limelight.PhysicalConfig;
 import java.text.DecimalFormat;
+import java.util.NoSuchElementException;
 import org.littletonrobotics.junction.AutoLogOutput;
 
 public class Vision extends SubsystemBase {
@@ -89,7 +92,7 @@ public class Vision extends SubsystemBase {
 
     @Override
     public void periodic() {
-        /*  try {
+        try {
             // Will NOT run in auto
             if (DriverStation.isTeleopEnabled()) {
                 // force pose to be vision
@@ -99,14 +102,14 @@ public class Vision extends SubsystemBase {
                 }
 
                 isPresent = true;
-                // filterAndAddVisionMeasurment(speakerLL);
+                filterAndAddVisionMeasurment(speakerLL);
                 // filterAndAddVisionMeasurment(rearLL);
 
                 // RobotTelemetry.print("added vision measurement");
             }
         } catch (NoSuchElementException e) {
             RobotTelemetry.print("Vision pose not present but tried to access it");
-        }*/
+        }
     }
 
     private void filterAndAddVisionMeasurment(Limelight ll) {
@@ -117,7 +120,7 @@ public class Vision extends SubsystemBase {
         // integrate vision
         if (ll.targetInView()) {
             Pose3d botpose3D = ll.getRawPose3d();
-            double timeStamp = ll.getVisionPoseTimestamp();
+            double timeStamp = ll.getRawPoseTimestamp();
             Pose2d botpose = botpose3D.toPose2d();
 
             // distance from current pose to vision estimated pose

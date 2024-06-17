@@ -3,24 +3,22 @@ package frc.spectrumLib.vision;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Robot;
 import frc.robot.vision.Vision.VisionConfig;
 import frc.spectrumLib.vision.LimelightHelpers.LimelightResults;
+import frc.spectrumLib.vision.LimelightHelpers.RawFiducial;
 import java.text.DecimalFormat;
-import java.util.Optional;
 
 public class Limelight {
 
     /* Limelight Configuration */
 
     /** Must match to the name given in LL dashboard */
-    private final String CAMERA_NAME;
+    public final String CAMERA_NAME;
 
     public String logStatus = "";
-    public boolean trustStrong = false;
+    public String tagStatus = "";
+    public boolean isIntegrating;
     /** Physical Config */
     private PhysicalConfig physicalConfig;
 
@@ -31,7 +29,8 @@ public class Limelight {
         this.CAMERA_NAME = cameraName;
         physicalConfig = new PhysicalConfig();
         logStatus = "Not started";
-        trustStrong = false;
+        tagStatus = "Not started";
+        isIntegrating = false;
     }
 
     public Limelight(String cameraName, int pipeline) {
@@ -42,14 +41,14 @@ public class Limelight {
     public Limelight(String cameraName, int pipeline, PhysicalConfig physicalConfig) {
         this(cameraName, pipeline);
         this.physicalConfig = physicalConfig;
-        LimelightHelpers.setCameraPose_RobotSpace(
-                this.CAMERA_NAME,
-                physicalConfig.forward,
-                physicalConfig.right,
-                physicalConfig.up,
-                physicalConfig.roll,
-                physicalConfig.pitch,
-                physicalConfig.yaw);
+        // LimelightHelpers.setCameraPose_RobotSpace(
+        //         this.CAMERA_NAME,
+        //         physicalConfig.forward,
+        //         physicalConfig.right,
+        //         physicalConfig.up,
+        //         physicalConfig.roll,
+        //         physicalConfig.pitch,
+        //         physicalConfig.yaw);
     }
 
     /*
@@ -88,9 +87,11 @@ public class Limelight {
     }
 
     public double getTagCountInView() {
-        if (retrieveJSON() == null) return 0;
+        return LimelightHelpers.getBotPoseEstimate_wpiBlue(CAMERA_NAME).tagCount;
 
-        return retrieveJSON().targetingResults.targets_Fiducials.length;
+        // if (retrieveJSON() == null) return 0;
+
+        // return retrieveJSON().targetingResults.targets_Fiducials.length;
     }
 
     /**
@@ -107,39 +108,20 @@ public class Limelight {
 
     /* ::: Pose Retrieval ::: */
 
-    /** @return the corresponding LL Pose3d for the alliance in DriverStation.java */
+    /** @return the corresponding LL Pose3d (MEGATAG1) for the alliance in DriverStation.java */
     public Pose3d getRawPose3d() {
         return LimelightHelpers.getBotPose3d_wpiBlue(
                 CAMERA_NAME); // 2024: all alliances use blue as 0,0
     }
 
-    public boolean hasAccuratePose() {
-        return multipleTagsInView() && getTargetSize() > 0.1;
+    /** @return the corresponding LL Pose3d (MEGATAG2) for the alliance in DriverStation.java */
+    public Pose2d getMegaPose2d() {
+        return LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(CAMERA_NAME)
+                .pose; // 2024: all alliances use blue as 0,0
     }
 
-    public Optional<Pose2d> getFilteredPose(Pose2d swervePose, double rejectDistance) {
-        Pose2d visionPose = getRawPose3d().toPose2d();
-
-        // if no camera or no target in view, return empty
-        if (!isCameraConnected() || !targetInView()) {
-            logStatus = "No Apriltag in view";
-            return Optional.empty();
-        }
-        // if vision pose is too far off current and we are not very close to a tag, ignore it
-        if (swervePose.getTranslation().getDistance(visionPose.getTranslation()) < rejectDistance
-                || (swervePose.getX() <= 0 || Robot.swerve.getPose().getY() <= 0)
-                || (getDistanceToTagFromCamera() <= 1)
-                || (getTagCountInView() >= 2 && getDistanceToTagFromCamera() <= 3)) {
-            return Optional.of(new Pose2d(visionPose.getTranslation(), swervePose.getRotation()));
-        }
-
-        // dumb
-        if (swervePose.getTranslation().getDistance(visionPose.getTranslation()) > rejectDistance) {
-            logStatus = "Rejected: Too far off odometry";
-        }
-
-        logStatus = "Unknown error";
-        return Optional.empty();
+    public boolean hasAccuratePose() {
+        return multipleTagsInView() && getTargetSize() > 0.1;
     }
 
     /** @return the distance of the 2d vector from the camera to closest apriltag */
@@ -149,13 +131,26 @@ public class Limelight {
         return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
     }
 
+    public RawFiducial[] getRawFiducial() {
+        return LimelightHelpers.getBotPoseEstimate_wpiBlue(CAMERA_NAME).rawFiducials;
+    }
+
     /**
-     * Returns the timestamp of the pose estimation from the Limelight camera.
+     * Returns the timestamp of the MEGATAG1 pose estimation from the Limelight camera.
      *
      * @return The timestamp of the pose estimation in seconds.
      */
-    public double getVisionPoseTimestamp() {
-        return Timer.getFPGATimestamp() - getPoseLatency();
+    public double getRawPoseTimestamp() {
+        return LimelightHelpers.getBotPoseEstimate_wpiBlue(CAMERA_NAME).timestampSeconds;
+    }
+
+    /**
+     * Returns the timestamp of the MEGATAG2 pose estimation from the Limelight camera.
+     *
+     * @return The timestamp of the pose estimation in seconds.
+     */
+    public double getMegaPoseTimestamp() {
+        return LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(CAMERA_NAME).timestampSeconds;
     }
 
     /**
@@ -163,6 +158,7 @@ public class Limelight {
      *
      * @return The latency of the pose estimation in seconds.
      */
+    @Deprecated(forRemoval = true)
     public double getPoseLatency() {
         return Units.millisecondsToSeconds(LimelightHelpers.getBotPose_wpiBlue(CAMERA_NAME)[6]);
     }
@@ -185,6 +181,16 @@ public class Limelight {
                 / Math.tan(Units.degreesToRadians(physicalConfig.roll + getVerticalOffset()));
     }
 
+    public void sendValidStatus(String message) {
+        isIntegrating = true;
+        logStatus = message;
+    }
+
+    public void sendInvalidStatus(String message) {
+        isIntegrating = false;
+        logStatus = message;
+    }
+
     /*
      *
      * Utility Wrappers
@@ -200,6 +206,15 @@ public class Limelight {
     /** @param pipelineIndex use pipeline indexes in {@link VisionConfig} //TODO: come back */
     public void setLimelightPipeline(int pipelineIndex) {
         LimelightHelpers.setPipelineIndex(CAMERA_NAME, pipelineIndex);
+    }
+
+    /** */
+    public void setRobotOrientation(double degrees) {
+        LimelightHelpers.SetRobotOrientation(CAMERA_NAME, degrees, 0, 0, 0, 0, 0);
+    }
+
+    public void setRobotOrientation(double degrees, double angularRate) {
+        LimelightHelpers.SetRobotOrientation(CAMERA_NAME, degrees, angularRate, 0, 0, 0, 0);
     }
 
     /**
@@ -224,15 +239,20 @@ public class Limelight {
         LimelightHelpers.setLEDMode_ForceBlink(CAMERA_NAME);
     }
 
-    /**
-     * Checks if the camera is connected by looking for the JSON string returned in NetworkTables.
-     */
+    /** Checks if the camera is connected by looking for an empty botpose array from camera. */
     public boolean isCameraConnected() {
-        return !NetworkTableInstance.getDefault()
-                .getTable(CAMERA_NAME)
-                .getEntry("json")
-                .getString("")
-                .equals("");
+        try {
+            var rawPoseArray =
+                    LimelightHelpers.getLimelightNTTableEntry(CAMERA_NAME, "botpose_wpiblue")
+                            .getDoubleArray(new double[0]);
+            if (rawPoseArray.length < 6) {
+                return false;
+            }
+            return true;
+        } catch (Exception e) {
+            System.err.println("Avoided crashing statement in Limelight.java: isCameraConnected()");
+            return false;
+        }
     }
 
     /** Prints the vision, estimated, and odometry pose to SmartDashboard */
