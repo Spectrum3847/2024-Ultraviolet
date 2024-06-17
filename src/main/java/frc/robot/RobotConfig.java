@@ -13,7 +13,7 @@ public final class RobotConfig {
     public final String NOTEBLOCK2023SERIAL = ""; // TODO: find
     public final String MUSICDISC2023SERIAL = ""; // TODO: find
     public final String XRAY2023SERIAL = ""; // TODO: find
-    public final String PHOTON2024SERIAL = "0329AD07"; // TODO: find
+    public final String PHOTON2024SERIAL = "03064df9"; // "0329AD07"; // TODO: find
 
     /* Deprecated */
     public final String ALPHA2024MAC = "00:80:2F:38:D1:DA"; // This is Alpha MAC
