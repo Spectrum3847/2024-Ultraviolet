@@ -34,7 +34,7 @@ public class Intake extends Mechanism {
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
             configGearRatio(12 / 30); // TODO: configure
             configSupplyCurrentLimit(currentLimit, threshold, true);
-            configStatorCurrentLimit(30, true);
+            configStatorCurrentLimit(80, true);
             configNeutralBrakeMode(true);
             configClockwise_Positive(); // TODO: configure
             configMotionMagic(51, 205, 0);

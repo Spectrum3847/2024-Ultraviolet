@@ -166,15 +166,15 @@ public class Vision extends SubsystemBase {
                 return;
             }
 
-            ll.logStatus +=
-                    " Pose integrated; New Odometry: "
-                            + df.format(Robot.swerve.getPose().getX())
-                            + ", "
-                            + df.format(Robot.swerve.getPose().getY())
-                            + " || Vision Pose: "
-                            + df.format(botpose.getX())
-                            + ", "
-                            + df.format(botpose.getY());
+            /*ll.logStatus +=
+            " Pose integrated; New Odometry: "
+                    + df.format(Robot.swerve.getPose().getX())
+                    + ", "
+                    + df.format(Robot.swerve.getPose().getY())
+                    + " || Vision Pose: "
+                    + df.format(botpose.getX())
+                    + ", "
+                    + df.format(botpose.getY());*/
 
             // track STDs
             VisionConfig.VISION_STD_DEV_X = xyStds;
@@ -357,7 +357,7 @@ public class Vision extends SubsystemBase {
         return speakerLL.logStatus;
     }
 
-    @AutoLogOutput(key = "Vision/Front/TagCount")
+    // @AutoLogOutput(key = "Vision/Front/TagCount")
     public double getFrontTagCount() {
         return speakerLL.getTagCountInView();
     }

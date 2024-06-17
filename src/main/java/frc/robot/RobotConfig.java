@@ -60,7 +60,7 @@ public final class RobotConfig {
                 elevatorAttached = false;
                 feederAttached = true;
                 climberAttached = false;
-                pivotAttached = true;
+                pivotAttached = false;
                 leftLauncherAttached = true;
                 rightLauncherAttached = true;
                 break;
