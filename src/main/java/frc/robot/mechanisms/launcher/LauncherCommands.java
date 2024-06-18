@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import frc.robot.Robot;
 import frc.robot.RobotTelemetry;
-import frc.robot.leds.LEDsCommands;
 import frc.robot.pilot.PilotCommands;
 import java.util.function.DoubleSupplier;
 
@@ -16,13 +15,48 @@ public class LauncherCommands {
     public static final InterpolatingDoubleTreeMap DISTANCE_MAP = new InterpolatingDoubleTreeMap();
     public static final InterpolatingDoubleTreeMap FEED_DISTANCE_MAP =
             new InterpolatingDoubleTreeMap();
+    public static final InterpolatingDoubleTreeMap DEEP_FEED_DISTANCE_MAP =
+            new InterpolatingDoubleTreeMap();
 
     static {
-        // launching
-        DISTANCE_MAP.put(1.18, 4500.0);
-        DISTANCE_MAP.put(1.76, 4500.0);
-        DISTANCE_MAP.put(2.79, 4500.0);
-        DISTANCE_MAP.put(2.93, 4500.0);
+        /* Old Launching */
+        // DISTANCE_MAP.put(1.505, 3500.0);
+        // DISTANCE_MAP.put(2.629, 4500.0);
+        // DISTANCE_MAP.put(3.969, 4500.0);
+        // DISTANCE_MAP.put(4.269, 5200.0);
+        // DISTANCE_MAP.put(4.899, 5200.0);
+        // DISTANCE_MAP.put(5.189, 5200.0);
+        // DISTANCE_MAP.put(5.829, 5200.0);
+        // DISTANCE_MAP.put(6.229, 5200.0);
+
+        /*Launching */
+        // 4500 RPM shots
+        DISTANCE_MAP.put(0.0, 4500.0);
+        DISTANCE_MAP.put(4.1, 4500.0);
+        // 5000 RPM shots
+        DISTANCE_MAP.put(4.11, 5000.0);
+        DISTANCE_MAP.put(5.9, 5000.0);
+
+        // feed launching -- OLD
+        // FEED_DISTANCE_MAP.put(6.0, 3000.0);
+        // FEED_DISTANCE_MAP.put(6.08, 3000.0);
+        // FEED_DISTANCE_MAP.put(6.47, 3000.0);
+        // FEED_DISTANCE_MAP.put(6.96, 3000.0);
+        // FEED_DISTANCE_MAP.put(7.54, 3000.0);
+        // FEED_DISTANCE_MAP.put(7.74, 3250.0);
+        // FEED_DISTANCE_MAP.put(9.05, 4000.0);
+
+        // feed launching -- REVERT
+        // FEED_DISTANCE_MAP.put(6.0, 3300.0);
+        // FEED_DISTANCE_MAP.put(6.08, 3200.0);
+        // FEED_DISTANCE_MAP.put(6.47, 3200.0);
+        // FEED_DISTANCE_MAP.put(6.96, 3200.0);
+        // FEED_DISTANCE_MAP.put(7.54, 3700.0);
+        // FEED_DISTANCE_MAP.put(7.74, 3800.0);
+        // FEED_DISTANCE_MAP.put(9.05, 3950.0);
+        FEED_DISTANCE_MAP.put(7.0, 4900.0);
+
+        DEEP_FEED_DISTANCE_MAP.put(7.0, 5000.0);
     }
 
     public static void setupDefaultCommand() {
@@ -34,16 +68,36 @@ public class LauncherCommands {
 
     /* Launch Commands */
 
+    
     public static DoubleSupplier getRPMfromDistance(DoubleSupplier distance) {
-        return () -> DISTANCE_MAP.get(distance.getAsDouble());
+        return () -> getMapRPM(DISTANCE_MAP, distance.getAsDouble());
+        // return () -> DISTANCE_MAP.get(distance.getAsDouble());
     }
 
-    public static Command runPercentOutput(double output) {
-        return leftLauncher.runPercentage(output).alongWith(rightLauncher.runPercentage(output));
+    public static DoubleSupplier getRPMFromFeedDistance(DoubleSupplier distance) {
+        return () -> getMapRPM(FEED_DISTANCE_MAP, distance.getAsDouble());
+        // return () -> FEED_DISTANCE_MAP.get(distance.getAsDouble());
+    }
+
+    public static DoubleSupplier getRPMFromDeepFeedDistance(DoubleSupplier distance) {
+        return () -> getMapRPM(DEEP_FEED_DISTANCE_MAP, distance.getAsDouble());
+        // return () -> FEED_DISTANCE_MAP.get(distance.getAsDouble());
     }
 
     public static Command distanceVelocity(DoubleSupplier distance) {
         return velocityTCFOCrpm(getRPMfromDistance(distance));
+    }
+
+    public static Command feedDistanceVelocity(DoubleSupplier distance) {
+        return velocityTCFOCrpm(getRPMFromFeedDistance(distance));
+    }
+
+    public static Command deepFeedDistanceVelocity(DoubleSupplier distance) {
+        return velocityTCFOCrpm(getRPMFromDeepFeedDistance(distance));
+    }
+
+    public static Command runPercentOutput(double output) {
+        return leftLauncher.runPercentage(output).alongWith(rightLauncher.runPercentage(output));
     }
 
     public static Command velocityTCFOCrpm(DoubleSupplier velocityRPM) {
