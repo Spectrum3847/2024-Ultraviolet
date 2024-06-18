@@ -50,7 +50,7 @@ public class AutonConfig {
         // Configure AutoBuilder last
         AutoBuilder.configureHolonomic(
                 Robot.swerve::getPose, // Robot pose supplier
-                Robot.swerve::, // Method to reset odometry (will be called if your auto
+                Robot.swerve::resetPose, // Method to reset odometry (will be called if your auto
                 // has a starting pose)
                 Robot.swerve::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT
                 // RELATIVE

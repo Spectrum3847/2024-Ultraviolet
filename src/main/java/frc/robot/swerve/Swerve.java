@@ -179,6 +179,10 @@ public class Swerve implements Subsystem {
         return getState().Pose;
     }
 
+    public void resetPose(Pose2d pose) {
+        drivetrain.seedFieldRelative(pose);
+    }
+
 
     public void reorient(double angle) {
         drivetrain.reorient(angle);
