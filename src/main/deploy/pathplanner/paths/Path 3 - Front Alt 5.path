@@ -3,16 +3,28 @@
   "waypoints": [
     {
       "anchor": {
+<<<<<<< HEAD
         "x": 2.704660137103249,
+=======
+        "x": 2.800592018396385,
+>>>>>>> Madtown-Auto
         "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
+<<<<<<< HEAD
         "x": 2.289369671878656,
         "y": 5.862943812039065
       },
       "isLocked": false,
       "linkedName": "GP 2 Shoot - Front Alt 5"
+=======
+        "x": 2.385301553171792,
+        "y": 5.862943812039065
+      },
+      "isLocked": false,
+      "linkedName": "GP 2 - Test Front"
+>>>>>>> Madtown-Auto
     },
     {
       "anchor": {
@@ -48,6 +60,26 @@
   "constraintZones": [],
   "eventMarkers": [
     {
+<<<<<<< HEAD
+=======
+      "name": "Intake",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "smartIntake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+>>>>>>> Madtown-Auto
       "name": "LaunchReady",
       "waypointRelativePos": 0,
       "command": {
@@ -57,12 +89,17 @@
             {
               "type": "named",
               "data": {
+<<<<<<< HEAD
                 "name": "launchReady"
+=======
+                "name": "visionLaunchReady"
+>>>>>>> Madtown-Auto
               }
             },
             {
               "type": "named",
               "data": {
+<<<<<<< HEAD
                 "name": "home"
               }
             }
@@ -81,6 +118,9 @@
               "type": "named",
               "data": {
                 "name": "intake"
+=======
+                "name": "alignToSpeaker"
+>>>>>>> Madtown-Auto
               }
             }
           ]
@@ -89,8 +129,13 @@
     }
   ],
   "globalConstraints": {
+<<<<<<< HEAD
     "maxVelocity": 3.0,
     "maxAcceleration": 2.25,
+=======
+    "maxVelocity": 6.0,
+    "maxAcceleration": 4.0,
+>>>>>>> Madtown-Auto
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

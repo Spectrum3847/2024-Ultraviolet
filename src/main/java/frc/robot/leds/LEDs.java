@@ -1,6 +1,7 @@
 package frc.robot.leds;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.RobotTelemetry;
 import frc.robot.leds.LEDsConfig.Section;
@@ -10,15 +11,13 @@ import java.util.List;
 public class LEDs extends SpectrumLEDs {
     public LEDsConfig config;
 
-    public static boolean coastModeLEDs = false; // default
-    public static boolean ampLEDs = false;
-    public static boolean climbLEDs = false;
-    public static boolean homeLEDs = false;
-    public static boolean ejectLEDs = false;
-    public static boolean launchReadyLEDs = false;
+    public static long countdownStartTimeMS = System.currentTimeMillis();
+    public static double strobeCounter = 0;
+    public static boolean coastModeLED = false;
+    public static boolean launchReadyLED = false;
 
     public LEDs() {
-        super(LEDsConfig.port, LEDsConfig.length);
+        super(LEDsConfig.port, LEDsConfig.length * 2);
         config = new LEDsConfig();
 
         RobotTelemetry.print("LEDs Subsystem Initialized: ");
@@ -36,14 +35,14 @@ public class LEDs extends SpectrumLEDs {
         }
     }
 
-    public void halfSolid(Section section, Color color, int priority) {
+    /** @param endLeds how many leds on each side of the ends of strip should be lit */
+    public void limitedSolid(int endLeds, Color color, int priority) {
         if (getUpdate()) {
             if (color != null) {
-                for (int x = section.start(); x < section.end() / 4; x++) {
-                    setLED(x, color, priority);
-                }
-                for (int x = section.end() / 2; x < section.end() * 3 / 4; x++) {
-                    setLED(x, color, priority);
+                for (int i = Section.FULL.start(); i < Section.FULL.end(); i++) {
+                    if (i <= endLeds || i >= Section.FULL.end() - endLeds) {
+                        setLED(i, color, priority);
+                    }
                 }
             }
         }
@@ -76,6 +75,29 @@ public class LEDs extends SpectrumLEDs {
         if (getUpdate()) {
             boolean on = ((getLEDTime() % duration) / duration) > 0.5;
             solid(section, on ? color : Color.kBlack, priority);
+        }
+    }
+
+    /** @param frequency in robot cycles */
+    public void customStrobe(Section section, Color color, double frequency, int priority) {
+        if (getUpdate()) {
+            boolean on = false;
+            strobeCounter++;
+            if (strobeCounter >= frequency * 2) {
+                restartStrobeCounter();
+            }
+            if (strobeCounter < frequency) {
+                on = true;
+            }
+            solid(section, on ? color : Color.kBlack, priority);
+        }
+    }
+
+    /** @param endLeds how many leds on each side of the ends of strip should be lit */
+    public void limitedStrobe(int endLeds, Color color, double duration, int priority) {
+        if (getUpdate()) {
+            boolean on = ((getLEDTime() % duration) / duration) > 0.5;
+            limitedSolid(endLeds, on ? color : Color.kBlack, priority);
         }
     }
 
@@ -168,57 +190,243 @@ public class LEDs extends SpectrumLEDs {
         }
     }
 
-    //
+    public void defaultPattern() {
+        final int defaultPriority = 0;
+        if (getUpdate()) {
+            // DS check takes priority
+            if (!DriverStation.isDSAttached()) {
+                strobe(Section.FULL, Color.kOrangeRed, 1, defaultPriority);
+            } else if (DriverStation.isDisabled()) {
+                // solid(Section.FULL, Color.kWhite, defaultPriority);
+                ombre(Section.FULL, LEDsConfig.SPECTRUM_COLOR, Color.kWhite, defaultPriority);
+            } else if (DriverStation.isAutonomousEnabled()) {
+                solid(Section.FULL, Color.kBlack, defaultPriority);
+            } else if (DriverStation.isTestEnabled()) {
+                bounce(
+                        Section.FULL,
+                        Color.kWhite,
+                        new Color(205, 205, 205),
+                        new Color(155, 155, 155),
+                        new Color(130, 103, 185),
+                        0.58,
+                        defaultPriority);
+            } else {
+                bounce(
+                        Section.FULL,
+                        new Color(130, 103, 185),
+                        new Color(80, 53, 135),
+                        new Color(30, 3, 85),
+                        Color.kBlack,
+                        0.58,
+                        0);
+            }
+        }
+    }
+
+    public void bounce(
+            Section section,
+            Color primaryColor,
+            Color secondaryColor,
+            Color tertiaryColor,
+            Color fillColor,
+            double speed,
+            int priority) {
+        if (getUpdate()) {
+            long currentTime = System.currentTimeMillis();
+            double cycleTime = 1000 / speed; // Convert speed to milliseconds for the entire cycle
+            double phase = (currentTime % cycleTime) / cycleTime; // Phase of the cycle from 0 to 1
+
+            // Determine direction and position based on the phase
+            boolean backwards = phase > 0.5;
+            double position = backwards ? 2 * (1 - phase) : 2 * phase;
+            int ledPosition =
+                    (int) (position * (section.end() - section.start())) + section.start();
+
+            // Set LEDs based on the current position and direction
+            for (int i = section.start(); i < section.end(); i++) {
+                if (i == ledPosition) {
+                    setLED(i, primaryColor, priority); // Main LED
+                } else if (i == ledPosition - 1 || i == ledPosition + 1) {
+                    setLED(i, secondaryColor, priority); // Immediate neighbors
+                } else if (i == ledPosition - 2 || i == ledPosition + 2) {
+                    setLED(i, tertiaryColor, priority); // Next neighbors
+                } else {
+                    setLED(i, fillColor, priority); // Turn off other LEDs
+                }
+            }
+        }
+    }
+
+    public void staticGradient(Section section, Color startColor, Color endColor, int priority) {
+        if (getUpdate()) {
+            int totalLEDs = section.end() - section.start();
+            for (int i = section.start(); i < section.end(); i++) {
+                double ratio = (double) (i - section.start()) / totalLEDs;
+
+                // Interpolate the red, green, and blue components separately using double precision
+                double red = (startColor.red * (1 - ratio)) + (endColor.red * ratio);
+                double green = (startColor.green * (1 - ratio)) + (endColor.green * ratio);
+                double blue = (startColor.blue * (1 - ratio)) + (endColor.blue * ratio);
+
+                // Create a new color for the current LED
+                Color currentColor = new Color(red, green, blue);
+
+                // Set the color of the current LED
+                setLED(i, currentColor, priority);
+            }
+        }
+    }
+
+    public void ombre(Section section, Color startColor, Color endColor, int priority) {
+        if (getUpdate()) {
+            long currentTime = System.currentTimeMillis();
+            // The speed factor here determines how quickly the ombre moves along the strip
+            double phaseShift =
+                    (currentTime / 1000.0)
+                            * 0.58 // this is the speed, the higher the number the faster the ombre
+                            // moves
+                            % 1.0; // Modulo 1 to keep the phase within [0, 1]
+
+            int totalLEDs = section.end() - section.start();
+            for (int i = section.start(); i < section.end(); i++) {
+                // Adjust ratio to include the phaseShift, causing the ombre to move
+                double ratio =
+                        (double) (i - section.start() + totalLEDs * phaseShift)
+                                / totalLEDs
+                                % 1.0; // Modulo 1 to ensure the ratio loops within [0, 1]
+
+                // Interpolate the red, green, and blue components separately using double precision
+                double red = (startColor.red * (1 - ratio)) + (endColor.red * ratio);
+                double green = (startColor.green * (1 - ratio)) + (endColor.green * ratio);
+                double blue = (startColor.blue * (1 - ratio)) + (endColor.blue * ratio);
+
+                // Create a new color for the current LED
+                Color currentColor = new Color(red, green, blue);
+
+                // Set the color of the current LED
+                setLED(i, currentColor, priority);
+            }
+        }
+    }
+
+    /**
+     * Countdown LED sequence. This method {@code must} have its countdownStartTimeMS set {@code
+     * only once} before the sequence is run. (Command only sequence)
+     *
+     * @param durationInSeconds The total duration of the countdown in seconds.
+     * @param priority The priority of this LED pattern.
+     */
+    public void countdown(double durationInSeconds, int priority) {
+        if (getUpdate()) {
+            long currentTimeMillis = System.currentTimeMillis();
+            // Assuming the start time is stored somewhere, calculate elapsed time
+            double elapsedTimeInSeconds = (currentTimeMillis - countdownStartTimeMS) / 1000.0;
+
+            // Calculate the progress of the countdown
+            double progress = elapsedTimeInSeconds / durationInSeconds;
+
+            // Calculate the number of LEDs to turn off based on the progress
+            int ledsToTurnOff = (int) (LEDsConfig.length * progress);
+
+            // Calculate the color transition from yellow to red based on the progress
+            // Yellow (255, 255, 0) to Red (255, 0, 0)
+            int red = 255; // Red component stays at 255
+            int green = (int) (255 * (1 - progress)); // Green component decreases to 0
+            Color countdownColor = new Color(red, green, 0);
+
+            // Update the LEDs from the end of the strip towards the beginning
+            for (int i = LEDsConfig.length - 1; i >= 0; i--) {
+                if (LEDsConfig.length - i <= ledsToTurnOff) {
+                    // Turn off the LEDs progressively
+                    setLED(i, Color.kBlack, priority);
+                } else {
+                    // Set the remaining LEDs to the countdown color
+                    setLED(i, countdownColor, priority);
+                }
+            }
+
+            // If the countdown is complete, ensure all LEDs are turned off
+            if (progress >= 1.0) {
+                for (int i = 0; i < LEDsConfig.length; i++) {
+                    setLED(i, Color.kBlack, priority);
+                }
+            }
+        }
+    }
+
+    public void chase(int priority) {
+        if (getUpdate()) {
+            long currentTimeMillis = System.currentTimeMillis();
+            // Define the duration of each color phase (red/blue) in milliseconds
+            double phaseDuration = 150; // Adjust for faster or slower transitions
+
+            // Calculate the current phase based on time
+            int phase = (int) ((currentTimeMillis / phaseDuration) % 4); // 4 phases
+
+            Color chaseColor;
+            switch (phase) {
+                case 0: // Red phase
+                    chaseColor = Color.kRed;
+                    break;
+                case 2: // Blue phase
+                    chaseColor = Color.kBlue;
+                    break;
+                default: // Off phases
+                    chaseColor = Color.kBlack;
+                    break;
+            }
+
+            // Set the color of the entire strip based on the current phase
+            for (int i = 0; i < LEDsConfig.length; i++) {
+                setLED(i, chaseColor, priority);
+            }
+
+            // To add a moving effect
+            if (phase == 0 || phase == 2) {
+                int moveDuration =
+                        LEDsConfig.length / 4; // Number of LEDs to cover for the moving effect
+                for (int i = 0; i < moveDuration; i++) {
+                    int index =
+                            (int)
+                                    ((currentTimeMillis / 100)
+                                            % LEDsConfig.length); // Moving index based on time
+                    index =
+                            (phase == 0)
+                                    ? index
+                                    : LEDsConfig.length
+                                            - 1
+                                            - index; // Reverse direction for blue phase
+                    setLED(
+                            index,
+                            chaseColor,
+                            priority + 1); // Slightly higher priority to override the static color
+                }
+            }
+        }
+    }
+
+    /* Helper */
+    public void setCountdownStartTime() {
+        countdownStartTimeMS = System.currentTimeMillis();
+    }
+
+    public void restartStrobeCounter() {
+        strobeCounter = 0;
+    }
+
     public static void turnOnCoastLEDs() {
-        coastModeLEDs = true;
+        coastModeLED = true;
     }
 
     public static void turnOffCoastLEDs() {
-        coastModeLEDs = false;
+        coastModeLED = false;
     }
 
-    //
-    public static void turnOnHomeLEDs() {
-        homeLEDs = true;
-    }
-
-    public static void turnOffHomeLEDs() {
-        homeLEDs = false;
-    }
-
-    //
-    public static void turnOnAmpLEDs() {
-        coastModeLEDs = true;
-    }
-
-    public static void turnOffAmpLEDs() {
-        coastModeLEDs = false;
-    }
-
-    //
-    public static void turnOnClimbLEDs() {
-        climbLEDs = true;
-    }
-
-    public static void turnOffClimbLEDs() {
-        climbLEDs = false;
-    }
-
-    //
-    public static void turnOnEjectLEDs() {
-        coastModeLEDs = true;
-    }
-
-    public static void turnOffEjectLEDs() {
-        coastModeLEDs = false;
-    }
-
-    //
     public static void turnOnLaunchLEDs() {
-        launchReadyLEDs = true;
+        launchReadyLED = true;
     }
 
     public static void turnOffLaunchLEDs() {
-        launchReadyLEDs = false;
+        launchReadyLED = false;
     }
 }

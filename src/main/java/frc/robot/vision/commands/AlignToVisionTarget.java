@@ -25,8 +25,9 @@ public class AlignToVisionTarget extends PIDCommand {
      * tape, detector target) on the Field Oriented X-axis.
      *
      * @param commandConfig this config should be created in {@link VisionConfig}
-     * @param fwdPositiveSupplier
-     * @param offset
+     * @param fwdPositiveSupplier a supplier to drive the robot forward if intended to do so (static
+     *     value or joystick input)
+     * @param offset offset left or right of the target in the X-plane
      */
     public AlignToVisionTarget(
             CommandConfig commandConfig, DoubleSupplier fwdPositiveSupplier, double offset) {
@@ -49,24 +50,25 @@ public class AlignToVisionTarget extends PIDCommand {
                         fwdPositiveSupplier, // Allows pilot to drive fwd and rev
                         () -> getOutput(), // Moves us center to the tag
                         () -> getSteering(), // Aligns to grid
-                        () -> getFieldRelative(), // full velocity
-                        () -> true); // Field relative is true
+                        () -> getFieldRelative(), // fieldrelative is true
+                        () -> true); // openloop is true
         // Use addRequirements() here to declare subsystem dependencies.
         // Configure additional PID options by calling `getController` here.
         this.setName("AlignToVisionTarget");
     }
 
     public double getSteering() {
-        // if customizable heading is set, rotate to that heading
-        if (heading != Integer.MIN_VALUE) {
-            return Robot.swerve.calculateRotationController(() -> heading);
-        }
+        // // if customizable heading is set, rotate to that heading
+        // if (heading != Integer.MIN_VALUE) {
+        //     return Robot.swerve.calculateRotationController(() -> heading);
+        // }
 
-        // dont set rotation on detector pipelines
-        if (config.pipelineIndex > 2) {
-            return 0;
-        }
-        return Robot.swerve.calculateRotationController(() -> Math.PI);
+        // // dont set rotation on detector pipelines
+        // if (config.pipelineIndex > 2) {
+        //     return 0;
+        // }
+        // return Robot.swerve.calculateRotationController(() -> Math.PI);
+        return 0;
     }
 
     public boolean getFieldRelative() {
@@ -75,7 +77,7 @@ public class AlignToVisionTarget extends PIDCommand {
     }
 
     public static double getOutput() {
-        return out;
+        return -out; // camera is on back of robot
     }
 
     public static void setOutput(double output) {

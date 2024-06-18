@@ -7,32 +7,31 @@ public class AmpTrapCommands {
     private static AmpTrap ampTrap = Robot.ampTrap;
 
     public static void setupDefaultCommand() {
+<<<<<<< HEAD
         ampTrap.setDefaultCommand(stopMotor().withName("AmpTrap.default").ignoringDisable(true));
+=======
+        ampTrap.setDefaultCommand(stopMotor().ignoringDisable(true).withName("AmpTrap.default"));
+>>>>>>> Madtown-Auto
     }
 
     public static Command runFull() {
         return ampTrap.runVelocity(ampTrap.config.maxSpeed).withName("AmpTrap.runFull");
     }
 
-    public static Command slowIntake() {
-        return ampTrap.runPercentage(ampTrap.config.slowIntakePercentage)
-                .withName("AmpTrap.slowIntake");
+    public static Command feed() {
+        return ampTrap.runVelocity(ampTrap.config.feed).withName("AmpTrap.slowIntake");
     }
 
     public static Command intake() {
         return ampTrap.runVelocity(ampTrap.config.intake).withName("AmpTrap.intake");
     }
 
-    public static Command ampReady() {
-        return ampTrap.runVelocity(ampTrap.config.ampReady).withName("AmpTrap.ampReady");
+    public static Command amp() {
+        return ampTrap.runVelocity(ampTrap.config.amp).withName("AmpTrap.ampReady");
     }
 
     public static Command score() {
         return ampTrap.runVelocity(ampTrap.config.score).withName("AmpTrap.score");
-    }
-
-    public static Command launchEject() {
-        return ampTrap.runVelocity(ampTrap.config.launchEject).withName("AmpTrap.launchEject");
     }
 
     public static Command eject() {
@@ -43,15 +42,16 @@ public class AmpTrapCommands {
         return ampTrap.runStop().withName("AmpTrap.stopMotor");
     }
 
-    public static Command testForward() {
-        return ampTrap.runPercentage(ampTrap.config.testForwardPercent);
-    }
-
-    public static Command testReverse() {
-        return ampTrap.runPercentage(ampTrap.config.testBackPercent);
-    }
-
     public static Command coastMode() {
         return ampTrap.coastMode();
+    }
+
+    /** Sets amptrap to coast mode. Does not automatically set it back to brake mode */
+    public static Command stayCoastMode() {
+        return ampTrap.stayCoastMode();
+    }
+
+    public static Command ensureBrakeMode() {
+        return ampTrap.ensureBrakeMode();
     }
 }

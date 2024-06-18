@@ -7,7 +7,11 @@ public class IntakeCommands {
     private static Intake intake = Robot.intake;
 
     public static void setupDefaultCommand() {
+<<<<<<< HEAD
         intake.setDefaultCommand(stopMotor().withName("Intake.default").ignoringDisable(true));
+=======
+        intake.setDefaultCommand(stopMotor().ignoringDisable(true).withName("Intake.default"));
+>>>>>>> Madtown-Auto
     }
 
     public static Command runFull() {
@@ -15,23 +19,13 @@ public class IntakeCommands {
                 .withName("Intake.runFull");
     }
 
-    public static Command runTestin() {
-        return intake.runPercentage(intake.config.testIntakePercentage)
-                .withName("Intake.testIntake");
-    }
-
-    public static Command runVelocityTestin() {
-        return intake.runVelocityTorqueCurrentFOC(intake.config.testVelocity)
-                .withName("Intake.testVelocity");
+    public static Command intake() {
+        return intake.runVelocityTorqueCurrentFOC(intake.config.intake).withName("Intake.intake");
     }
 
     public static Command slowIntake() {
-        return intake.runPercentage(intake.config.slowIntakePercentage)
+        return intake.runVelocityTorqueCurrentFOC(intake.config.slowIntake)
                 .withName("Intake.slowIntake");
-    }
-
-    public static Command intake() {
-        return intake.runVelocityTorqueCurrentFOC(intake.config.intake).withName("Intake.intake");
     }
 
     public static Command eject() {
@@ -42,11 +36,19 @@ public class IntakeCommands {
         return intake.coastMode();
     }
 
+    public static Command intakeWithoutCurrentLimit() {
+        return intake.intakeWithoutCurrentLimit();
+    }
+
     public static Command stopMotor() {
         return intake.runStop().withTimeout(0.01).withName("Intake.stopMotor");
     }
 
     public static double getSupplyCurrent() {
         return intake.getSupplyCurrent();
+    }
+
+    public static Command ensureBrakeMode() {
+        return intake.ensureBrakeMode();
     }
 }

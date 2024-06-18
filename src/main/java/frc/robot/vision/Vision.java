@@ -15,6 +15,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.crescendo.Field;
 import frc.robot.Robot;
 import frc.robot.RobotTelemetry;
+<<<<<<< HEAD
+=======
+import frc.robot.leds.LEDsCommands;
+>>>>>>> Madtown-Auto
 import frc.spectrumLib.util.Trio;
 import frc.spectrumLib.vision.Limelight;
 import frc.spectrumLib.vision.Limelight.PhysicalConfig;
@@ -539,12 +543,21 @@ public class Vision extends SubsystemBase {
                             + " of "
                             + autonPoses.size()
                             + " possible tries");
+<<<<<<< HEAD
             // LEDsCommands.solidErrorLED().withTimeout(0.8).schedule();
         } else {
             if (firstSuccess) {
                 //  LEDsCommands.solidGreenLED().withTimeout(0.8).schedule();
             } else {
                 // LEDsCommands.solidOrangeLED().withTimeout(0.8).schedule();
+=======
+            LEDsCommands.solidErrorLED().withTimeout(0.8).schedule();
+        } else {
+            if (firstSuccess) {
+                LEDsCommands.solidGreenLED().withTimeout(0.8).schedule();
+            } else {
+                LEDsCommands.solidOrangeLED().withTimeout(0.8).schedule();
+>>>>>>> Madtown-Auto
             }
         }
     }

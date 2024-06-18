@@ -93,6 +93,7 @@ public class RobotTelemetry extends Telemetry {
     public RobotTelemetry() {
         super();
         Logger.recordMetadata("RobotType", Robot.config.getRobotType().name());
+        df.setMaximumFractionDigits(2);
 
         Robot.swerve.registerTelemetry((b) -> telemeterize(b));
     }

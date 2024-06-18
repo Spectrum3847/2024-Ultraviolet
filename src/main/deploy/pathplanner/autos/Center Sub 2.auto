@@ -14,25 +14,61 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path 1 - Front 5"
+            "pathName": "Path 1 - Front 6"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "score1"
+            "name": "launchShort"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Path 2 - Front 5"
+            "pathName": "Path 3 - Front 5"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "score2"
+            "name": "launch"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path 4 - Front 5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launch"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path 5 - Front 5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launch"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path 6 - Front 6"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launch"
           }
         }
       ]

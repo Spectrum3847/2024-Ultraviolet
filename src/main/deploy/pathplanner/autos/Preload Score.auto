@@ -2,8 +2,13 @@
   "version": 1.0,
   "startingPose": {
     "position": {
+<<<<<<< HEAD:src/main/deploy/pathplanner/autos/Preload Score.auto
       "x": 0.7194891096985188,
       "y": 6.68861985057927
+=======
+      "x": 1.42,
+      "y": 5.55
+>>>>>>> Madtown-Auto:src/main/deploy/pathplanner/autos/Front 5.auto
     },
     "rotation": -120.0
   },
@@ -14,13 +19,57 @@
         {
           "type": "named",
           "data": {
+<<<<<<< HEAD:src/main/deploy/pathplanner/autos/Preload Score.auto
             "name": "preloadScoreSub"
+=======
+            "pathName": "Path 1 - Front 6"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launch"
+>>>>>>> Madtown-Auto:src/main/deploy/pathplanner/autos/Front 5.auto
           }
         },
         {
           "type": "path",
           "data": {
+<<<<<<< HEAD:src/main/deploy/pathplanner/autos/Preload Score.auto
             "pathName": "Preload Score"
+=======
+            "pathName": "Path 3 - Front 5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launch"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path 4 - Front 5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launch"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Lab Path - Front 5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launch"
+>>>>>>> Madtown-Auto:src/main/deploy/pathplanner/autos/Front 5.auto
           }
         }
       ]

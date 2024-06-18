@@ -1,6 +1,9 @@
 package frc.robot.mechanisms.feeder;
 
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotConfig;
+import frc.robot.RobotTelemetry;
 import frc.spectrumLib.lasercan.LaserCanUtil;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
@@ -11,6 +14,7 @@ public class Feeder extends Mechanism {
     public class FeederConfig extends Config {
 
         /* Revolutions per min Feeder Output */
+<<<<<<< HEAD
         public double maxSpeed = 5000; // TODO: configure
         public double feed = 5000; // TODO: configure
         public double testFeed = 250;
@@ -19,31 +23,48 @@ public class Feeder extends Mechanism {
         public double launchEject = 1000;
         public double feedToAmp =
                 3500; // Needs to be greater than or equal to ampReady roller speed
+=======
+        public double maxSpeed = 5000;
+        public double intake = 200;
+        public double eject = -3000;
+        public double score = 1000;
+        public double slowFeed = 500;
+        public double slowEject = -500;
+        public double feedToAmp = -3500; // Needs to be greater than or equal to amp roller speed
+        public double launchEject = 1000;
+        public double autoFeed = 3000;
+        public double ejectFromIntake = 3000;
+        public double manualSource = -2000;
+>>>>>>> Madtown-Auto
 
         /* Rotations config */
-        public double addedFeedRotations = 2;
+        public double addedFeedRotations = 4;
 
         /* Percentage Feeder Output */
-        public double slowFeederPercentage = 0.15; // TODO: configure
-
-        public double testForwardPercent = 1;
-        public double testBackPercent = -0.5;
+        public double slowFeederPercentage = 0.15;
 
         /* Feeder config values */
         public double currentLimit = 30;
+        public double torqueCurrentLimit = 100;
         public double threshold = 40;
         public double velocityKp = 0.156152;
         public double velocityKv = 0.12;
         public double velocityKs = 0.24;
+        public double positionKp = 2;
+        public double positionKv = 0.013;
 
         public FeederConfig() {
-            super("Feeder", 40, "3847");
-            configPIDGains(0, velocityKp, 0, 0);
-            configFeedForwardGains(velocityKs, velocityKv, 0, 0);
-            configGearRatio(12 / 30); // TODO: configure
+            super("Feeder", 40, RobotConfig.CANIVORE);
+            configPIDGains(0, velocityKp, 0, 0); // velocity
+            configFeedForwardGains(velocityKs, velocityKv, 0, 0); // velocity
+            configPIDGains(1, positionKp, 0, 0);
+            configFeedForwardGains(1, 0, positionKv, 0, 0);
+            configGearRatio(12 / 30);
             configSupplyCurrentLimit(currentLimit, threshold, true);
+            configForwardTorqueCurrentLimit(torqueCurrentLimit);
+            configReverseTorqueCurrentLimit(torqueCurrentLimit);
             configNeutralBrakeMode(true);
-            configCounterClockwise_Positive(); // TODO: configure
+            configCounterClockwise_Positive();
             configMotionMagic(51, 205, 0);
         }
     }
@@ -60,10 +81,42 @@ public class Feeder extends Mechanism {
         lasercan = new LaserCanUtil(0);
     }
 
+    /* Lasercan */
+
     @AutoLogOutput(key = "Feeder/LaserCan-Measurement")
     public int getLaserCanDistance() {
         return lasercan.getDistance();
     }
+
+    @AutoLogOutput(key = "Feeder/LaserCan-Valid")
+    public boolean getLaserCanStatus() {
+        return lasercan.validDistance();
+    }
+
+    /**
+     * Fall back to using motor velocity if lasercan is not working/disconnected
+     *
+     * @return
+     */
+    public boolean intakedNote() {
+        if (lasercan.validDistance()) {
+            return lasercan.intakedNote();
+        } else {
+            RobotTelemetry.print("RESORTED TO FALLBACK INTAKE NOTE CHECK");
+            return getMotorVelocity() > 0.01;
+        }
+    }
+
+    public boolean noteIsClose() {
+        if (lasercan.validDistance()) {
+            return lasercan.closeNote();
+        } else {
+            return true; // assume that note is being stopped at feeder roller (close to lasercan)
+            // and isn't being automatically fed up
+        }
+    }
+
+    /* Feeder */
 
     @Override
     public void periodic() {}
@@ -76,8 +129,7 @@ public class Feeder extends Mechanism {
      * @param revolutions position in revolutions
      */
     public Command runAddPosition(double revolutions) {
-        return run(() -> setMMPosition(getMotorPosition() + revolutions))
-                .withName("Feeder.runAddPosition");
+        return runOnce(this::tareMotor).andThen(run(() -> setMMPosition(revolutions, 1)));
     }
 
     /**
@@ -118,6 +170,20 @@ public class Feeder extends Mechanism {
                 .withName("Feeder.coastMode");
     }
 
+    /** Sets the motor to brake mode if it is in coast mode */
+    public Command ensureBrakeMode() {
+        return runOnce(
+                        () -> {
+                            setBrakeMode(true);
+                        })
+                .onlyIf(
+                        () ->
+                                attached
+                                        && config.talonConfig.MotorOutput.NeutralMode
+                                                == NeutralModeValue.Coast)
+                .ignoringDisable(true);
+    }
+
     /* Logging */
 
     /** Returns the velocity of the motor in rotations per second */
@@ -127,6 +193,15 @@ public class Feeder extends Mechanism {
             return motor.getVelocity().getValueAsDouble();
         }
         return 0;
+    }
+
+    /** Intaked note status */
+    @AutoLogOutput(key = "Feeder/Note Intaked")
+    public boolean noteIntaked() {
+        if (attached) {
+            return lasercan.intakedNote();
+        }
+        return false;
     }
 
     public double getMotorPosition() {

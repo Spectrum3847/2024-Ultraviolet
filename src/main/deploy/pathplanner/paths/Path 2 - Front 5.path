@@ -3,12 +3,20 @@
   "waypoints": [
     {
       "anchor": {
+<<<<<<< HEAD
         "x": 1.7948545532264122,
+=======
+        "x": 1.89,
+>>>>>>> Madtown-Auto
         "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
+<<<<<<< HEAD
         "x": 1.9048545532264118,
+=======
+        "x": 1.9999999999999996,
+>>>>>>> Madtown-Auto
         "y": 5.55
       },
       "isLocked": false,
@@ -16,11 +24,19 @@
     },
     {
       "anchor": {
+<<<<<<< HEAD
         "x": 2.6412213123771426,
         "y": 5.55
       },
       "prevControl": {
         "x": 2.5412213123771434,
+=======
+        "x": 2.800592018396385,
+        "y": 5.55
+      },
+      "prevControl": {
+        "x": 2.700592018396385,
+>>>>>>> Madtown-Auto
         "y": 5.55
       },
       "nextControl": null,
@@ -32,6 +48,7 @@
   "constraintZones": [],
   "eventMarkers": [
     {
+<<<<<<< HEAD
       "name": "launchReady",
       "waypointRelativePos": 0.0,
       "command": {
@@ -56,6 +73,9 @@
     },
     {
       "name": "intake",
+=======
+      "name": "Intake",
+>>>>>>> Madtown-Auto
       "waypointRelativePos": 0,
       "command": {
         "type": "parallel",
@@ -64,7 +84,28 @@
             {
               "type": "named",
               "data": {
+<<<<<<< HEAD
                 "name": "intake"
+=======
+                "name": "smartIntake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "LaunchReady",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "visionLaunchReady"
+>>>>>>> Madtown-Auto
               }
             }
           ]
@@ -73,8 +114,13 @@
     }
   ],
   "globalConstraints": {
+<<<<<<< HEAD
     "maxVelocity": 3.0,
     "maxAcceleration": 2.25,
+=======
+    "maxVelocity": 6.0,
+    "maxAcceleration": 4.0,
+>>>>>>> Madtown-Auto
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

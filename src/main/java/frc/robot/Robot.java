@@ -1,12 +1,15 @@
 package frc.robot;
 
-import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.commands.FollowPathCommand;
+import com.pathplanner.lib.commands.PathfindingCommand;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.auton.Auton;
 import frc.robot.auton.config.AutonConfig;
 import frc.robot.leds.LEDs;
@@ -72,6 +75,14 @@ public class Robot extends LoggedRobot {
         // Reset Config for all gamepads and other button bindings
         pilot.resetConfig();
         operator.resetConfig();
+
+        LEDsCommands.setupLEDTriggers();
+        RobotCommands.setupRobotTriggers();
+    }
+
+    public static void clearCommandsAndButtons() {
+        CommandScheduler.getInstance().cancelAll(); // Disable any currently running commands
+        CommandScheduler.getInstance().getActiveButtonLoop().clear();
     }
 
     /* ROBOT INIT (Initialization) */
@@ -92,13 +103,21 @@ public class Robot extends LoggedRobot {
              * subsystem Something that don't have an output are alos subsystems.
              */
             swerve = new Swerve();
+            Timer.delay(0.1);
             intake = new Intake(config.intakeAttached);
+            Timer.delay(0.1);
             ampTrap = new AmpTrap(config.ampTrapAttached);
+            Timer.delay(0.1);
             elevator = new Elevator(config.elevatorAttached);
+            Timer.delay(0.1);
             feeder = new Feeder(config.feederAttached);
+            Timer.delay(0.1);
             climber = new Climber(config.climberAttached);
-            pivot = new Pivot(config.pivotAttached);
+            Timer.delay(0.1);
+            pivot = new Pivot(config.pivotAttached, swerve.config);
+            Timer.delay(0.1);
             leftLauncher = new LeftLauncher(config.leftLauncherAttached);
+            Timer.delay(0.1);
             rightLauncher = new RightLauncher(config.rightLauncherAttached);
             vision = new Vision();
             auton = new Auton();
@@ -106,9 +125,8 @@ public class Robot extends LoggedRobot {
             operator = new Operator();
             leds = new LEDs();
 
-            /** Intialize Telemetry and Auton */
+            /** Intialize Telemetry */
             telemetry = new RobotTelemetry();
-            // auton = new Auton();
 
             /**
              * Set Default Commands this method should exist for each subsystem that has default
@@ -120,11 +138,13 @@ public class Robot extends LoggedRobot {
             ElevatorCommands.setupDefaultCommand();
             FeederCommands.setupDefaultCommand();
             PivotCommands.setupDefaultCommand();
+            ClimberCommands.setupDefaultCommand();
             LauncherCommands.setupDefaultCommand();
             LEDsCommands.setupDefaultCommand();
             PilotCommands.setupDefaultCommand();
             OperatorCommands.setupDefaultCommand();
-            ClimberCommands.setupDefaultCommand();
+
+            pilot.setupTeleopButtons();
 
             RobotTelemetry.print("--- Robot Init Complete ---");
 
@@ -151,6 +171,8 @@ public class Robot extends LoggedRobot {
              * robot's periodic block in order for anything in the Command-based framework to work.
              */
             CommandScheduler.getInstance().run();
+
+            SmartDashboard.putNumber("MatchTime", DriverStation.getMatchTime());
         } catch (Throwable t) {
             // intercept error and log it
             CrashTracker.logThrowableCrash(t);
@@ -167,10 +189,11 @@ public class Robot extends LoggedRobot {
 
         resetCommandsAndButtons();
 
-        if (AutonConfig.autonInitCommandRun == false) {
-            Command autonInitCommand = new PathPlannerAuto("1 Meter Auto").ignoringDisable(true);
-            autonInitCommand.schedule();
-            AutonConfig.autonInitCommandRun = true;
+        if (!AutonConfig.commandInit) {
+            Command AutonStartCommand =
+                    FollowPathCommand.warmupCommand().andThen(PathfindingCommand.warmupCommand());
+            AutonStartCommand.schedule();
+            AutonConfig.commandInit = true;
         }
 
         RobotTelemetry.print("### Disabled Init Complete ### ");
@@ -181,6 +204,13 @@ public class Robot extends LoggedRobot {
 
     /** This method is called once when disabled exits */
     public void disabledExit() {
+        RobotCommands.ensureBrakeMode().schedule(); // sets all motors to brake mode if not already
+        if (pivot.pivotHasError()) {
+            DriverStation.reportError(
+                    "Pivot is above maximum commanded position! If pivot is all the way up on the robot, this warning can be ignored. If not, do not use pivot commands before restarting robot",
+                    false);
+        }
+
         RobotTelemetry.print("### Disabled Exit### ");
     }
 
@@ -194,8 +224,8 @@ public class Robot extends LoggedRobot {
     public void autonomousInit() {
         try {
             RobotTelemetry.print("@@@ Auton Init Starting @@@ ");
-            resetCommandsAndButtons();
-            Command autonCommand = new WaitCommand(0.01).andThen(Auton.getAutonomousCommand());
+            clearCommandsAndButtons();
+            Command autonCommand = Commands.waitSeconds(0.01).andThen(Auton.getAutonomousCommand());
 
             if (autonCommand != null) {
                 autonCommand.schedule();
@@ -203,6 +233,8 @@ public class Robot extends LoggedRobot {
             } else {
                 RobotTelemetry.print("No Auton Command Found");
             }
+
+            LEDsCommands.countdown(15, 10).schedule();
 
             RobotTelemetry.print("@@@ Auton Init Complete @@@ ");
         } catch (Throwable t) {
@@ -239,6 +271,9 @@ public class Robot extends LoggedRobot {
                                     ? 0
                                     : 180));
 
+            // if(DriverStation.isFMSAttached()) {
+            //     ClimberCommands.safeClimb().withTimeout(2).schedule();
+            // }
             RobotTelemetry.print("!!! Teleop Init Complete !!! ");
         } catch (Throwable t) {
             // intercept error and log it
@@ -252,6 +287,7 @@ public class Robot extends LoggedRobot {
 
     /** This method is called once when teleop exits */
     public void teleopExit() {
+        AmpTrapCommands.stayCoastMode().schedule();
         RobotTelemetry.print("!!! Teleop Exit !!! ");
     }
 
@@ -266,6 +302,7 @@ public class Robot extends LoggedRobot {
     /** This method is called once when test mode starts */
     public void testInit() {
         try {
+
             RobotTelemetry.print("~~~ Test Init Starting ~~~ ");
             resetCommandsAndButtons();
 

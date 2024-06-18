@@ -1,6 +1,8 @@
 package frc.robot.swerve.configs;
 
 import edu.wpi.first.math.util.Units;
+import frc.robot.RobotConfig;
+import frc.robot.mechanisms.pivot.Pivot.CANCoderFeedbackType;
 import frc.spectrumLib.swerve.config.DefaultConfig;
 import frc.spectrumLib.swerve.config.DefaultConfig.SlotGains;
 import frc.spectrumLib.swerve.config.ModuleConfig;
@@ -25,6 +27,7 @@ public class PM2024 {
 
     // Tuning Config
     // Estimated at first, then fudge-factored to make odom match record
+<<<<<<< HEAD
     private static final double kWheelRadiusInches = 3.7937 / 2; // Updated for VexIQ Pro Wheels
     private static final double speedAt12VoltsMps = 6;
 
@@ -33,11 +36,31 @@ public class PM2024 {
     private static final SlotGains driveGains = new SlotGains(8, 0, 0.1, 0, 0.8);
     private static final double deadband = 0.1;
     private static final double rotationDeadband = 0.1;
+=======
+    private static final double kWheelRadiusInches = 3.5 / 2; // Updated for VexIQ Pro Wheels
+    private static final double speedAt12VoltsMps = 6;
+
+    private static final double slipCurrent = 80;
+    private static final double supplyCurrentLimit = 75;
+    private static final double supplyCurrentThreshold = 75;
+    private static final double peakForwardTorqueCurrent = 300;
+    private static final double peakReverseTorqueCurrent = 300;
+    private static final SlotGains steerGains = new SlotGains(100, 0, 0, 0, 0);
+    private static final SlotGains driveGains = new SlotGains(8, 0, 0.1, 0, 0.8);
+>>>>>>> Madtown-Auto
 
     /*Rotation Controller*/
     private static final double kPRotationController = 7.0;
     private static final double kIRotationController = 0.0;
     private static final double kDRotationController = 0.0;
+<<<<<<< HEAD
+=======
+
+    /*Alignment Controllers */
+    private static final double kPAlignmentController = 12.0;
+    private static final double kIAlignmentController = 0.0;
+    private static final double kDAlignmentController = 0.0;
+>>>>>>> Madtown-Auto
 
     /*Profiling Configs*/
     private static final double maxVelocity = speedAt12VoltsMps;
@@ -45,9 +68,11 @@ public class PM2024 {
     private static final double maxAngularVelocity =
             maxVelocity / Units.inchesToMeters(Math.hypot(trueWheelBaseInches, trackWidthInches));
     private static final double maxAngularAcceleration = Math.pow(maxAngularVelocity, 2);
+    private static final double deadband = 0.1;
+    private static final double rotationDeadband = 0.1;
 
     // Device Setup
-    private static final String kCANbusName = "3847";
+    private static final String kCANbusName = RobotConfig.CANIVORE;
     private static final boolean supportsPro = true;
     private static final SwerveModuleSteerFeedbackType steerFeedbackType =
             SwerveModuleSteerFeedbackType.FusedCANcoder;
@@ -62,11 +87,19 @@ public class PM2024 {
     private static final double kBackRightXPos = Units.inchesToMeters(-backWheelBaseInches);
     private static final double kBackRightYPos = Units.inchesToMeters(-trackWidthInches);
 
+    // Pivot CANCoder configs
+    public static final double pivotCANcoderOffset = -0.004; // flip sign
+    public static final CANCoderFeedbackType pivotFeedbackSource =
+            CANCoderFeedbackType.FusedCANcoder;
+
     public static final ModuleConfig FrontLeft =
             DefaultConfig.FrontLeft.withCANcoderOffset(kFrontLeftCANcoderOffset)
                     .withLocationX(kFrontLeftXPos)
                     .withLocationY(kFrontLeftYPos)
                     .withSlipCurrent(slipCurrent)
+                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
+                    .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
+                    .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
                     .withDriveMotorGearRatio(kDriveGearRatio)
                     .withSteerMotorGearRatio(kSteerGearRatio)
@@ -80,6 +113,9 @@ public class PM2024 {
                     .withLocationX(kFrontRightXPos)
                     .withLocationY(kFrontRightYPos)
                     .withSlipCurrent(slipCurrent)
+                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
+                    .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
+                    .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
                     .withDriveMotorGearRatio(kDriveGearRatio)
                     .withSteerMotorGearRatio(kSteerGearRatio)
@@ -95,6 +131,9 @@ public class PM2024 {
                     .withLocationX(kBackLeftXPos)
                     .withLocationY(kBackLeftYPos)
                     .withSlipCurrent(slipCurrent)
+                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
+                    .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
+                    .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
                     .withDriveMotorGearRatio(kDriveGearRatio)
                     .withSteerMotorGearRatio(kSteerGearRatio)
@@ -108,6 +147,9 @@ public class PM2024 {
                     .withLocationX(kBackRightXPos)
                     .withLocationY(kBackRightYPos)
                     .withSlipCurrent(slipCurrent)
+                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
+                    .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
+                    .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
                     .withDriveMotorGearRatio(kDriveGearRatio)
                     .withSteerMotorGearRatio(kSteerGearRatio)
@@ -124,7 +166,14 @@ public class PM2024 {
                     .withModules(ModuleConfigs)
                     .withRotationGains(
                             kPRotationController, kIRotationController, kDRotationController)
+                    .withAlignmentGains(
+                            kPAlignmentController, kIAlignmentController, kDAlignmentController)
                     .withProfilingConfigs(
                             maxVelocity, maxAccel, maxAngularVelocity, maxAngularAcceleration)
+<<<<<<< HEAD
                     .withDeadbandConfig(deadband, rotationDeadband);;
+=======
+                    .withDeadbandConfig(deadband, rotationDeadband)
+                    .withPivotConfig(pivotCANcoderOffset, pivotFeedbackSource);
+>>>>>>> Madtown-Auto
 }

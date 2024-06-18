@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // LimelightHelpers v1.7 (May 9, 2024) (REQUIRES 2024.6)
+=======
+// LimelightHelpers v1.5.0 (March 27, 2024)
+>>>>>>> Madtown-Auto
 
 package frc.spectrumLib.vision;
 
@@ -370,6 +374,26 @@ public class LimelightHelpers {
         public double distToRobot = 0;
         public double ambiguity = 0;
 
+<<<<<<< HEAD
+=======
+        public String error;
+
+        public LimelightResults() {
+            targetingResults = new Results();
+            error = "";
+        }
+    }
+
+    public static class RawFiducial {
+        public int id;
+        public double txnc;
+        public double tync;
+        public double ta;
+        public double distToCamera;
+        public double distToRobot;
+        public double ambiguity;
+
+>>>>>>> Madtown-Auto
         public RawFiducial(
                 int id,
                 double txnc,
@@ -388,6 +412,7 @@ public class LimelightHelpers {
         }
     }
 
+<<<<<<< HEAD
     public static class RawDetection {
         public int classId = 0;
         public double txnc = 0;
@@ -430,6 +455,8 @@ public class LimelightHelpers {
         }
     }
 
+=======
+>>>>>>> Madtown-Auto
     public static class PoseEstimate {
         public Pose2d pose;
         public double timestampSeconds;
@@ -496,7 +523,11 @@ public class LimelightHelpers {
         return new Pose2d(tran2d, r2d);
     }
 
+<<<<<<< HEAD
     private static double extractArrayEntry(double[] inData, int position) {
+=======
+    private static double extractBotPoseEntry(double[] inData, int position) {
+>>>>>>> Madtown-Auto
         if (inData.length < position + 1) {
             return 0;
         }
@@ -507,11 +538,19 @@ public class LimelightHelpers {
         var poseEntry = LimelightHelpers.getLimelightNTTableEntry(limelightName, entryName);
         var poseArray = poseEntry.getDoubleArray(new double[0]);
         var pose = toPose2D(poseArray);
+<<<<<<< HEAD
         double latency = extractArrayEntry(poseArray, 6);
         int tagCount = (int) extractArrayEntry(poseArray, 7);
         double tagSpan = extractArrayEntry(poseArray, 8);
         double tagDist = extractArrayEntry(poseArray, 9);
         double tagArea = extractArrayEntry(poseArray, 10);
+=======
+        double latency = extractBotPoseEntry(poseArray, 6);
+        int tagCount = (int) extractBotPoseEntry(poseArray, 7);
+        double tagSpan = extractBotPoseEntry(poseArray, 8);
+        double tagDist = extractBotPoseEntry(poseArray, 9);
+        double tagArea = extractBotPoseEntry(poseArray, 10);
+>>>>>>> Madtown-Auto
         // getlastchange() in microseconds, ll latency in milliseconds
         var timestamp = (poseEntry.getLastChange() / 1000000.0) - (latency / 1000.0);
 
@@ -540,6 +579,7 @@ public class LimelightHelpers {
                 pose, timestamp, latency, tagCount, tagSpan, tagDist, tagArea, rawFiducials);
     }
 
+<<<<<<< HEAD
     private static RawFiducial[] getRawFiducials(String limelightName) {
         var entry = LimelightHelpers.getLimelightNTTableEntry(limelightName, "rawfiducials");
         var rawFiducialArray = entry.getDoubleArray(new double[0]);
@@ -603,6 +643,8 @@ public class LimelightHelpers {
         return rawDetections;
     }
 
+=======
+>>>>>>> Madtown-Auto
     private static void printPoseEstimate(PoseEstimate pose) {
         if (pose == null) {
             System.out.println("No PoseEstimate available.");
@@ -823,10 +865,13 @@ public class LimelightHelpers {
 
     public static String getNeuralClassID(String limelightName) {
         return getLimelightNTString(limelightName, "tclass");
+<<<<<<< HEAD
     }
 
     public static String[] getRawBarcodeData(String limelightName) {
         return getLimelightNTStringArray(limelightName, "rawbarcodes");
+=======
+>>>>>>> Madtown-Auto
     }
 
     /////
@@ -1014,6 +1059,7 @@ public class LimelightHelpers {
         setLimelightNTDoubleArray(limelightName, "crop", entries);
     }
 
+<<<<<<< HEAD
     /** Sets 3D offset point for easy 3D targeting. */
     public static void setFiducial3DOffset(
             String limelightName, double offsetX, double offsetY, double offsetZ) {
@@ -1024,6 +1070,8 @@ public class LimelightHelpers {
         setLimelightNTDoubleArray(limelightName, "fiducial_offset_set", entries);
     }
 
+=======
+>>>>>>> Madtown-Auto
     public static void SetRobotOrientation(
             String limelightName,
             double yaw,
@@ -1043,6 +1091,7 @@ public class LimelightHelpers {
         setLimelightNTDoubleArray(limelightName, "robot_orientation_set", entries);
     }
 
+<<<<<<< HEAD
     public static void SetFidcuial3DOffset(String limelightName, double x, double y, double z) {
 
         double[] entries = new double[3];
@@ -1052,6 +1101,8 @@ public class LimelightHelpers {
         setLimelightNTDoubleArray(limelightName, "fiducial_offset_set", entries);
     }
 
+=======
+>>>>>>> Madtown-Auto
     public static void SetFiducialIDFiltersOverride(String limelightName, int[] validIDs) {
         double[] validIDsDouble = new double[validIDs.length];
         for (int i = 0; i < validIDs.length; i++) {
@@ -1060,6 +1111,7 @@ public class LimelightHelpers {
         setLimelightNTDoubleArray(limelightName, "fiducial_id_filters_set", validIDsDouble);
     }
 
+<<<<<<< HEAD
     public static void SetFiducialDownscalingOverride(String limelightName, float downscale) {
         int d = 0; // pipeline
         if (downscale == 1.0) {
@@ -1080,6 +1132,8 @@ public class LimelightHelpers {
         setLimelightNTDouble(limelightName, "fiducial_downscale_set", d);
     }
 
+=======
+>>>>>>> Madtown-Auto
     public static void setCameraPose_RobotSpace(
             String limelightName,
             double forward,

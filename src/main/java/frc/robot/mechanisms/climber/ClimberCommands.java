@@ -8,7 +8,11 @@ public class ClimberCommands {
 
     public static void setupDefaultCommand() {
         climber.setDefaultCommand(
+<<<<<<< HEAD
                 climber.holdPosition().withName("Climber.default").ignoringDisable(true));
+=======
+                climber.holdPosition().ignoringDisable(true).withName("Climber.default"));
+>>>>>>> Madtown-Auto
     }
 
     public static Command fullExtend() {
@@ -19,27 +23,27 @@ public class ClimberCommands {
         return climber.runPosition(climber.config.home).withName("Climber.home");
     }
 
-    public static Command raise() {
-        return climber.runPercentage(climber.config.raisePercentage);
-    }
-
-    public static Command lower() {
-        return climber.runPercentage(climber.config.lowerPercentage);
-    }
-
     public static Command topClimb() {
-        return climber.runPosition(climber.config.topClimb);
+        return climber.runPosition(climber.config.topClimb).withName("Climber.topClimb");
     }
 
     public static Command midClimb() {
-        return climber.runPosition(climber.config.midClimb);
+        return climber.runPosition(climber.config.midClimb).withName("Climber.midClimb");
     }
 
     public static Command botClimb() {
-        return climber.runPosition(climber.config.botClimb);
+        return climber.runPosition(climber.config.botClimb).withName("Climber.botClimb");
+    }
+
+    public static Command safeClimb() {
+        return climber.runPosition(climber.config.safeClimb).withName("Climber.safeClimb");
     }
 
     public static Command coastMode() {
         return climber.coastMode();
+    }
+
+    public static Command ensureBrakeMode() {
+        return climber.ensureBrakeMode();
     }
 }

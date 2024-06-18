@@ -1,5 +1,7 @@
 package frc.spectrumLib.util;
 
+import java.util.function.DoubleSupplier;
+
 public class Conversions {
 
     /**
@@ -10,6 +12,16 @@ public class Conversions {
      */
     public static double RPMtoRPS(double rpm) {
         return rpm / 60;
+    }
+
+    /**
+     * Converts revolutions per minute (RPM) to revolutions per second (RPS).
+     *
+     * @param rpm the value in RPM to be converted
+     * @return the converted value in RPS
+     */
+    public static Double RPMtoRPS(DoubleSupplier rpm) {
+        return rpm.getAsDouble() / 60;
     }
 
     /**

@@ -3,6 +3,7 @@
   "waypoints": [
     {
       "anchor": {
+<<<<<<< HEAD
         "x": 1.7948545532264122,
         "y": 5.55
       },
@@ -10,6 +11,15 @@
       "nextControl": {
         "x": 1.808019295009591,
         "y": 6.000076509039829
+=======
+        "x": 1.89,
+        "y": 5.54
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.2358317494932463,
+        "y": 6.13706890779544
+>>>>>>> Madtown-Auto
       },
       "isLocked": false,
       "linkedName": "GP 1 - Test Front"
@@ -20,8 +30,13 @@
         "y": 6.9
       },
       "prevControl": {
+<<<<<<< HEAD
         "x": 2.011474930339945,
         "y": 6.603518988141812
+=======
+        "x": 2.0269478144194832,
+        "y": 6.533891009783891
+>>>>>>> Madtown-Auto
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,6 +47,7 @@
   "constraintZones": [],
   "eventMarkers": [
     {
+<<<<<<< HEAD
       "name": "launcherReady",
       "waypointRelativePos": 0.0,
       "command": {
@@ -56,6 +72,9 @@
     },
     {
       "name": "intake",
+=======
+      "name": "Intake",
+>>>>>>> Madtown-Auto
       "waypointRelativePos": 0,
       "command": {
         "type": "parallel",
@@ -64,7 +83,34 @@
             {
               "type": "named",
               "data": {
+<<<<<<< HEAD
                 "name": "intake"
+=======
+                "name": "smartIntake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "LaunchReady",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "visionLaunchReady"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "alignToSpeaker"
+>>>>>>> Madtown-Auto
               }
             }
           ]
@@ -73,8 +119,13 @@
     }
   ],
   "globalConstraints": {
+<<<<<<< HEAD
     "maxVelocity": 3.0,
     "maxAcceleration": 2.25,
+=======
+    "maxVelocity": 6.0,
+    "maxAcceleration": 3.0,
+>>>>>>> Madtown-Auto
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -89,5 +140,9 @@
     "rotation": 180.0,
     "velocity": 0
   },
+<<<<<<< HEAD
   "useDefaultConstraints": true
+=======
+  "useDefaultConstraints": false
+>>>>>>> Madtown-Auto
 }

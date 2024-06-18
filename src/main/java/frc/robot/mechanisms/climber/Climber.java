@@ -1,8 +1,10 @@
 package frc.robot.mechanisms.climber;
 
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import frc.robot.RobotConfig;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
 import java.util.function.DoubleSupplier;
@@ -12,15 +14,17 @@ public class Climber extends Mechanism {
     public class ClimberConfig extends Config {
 
         /* Climber constants in rotations */
-        public final double maxHeight = 147;
-        public final double minHeight = 0.5;
+        public final double maxRotation = 104;
+        public final double minRotation = -1;
 
-        /* Climber positions in rotations */
-        public double fullExtend = maxHeight;
-        public double home = minHeight;
-        public double topClimb = maxHeight;
+        /* Climber positions in percent (0 - 100) of full rotation */
+        public double fullExtend = 100;
+        public double home = 0;
+
+        public double topClimb = 100;
         public double midClimb = 74;
-        public double botClimb = minHeight;
+        public double safeClimb = 60;
+        public double botClimb = 0;
 
         /* Climber Percentage Output */
         public double raisePercentage = 0.2;
@@ -28,19 +32,24 @@ public class Climber extends Mechanism {
 
         /* Climber config settings */
         public final double zeroSpeed = -0.2;
-        public final double positionKp = 0.86; // 20 FOC // 10 Regular
+        public final double positionKp = 1.3; // 20 FOC // 10 Regular
         public final double positionKv = 0.013; // .12 FOC // .15 regular
-        public final double currentLimit = 30;
-        public final double threshold = 30;
+        public final double currentLimit = 80;
+        public final double statorCurrentLimit = 200;
+        public final double torqueCurrentLimit = 100;
+        public final double threshold = 80;
 
         public ClimberConfig() {
-            super("Climber", 53, "3847");
+            super("Climber", 53, RobotConfig.CANIVORE);
             configPIDGains(0, positionKp, 0, 0);
             configFeedForwardGains(0, positionKv, 0, 0);
-            configMotionMagic(120, 195, 0); // 40, 120 FOC // 120, 195 Regular
+            configMotionMagic(14700, 16100, 0); // 40, 120 FOC // 120, 195 Regular
             configSupplyCurrentLimit(currentLimit, threshold, true);
-            configForwardSoftLimit(maxHeight, true);
-            configReverseSoftLimit(minHeight, true);
+            configStatorCurrentLimit(statorCurrentLimit, true);
+            configForwardTorqueCurrentLimit(torqueCurrentLimit);
+            configReverseTorqueCurrentLimit(torqueCurrentLimit);
+            configForwardSoftLimit(maxRotation, true);
+            configReverseSoftLimit(minRotation, true);
             configNeutralBrakeMode(true);
             // configMotionMagicPosition(0.12);
             configClockwise_Positive();
@@ -64,10 +73,11 @@ public class Climber extends Mechanism {
     /**
      * Runs the climber to the specified position.
      *
-     * @param position position in revolutions
+     * @param percent percentage of max rotation (0 is vertical). Note that the percentage is not
+     *     [-1,1] but rather [-100,100]
      */
-    public Command runPosition(double position) {
-        return run(() -> setMMPosition(position)).withName("Climber.runPosition");
+    public Command runPosition(double percent) {
+        return run(() -> setMMPosition(percentToRotation(percent))).withName("Climber.runPosition");
     }
 
     /**
@@ -93,9 +103,6 @@ public class Climber extends Mechanism {
         return run(() -> setPercentOutput(percentSupplier.getAsDouble()));
     }
 
-    // TODO: review; having commands in the climber class would mean you are calling climber
-    // commands from
-    // two different places
     public Command runStop() {
         return run(() -> stop()).withName("Climber.runStop");
     }
@@ -110,10 +117,24 @@ public class Climber extends Mechanism {
                 .withName("Climber.coastMode");
     }
 
+    /** Sets the motor to brake mode if it is in coast mode */
+    public Command ensureBrakeMode() {
+        return runOnce(
+                        () -> {
+                            setBrakeMode(true);
+                        })
+                .onlyIf(
+                        () ->
+                                attached
+                                        && config.talonConfig.MotorOutput.NeutralMode
+                                                == NeutralModeValue.Coast)
+                .ignoringDisable(true);
+    }
+
     /* Custom Commands */
 
     /** Holds the position of the climber. */
-    public Command holdPosition() { // TODO: review; inline custom commands vs. seperate class
+    public Command holdPosition() {
         return new Command() {
             double holdPosition = 0; // rotations
 
@@ -133,9 +154,7 @@ public class Climber extends Mechanism {
             public void execute() {
                 double currentPosition = getMotorPosition();
                 if (Math.abs(holdPosition - currentPosition) <= 5) {
-                    setMMPosition(
-                            holdPosition); // TODO: add: change mode depending on current control
-                    // mode
+                    setMMPosition(holdPosition);
                 } else {
                     DriverStation.reportError(
                             "ClimberHoldPosition tried to go too far away from current position. Current Position: "
@@ -153,28 +172,27 @@ public class Climber extends Mechanism {
         };
     }
 
-    // TODO: review; inline vs custom command
-    // TODO: fix: will not work currently
     public Command zeroClimberRoutine() {
-        return new FunctionalCommand( // TODO: refresh config in order to modify soft limits
-                        () ->
-                                config.configReverseSoftLimit(
-                                        config.talonConfig
-                                                .SoftwareLimitSwitch
-                                                .ReverseSoftLimitThreshold,
-                                        false),
-                        () -> setPercentOutput(config.zeroSpeed),
+        return new FunctionalCommand(
+                        () -> toggleReverseSoftLimit(false), // init
+                        () -> setPercentOutput(config.zeroSpeed), // execute
                         (b) -> {
-                            zeroMotor();
-                            config.configReverseSoftLimit(
-                                    config.talonConfig
-                                            .SoftwareLimitSwitch
-                                            .ReverseSoftLimitThreshold,
-                                    true);
+                            tareMotor();
+                            toggleReverseSoftLimit(true); // end
                         },
-                        () -> false,
-                        this)
+                        () -> false, // isFinished
+                        this) // requirement
                 .withName("Climber.zeroClimberRoutine");
+    }
+
+    /* Helper */
+
+    public double percentToRotation(double percent) {
+        return config.maxRotation * (percent / 100);
+    }
+
+    public DoubleSupplier percentToRotation(DoubleSupplier percent) {
+        return () -> config.maxRotation * (percent.getAsDouble() / 100);
     }
 
     /* Logging */
@@ -183,6 +201,15 @@ public class Climber extends Mechanism {
     public double getMotorPosition() {
         if (attached) {
             return motor.getPosition().getValueAsDouble();
+        }
+        return 0;
+    }
+
+    /** Returns the position of the motor as a percentage of max rotation */
+    @AutoLogOutput(key = "Climber/Motor Position (percent)")
+    public double getMotorPercentAngle() {
+        if (attached) {
+            return motor.getPosition().getValueAsDouble() / config.maxRotation * 100;
         }
         return 0;
     }

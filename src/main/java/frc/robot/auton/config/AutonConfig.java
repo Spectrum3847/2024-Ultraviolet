@@ -13,8 +13,6 @@ import frc.robot.swerve.commands.ApplyChassisSpeeds;
 import java.util.Optional;
 
 public class AutonConfig {
-    // TODO: Check if required commands work
-    // TODO: Check if PID and other constants are correct
 
     public static final double kTranslationP = 5;
     public static final double kTranslationI = 0.0;
@@ -22,10 +20,14 @@ public class AutonConfig {
     public static final double kRotationP = 5;
     public static final double kRotationI = 0.0;
     public static final double kRotationD = 0.0;
-    public static final double maxModuleSpeed = 4.5;
+    public static final double maxModuleSpeed = 6;
     public static final double driveBaseRadius = 0.4;
 
+<<<<<<< HEAD
     public static Boolean autonInitCommandRun = false;
+=======
+    public static boolean commandInit = false;
+>>>>>>> Madtown-Auto
 
     public static HolonomicPathFollowerConfig AutonPathFollowerConfig =
             new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely
@@ -78,6 +80,7 @@ public class AutonConfig {
     }
 
     public static Optional<Rotation2d> getRotationTargetOverride() {
+<<<<<<< HEAD
         // // Some condition that should decide if we want to override rotation
         // if (Auton.trackNote) {
         //     // Return an optional containing the rotation override (this should be a field
@@ -98,5 +101,16 @@ public class AutonConfig {
         // return an empty optional when we don't want to override the path's rotation
         return Optional.empty();
         // }
+=======
+        // Some condition that should decide if we want to override rotation
+        if (Auton.trackSpeaker) {
+            // Return an optional containing the rotation override (this should be a field relative
+            return Optional.of(Rotation2d.fromRadians(Robot.vision.getThetaToSpeaker())); //
+        } else {
+            return Optional
+                    .empty(); // return an empty optional when we don't want to override the path's
+            // rotation
+        }
+>>>>>>> Madtown-Auto
     }
 }

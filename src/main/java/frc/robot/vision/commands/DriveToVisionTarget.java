@@ -84,6 +84,10 @@ public class DriveToVisionTarget extends PIDCommand {
         if (getVerticalOffset() > config.verticalMaxView) {
             return true;
         }
+
+        if (Robot.feeder.intakedNote()) {
+            return true;
+        }
         return false;
     }
 
@@ -105,7 +109,7 @@ public class DriveToVisionTarget extends PIDCommand {
 
     // We are driving negative and our Ty values are getting smaller so that works.
     public static double getOutput() {
-        return out;
+        return -out; // camera is on back of robot
     }
 
     // Align and drive while we are doing this, pass output to it so it can drive forward.

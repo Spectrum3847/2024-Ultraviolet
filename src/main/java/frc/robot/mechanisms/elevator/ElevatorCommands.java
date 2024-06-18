@@ -8,15 +8,19 @@ public class ElevatorCommands {
 
     public static void setupDefaultCommand() {
         elevator.setDefaultCommand(
+<<<<<<< HEAD
                 elevator.holdPosition().withName("Elevator.default").ignoringDisable(true));
+=======
+                holdPosition().ignoringDisable(true).withName("Elevator.default"));
+    }
+
+    public static Command holdPosition() {
+        return elevator.holdPosition().withName("Elevator.holdPosition");
+>>>>>>> Madtown-Auto
     }
 
     public static Command fullExtend() {
         return elevator.runPosition(elevator.config.fullExtend).withName("Elevator.fullExtend");
-    }
-
-    public static Command percentage() {
-        return elevator.runPercentage(0.3);
     }
 
     public static Command amp() {
@@ -33,5 +37,9 @@ public class ElevatorCommands {
 
     public static Command coastMode() {
         return elevator.coastMode();
+    }
+
+    public static Command ensureBrakeMode() {
+        return elevator.ensureBrakeMode();
     }
 }

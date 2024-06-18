@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -10,6 +11,7 @@ public final class RobotConfig {
 
     public final String ALPHA2024SERIAL = "032B1F69";
     public final String PM2024SERIAL = "03223839";
+    public final String ULTRAVIOLET2024SERIAL = "032B1F69"; // "0329AD07";
     public final String NOTEBLOCK2023SERIAL = ""; // TODO: find
     public final String MUSICDISC2023SERIAL = ""; // TODO: find
     public final String XRAY2023SERIAL = ""; // TODO: find
@@ -21,7 +23,25 @@ public final class RobotConfig {
     public final String MUSICDISC2023MAC = "00:80:2F:23:E9:33";
     public final String XRAY2023MAC = "00:80:2F:22:50:6D";
 
-    public final String Canivore = "3847";
+    /**
+     * Name of the CAN bus this device is on. Possible CAN bus strings are:
+     *
+     * <ul>
+     *   <li>"rio" for the native roboRIO CAN bus
+     *   <li>CANivore name or serial number
+     *   <li>SocketCAN interface (non-FRC Linux only)
+     *   <li>"*" for any CANivore seen by the program
+     *   <li>empty string (default) to select the default for the system:
+     *       <ul>
+     *         <li>"rio" on roboRIO
+     *         <li>"can0" on Linux
+     *         <li>"*" on Windows
+     *       </ul>
+     * </ul>
+     */
+    public static final String CANIVORE = "*"; // CANbus name is 3847
+
+    public static final String RIO_CANBUS = "rio";
 
     public static final int ledPWMport = 0;
 
@@ -64,6 +84,8 @@ public final class RobotConfig {
                 leftLauncherAttached = true;
                 rightLauncherAttached = true;
                 break;
+            case ULTRAVIOLET:
+                break;
             case XRAY:
                 intakeAttached = false;
                 ampTrapAttached = false;
@@ -78,7 +100,7 @@ public final class RobotConfig {
                 break;
         }
 
-        System.out.println("ROBOT: " + getRobotType());
+        RobotTelemetry.print("ROBOT: " + getRobotType());
     }
 
     /** Set the RobotType based on if simulation or the serial number of the RIO */
@@ -86,6 +108,9 @@ public final class RobotConfig {
         if (Robot.isSimulation()) {
             robotType = RobotType.SIM;
             RobotTelemetry.print("Robot Type: Simulation");
+        } else if (rioSerial.equals(ULTRAVIOLET2024SERIAL)) {
+            robotType = RobotType.ULTRAVIOLET;
+            RobotTelemetry.print("Robot Type: ULTRAVIOLET 2024");
         } else if (rioSerial.equals(ALPHA2024SERIAL)) {
             robotType = RobotType.ALPHA;
             RobotTelemetry.print("Robot Type: ALPHA 2024");
@@ -102,8 +127,11 @@ public final class RobotConfig {
             robotType = RobotType.PHOTON;
             RobotTelemetry.print("Robot Type: PHOTON 2024");
         } else {
-            robotType = RobotType.ALPHA;
-            RobotTelemetry.print("Robot Type: ALPHA 2024");
+            robotType = RobotType.ULTRAVIOLET;
+            DriverStation.reportError(
+                    "Could not match rio to robot config; defaulting to ULTRAVIOLET robot config",
+                    false);
+            RobotTelemetry.print("Robot Type: ULTRAVIOLET 2024");
         }
         return robotType;
     }
@@ -115,6 +143,7 @@ public final class RobotConfig {
     public enum RobotType {
         ALPHA,
         PM,
+        ULTRAVIOLET,
         MUSICDISC,
         NOTEBLOCK,
         XRAY,

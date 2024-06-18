@@ -18,6 +18,10 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.spectrumLib.util.CanDeviceId;
+<<<<<<< HEAD
+=======
+import frc.spectrumLib.util.Conversions;
+>>>>>>> Madtown-Auto
 import java.util.function.DoubleSupplier;
 
 /**
@@ -49,7 +53,7 @@ public abstract class Mechanism implements Subsystem {
     }
 
     /** Sets the mechanism position of the motor to 0 */
-    public void zeroMotor() {
+    public void tareMotor() {
         if (attached) {
             setMotorPosition(0);
         }
@@ -100,6 +104,20 @@ public abstract class Mechanism implements Subsystem {
     }
 
     /**
+     * Closed-loop Velocity with torque control (requires Pro)
+     *
+     * @param velocity rotations per second
+     */
+    public void setVelocityTCFOCrpm(DoubleSupplier velocityRPM) {
+        if (attached) {
+            VelocityTorqueCurrentFOC output =
+                    config.velocityTorqueCurrentFOC.withVelocity(
+                            Conversions.RPMtoRPS(velocityRPM.getAsDouble()));
+            motor.setControl(output);
+        }
+    }
+
+    /**
      * Closed-loop velocity control with voltage compensation
      *
      * @param velocity rotations per second
@@ -143,6 +161,32 @@ public abstract class Mechanism implements Subsystem {
     }
 
     /**
+     * Closed-loop Position Motion Magic
+     *
+     * @param position rotations
+     */
+    public void setMMPosition(DoubleSupplier position) {
+        if (attached) {
+            MotionMagicVoltage mm = config.mmPositionVoltage.withPosition(position.getAsDouble());
+            motor.setControl(mm);
+        }
+    }
+
+    /**
+     * Closed-loop Position Motion Magic using a slot other than 0
+     *
+     * @param position rotations
+     * @param slot gains slot
+     */
+    public void setMMPosition(double position, int slot) {
+        if (attached) {
+            MotionMagicVoltage mm =
+                    config.mmPositionVoltageSlot.withSlot(slot).withPosition(position);
+            motor.setControl(mm);
+        }
+    }
+
+    /**
      * Open-loop Percent output control with voltage compensation
      *
      * @param percent fractional units between -1 and +1
@@ -162,6 +206,28 @@ public abstract class Mechanism implements Subsystem {
         }
     }
 
+    public void toggleReverseSoftLimit(boolean enabled) {
+        if (attached) {
+            double threshold = config.talonConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold;
+            config.configReverseSoftLimit(threshold, enabled);
+            config.applyTalonConfig(motor);
+        }
+    }
+
+    public void toggleTorqueCurrentLimit(double enabledLimit, boolean enabled) {
+        if (attached) {
+            if (enabled) {
+                config.configForwardTorqueCurrentLimit(enabledLimit);
+                config.configReverseTorqueCurrentLimit(enabledLimit);
+                config.applyTalonConfig(motor);
+            } else {
+                config.configForwardTorqueCurrentLimit(800);
+                config.configReverseTorqueCurrentLimit(800);
+                config.applyTalonConfig(motor);
+            }
+        }
+    }
+
     public static class Config {
         public String name;
         public CanDeviceId id;
@@ -173,6 +239,7 @@ public abstract class Mechanism implements Subsystem {
         public MotionMagicTorqueCurrentFOC mmPositionFOC = new MotionMagicTorqueCurrentFOC(0);
         public MotionMagicVelocityVoltage mmVelocityVoltage = new MotionMagicVelocityVoltage(0);
         public MotionMagicVoltage mmPositionVoltage = new MotionMagicVoltage(0);
+        public MotionMagicVoltage mmPositionVoltageSlot = new MotionMagicVoltage(0).withSlot(1);
         public VoltageOut voltageControl = new VoltageOut(0);
         public VelocityVoltage velocityControl = new VelocityVoltage(0);
         public VelocityTorqueCurrentFOC velocityTorqueCurrentFOC = new VelocityTorqueCurrentFOC(0);

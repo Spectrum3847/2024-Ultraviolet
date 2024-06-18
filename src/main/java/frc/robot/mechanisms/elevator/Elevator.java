@@ -1,8 +1,10 @@
 package frc.robot.mechanisms.elevator;
 
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import frc.robot.RobotConfig;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
 import java.util.function.DoubleSupplier;
@@ -12,29 +14,31 @@ public class Elevator extends Mechanism {
     public class ElevatorConfig extends Config {
 
         /* Elevator constants in rotations */
-        public final double maxHeight = 29; // TODO: configure
-        public final double minHeight = 0; // TODO: configure
+        public final double maxHeight = 29.8;
+        public final double minHeight = 0;
 
         /* Elevator positions in rotations */
         public double fullExtend = maxHeight;
         public double home = minHeight;
-        public double amp = 20; // TODO: configure
-        public double trap = 5; // TODO: configure
-        public double startingMotorPos = -0.15;
+        public double amp = 15;
+        public double trap = 5;
 
         /* Elevator config settings */
         public final double zeroSpeed = -0.2;
         public final double positionKp = 0.86; // 20 FOC // 10 Regular
         public final double positionKv = 0.013; // .12 FOC // .15 regular
-        public final double currentLimit = 30;
-        public final double threshold = 40;
+        public final double currentLimit = 20;
+        public final double torqueCurrentLimit = 100;
+        public final double threshold = 20;
 
         public ElevatorConfig() {
-            super("Elevator", 52, "3847");
+            super("Elevator", 52, RobotConfig.CANIVORE);
             configPIDGains(0, positionKp, 0, 0);
             configFeedForwardGains(0, positionKv, 0, 0);
             configMotionMagic(700, 900, 0); // 40, 120 FOC // 120, 195 Regular
             configSupplyCurrentLimit(currentLimit, threshold, true);
+            configForwardTorqueCurrentLimit(torqueCurrentLimit);
+            configReverseTorqueCurrentLimit(torqueCurrentLimit);
             configForwardSoftLimit(maxHeight, true);
             configReverseSoftLimit(minHeight, true);
             configNeutralBrakeMode(true);
@@ -66,6 +70,11 @@ public class Elevator extends Mechanism {
         return run(() -> setMMPosition(position)).withName("Elevator.runPosition");
     }
 
+    // Is Amp Height
+    public Boolean isAtAmpHeight() {
+        return getMotorPosition() > config.amp * 0.8;
+    }
+
     /**
      * Runs the elevator to the specified position using FOC control. Will require different PID and
      * feedforward configs
@@ -86,12 +95,10 @@ public class Elevator extends Mechanism {
     }
 
     public Command runPercentage(DoubleSupplier percentSupplier) {
-        return runPercentage(percentSupplier.getAsDouble());
+        return run(() -> setPercentOutput(percentSupplier.getAsDouble()))
+                .withName("Elevator.runPercentage");
     }
 
-    // TODO: review; having commands in the elevator class would mean you are calling elevator
-    // commands from
-    // two different places
     public Command runStop() {
         return run(() -> stop()).withName("Elevator.runStop");
     }
@@ -106,10 +113,24 @@ public class Elevator extends Mechanism {
                 .withName("Elevator.coastMode");
     }
 
+    /** Sets the motor to brake mode if it is in coast mode */
+    public Command ensureBrakeMode() {
+        return runOnce(
+                        () -> {
+                            setBrakeMode(true);
+                        })
+                .onlyIf(
+                        () ->
+                                attached
+                                        && config.talonConfig.MotorOutput.NeutralMode
+                                                == NeutralModeValue.Coast)
+                .ignoringDisable(true);
+    }
+
     /* Custom Commands */
 
     /** Holds the position of the elevator. */
-    public Command holdPosition() { // TODO: review; inline custom commands vs. seperate class
+    public Command holdPosition() {
         return new Command() {
             double holdPosition = 0; // rotations
 
@@ -129,9 +150,7 @@ public class Elevator extends Mechanism {
             public void execute() {
                 double currentPosition = getMotorPosition();
                 if (Math.abs(holdPosition - currentPosition) <= 5) {
-                    setMMPosition(
-                            holdPosition); // TODO: add: change mode depending on current control
-                    // mode
+                    setMMPosition(holdPosition);
                 } else {
                     DriverStation.reportError(
                             "ElevatorHoldPosition tried to go too far away from current position. Current Position: "
@@ -149,28 +168,24 @@ public class Elevator extends Mechanism {
         };
     }
 
-    // TODO: review; inline vs custom command
-    // TODO: fix: will not work currently
     public Command zeroElevatorRoutine() {
-        return new FunctionalCommand( // TODO: refresh config in order to modify soft limits
-                        () ->
-                                config.configReverseSoftLimit(
-                                        config.talonConfig
-                                                .SoftwareLimitSwitch
-                                                .ReverseSoftLimitThreshold,
-                                        false),
-                        () -> setPercentOutput(config.zeroSpeed),
+        return new FunctionalCommand(
+                        () -> toggleReverseSoftLimit(false), // init
+                        () -> setPercentOutput(config.zeroSpeed), // execute
                         (b) -> {
-                            zeroMotor();
-                            config.configReverseSoftLimit(
-                                    config.talonConfig
-                                            .SoftwareLimitSwitch
-                                            .ReverseSoftLimitThreshold,
-                                    true);
+                            tareMotor();
+                            toggleReverseSoftLimit(true); // end
                         },
-                        () -> false,
-                        this)
+                        () -> false, // isFinished
+                        this) // requirement
                 .withName("Elevator.zeroElevatorRoutine");
+    }
+
+    public boolean isElevatorUp() {
+        if (attached) {
+            return getMotorPosition() >= 5;
+        }
+        return false;
     }
 
     /* Logging */

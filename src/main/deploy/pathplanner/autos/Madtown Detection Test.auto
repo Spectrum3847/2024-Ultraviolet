@@ -1,0 +1,31 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.7097536907889532,
+      "y": 6.0
+    },
+    "rotation": 180.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Madtown Detection Test"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "madtownRan"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Madtown Autos",
+  "choreoAuto": false
+}

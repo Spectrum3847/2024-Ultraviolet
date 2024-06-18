@@ -8,14 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
+<<<<<<< HEAD
         "x": 3.098477879236698,
         "y": 6.934862297099063
+=======
+        "x": 3.0970184606565283,
+        "y": 6.948747737362059
+>>>>>>> Madtown-Auto
       },
       "isLocked": false,
       "linkedName": "GP 4 - Front 5"
     },
     {
       "anchor": {
+<<<<<<< HEAD
         "x": 8.13,
         "y": 7.24
       },
@@ -26,12 +32,25 @@
       "nextControl": {
         "x": 8.479715682655637,
         "y": 6.956805824027573
+=======
+        "x": 8.1,
+        "y": 7.24
+      },
+      "prevControl": {
+        "x": 8.20886485301985,
+        "y": 7.6766330768241975
+      },
+      "nextControl": {
+        "x": 7.99113514698015,
+        "y": 6.803366923175803
+>>>>>>> Madtown-Auto
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
+<<<<<<< HEAD
         "x": 5.222098376844087,
         "y": 6.355952842869203
       },
@@ -58,12 +77,25 @@
       "nextControl": null,
       "isLocked": false,
       "linkedName": "GP 2 - Test Front"
+=======
+        "x": 4.28,
+        "y": 6.4
+      },
+      "prevControl": {
+        "x": 4.712805121210775,
+        "y": 6.430264682319095
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "End - Front 5"
+>>>>>>> Madtown-Auto
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
+<<<<<<< HEAD
       "name": "launchReady",
       "waypointRelativePos": 0.0,
       "command": {
@@ -88,6 +120,9 @@
     },
     {
       "name": "intake",
+=======
+      "name": "Intake",
+>>>>>>> Madtown-Auto
       "waypointRelativePos": 0,
       "command": {
         "type": "parallel",
@@ -96,7 +131,51 @@
             {
               "type": "named",
               "data": {
+<<<<<<< HEAD
                 "name": "intake"
+=======
+                "name": "smartIntake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "LaunchReady",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "visionLaunchReady"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "stopTracking"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "AlignToSpeaker",
+      "waypointRelativePos": 1.5500000000000003,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "alignToSpeaker"
+>>>>>>> Madtown-Auto
               }
             }
           ]
@@ -105,8 +184,13 @@
     }
   ],
   "globalConstraints": {
+<<<<<<< HEAD
     "maxVelocity": 3.0,
     "maxAcceleration": 2.25,
+=======
+    "maxVelocity": 6.0,
+    "maxAcceleration": 4.0,
+>>>>>>> Madtown-Auto
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

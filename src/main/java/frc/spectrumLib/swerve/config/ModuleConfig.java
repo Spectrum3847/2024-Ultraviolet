@@ -44,6 +44,15 @@ public class ModuleConfig {
     /** The maximum amount of current the drive motors can apply without slippage */
     public double SlipCurrent = 400;
 
+    public double SupplyCurrentLimit = 400;
+
+    public double SupplyCurrentThreshold = 400;
+
+    /** The maximum amount of forward torque current the drive motors can apply */
+    public double PeakForwardTorqueCurrent = 300;
+    /** The maximum amount of reverse torque current the drive motors can apply */
+    public double PeakReverseTorqueCurrent = 300;
+
     /** True if the steering motor is reversed from the CANcoder */
     public boolean SteerMotorInverted = false;
     /** True if the driving motor is reversed */
@@ -137,6 +146,23 @@ public class ModuleConfig {
 
     public ModuleConfig withSlipCurrent(double slipCurrent) {
         this.SlipCurrent = slipCurrent;
+        return this;
+    }
+
+    public ModuleConfig withSupplyCurrent(
+            double supplyCurrentLimit, double supplyCurrentThreshold) {
+        this.SupplyCurrentLimit = supplyCurrentLimit;
+        this.SupplyCurrentThreshold = supplyCurrentThreshold;
+        return this;
+    }
+
+    public ModuleConfig withForwardTorqueCurrentLimit(double currentLimit) {
+        this.PeakForwardTorqueCurrent = currentLimit;
+        return this;
+    }
+
+    public ModuleConfig withReverseTorqueCurrentLimit(double currentLimit) {
+        this.PeakReverseTorqueCurrent = currentLimit;
         return this;
     }
 

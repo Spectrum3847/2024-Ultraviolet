@@ -1,8 +1,14 @@
 package frc.robot.leds;
 
+import edu.wpi.first.wpilibj.util.Color;
+
 public class LEDsConfig {
     public static final int port = 0;
+<<<<<<< HEAD
     public static final int length = 58;
+=======
+    public static final int length = 29;
+>>>>>>> Madtown-Auto
     public static final double strobeFastDuration = 0.1;
     public static final double strobeSlowDuration = 0.2;
     public static final double breathDuration = 1.0;
@@ -17,6 +23,8 @@ public class LEDsConfig {
     public static final double waveAllianceDuration = 2.0;
     public static final double autoFadeTime = 2.5;
     public static final double autoFadeMaxTime = 5.0;
+
+    public static final Color SPECTRUM_COLOR = new Color(130, 103, 185);
 
     public enum Section {
         FULL,

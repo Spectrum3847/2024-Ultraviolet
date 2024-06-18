@@ -1,0 +1,38 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+<<<<<<<< HEAD:src/main/deploy/pathplanner/autos/Mobility.auto
+      "x": 1.45,
+      "y": 1.58
+========
+      "x": 4.0,
+      "y": 6.5
+>>>>>>>> Madtown-Auto:src/main/deploy/pathplanner/autos/Detection Accept.auto
+    },
+    "rotation": 180.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+<<<<<<<< HEAD:src/main/deploy/pathplanner/autos/Mobility.auto
+            "pathName": "Mobility"
+========
+            "pathName": "Detection Accept"
+>>>>>>>> Madtown-Auto:src/main/deploy/pathplanner/autos/Detection Accept.auto
+          }
+        }
+      ]
+    }
+  },
+<<<<<<<< HEAD:src/main/deploy/pathplanner/autos/Mobility.auto
+  "folder": "Simple Autos",
+========
+  "folder": null,
+>>>>>>>> Madtown-Auto:src/main/deploy/pathplanner/autos/Detection Accept.auto
+  "choreoAuto": false
+}

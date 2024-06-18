@@ -1,6 +1,8 @@
 package frc.robot.mechanisms.amptrap;
 
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotConfig;
 import frc.spectrumLib.lasercan.LaserCanUtil;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
@@ -11,43 +13,44 @@ public class AmpTrap extends Mechanism {
     public class AmpTrapConfig extends Config {
 
         /* Revolutions per min AmpTrap Output */
-        public double maxSpeed = 5000; // TODO: configure
-        public double intake = 250; // TODO: configure
-        public double testFeed = 250;
-        public double ampReady = 2500;
-        public double score = 4500; // TODO: configure
-        public double launchEject = 500;
+        public double maxSpeed = 5000;
+        public double intake = 3000;
+        public double feed = 500;
+        public double amp = 4500;
+        public double score = 4500;
         public double eject = -3000;
 
         /* Percentage AmpTrap Output */
-        public double slowIntakePercentage = 0.1; // TODO: configure
-
-        public double testForwardPercent = 1;
-        public double testBackPercent = -0.50;
+        public double slowIntakePercentage = 0.1;
 
         /* AmpTrap config values */
         public double currentLimit = 30;
+        public double torqueCurrentLimit = 100;
         public double threshold = 40;
         public double velocityKp = 0.156152;
         public double velocityKv = 0.12;
         public double velocityKs = 0.24;
 
-        public double hasNoteDistance = 55;
+        public double hasNoteDistance = 300;
+        public double topHasNoteDistance = 150;
 
         public AmpTrapConfig() {
-            super("AmpTrap", 51, "rio");
+            super("AmpTrap", 51, RobotConfig.RIO_CANBUS);
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
-            configGearRatio(12 / 30); // TODO: configure
+            configGearRatio(12 / 30);
             configSupplyCurrentLimit(currentLimit, threshold, true);
+            configForwardTorqueCurrentLimit(torqueCurrentLimit);
+            configReverseTorqueCurrentLimit(torqueCurrentLimit);
             configNeutralBrakeMode(true);
-            configCounterClockwise_Positive(); // TODO: configure
+            configCounterClockwise_Positive();
             configMotionMagic(51, 205, 0);
         }
     }
 
     public AmpTrapConfig config;
-    public LaserCanUtil lasercan;
+    public LaserCanUtil bottomLasercan;
+    public LaserCanUtil topLasercan;
 
     public AmpTrap(boolean attached) {
         super(attached);
@@ -55,16 +58,42 @@ public class AmpTrap extends Mechanism {
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
         }
 
-        lasercan = new LaserCanUtil(1);
+        bottomLasercan = new LaserCanUtil(1);
+        topLasercan = new LaserCanUtil(2);
     }
 
-    @AutoLogOutput(key = "AmpTrap/LaserCan-Measurement")
-    public int getLaserCanDistance() {
-        return lasercan.getDistance();
+    @AutoLogOutput(key = "AmpTrap/Lasercans/Bottom/Measurement")
+    public int getBotLaserCanDistance() {
+        return bottomLasercan.getDistance();
     }
 
-    public boolean hasNote() {
-        return getLaserCanDistance() < config.hasNoteDistance;
+    @AutoLogOutput(key = "AmpTrap/Lasercans/Top/Measurement")
+    public int getTopLaserCanDistance() {
+        return topLasercan.getDistance();
+    }
+
+    @AutoLogOutput(key = "AmpTrap/Lasercans/Bottom/LaserCan-Valid")
+    public boolean getBotLaserCanStatus() {
+        return bottomLasercan.validDistance();
+    }
+
+    @AutoLogOutput(key = "AmpTrap/Lasercans/Top/LaserCan-Valid")
+    public boolean getTopLaserCanStatus() {
+        return topLasercan.validDistance();
+    }
+
+    public boolean bottomHasNote() {
+        if (getBotLaserCanDistance() <= 0) {
+            return false;
+        }
+        return getBotLaserCanDistance() < config.hasNoteDistance;
+    }
+
+    public boolean topHasNote() {
+        if (getTopLaserCanDistance() <= 0) {
+            return false;
+        }
+        return getTopLaserCanDistance() < config.topHasNoteDistance;
     }
 
     @Override
@@ -99,6 +128,26 @@ public class AmpTrap extends Mechanism {
         return startEnd(() -> setBrakeMode(false), () -> setBrakeMode(true))
                 .ignoringDisable(true)
                 .withName("AmpTrap.coastMode");
+    }
+
+    public Command stayCoastMode() {
+        return runOnce(() -> setBrakeMode(false))
+                .ignoringDisable(true)
+                .withName("AmpTrap.stayCoastMode");
+    }
+
+    /** Sets the motor to brake mode if it is in coast mode */
+    public Command ensureBrakeMode() {
+        return runOnce(
+                        () -> {
+                            setBrakeMode(true);
+                        })
+                .onlyIf(
+                        () ->
+                                attached
+                                        && config.talonConfig.MotorOutput.NeutralMode
+                                                == NeutralModeValue.Coast)
+                .ignoringDisable(true);
     }
 
     /**

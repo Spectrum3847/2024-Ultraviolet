@@ -1,0 +1,114 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.23,
+        "y": 3.35
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.480654065429702,
+        "y": 3.1354269985782373
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.6,
+        "y": 3.85
+      },
+      "prevControl": {
+        "x": 4.1453658548330505,
+        "y": 3.058274522664954
+      },
+      "nextControl": {
+        "x": 4.913721449294365,
+        "y": 4.39633218123468
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.95,
+        "y": 5.21
+      },
+      "prevControl": {
+        "x": 4.2074876017061165,
+        "y": 4.842160568991265
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.45,
+      "rotationDegrees": -165.0,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 1.0,
+      "rotationDegrees": -150.0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "launchReady17",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "launchReady17"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "smartIntake",
+      "waypointRelativePos": 0.1,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "smartIntake"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 6.0,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 176.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Madtown Paths",
+  "previewStartingState": {
+    "rotation": 142.5,
+    "velocity": 0.0
+  },
+  "useDefaultConstraints": true
+}
