@@ -4,7 +4,6 @@ import frc.robot.Robot;
 import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
 import frc.robot.leds.LEDsCommands;
-import frc.robot.mechanisms.elevator.ElevatorCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.swerve.commands.SwerveCommands;
 import frc.robot.vision.VisionCommands;
@@ -72,14 +71,14 @@ public class Pilot extends Gamepad {
         controller.b().and(noBumpers().or(rightBumperOnly())).whileTrue(PilotCommands.turnToAmp());
         controller
                 .b()
-                .and(noBumpers())
-                .or(rightBumperOnly())
+                // .and(noBumpers())
+                // .or(rightBumperOnly())
                 .whileTrue(LauncherCommands.runAmpVelocity());
 
-        controller
-                .b()
-                .and(leftBumperOnly().or(bothBumpers()))
-                .whileTrue(RobotCommands.intoAmpShot());
+        /*controller
+        .b()
+        .and(leftBumperOnly().or(bothBumpers()))
+        .whileTrue(RobotCommands.intoAmpShot());*/
 
         controller
                 .x()
@@ -101,8 +100,8 @@ public class Pilot extends Gamepad {
         */
         controller
                 .y()
-                .and(leftBumperOnly().or(bothBumpers()))
-                .whileTrue(RobotCommands.subwooferShot());
+                .and(noBumpers().or(rightBumperOnly()))
+                .whileTrue(RobotCommands.subwooferReady());
 
         controller
                 .a()
@@ -113,13 +112,16 @@ public class Pilot extends Gamepad {
         controller.start().whileTrue(RobotCommands.autoClimb());
         controller.select().whileTrue(SwerveCommands.cardinalReorient());
 
-        runWithEndSequence(rightBumperOnly(), RobotCommands.score(), ElevatorCommands.home());
+        // runWithEndSequence(rightBumperOnly(), RobotCommands.launchEject(),
+        // ElevatorCommands.home());
+        rightBumperOnly().whileTrue(RobotCommands.launchEject());
+
         controller
                 .leftBumper()
                 .and(controller.rightBumper())
                 .whileTrue(RobotCommands.launchEject());
 
-        controller.rightStick().whileTrue(PilotCommands.slowMode());
+        // controller.rightStick().whileTrue(PilotCommands.slowMode());
 
         rightStick().and(leftBumperOnly()).whileTrue(PilotCommands.manualPivot());
 

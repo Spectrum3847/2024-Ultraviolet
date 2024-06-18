@@ -258,10 +258,10 @@ public class RobotCommands {
 
     public static Command launchEject() {
         return FeederCommands.launchEject()
-                .alongWith(
-                        AmpTrapCommands.score(),
-                        IntakeCommands.slowIntake(),
-                        ElevatorCommands.holdPosition())
+                /* .alongWith(
+                AmpTrapCommands.score(),
+                IntakeCommands.slowIntake(),
+                ElevatorCommands.holdPosition())*/
                 .withName("RobotCommands.launchEject");
     }
 
@@ -355,12 +355,6 @@ public class RobotCommands {
                         PivotCommands.ensureBrakeMode(),
                         Commands.runOnce(LEDs::turnOffCoastLEDs).ignoringDisable(true))
                 .withName("RobotCommands.ensureBrakeMode");
-    }
-
-    public static Command subwooferShot() {
-        return LauncherCommands.subwoofer()
-                .alongWith(PivotCommands.subwoofer())
-                .withName("RobotCommands.subwooferReady");
     }
 
     public static Command intoAmpShot() {

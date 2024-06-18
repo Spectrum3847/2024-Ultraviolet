@@ -21,7 +21,8 @@ public class PilotCommands {
 
     /** Set default command to turn off the rumble */
     public static void setupDefaultCommand() {
-        Robot.pilot.setDefaultCommand(launchReadyRumble().withName("Pilot.default"));
+        Robot.pilot.setDefaultCommand(
+                rumble(0, 1)); // launchReadyRumble().withName("Pilot.default"));
     }
 
     /** Command that can be used to rumble the pilot controller */
@@ -30,7 +31,7 @@ public class PilotCommands {
     }
 
     public static Command launchReadyRumble() {
-        return new InstantCommand();
+        return new InstantCommand(() -> {}, Robot.pilot);
         /*return new FunctionalCommand(
                 () -> {},
                 () -> {
