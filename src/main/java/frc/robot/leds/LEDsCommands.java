@@ -14,49 +14,7 @@ public class LEDsCommands {
     private static LEDs leds = Robot.leds;
 
     public static void setupDefaultCommand() {
-        leds.setDefaultCommand(defaultCommand().ignoringDisable(true));
-    }
-
-    /**
-     * Work in Progress build for LEDS, needs further work from libraries Using other mechanisms
-     * checking for motor velocity to pivot angles as triggers for the LEDS
-     */
-    public static void SetupLEDTRiggers() {
-
-        Trigger launcherReady = new Trigger(() -> LEDs.launchReadyLEDs);
-        Trigger ampReady = new Trigger(() -> LEDs.ampLEDs);
-        Trigger maxClimbReady = new Trigger(() -> LEDs.climbLEDs);
-        // Trigger coastMode = new Trigger(() -> LEDs.coastModeLEDs);
-        Trigger home = new Trigger(() -> LEDs.homeLEDs);
-        Trigger noteEject = new Trigger(() -> LEDs.ejectLEDs);
-
-        launcherReady.whileTrue(launchReady());
-        ampReady.whileTrue(Pivot());
-        maxClimbReady.whileTrue(Pivot());
-        home.whileTrue(Pivot());
-        // coastMode()
-        // noteEject.whileTrue(noteEject());
-
-    }
-
-    // public static Command coastMode(){
-    //     return ombre(Section.FULL, Color.kOrange, Color.kBlack, 1, 4).withName("LEDs.coastMode");
-    // }
-
-    public static Command Pivot() {
-        return solidPurpleLED().withName("LEDs.solidPurpleLED");
-    }
-
-    public static Command launchReady() {
-        return strobePurpleLED().withName("LEDs.noteEject");
-    }
-
-    public static Command noteEject() {
-        return strobeRedLED().withName("LEDs.noteEject");
-    }
-
-    public static Command wrongPivot() {
-        return halfsolidRedLED().withName("LEDS.halfsolidRedLED");
+        leds.setDefaultCommand(defaultCommand());
     }
 
     public static void setupLEDTriggers() {

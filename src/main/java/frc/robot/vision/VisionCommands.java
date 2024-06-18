@@ -2,13 +2,10 @@ package frc.robot.vision;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
-<<<<<<< HEAD
-=======
 import frc.robot.vision.Vision.VisionConfig.AlignToNote;
 import frc.robot.vision.Vision.VisionConfig.DriveToNote;
 import frc.robot.vision.commands.AlignToVisionTarget;
 import frc.robot.vision.commands.DriveToVisionTarget;
->>>>>>> Madtown-Auto
 
 public class VisionCommands {
     private static Vision vision = Robot.vision;
@@ -30,11 +27,6 @@ public class VisionCommands {
     public static Command autonResetPoseToVision() {
         return vision.runOnce(vision::autonResetPoseToVision)
                 .withName("VisionCommands.autonResetPoseToVision");
-    }
-
-    /** Set robot pose to vision pose regardless of validity. Does not reset rotation. */
-    public static Command forcePoseToVision() {
-        return vision.run(vision::forcePoseToVision).withName("VisionCommands.forcePoseToVision");
     }
 
     public static Command forcePoseToVision() {

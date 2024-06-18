@@ -18,10 +18,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.spectrumLib.util.CanDeviceId;
-<<<<<<< HEAD
-=======
 import frc.spectrumLib.util.Conversions;
->>>>>>> Madtown-Auto
 import java.util.function.DoubleSupplier;
 
 /**
@@ -149,13 +146,6 @@ public abstract class Mechanism implements Subsystem {
     public void setMMPosition(double position) {
         if (attached) {
             MotionMagicVoltage mm = config.mmPositionVoltage.withPosition(position);
-            motor.setControl(mm);
-        }
-    }
-
-    public void setMMPosition(DoubleSupplier position) {
-        if (attached) {
-            MotionMagicVoltage mm = config.mmPositionVoltage.withPosition(position.getAsDouble());
             motor.setControl(mm);
         }
     }

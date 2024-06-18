@@ -241,15 +241,6 @@ public class RobotCommands {
         return FeederCommands.feedToAmp().alongWith(AmpTrapCommands.amp());
     }
 
-    public static Command ampReady8515() {
-        return PivotCommands.ampScore()
-                .alongWith(
-                        LEDsCommands.Pivot(),
-                        // PilotCommands.turnToAmp(),
-                        LauncherCommands.runAmpVelocity())
-                .withName("RobotCommands.ampReady8515");
-    }
-
     public static Command eject() {
         return FeederCommands.eject()
                 .alongWith(
@@ -349,7 +340,7 @@ public class RobotCommands {
         // return IntakeCommands.intake().onlyWhile(null).andThen();
         return IntakeCommands.intake()
                 .until(() -> (Robot.feeder.getMotorVelocity() > 0))
-                .andThen(FeederCommands.feeder().withTimeout(0.3));
+                .andThen(FeederCommands.intake().withTimeout(0.3));
         // .alongWith(IntakeCommands.stopMotor())
     }
    
@@ -372,28 +363,10 @@ public class RobotCommands {
                 .withName("RobotCommands.subwooferReady");
     }
 
-    public static Command podiumShot() {
-        return LauncherCommands.deepShot()
-                .alongWith(PivotCommands.podium(), PilotCommands.podiumAimingDrive())
-                .withName("RobotCommands.podium");
-    }
-
-    public static Command ampWingShot() {
-        return LauncherCommands.deepShot()
-                .alongWith(PivotCommands.ampWing(), PilotCommands.ampWingAimingDrive())
-                .withName("RobotCommands.ampWing");
-    }
-
-    public static Command intoAmpShot() {
+      public static Command intoAmpShot() {
         return LauncherCommands.intoAmp()
                 .alongWith(PivotCommands.intoAmp(), PilotCommands.turnLaunchToAmp())
                 .withName("RobotCommands.intoAmp");
-    }
-
-    public static Command fromAmpShot() {
-        return LauncherCommands.deepShot()
-                .alongWith(PivotCommands.fromAmp(), PilotCommands.fromAmpAimingDrive())
-                .withName("RobotCommands.ampWing");
     }
 
     public static Command topClimb() {
