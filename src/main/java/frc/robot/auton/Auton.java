@@ -129,11 +129,6 @@ public class Auton extends SubsystemBase {
         NamedCommands.registerCommand("spit2", AutonCommands.spit2());
         NamedCommands.registerCommand("spitReady2", AutonCommands.spitReady2());
 
-        NamedCommands.registerCommand("spit3", AutonCommands.spit3());
-        NamedCommands.registerCommand("spitReady3", AutonCommands.spitReady3());
-
-        NamedCommands.registerCommand("spit4", AutonCommands.spit4());
-
         NamedCommands.registerCommand("resetPose", AutonCommands.resetPoseToVision());
 
         /* Stop Commands */

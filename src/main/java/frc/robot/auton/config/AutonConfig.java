@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.Robot;
+import frc.robot.auton.Auton;
 import frc.robot.swerve.commands.ApplyChassisSpeeds;
 import java.util.Optional;
 
