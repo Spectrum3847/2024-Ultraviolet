@@ -5,6 +5,7 @@ import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
 import frc.robot.leds.LEDsCommands;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
+import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.swerve.commands.SwerveCommands;
 import frc.robot.vision.VisionCommands;
 import frc.spectrumLib.gamepads.Gamepad;
@@ -61,14 +62,19 @@ public class Pilot extends Gamepad {
     /*  A, B, X, Y, Left Bumper, Right Bumper = Buttons 1 to 6 in simualation */
     public void setupTeleopButtons() {
 
-        runWithEndSequence(
-                controller.a().and(noBumpers()).and(controller.x().negate()),
-                RobotCommands.smartIntake(),
-                RobotCommands.feedHome());
+        controller
+                .a()
+                .and(noBumpers())
+                .and(controller.x().negate())
+                .whileTrue(RobotCommands.intake());
         controller.a().and(leftBumperOnly()).whileTrue(RobotCommands.eject());
 
         controller.b().and(noBumpers().or(rightBumperOnly())).whileTrue(PilotCommands.turnToAmp());
-        controller.b().and(noBumpers()).onTrue(RobotCommands.amp().withTimeout(1.5));
+        controller
+                .b()
+                .and(noBumpers())
+                .or(rightBumperOnly())
+                .whileTrue(LauncherCommands.runAmpVelocity());
 
         controller
                 .b()
