@@ -1,6 +1,7 @@
 package frc.robot.swerve.configs;
 
 import edu.wpi.first.math.util.Units;
+import frc.robot.RobotConfig;
 import frc.spectrumLib.swerve.config.DefaultConfig;
 import frc.spectrumLib.swerve.config.DefaultConfig.SlotGains;
 import frc.spectrumLib.swerve.config.ModuleConfig;
@@ -28,11 +29,15 @@ public class PHOTON {
 
     // Tuning Config
     // Estimated at first, then fudge-factored to make odom match record
-    private static final double kWheelRadiusInches = 3.5 / 2;
+    private static final double kWheelRadiusInches = 3.815 / 2;
     private static final double speedAt12VoltsMps = 5.8;
 
     private static final double slipCurrent = 80;
-    private static final SlotGains steerGains = new SlotGains(100, 0, 0.05, 0, 0);
+    private static final double supplyCurrentLimit = 75;
+    private static final double supplyCurrentThreshold = 75;
+    private static final double peakForwardTorqueCurrent = 300;
+    private static final double peakReverseTorqueCurrent = 300;
+    private static final SlotGains steerGains = new SlotGains(100, 0, 0.0, 0, 0);
     private static final SlotGains driveGains = new SlotGains(8, 0, 0.1, 0, 0.8);
 
     /*Rotation Controller*/
@@ -52,7 +57,7 @@ public class PHOTON {
     private static final double rotationDeadband = 0.1;
 
     // Device Setup
-    private static final String kCANbusName = "3847";
+    private static final String kCANbusName = RobotConfig.CANIVORE;
     private static final boolean supportsPro = true;
     private static final SwerveModuleSteerFeedbackType steerFeedbackType =
             SwerveModuleSteerFeedbackType.FusedCANcoder;
