@@ -146,6 +146,12 @@ public class LauncherCommands {
                 .withName("Launcher.intoAmp");
     }
 
+    public static Command manualSource() {
+        return runTorqueLauncherVelocities(
+                        leftLauncher.config.manualSource, rightLauncher.config.manualSource)
+                .withName("Launcher.manualSource");
+    }
+
     public static Command dump() {
         return runLauncherPercentages(
                         leftLauncher.config.dumpLauncherPercent,

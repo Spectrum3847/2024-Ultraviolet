@@ -22,6 +22,7 @@ public class RightLauncher extends Mechanism {
         public double subwoofer = 4500;
         public double intoAmp = 1000;
         public double manualFeed = 4000;
+        public double manualSource = -2000;
         public double launchReadyPreload = 4500;
         public double launchReady2 = 4500;
         public double launchReady3 = 4500;
