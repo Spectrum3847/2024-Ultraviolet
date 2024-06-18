@@ -82,18 +82,8 @@ public class LEDsCommands {
     /* Default Command */
 
     public static Command defaultCommand() {
-<<<<<<< HEAD
-        if (Robot.pivot.getMotorPercentAngle() >= 1) {
-            return LEDsCommands.halfsolidRedLED();
-        }
-        return leds.run(
-                        () -> {
-                            rainbow(Section.FULL, LEDsConfig.length / 2, 2, 0).execute();
-                        })
-=======
         return leds.run(leds::defaultPattern)
                 .finallyDo((b) -> leds.resetPriority())
->>>>>>> Madtown-Auto
                 .ignoringDisable(true)
                 .withName("LEDs.default");
     }
@@ -113,35 +103,8 @@ public class LEDsCommands {
     }
 
     public static Command solidPurpleLED() {
-<<<<<<< HEAD
-        return LEDsCommands.solid(Section.FULL, Color.kPurple, 2).withName("LEDs.solidPurpleLED");
-    }
-
-    public static Command strobeGreenLED() {
-        return LEDsCommands.strobe(Section.FULL, Color.kGreen, 0.5, 2)
-                .withName("LEDs.strobeGreenLED");
-    }
-
-    public static Command strobeRedLED() {
-        return LEDsCommands.strobe(Section.FULL, Color.kRed, 0.5, 2)
-                .withName("LEDs.strobeGreenLED");
-    }
-
-    public static Command halfsolidRedLED() {
-        return LEDsCommands.halfSolid(Section.FULL, Color.kRed, 2).withName("LEDs.solidPurpleLED");
-    }
-
-    // public static Command ombre(Section section, Color c1, Color c2, int priority) {
-    //     return runLEDPattern(() -> leds.ombre(section, c1, c2, priority)).withName("LEDs.ombre");
-    // }
-
-    public static Command strobePurpleLED() {
-        return LEDsCommands.strobe(Section.FULL, Color.kPurple, 0.5, 2)
-                .withName("LEDs.strobePurpleLED");
-=======
         return LEDsCommands.solid(Section.FULL, LEDsConfig.SPECTRUM_COLOR, 2)
                 .withName("LEDs.solidPurpleLED");
->>>>>>> Madtown-Auto
     }
 
     public static Command solidGreenLED() {
@@ -187,10 +150,6 @@ public class LEDsCommands {
     }
 
     public static Command strobeOrangeLED() {
-<<<<<<< HEAD
-        return LEDsCommands.strobe(Section.FULL, Color.kOrange, 0.5, 2)
-                .withName("LEDs.strobeOrangeLED");
-=======
         return strobe(Section.FULL, Color.kOrange, 0.5, 2).withName("LEDs.strobeOrangeLED");
     }
 
@@ -205,7 +164,6 @@ public class LEDsCommands {
 
     public static Command intakeReadyStrobe() {
         return customStrobe(Section.FULL, Color.kGreen, 5, 10).withName("LEDs.intakeReadyStrobe");
->>>>>>> Madtown-Auto
     }
 
     public static Command breathBlueLED() {
@@ -237,13 +195,7 @@ public class LEDsCommands {
         return runLEDPattern(() -> leds.solid(percent, color, priority)).withName("LEDs.solid");
     }
 
-<<<<<<< HEAD
-    public static Command halfSolid(Section section, Color color, int priority) {
-        return runLEDPattern(() -> leds.halfSolid(section, color, priority)).withName("LEDs.solid");
-    }
-=======
     /* Strobe */
->>>>>>> Madtown-Auto
 
     public static Command strobe(Color color, int priority) {
         return strobe(Section.FULL, color, 0.5, priority);

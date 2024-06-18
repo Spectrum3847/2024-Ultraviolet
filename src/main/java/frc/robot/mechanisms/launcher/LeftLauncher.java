@@ -20,17 +20,10 @@ public class LeftLauncher extends Mechanism {
         public double testVelocity = 4500;
         public double ampVelocity = 2250;
         public double subwoofer = 4500;
-<<<<<<< HEAD
+        public double intoAmp = 1000;
         public double launchReadyPreload = 4500;
         public double launchReady2 = 4500;
         public double launchReady3 = 4500;
-=======
-        public double deepShot = 5400;
-        public double intoAmp = 1300;
-        public double manualSource = -2000;
-        public double autoShoot = 5500;
-        public double manualFeed = 4000;
->>>>>>> Madtown-Auto
 
         /* Percentage LeftLauncher Output */
         public double slowLeftLauncherPercent = 0.06;
@@ -45,33 +38,18 @@ public class LeftLauncher extends Mechanism {
         public double currentLimit = 60;
         public double torqueCurrentLimit = 300;
         public double threshold = 80;
-<<<<<<< HEAD
         public double velocityKp = 6;
         public double velocityKv = 0.12;
         public double velocityKs = 0.24;
-=======
-        public double velocityKp = 4; // 12;
-        public double velocityKv = 0.2; // 0.12;
-        public double velocityKs = 14;
->>>>>>> Madtown-Auto
 
         public LeftLauncherConfig() {
             super("LeftLauncher", 42, RobotConfig.CANIVORE);
             configPIDGains(0, velocityKp, 0, 0);
             configFeedForwardGains(velocityKs, velocityKv, 0, 0);
-<<<<<<< HEAD
             configGearRatio(1 / 2); // TODO: configure
             configSupplyCurrentLimit(currentLimit, threshold, false);
             configNeutralBrakeMode(true);
             configClockwise_Positive(); // TODO: configure
-=======
-            configGearRatio(1 / 2);
-            configSupplyCurrentLimit(currentLimit, threshold, true);
-            configForwardTorqueCurrentLimit(torqueCurrentLimit);
-            configReverseTorqueCurrentLimit(torqueCurrentLimit);
-            configNeutralBrakeMode(true);
-            configCounterClockwise_Positive();
->>>>>>> Madtown-Auto
             configMotionMagic(51, 205, 0);
         }
     }
@@ -114,22 +92,14 @@ public class LeftLauncher extends Mechanism {
     }
 
     /**
-<<<<<<< HEAD
      * Run the left launcher at given velocityRPM in TorqueCurrentFOC mode
-=======
-     * Run the right launcher at given velocityRPM in TorqueCurrentFOC mode
->>>>>>> Madtown-Auto
      *
      * @param percent
      * @return
      */
     public Command runVelocityTCFOCrpm(DoubleSupplier velocity) {
-<<<<<<< HEAD
         return run(() -> setVelocityTorqueCurrentFOC(velocity))
                 .withName("LeftLauncher.runVelocityFOC");
-=======
-        return run(() -> setVelocityTCFOCrpm(velocity)).withName("RightLauncher.runVelocityFOC");
->>>>>>> Madtown-Auto
     }
 
     /**

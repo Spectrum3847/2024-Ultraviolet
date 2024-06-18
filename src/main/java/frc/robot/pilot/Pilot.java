@@ -3,21 +3,11 @@ package frc.robot.pilot;
 import frc.robot.Robot;
 import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
-<<<<<<< HEAD
-import frc.robot.mechanisms.feeder.FeederCommands;
-import frc.robot.mechanisms.intake.IntakeCommands;
-import frc.robot.mechanisms.launcher.LauncherCommands;
-import frc.robot.mechanisms.pivot.PivotCommands;
-import frc.robot.swerve.commands.SwerveCommands;
-import frc.robot.vision.VisionCommands;
-import frc.spectrumLib.Gamepad;
-=======
 import frc.robot.leds.LEDsCommands;
 import frc.robot.mechanisms.elevator.ElevatorCommands;
 import frc.robot.swerve.commands.SwerveCommands;
 import frc.robot.vision.VisionCommands;
 import frc.spectrumLib.gamepads.Gamepad;
->>>>>>> Madtown-Auto
 import frc.spectrumLib.util.ExpCurve;
 
 public class Pilot extends Gamepad {
@@ -35,16 +25,6 @@ public class Pilot extends Gamepad {
         public static final double slowModeScalor = 0.45;
         public static final double turboModeScalor = 1;
 
-<<<<<<< HEAD
-        public final double leftStickDeadzone = 0;
-        public final double leftStickExp = 2.0;
-        public final double leftStickScalor = Robot.swerve.config.maxVelocity;
-
-        public final double triggersDeadzone = 0;
-        public final double triggersExp = 2.0;
-        public final double triggersScalor = Robot.swerve.config.maxAngularVelocity;
-        public final double rotationScalor = 0.5; // original was 0.8
-=======
         public final double leftStickDeadzone = 0; // TODO: reivew
         public final double leftStickExp = 2.0;
         public final double leftStickScalor = Robot.swerve.config.maxVelocity;
@@ -53,7 +33,6 @@ public class Pilot extends Gamepad {
         public final double triggersExp = 2.0;
         public final double triggersScalor = Robot.swerve.config.maxAngularVelocity;
         public final double rotationScalor = 0.8; // original was 0.8
->>>>>>> Madtown-Auto
     }
 
     public PilotConfig config;
@@ -82,23 +61,6 @@ public class Pilot extends Gamepad {
     /*  A, B, X, Y, Left Bumper, Right Bumper = Buttons 1 to 6 in simualation */
     public void setupTeleopButtons() {
 
-<<<<<<< HEAD
-        controller.a().and(noBumpers()).whileTrue(RobotCommands.intake());
-        // controller.a().and(noBumpers()).onFalse(FeederCommands.feeder().withTimeout(0.1));
-
-        // controller.a().and(noBumpers()).whileTrue(RobotCommands.intake8515());
-
-        controller
-                .a()
-                .and(leftBumperOnly())
-                .whileTrue(LauncherCommands.eject().alongWith(RobotCommands.eject()));
-
-        // now in operator controls, the operator can finally do something
-        controller
-                .b()
-                .and(noBumpers().or(rightBumperOnly()))
-                .whileTrue(RobotCommands.subwooferReady());
-=======
         runWithEndSequence(
                 controller.a().and(noBumpers()).and(controller.x().negate()),
                 RobotCommands.smartIntake(),
@@ -107,14 +69,10 @@ public class Pilot extends Gamepad {
 
         controller.b().and(noBumpers().or(rightBumperOnly())).whileTrue(PilotCommands.turnToAmp());
         controller.b().and(noBumpers()).onTrue(RobotCommands.amp().withTimeout(1.5));
->>>>>>> Madtown-Auto
 
         controller
                 .b()
                 .and(leftBumperOnly().or(bothBumpers()))
-<<<<<<< HEAD
-                .whileTrue(RobotCommands.visionLaunch());
-=======
                 .whileTrue(RobotCommands.intoAmpShot());
 
         controller
@@ -126,41 +84,15 @@ public class Pilot extends Gamepad {
                 .x()
                 .and(leftBumperOnly().or(bothBumpers()))
                 .whileTrue(RobotCommands.manualFeedLaunch());
->>>>>>> Madtown-Auto
 
-        controller.start().onTrue(RobotCommands.climb()); // change pivot angle to max for climb
+        //controller.start().onTrue(RobotCommands.climb()); // change pivot angle to max for climb
 
         // y - amp ready, and home
-        controller
+        /*controller
                 .y()
                 .and(noBumpers().or(rightBumperOnly()))
-<<<<<<< HEAD
-                .whileTrue(RobotCommands.ampReady8515());
-
-        controller.y().and(leftBumperOnly()).whileTrue(RobotCommands.home());
-
-        // x - aim to climb
-        // controller.x().and(noBumpers().or(rightBumperOnly())).whileTrue(RobotCommands.visionLaunch());
-        controller.x().and(noBumpers()).whileTrue(RobotCommands.climbRight());
-        controller.x().and(leftBumperOnly()).whileTrue(RobotCommands.climbLeft());
-        controller.x().and(bothBumpers()).whileTrue(RobotCommands.climbBack());
-
-        // controller
-        //         .x()
-        //         .and(noBumpers().or(rightBumperOnly()))
-        //         .whileTrue(RobotCommands.onDemandLaunching());
-
-        runWithEndSequence(
-                controller.rightBumper().or(bothBumpers()),
-                RobotCommands.score(),
-                LauncherCommands.runLauncherPercentages(0, 0)
-                        .alongWith(
-                                PivotCommands.home(),
-                                FeederCommands.stop(),
-                                IntakeCommands.stopMotor()),
-                2.5);
-=======
                 .whileTrue(VisionCommands.driveToNote().alongWith(RobotCommands.smartIntake()));
+                */
         controller
                 .y()
                 .and(leftBumperOnly().or(bothBumpers()))
@@ -180,7 +112,6 @@ public class Pilot extends Gamepad {
                 .leftBumper()
                 .and(controller.rightBumper())
                 .whileTrue(RobotCommands.launchEject());
->>>>>>> Madtown-Auto
 
         controller.rightStick().whileTrue(PilotCommands.slowMode());
 

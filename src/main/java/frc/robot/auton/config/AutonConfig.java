@@ -23,11 +23,7 @@ public class AutonConfig {
     public static final double maxModuleSpeed = 6;
     public static final double driveBaseRadius = 0.4;
 
-<<<<<<< HEAD
-    public static Boolean autonInitCommandRun = false;
-=======
     public static boolean commandInit = false;
->>>>>>> Madtown-Auto
 
     public static HolonomicPathFollowerConfig AutonPathFollowerConfig =
             new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely
@@ -54,7 +50,7 @@ public class AutonConfig {
         // Configure AutoBuilder last
         AutoBuilder.configureHolonomic(
                 Robot.swerve::getPose, // Robot pose supplier
-                Robot.swerve::resetPose, // Method to reset odometry (will be called if your auto
+                Robot.swerve::, // Method to reset odometry (will be called if your auto
                 // has a starting pose)
                 Robot.swerve::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT
                 // RELATIVE
@@ -80,28 +76,6 @@ public class AutonConfig {
     }
 
     public static Optional<Rotation2d> getRotationTargetOverride() {
-<<<<<<< HEAD
-        // // Some condition that should decide if we want to override rotation
-        // if (Auton.trackNote) {
-        //     // Return an optional containing the rotation override (this should be a field
-        // relative
-        //     // rotation)
-        //     if (Robot.vision.noteInView()) {
-        //         return Optional.of(Rotation2d.fromDegrees(Robot.vision.getOffsetToNote()));
-        //     } else {
-        //         return Optional.empty();
-        //     }
-        // } else if (Auton.trackSpeaker) {
-        //     if (Robot.vision.speakerInView()) {
-        //         return Optional.of(Rotation2d.fromDegrees(Robot.vision.getOffsetToSpeaker()));
-        //     } else {
-        //         return Optional.empty();
-        //     }
-        // } else {
-        // return an empty optional when we don't want to override the path's rotation
-        return Optional.empty();
-        // }
-=======
         // Some condition that should decide if we want to override rotation
         if (Auton.trackSpeaker) {
             // Return an optional containing the rotation override (this should be a field relative
@@ -111,6 +85,5 @@ public class AutonConfig {
                     .empty(); // return an empty optional when we don't want to override the path's
             // rotation
         }
->>>>>>> Madtown-Auto
     }
 }

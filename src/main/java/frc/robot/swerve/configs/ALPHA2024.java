@@ -29,15 +29,11 @@ public class ALPHA2024 {
     private static final double kWheelRadiusInches = 3.7937 / 2; // Updated for VexIQ Pro Wheels
     private static final double speedAt12VoltsMps = 6;
 
-<<<<<<< HEAD
-    private static final double slipCurrent = 800;
-=======
     private static final double slipCurrent = 80;
     private static final double supplyCurrentLimit = 75;
     private static final double supplyCurrentThreshold = 75;
     private static final double peakForwardTorqueCurrent = 300;
     private static final double peakReverseTorqueCurrent = 300;
->>>>>>> Madtown-Auto
     private static final SlotGains steerGains = new SlotGains(100, 0, 0, 0, 0);
     private static final SlotGains driveGains = new SlotGains(8, 0, 0.1, 0, 0.8);
 

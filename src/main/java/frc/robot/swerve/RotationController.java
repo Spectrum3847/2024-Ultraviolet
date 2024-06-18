@@ -56,11 +56,7 @@ public class RotationController {
 
     public double calculate(double goalRadians) {
         double measurement = swerve.getRotation().getRadians();
-<<<<<<< HEAD
-        double calculatedValue = controller.calculate(measurement, goalRadians);
-=======
         calculatedValue = controller.calculate(measurement, goalRadians);
->>>>>>> Madtown-Auto
         // RobotTelemetry.print(
         //         "RotationControllerOutput: "
         //                 + calculatedValue

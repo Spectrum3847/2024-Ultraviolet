@@ -1,11 +1,7 @@
 {
     "fileName": "AdvantageKit.json",
     "name": "AdvantageKit",
-<<<<<<< HEAD
-    "version": "3.2.1",
-=======
     "version": "3.2.0",
->>>>>>> Madtown-Auto
     "uuid": "d820cc26-74e3-11ec-90d6-0242ac120003",
     "frcYear": "2024",
     "mavenUrls": [],
@@ -14,40 +10,24 @@
         {
             "groupId": "org.littletonrobotics.akit.junction",
             "artifactId": "wpilib-shim",
-<<<<<<< HEAD
-            "version": "3.2.1"
-=======
             "version": "3.2.0"
->>>>>>> Madtown-Auto
         },
         {
             "groupId": "org.littletonrobotics.akit.junction",
             "artifactId": "junction-core",
-<<<<<<< HEAD
-            "version": "3.2.1"
-=======
             "version": "3.2.0"
->>>>>>> Madtown-Auto
         },
         {
             "groupId": "org.littletonrobotics.akit.conduit",
             "artifactId": "conduit-api",
-<<<<<<< HEAD
-            "version": "3.2.1"
-=======
             "version": "3.2.0"
->>>>>>> Madtown-Auto
         }
     ],
     "jniDependencies": [
         {
             "groupId": "org.littletonrobotics.akit.conduit",
             "artifactId": "conduit-wpilibio",
-<<<<<<< HEAD
-            "version": "3.2.1",
-=======
             "version": "3.2.0",
->>>>>>> Madtown-Auto
             "skipInvalidPlatforms": false,
             "isJar": false,
             "validPlatforms": [

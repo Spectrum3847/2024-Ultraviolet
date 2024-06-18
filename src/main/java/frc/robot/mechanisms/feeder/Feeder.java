@@ -14,16 +14,6 @@ public class Feeder extends Mechanism {
     public class FeederConfig extends Config {
 
         /* Revolutions per min Feeder Output */
-<<<<<<< HEAD
-        public double maxSpeed = 5000; // TODO: configure
-        public double feed = 5000; // TODO: configure
-        public double testFeed = 250;
-        public double intake = 500;
-        public double eject = -3000; // TODO: configure
-        public double launchEject = 1000;
-        public double feedToAmp =
-                3500; // Needs to be greater than or equal to ampReady roller speed
-=======
         public double maxSpeed = 5000;
         public double intake = 200;
         public double eject = -3000;
@@ -35,7 +25,6 @@ public class Feeder extends Mechanism {
         public double autoFeed = 3000;
         public double ejectFromIntake = 3000;
         public double manualSource = -2000;
->>>>>>> Madtown-Auto
 
         /* Rotations config */
         public double addedFeedRotations = 4;

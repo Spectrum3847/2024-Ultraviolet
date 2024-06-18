@@ -4,11 +4,7 @@ import edu.wpi.first.wpilibj.util.Color;
 
 public class LEDsConfig {
     public static final int port = 0;
-<<<<<<< HEAD
-    public static final int length = 58;
-=======
     public static final int length = 29;
->>>>>>> Madtown-Auto
     public static final double strobeFastDuration = 0.1;
     public static final double strobeSlowDuration = 0.2;
     public static final double breathDuration = 1.0;

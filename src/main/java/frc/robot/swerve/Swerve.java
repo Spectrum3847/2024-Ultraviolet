@@ -10,11 +10,8 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-<<<<<<< HEAD
-=======
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
->>>>>>> Madtown-Auto
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.crescendo.Field;
@@ -58,13 +55,8 @@ public class Swerve implements Subsystem {
             case PM:
                 config = PM2024.config;
                 break;
-<<<<<<< HEAD
-            case PHOTON:
-                config = PHOTON.config;
-=======
             case ULTRAVIOLET:
                 config = ULTRAVIOLET2024.config;
->>>>>>> Madtown-Auto
                 break;
             case ALPHA:
                 config = ALPHA2024.config;
@@ -75,6 +67,9 @@ public class Swerve implements Subsystem {
             case MUSICDISC:
                 config = MUSICDISC2023.config;
                 break;
+            case PHOTON:
+                config = PHOTON.config;
+                break;
             case SIM: // runs in simulation
                 OdometryUpdateFrequency = 50;
                 config = ULTRAVIOLET2024.config;
@@ -83,11 +78,7 @@ public class Swerve implements Subsystem {
                 DriverStation.reportError(
                         "Could not match robot to swerve config; defaulting to PM2024 swerve config",
                         false);
-<<<<<<< HEAD
-                config = PM2024.config;
-=======
                 config = ULTRAVIOLET2024.config;
->>>>>>> Madtown-Auto
                 break;
         }
         drivetrain = new Drivetrain(config, OdometryUpdateFrequency);
@@ -128,9 +119,6 @@ public class Swerve implements Subsystem {
 
         // Log Odometry Pose
         Logger.recordOutput("Odometry/Robot", getPose());
-<<<<<<< HEAD
-        Logger.recordOutput("Vision/Front/Pose", Robot.vision.frontLL.getRawPose3d().toPose2d());
-=======
         Logger.recordOutput("Odometry/RobotX", getPose().getX());
         Logger.recordOutput("Odometry/RobotY", getPose().getY());
         Logger.recordOutput("Odometry/RobotTheta", getPose().getRotation().getDegrees());
@@ -166,7 +154,6 @@ public class Swerve implements Subsystem {
         // Update Field object for smartdashboard
         field.setRobotPose(getPose());
         field.getObject("Vision").setPose(Robot.vision.frontLL.getRawPose3d().toPose2d());
->>>>>>> Madtown-Auto
     }
 
     @Override
@@ -192,24 +179,11 @@ public class Swerve implements Subsystem {
         return getState().Pose;
     }
 
-    public Pose2d convertPoseWithGyro(Pose2d pose) {
-        return new Pose2d(pose.getX(), pose.getY(), getRotation());
-    }
-
-    public ChassisSpeeds getVelocity(boolean fieldRelative) {
-        if (fieldRelative) {
-            return ChassisSpeeds.fromFieldRelativeSpeeds(getRobotRelativeSpeeds(), getRotation());
-        } else {
-            return getRobotRelativeSpeeds();
-        }
-    }
 
     public void reorient(double angle) {
         drivetrain.reorient(angle);
     }
 
-<<<<<<< HEAD
-=======
     public void setBrakeMode() {
         drivetrain.setSwerveNeutralMode(NeutralModeValue.Brake);
     }
@@ -218,7 +192,6 @@ public class Swerve implements Subsystem {
         drivetrain.setSwerveNeutralMode(NeutralModeValue.Coast);
     }
 
->>>>>>> Madtown-Auto
     public void reorientForward() {
         double angle = 0;
         if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red) {
@@ -251,14 +224,9 @@ public class Swerve implements Subsystem {
         drivetrain.reorient(angle);
     }
 
-<<<<<<< HEAD
-    public void resetPose(Pose2d pose) {
-        drivetrain.seedFieldRelative(pose);
-=======
     public void cardinalReorient() {
         double angle = getClosestCardinal();
         drivetrain.reorient(angle);
->>>>>>> Madtown-Auto
     }
 
     public ChassisSpeeds getRobotRelativeSpeeds() {

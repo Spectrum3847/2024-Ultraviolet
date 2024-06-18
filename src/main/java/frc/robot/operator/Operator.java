@@ -3,9 +3,6 @@ package frc.robot.operator;
 import frc.robot.Robot;
 import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
-<<<<<<< HEAD
-import frc.spectrumLib.Gamepad;
-=======
 import frc.robot.leds.LEDsCommands;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
 import frc.robot.mechanisms.climber.ClimberCommands;
@@ -15,7 +12,6 @@ import frc.robot.mechanisms.intake.IntakeCommands;
 import frc.robot.mechanisms.pivot.PivotCommands;
 import frc.robot.vision.VisionCommands;
 import frc.spectrumLib.gamepads.Gamepad;
->>>>>>> Madtown-Auto
 
 public class Operator extends Gamepad {
     public class OperatorConfig {
@@ -50,29 +46,6 @@ public class Operator extends Gamepad {
     /*  A, B, X, Y, Left Bumper, Right Bumper = Buttons 1 to 6 in simualation */
     public void setupTeleopButtons() {
 
-<<<<<<< HEAD
-        // controller.a().and(noBumpers()).whileTrue(LauncherCommands.runOnDemandVelocity());
-
-        // controller.a().and(noBumpers()).whileTrue(RobotCommands.visionLaunch());
-
-        controller.b().and(noBumpers()).whileTrue(RobotCommands.subwooferReady());
-
-        // controller
-        //         .b()
-        //         .and(leftBumperOnly())
-        //         .whileTrue(
-        //                 RobotCommands.podiumReady()); // changed onTrue to whileTrue if that
-        // breaks
-
-        // controller.x().and(noBumpers()).whileTrue(PilotCommands.turnToAmp());
-        // anything...
-
-        // controller.x().and(noBumpers()).onTrue();
-
-        // controller.b().and(noBumpers()).onTrue();
-
-        // controller.y().and(noBumpers()).onTrue();
-=======
         controller.a().and(noBumpers()).whileTrue(IntakeCommands.intake()); // intake
         controller.a().and(leftBumperOnly()).whileTrue(IntakeCommands.eject()); // eject
 
@@ -87,7 +60,6 @@ public class Operator extends Gamepad {
 
         rightStick().and(leftBumperOnly()).whileTrue(OperatorCommands.manualClimber());
         leftStick().and(leftBumperOnly()).whileTrue(OperatorCommands.manualElevator());
->>>>>>> Madtown-Auto
 
         bothBumpers()
                 .whileTrue(

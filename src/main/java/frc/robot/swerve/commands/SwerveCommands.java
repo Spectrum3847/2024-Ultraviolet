@@ -19,9 +19,6 @@ public class SwerveCommands {
             () -> (swerve.config.deadband * swerve.config.maxVelocity);
 
     public static void setupDefaultCommand() {
-<<<<<<< HEAD
-        swerve.setDefaultCommand(PilotCommands.pilotDrive().ignoringDisable(true));
-=======
         // Wait a little before enabling heading lock, allows any turns to finish
         swerve.setDefaultCommand(
                 PilotCommands.pilotDrive()
@@ -29,7 +26,6 @@ public class SwerveCommands {
                         .andThen(PilotCommands.headingLockDrive())
                         .ignoringDisable(true)
                         .withName("SwerveCommands.default"));
->>>>>>> Madtown-Auto
     }
 
     /** Turn the swerve wheels to an X to prevent the robot from moving */
@@ -243,8 +239,6 @@ public class SwerveCommands {
         return swerve.runOnce(() -> swerve.reorient(angle)).withName("Swerve.reorient");
     }
 
-<<<<<<< HEAD
-=======
     // do not use this
     // public static Command smartReorient(double angle) {
     //     return swerve.runOnce(
@@ -259,7 +253,6 @@ public class SwerveCommands {
     //             .withName("Swerve.smartReorient");
     // }
 
->>>>>>> Madtown-Auto
     public static Command reorientForward() {
         return swerve.runOnce(() -> swerve.reorientForward()).withName("Swerve.reorientForward");
     }
@@ -275,10 +268,6 @@ public class SwerveCommands {
     public static Command reorientBack() {
         return swerve.runOnce(() -> swerve.reorientBack()).withName("Swerve.reorientBack");
     }
-<<<<<<< HEAD
-    // Swerve Command Options
-    // - Drive needs to work with slow mode (this might be done in PilotCommands)
-=======
 
     public static Command cardinalReorient() {
         return swerve.runOnce(() -> swerve.cardinalReorient()).withName("Swerve.cardinalReorient");
@@ -292,10 +281,6 @@ public class SwerveCommands {
         return swerve.startEnd(() -> swerve.setCoastMode(), () -> swerve.setBrakeMode())
                 .ignoringDisable(true)
                 .withName("Swerve.coastMode");
-    }
-
-    public static Command resetPose(Pose2d pose) {
-        return swerve.runOnce(() -> swerve.resetPose(pose)).withName("SwerveCommands.resetPose");
     }
 
     public static Command getSwerveSwitch() {
@@ -333,5 +318,4 @@ public class SwerveCommands {
             }
         }.withName("Swerve.getSwerveSwitch");
     }
->>>>>>> Madtown-Auto
 }

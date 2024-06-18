@@ -3,16 +3,12 @@ package frc.robot.pilot;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-<<<<<<< HEAD
-import frc.crescendo.Field;
-import frc.robot.Robot;
-import frc.robot.leds.LEDsCommands;
-=======
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.crescendo.Field;
 import frc.robot.Robot;
 import frc.robot.leds.LEDs;
->>>>>>> Madtown-Auto
+import frc.robot.leds.LEDsCommands;
 import frc.robot.mechanisms.climber.Climber;
 import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.mechanisms.pivot.Pivot;
@@ -28,12 +24,7 @@ public class PilotCommands {
 
     /** Set default command to turn off the rumble */
     public static void setupDefaultCommand() {
-<<<<<<< HEAD
-        pilot.setDefaultCommand(
-                rumble(0, 99999).repeatedly().withName("Pilot.default").ignoringDisable(true));
-=======
         Robot.pilot.setDefaultCommand(launchReadyRumble().withName("Pilot.default"));
->>>>>>> Madtown-Auto
     }
 
     /** Command that can be used to rumble the pilot controller */
@@ -42,7 +33,8 @@ public class PilotCommands {
     }
 
     public static Command launchReadyRumble() {
-        return new FunctionalCommand(
+        return new InstantCommand();
+        /*return new FunctionalCommand(
                         () -> {},
                         () -> {
                             if (LauncherCommands.isAtSpeed) {
@@ -61,6 +53,7 @@ public class PilotCommands {
                         () -> false,
                         Robot.pilot)
                 .ignoringDisable(true);
+                */
     }
 
     /** Full control of the swerve by the Pilot command */
@@ -94,8 +87,6 @@ public class PilotCommands {
                 .withName("Swerve.PilotHeadingLockDrive");
     }
 
-<<<<<<< HEAD
-=======
     public static Command aimToSpeaker() {
         return SwerveCommands.aimDrive(
                         () -> pilot.getDriveFwdPositive(),
@@ -142,15 +133,6 @@ public class PilotCommands {
                 () -> pilot.getDriveLeftPositive(),
                 () -> Math.toRadians(Field.flipAngleIfBlue(270)), // Face the back to the amp
                 () -> true,
-                () -> true);
-    }
-
-    public static Command turnToAmp() {
-        return SwerveCommands.aimDrive(
-                () -> pilot.getDriveFwdPositive(),
-                () -> pilot.getDriveLeftPositive(),
-                () -> Units.degreesToRadians(Field.flipAngleIfBlue(270)),
-                () -> pilot.getFieldOriented(), // true is field oriented
                 () -> true);
     }
 
@@ -212,7 +194,6 @@ public class PilotCommands {
                 .withName("Swerve.PilotSpeakerAimingDrive");
     }
 
->>>>>>> Madtown-Auto
     /**
      * Drive the robot using left stick and control orientation using the right stick Only Cardinal
      * directions are allowed
@@ -263,16 +244,6 @@ public class PilotCommands {
                         () -> pilot.getFieldOriented(), // true is field oriented
                         () -> true)
                 .withName("Swerve.aimToClimbBack");
-    }
-
-    public static Command aimToSpeaker() {
-        return SwerveCommands.aimDrive(
-                        () -> pilot.getDriveFwdPositive(),
-                        () -> pilot.getDriveLeftPositive(),
-                        () -> Robot.vision.getAdjustedThetaToSpeaker(),
-                        () -> pilot.getFieldOriented(), // true is field oriented
-                        () -> true)
-                .withName("Swerve.aimToSpeaker");
     }
 
     public static Command turnToAmp() {

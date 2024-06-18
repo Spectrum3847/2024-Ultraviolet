@@ -27,16 +27,6 @@ public class PM2024 {
 
     // Tuning Config
     // Estimated at first, then fudge-factored to make odom match record
-<<<<<<< HEAD
-    private static final double kWheelRadiusInches = 3.7937 / 2; // Updated for VexIQ Pro Wheels
-    private static final double speedAt12VoltsMps = 6;
-
-    private static final double slipCurrent = 800;
-    private static final SlotGains steerGains = new SlotGains(100, 0, 0, 0, 0);
-    private static final SlotGains driveGains = new SlotGains(8, 0, 0.1, 0, 0.8);
-    private static final double deadband = 0.1;
-    private static final double rotationDeadband = 0.1;
-=======
     private static final double kWheelRadiusInches = 3.5 / 2; // Updated for VexIQ Pro Wheels
     private static final double speedAt12VoltsMps = 6;
 
@@ -47,20 +37,16 @@ public class PM2024 {
     private static final double peakReverseTorqueCurrent = 300;
     private static final SlotGains steerGains = new SlotGains(100, 0, 0, 0, 0);
     private static final SlotGains driveGains = new SlotGains(8, 0, 0.1, 0, 0.8);
->>>>>>> Madtown-Auto
 
     /*Rotation Controller*/
     private static final double kPRotationController = 7.0;
     private static final double kIRotationController = 0.0;
     private static final double kDRotationController = 0.0;
-<<<<<<< HEAD
-=======
 
     /*Alignment Controllers */
     private static final double kPAlignmentController = 12.0;
     private static final double kIAlignmentController = 0.0;
     private static final double kDAlignmentController = 0.0;
->>>>>>> Madtown-Auto
 
     /*Profiling Configs*/
     private static final double maxVelocity = speedAt12VoltsMps;
@@ -170,10 +156,6 @@ public class PM2024 {
                             kPAlignmentController, kIAlignmentController, kDAlignmentController)
                     .withProfilingConfigs(
                             maxVelocity, maxAccel, maxAngularVelocity, maxAngularAcceleration)
-<<<<<<< HEAD
-                    .withDeadbandConfig(deadband, rotationDeadband);;
-=======
                     .withDeadbandConfig(deadband, rotationDeadband)
                     .withPivotConfig(pivotCANcoderOffset, pivotFeedbackSource);
->>>>>>> Madtown-Auto
 }

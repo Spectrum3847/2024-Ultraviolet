@@ -1,7 +1,5 @@
 package frc.robot.mechanisms.pivot;
 
-<<<<<<< HEAD
-=======
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
@@ -9,7 +7,6 @@ import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
->>>>>>> Madtown-Auto
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -31,25 +28,6 @@ public class Pivot extends Mechanism {
         public final double CANcoderGearRatio = 35.1;
 
         /* Pivot constants in motor rotations */
-<<<<<<< HEAD
-        public final double maxRotation =
-                43.5 * 3 * 25 / 36; // furthest it goes up, also is amp score
-        public final double minRotation = 0;
-
-        /* Pivot positions in percentage of max rotation || 0 is horizontal */
-        public final int score = 65;
-        public final int halfScore = 50;
-        public final int test = 36;
-        public final int home = 0;
-        public final int subwoofer = 10;
-        public final int podium = 36;
-        public final int amp = 102;
-        public final int autoLaunchPreload = 23;
-        public final int autoLaunch2 =
-                27; // works for GP2/GP3/GP5/GP6 in Front 5 and GP2/GP4/5 in Front 5 Alt
-        public final int autoLaunch3 = 36; // works for GP4 in Front 5 and GP3 in Front 5 Alt
-        public final int climb = 130; // 120
-=======
         public final double maxRotation = 0.96; // 0.967
         public final double minRotation = 0;
 
@@ -66,16 +44,10 @@ public class Pivot extends Mechanism {
         public final double manualFeed = 70;
         /* Auto Launch Positions */
         public final double autoLaunchPreload = 60;
->>>>>>> Madtown-Auto
 
         public final double autoLaunchPreload2 = 62;
         public final double spitReady = 5; // GP 4 on Front 6
 
-<<<<<<< HEAD
-        public double offset = 0;
-
-        /* Intake config values */
-=======
         public final double spitReady2 = 35; // GP 4 on Front 6
         public final double autoLaunch1 = 70;
         public final double autoLaunch2 =
@@ -115,32 +87,12 @@ public class Pivot extends Mechanism {
         public boolean shortFeed = false;
 
         /* Pivot config values */
->>>>>>> Madtown-Auto
         public double currentLimit = 30;
         public double torqueCurrentLimit = 100;
         public double threshold = 40;
-<<<<<<< HEAD
-        public double velocityKp = 0.8;
-        public double velocityKv = 0.013;
-        public double velocityKs = 0.5;
-
-        public static final InterpolatingDoubleTreeMap DISTANCE_MAP =
-                new InterpolatingDoubleTreeMap();
-        public static final InterpolatingDoubleTreeMap FEED_DISTANCE_MAP =
-                new InterpolatingDoubleTreeMap();
-
-        static {
-            // home
-            DISTANCE_MAP.put(1.18, 10.0);
-            DISTANCE_MAP.put(1.76, 24.0);
-            DISTANCE_MAP.put(2.79, 34.5);
-            DISTANCE_MAP.put(2.93, 37.0);
-        }
-=======
         public double velocityKp = 186; // 200 w/ 0.013 good
         public double velocityKv = 0.018;
         public double velocityKs = 0;
->>>>>>> Madtown-Auto
 
         // TreeMap - Shooting position lookup table
         public static final InterpolatingDoubleTreeMap DISTANCE_MAP =
@@ -224,31 +176,19 @@ public class Pivot extends Mechanism {
             configNeutralBrakeMode(true);
             configClockwise_Positive();
             configReverseSoftLimit(minRotation, true);
-<<<<<<< HEAD
-            configForwardSoftLimit(maxRotation + 30.0, true); // + 20
-            configMotionMagic(100, 205, 0);
-=======
             configForwardSoftLimit(maxRotation, true);
             configMotionMagic(147000, 161000, 0);
->>>>>>> Madtown-Auto
         }
     }
 
     public PivotConfig config;
-<<<<<<< HEAD
-    //
-    public Pivot(boolean attached) {
-=======
     private CANcoder m_CANcoder;
 
     public Pivot(boolean attached, SwerveConfig swerveConfig) {
->>>>>>> Madtown-Auto
         super(attached);
         if (attached) {
             modifyMotorConfig(swerveConfig); // Modify configuration to use remote CANcoder fused
             motor = TalonFXFactory.createConfigTalon(config.id, config.talonConfig);
-<<<<<<< HEAD
-=======
             m_CANcoder = new CANcoder(config.CANcoderID, RobotConfig.CANIVORE);
             CANcoderConfiguration cancoderConfigs = new CANcoderConfiguration();
             cancoderConfigs.MagnetSensor.MagnetOffset = swerveConfig.pivotCANcoderOffset;
@@ -257,7 +197,6 @@ public class Pivot extends Mechanism {
             cancoderConfigs.MagnetSensor.AbsoluteSensorRange =
                     AbsoluteSensorRangeValue.Unsigned_0To1;
             checkMotorResponse(m_CANcoder.getConfigurator().apply(cancoderConfigs));
->>>>>>> Madtown-Auto
         }
 
         SmartDashboard.putNumber("pivotPercent", config.score);
@@ -268,11 +207,6 @@ public class Pivot extends Mechanism {
 
     // Lookup angle in tree map, add fudge factor, and return angle
     public DoubleSupplier getAngleFromDistance(DoubleSupplier distance) {
-<<<<<<< HEAD
-        return () -> (PivotConfig.DISTANCE_MAP.get(distance.getAsDouble()) + config.offset);
-    }
-
-=======
         return () -> getMapAngle(PivotConfig.DISTANCE_MAP, distance.getAsDouble(), config.OFFSET);
     }
 
@@ -319,11 +253,6 @@ public class Pivot extends Mechanism {
         return Math.min(angle, 95);
     }
 
-    public Command runPosition(DoubleSupplier percent) {
-        return run(() -> setMMPosition(percentToRotation(percent)))
-                .withName("Pivot.runPercentSupplier");
-    }
->>>>>>> Madtown-Auto
     /**
      * Sets the intake motor to a specified position.
      *
@@ -480,8 +409,6 @@ public class Pivot extends Mechanism {
         return () -> config.maxRotation * (percent.getAsDouble() / 100);
     }
 
-<<<<<<< HEAD
-=======
     public void increaseOffset() {
         increaseOffset(1);
     }
@@ -544,7 +471,6 @@ public class Pivot extends Mechanism {
         config.talonConfig.Feedback.RotorToSensorRatio = config.CANcoderGearRatio;
     }
 
->>>>>>> Madtown-Auto
     @Override
     protected Config setConfig() {
         config = new PivotConfig();

@@ -7,11 +7,7 @@ public class IntakeCommands {
     private static Intake intake = Robot.intake;
 
     public static void setupDefaultCommand() {
-<<<<<<< HEAD
-        intake.setDefaultCommand(stopMotor().withName("Intake.default").ignoringDisable(true));
-=======
         intake.setDefaultCommand(stopMotor().ignoringDisable(true).withName("Intake.default"));
->>>>>>> Madtown-Auto
     }
 
     public static Command runFull() {

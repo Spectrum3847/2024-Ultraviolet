@@ -8,11 +8,7 @@ public class ClimberCommands {
 
     public static void setupDefaultCommand() {
         climber.setDefaultCommand(
-<<<<<<< HEAD
-                climber.holdPosition().withName("Climber.default").ignoringDisable(true));
-=======
                 climber.holdPosition().ignoringDisable(true).withName("Climber.default"));
->>>>>>> Madtown-Auto
     }
 
     public static Command fullExtend() {

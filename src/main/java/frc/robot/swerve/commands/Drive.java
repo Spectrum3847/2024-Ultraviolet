@@ -91,12 +91,9 @@ public class Drive implements Request {
             toApplyX = 0;
             toApplyY = 0;
         }
-<<<<<<< HEAD
-=======
         if (Math.abs(toApplyOmega) < RotationalDeadband) {
             toApplyOmega = 0;
         }
->>>>>>> Madtown-Auto
 
         ChassisSpeeds speeds;
         if (IsFieldOriented) {

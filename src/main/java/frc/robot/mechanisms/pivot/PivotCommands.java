@@ -4,10 +4,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import frc.robot.Robot;
-<<<<<<< HEAD
-import frc.robot.leds.LEDs;
-=======
->>>>>>> Madtown-Auto
 import java.util.function.DoubleSupplier;
 
 public class PivotCommands {
@@ -15,11 +11,7 @@ public class PivotCommands {
 
     public static void setupDefaultCommand() {
         pivot.setDefaultCommand(
-<<<<<<< HEAD
-                pivot.runHoldPivot().withName("Pivot.default").ignoringDisable(true));
-=======
                 pivot.runHoldPivot().ignoringDisable(true).withName("Pivot.default"));
->>>>>>> Madtown-Auto
     }
 
     /* Misc Positions */
@@ -28,8 +20,6 @@ public class PivotCommands {
         return pivot.runPosition(pivot.getAngleFromDistance(distance));
     }
 
-<<<<<<< HEAD
-=======
     public static Command setPivotOnFeedDistance(DoubleSupplier distance) {
         return pivot.runPosition(pivot.getAngleFromFeedDistance(distance));
     }
@@ -38,21 +28,13 @@ public class PivotCommands {
         return pivot.runPosition(pivot.getAngleFromDeepFeedDistance(distance));
     }
 
->>>>>>> Madtown-Auto
     public static Command onDemandPivot() {
         return new OnDemandPivot(pivot.config.score).withName("Pivot.onDemandPivot");
     }
 
     public static Command home() {
         return pivot.runPosition(pivot.config.home)
-                .alongWith(sendPivotFeedback())
                 .withName("Pivot.home");
-    }
-
-    public static Command climb() {
-        return pivot.runPosition(pivot.config.climb)
-                .alongWith(sendPivotFeedback())
-                .withName("Pivot.climb");
     }
 
     public static Command climbHome() {
@@ -69,18 +51,10 @@ public class PivotCommands {
         return pivot.runPosition(pivot.config.subwoofer).withName("Pivot.subwoofer");
     }
 
-    public static Command ampScore() {
-        return pivot.runPosition(pivot.config.amp)
-                .alongWith(sendPivotFeedback())
-                .withName("Pivot.amp");
-    }
-
     public static Command podium() {
         return pivot.runPosition(pivot.config.podium).withName("Pivot.podium");
     }
 
-<<<<<<< HEAD
-=======
     public static Command ampWing() {
         return pivot.runPosition(pivot.config.ampWing).withName("Pivot.ampWing");
     }
@@ -93,13 +67,10 @@ public class PivotCommands {
         return pivot.runPosition(pivot.config.intoAmp).withName("Pivot.intoAmp");
     }
 
->>>>>>> Madtown-Auto
     public static Command autoLaunchPreload() {
         return pivot.runPosition(pivot.config.autoLaunchPreload).withName("Pivot.subwoofer");
     }
 
-<<<<<<< HEAD
-=======
     public static Command autoLaunchPreload2() {
         return pivot.runPosition(pivot.config.autoLaunchPreload2).withName("Pivot.subwoofer");
     }
@@ -108,7 +79,6 @@ public class PivotCommands {
         return pivot.runPosition(pivot.config.autoLaunch1).withName("Pivot.subwoofer");
     }
 
->>>>>>> Madtown-Auto
     public static Command autoLaunch2() {
         return pivot.runPosition(pivot.config.autoLaunch2).withName("Pivot.subwoofer");
     }
@@ -117,14 +87,6 @@ public class PivotCommands {
         return pivot.runPosition(pivot.config.autoLaunch3).withName("Pivot.subwoofer");
     }
 
-<<<<<<< HEAD
-    public static Command autoLaunchSub() {
-        return pivot.runPosition(pivot.config.subwoofer).withName("Pivot.subwoofer");
-    }
-
-    public static Command stopMotor() {
-        return pivot.runStop().withName("Pivot.stopMotor");
-=======
     public static Command autoLaunch4() {
         return pivot.runPosition(pivot.config.autoLaunch4).withName("Pivot.subwoofer");
     }
@@ -191,35 +153,12 @@ public class PivotCommands {
 
     public static Command intake() {
         return pivot.runPosition(pivot.config.intake).withName("Pivot.intake");
->>>>>>> Madtown-Auto
     }
 
     public static Command coastMode() {
         return pivot.coastMode();
     }
 
-<<<<<<< HEAD
-    // /*Helper Command */
-    public static Command sendPivotFeedback() {
-        return new FunctionalCommand(
-                () -> {},
-                () -> {
-                    if (pivot.getMotorPercentAngle() < 1) {
-                        Commands.startEnd(LEDs::turnOnHomeLEDs, LEDs::turnOffHomeLEDs)
-                                .withTimeout(1.5);
-                    } else if ((pivot.getMotorPercentAngle() < pivot.config.amp + 1)
-                            && (pivot.getMotorPercentAngle() > pivot.config.amp - 1)) {
-                        Commands.startEnd(LEDs::turnOnAmpLEDs, LEDs::turnOffAmpLEDs)
-                                .withTimeout(1.5);
-                    } else if ((pivot.getMotorPercentAngle() < pivot.config.climb + 1)
-                            && (pivot.getMotorPercentAngle() > pivot.config.amp - 1)) {
-                        Commands.startEnd(LEDs::turnOnClimbLEDs, LEDs::turnOffClimbLEDs)
-                                .withTimeout(1.5);
-                    }
-                },
-                (b) -> {},
-                () -> false);
-=======
     public static Command stopMotor() {
         return pivot.runStop().withName("Pivot.stop");
     }
@@ -253,6 +192,5 @@ public class PivotCommands {
         return pivot.runOnce(pivot::switchFeedSpot)
                 .withName("Pivot.switchFeedSpot")
                 .ignoringDisable(true);
->>>>>>> Madtown-Auto
     }
 }

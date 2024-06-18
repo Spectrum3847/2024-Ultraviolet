@@ -7,28 +7,13 @@ public class FeederCommands {
     private static Feeder feeder = Robot.feeder;
 
     public static void setupDefaultCommand() {
-<<<<<<< HEAD
-        feeder.setDefaultCommand(stop().withName("Feeder.default").ignoringDisable(true));
-=======
         feeder.setDefaultCommand(stopMotor().ignoringDisable(true).withName("Feeder.default"));
->>>>>>> Madtown-Auto
     }
 
     public static Command runFull() {
         return feeder.runVelocity(feeder.config.maxSpeed).withName("Feeder.runFull");
     }
 
-<<<<<<< HEAD
-    public static Command slowFeed() {
-        return feeder.runPercentage(feeder.config.slowFeederPercentage).withName("Feeder.slowFeed");
-    }
-
-    public static Command stop() {
-        return feeder.runPercentage(0).withName("Feeder.slowFeed");
-    }
-
-=======
->>>>>>> Madtown-Auto
     public static Command addFeedRevolutions() {
         return feeder.runAddPosition(feeder.config.addedFeedRotations)
                 .withName("Feeder.addFeedRevolutions");
@@ -38,14 +23,6 @@ public class FeederCommands {
         return feeder.runVelocity(feeder.config.eject).withName("Feeder.eject");
     }
 
-<<<<<<< HEAD
-    public static Command ejectAmp() {
-        return feeder.runVelocity(feeder.config.eject).withName("Feeder.eject");
-    }
-
-    public static Command launchEject() {
-        return feeder.runVelocity(feeder.config.launchEject).withName("Feeder.launchEject");
-=======
     public static Command score() {
         return feeder.runVelocity(feeder.config.score).withName("Feeder.score");
     }
@@ -64,7 +41,6 @@ public class FeederCommands {
 
     public static Command slowEject() {
         return feeder.runVelocity(feeder.config.slowEject).withName("Feeder.slowEject");
->>>>>>> Madtown-Auto
     }
 
     public static Command intake() {
