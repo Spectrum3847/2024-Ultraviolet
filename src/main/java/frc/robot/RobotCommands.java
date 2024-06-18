@@ -343,7 +343,7 @@ public class RobotCommands {
                 .andThen(FeederCommands.intake().withTimeout(0.3));
         // .alongWith(IntakeCommands.stopMotor())
     }
-   
+
     public static Command ensureBrakeMode() {
         return AmpTrapCommands.ensureBrakeMode()
                 .alongWith(
@@ -363,7 +363,7 @@ public class RobotCommands {
                 .withName("RobotCommands.subwooferReady");
     }
 
-      public static Command intoAmpShot() {
+    public static Command intoAmpShot() {
         return LauncherCommands.intoAmp()
                 .alongWith(PivotCommands.intoAmp(), PilotCommands.turnLaunchToAmp())
                 .withName("RobotCommands.intoAmp");

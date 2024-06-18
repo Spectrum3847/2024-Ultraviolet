@@ -85,14 +85,14 @@ public class Pilot extends Gamepad {
                 .and(leftBumperOnly().or(bothBumpers()))
                 .whileTrue(RobotCommands.manualFeedLaunch());
 
-        //controller.start().onTrue(RobotCommands.climb()); // change pivot angle to max for climb
+        // controller.start().onTrue(RobotCommands.climb()); // change pivot angle to max for climb
 
         // y - amp ready, and home
         /*controller
-                .y()
-                .and(noBumpers().or(rightBumperOnly()))
-                .whileTrue(VisionCommands.driveToNote().alongWith(RobotCommands.smartIntake()));
-                */
+        .y()
+        .and(noBumpers().or(rightBumperOnly()))
+        .whileTrue(VisionCommands.driveToNote().alongWith(RobotCommands.smartIntake()));
+        */
         controller
                 .y()
                 .and(leftBumperOnly().or(bothBumpers()))

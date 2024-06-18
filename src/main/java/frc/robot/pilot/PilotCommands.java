@@ -3,14 +3,11 @@ package frc.robot.pilot;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.crescendo.Field;
 import frc.robot.Robot;
-import frc.robot.leds.LEDs;
 import frc.robot.leds.LEDsCommands;
 import frc.robot.mechanisms.climber.Climber;
-import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.mechanisms.pivot.Pivot;
 import frc.robot.swerve.Swerve;
 import frc.robot.swerve.commands.SwerveCommands;
@@ -35,25 +32,25 @@ public class PilotCommands {
     public static Command launchReadyRumble() {
         return new InstantCommand();
         /*return new FunctionalCommand(
-                        () -> {},
-                        () -> {
-                            if (LauncherCommands.isAtSpeed) {
-                                if (swerve.rotationControllerAtFeedback()) {
-                                    Robot.pilot.controller.rumbleController(1, 1);
-                                } else {
-                                    Robot.pilot.controller.rumbleController(0, 0);
-                                }
-                                LEDs.turnOnLaunchLEDs();
-                            } else {
-                                Robot.pilot.controller.rumbleController(0, 0);
-                                LEDs.turnOffLaunchLEDs();
-                            }
-                        },
-                        (b) -> {},
-                        () -> false,
-                        Robot.pilot)
-                .ignoringDisable(true);
-                */
+                () -> {},
+                () -> {
+                    if (LauncherCommands.isAtSpeed) {
+                        if (swerve.rotationControllerAtFeedback()) {
+                            Robot.pilot.controller.rumbleController(1, 1);
+                        } else {
+                            Robot.pilot.controller.rumbleController(0, 0);
+                        }
+                        LEDs.turnOnLaunchLEDs();
+                    } else {
+                        Robot.pilot.controller.rumbleController(0, 0);
+                        LEDs.turnOffLaunchLEDs();
+                    }
+                },
+                (b) -> {},
+                () -> false,
+                Robot.pilot)
+        .ignoringDisable(true);
+        */
     }
 
     /** Full control of the swerve by the Pilot command */

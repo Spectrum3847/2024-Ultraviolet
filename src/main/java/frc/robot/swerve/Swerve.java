@@ -183,7 +183,6 @@ public class Swerve implements Subsystem {
         drivetrain.seedFieldRelative(pose);
     }
 
-
     public void reorient(double angle) {
         drivetrain.reorient(angle);
     }

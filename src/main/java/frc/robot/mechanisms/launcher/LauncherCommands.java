@@ -68,7 +68,6 @@ public class LauncherCommands {
 
     /* Launch Commands */
 
-    
     public static DoubleSupplier getRPMfromDistance(DoubleSupplier distance) {
         return () -> getMapRPM(DISTANCE_MAP, distance.getAsDouble());
         // return () -> DISTANCE_MAP.get(distance.getAsDouble());
@@ -111,6 +110,12 @@ public class LauncherCommands {
     public static Command runOnDemandVelocity() {
         return new OnDemandLaunch(leftLauncher.config.testVelocity)
                 .withName("Launcher.onDemandVelocity");
+    }
+
+    public static Command manualFeed() {
+        return runLauncherVelocities(
+                        leftLauncher.config.manualFeed, rightLauncher.config.manualFeed)
+                .withName("Launcher.manualFeed");
     }
 
     public static Command runTest() {

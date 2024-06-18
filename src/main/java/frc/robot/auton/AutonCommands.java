@@ -111,7 +111,6 @@ public class AutonCommands {
         return PivotCommands.spitReady2().alongWith(spit2()).withName("AutonCommands.spitReady2");
     }
 
-
     public static Command stopFeed() {
         return IntakeCommands.stopMotor()
                 .alongWith(AmpTrapCommands.stopMotor(), FeederCommands.stopMotor())

@@ -146,15 +146,12 @@ public class Field {
 
         public static final Pose2d ampClimb =
                 new Pose2d(12.265, 5.042, Rotation2d.fromDegrees(Field.flipAngleIfBlue(60)));
-<<<<<<< HEAD
-=======
 
         public static final Pose2d centerClimb =
                 new Pose2d(
                         ampLeg.getX(),
                         center.getY(),
                         Rotation2d.fromDegrees(Field.flipAngleIfBlue(180)));
->>>>>>> Madtown-Auto
     }
 
     public static final double aprilTagWidth = Units.inchesToMeters(6.50);

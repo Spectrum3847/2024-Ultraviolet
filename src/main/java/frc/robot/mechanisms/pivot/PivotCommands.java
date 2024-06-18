@@ -1,8 +1,6 @@
 package frc.robot.mechanisms.pivot;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import frc.robot.Robot;
 import java.util.function.DoubleSupplier;
 
@@ -33,8 +31,7 @@ public class PivotCommands {
     }
 
     public static Command home() {
-        return pivot.runPosition(pivot.config.home)
-                .withName("Pivot.home");
+        return pivot.runPosition(pivot.config.home).withName("Pivot.home");
     }
 
     public static Command climbHome() {
