@@ -41,9 +41,9 @@ public class PHOTON {
     private static final SlotGains driveGains = new SlotGains(8, 0, 0.1, 0, 0.8);
 
     /*Rotation Controller*/
-    private static final double kPRotationController = 7.5;
+    private static final double kPRotationController = 8;
     private static final double kIRotationController = 0.0;
-    private static final double kDRotationController = 0.6;
+    private static final double kDRotationController = 0.2;
 
     /*Profiling Configs*/
     private static final double maxVelocity = speedAt12VoltsMps;
@@ -51,7 +51,8 @@ public class PHOTON {
     private static final double maxAngularVelocity =
             maxVelocity
                     / Units.inchesToMeters(
-                            Math.hypot(trueWheelBaseInches / 2.0, trueTrackWidthInches / 2.0));
+                            Math.hypot(trueWheelBaseInches / 2.0, trueTrackWidthInches / 2.0))
+                    * 1.5;
     private static final double maxAngularAcceleration = Math.pow(maxAngularVelocity, 2);
     private static final double deadband = 0.1;
     private static final double rotationDeadband = 0.1;
