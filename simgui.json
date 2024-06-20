@@ -91,6 +91,7 @@
       "/SmartDashboard/Module 1": "Mechanism2d",
       "/SmartDashboard/Module 2": "Mechanism2d",
       "/SmartDashboard/Module 3": "Mechanism2d",
+      "/SmartDashboard/Odometry/Field": "Field2d",
       "/SmartDashboard/Scheduler": "Scheduler"
     },
     "windows": {
