@@ -4,6 +4,7 @@ import frc.robot.Robot;
 import frc.robot.RobotCommands;
 import frc.robot.RobotTelemetry;
 import frc.robot.leds.LEDsCommands;
+import frc.robot.mechanisms.climber.ClimberCommands;
 import frc.robot.mechanisms.launcher.LauncherCommands;
 import frc.robot.swerve.commands.SwerveCommands;
 import frc.robot.vision.VisionCommands;
@@ -109,7 +110,9 @@ public class Pilot extends Gamepad {
                 .and(noBumpers())
                 .whileTrue(RobotCommands.instantFeedLaunch());
 
-        controller.start().whileTrue(RobotCommands.autoClimb());
+        // controller.start().whileTrue(RobotCommands.autoClimb());
+        controller.start().and(noBumpers()).whileTrue(ClimberCommands.fullExtend());
+        controller.start().and(leftBumperOnly()).whileTrue(ClimberCommands.botClimb());
         controller.select().whileTrue(SwerveCommands.cardinalReorient());
 
         // runWithEndSequence(rightBumperOnly(), RobotCommands.launchEject(),

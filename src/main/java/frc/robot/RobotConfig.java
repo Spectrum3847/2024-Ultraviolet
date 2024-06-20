@@ -79,7 +79,7 @@ public final class RobotConfig {
                 ampTrapAttached = false;
                 elevatorAttached = false;
                 feederAttached = true;
-                climberAttached = false;
+                climberAttached = true;
                 pivotAttached = false;
                 leftLauncherAttached = true;
                 rightLauncherAttached = true;
