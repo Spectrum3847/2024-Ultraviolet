@@ -28,7 +28,7 @@ public class Pilot extends Gamepad {
 
         public final double leftStickDeadzone = 0; // TODO: reivew
         public final double leftStickExp = 2.0;
-        public final double leftStickScalor = 6; // Robot.swerve.config.maxVelocity;
+        public final double leftStickScalor = Robot.swerve.config.maxVelocity;
 
         public final double triggersDeadzone = 0; // TODO: review
         public final double triggersExp = 2.0;
