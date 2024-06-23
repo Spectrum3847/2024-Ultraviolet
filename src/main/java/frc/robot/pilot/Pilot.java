@@ -101,7 +101,9 @@ public class Pilot extends Gamepad {
                 .whileTrue(RobotCommands.instantFeedLaunch());
 
         controller.start().whileTrue(RobotCommands.autoClimb());
-        controller.select().whileTrue(SwerveCommands.cardinalReorient());
+        controller.select().and(noBumpers()).whileTrue(SwerveCommands.cardinalReorient());
+        controller.select().and(leftBumperOnly()).whileTrue(Robot.climber.zeroClimberRoutine());
+        controller.select().and(bothBumpers()).whileTrue(Robot.elevator.zeroElevatorRoutine());
 
         runWithEndSequence(rightBumperOnly(), RobotCommands.score(), ElevatorCommands.home());
         controller
