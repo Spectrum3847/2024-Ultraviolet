@@ -99,6 +99,20 @@ public class AmpTrap extends Mechanism {
     @Override
     public void periodic() {}
 
+    /*
+     * AmpNote Detection
+     */
+    public Boolean hasAmpNote(){
+        double topLaserNote = 10;
+        double bottomLaserNote = 100;
+
+        if (getBotLaserCanStatus() == true){
+            return getTopLaserCanDistance() <= topLaserNote;
+        } else {
+            return getBotLaserCanDistance() <= bottomLaserNote;
+        }
+    }
+
     /* Control methods: see method in lambda for more information */
 
     /**

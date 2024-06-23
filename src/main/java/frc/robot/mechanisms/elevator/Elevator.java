@@ -15,7 +15,7 @@ public class Elevator extends Mechanism {
 
         /* Elevator constants in rotations */
         public final double maxHeight = 29.8;
-        public final double minHeight = 0;
+        public final double minHeight = -0.75;
 
         /* Elevator positions in rotations */
         public double fullExtend = maxHeight;
