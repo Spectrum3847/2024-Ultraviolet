@@ -56,7 +56,7 @@
     },
     {
       "name": "spit4",
-      "waypointRelativePos": 0.45,
+      "waypointRelativePos": 0.5,
       "command": {
         "type": "parallel",
         "data": {
