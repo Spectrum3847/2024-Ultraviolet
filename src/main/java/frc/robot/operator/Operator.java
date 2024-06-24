@@ -73,8 +73,8 @@ public class Operator extends Gamepad {
         controller.start().and(noBumpers()).whileTrue(ClimberCommands.safeClimb());
 
         /* Zero Routines */
-        controller.select().and(noBumpers()).whileTrue(Robot.climber.zeroClimberRoutine());
-        controller.select().and(leftBumperOnly()).whileTrue(Robot.pivot.zeroPivotRoutine());
+        controller.select().and(leftBumperOnly()).whileTrue(Robot.climber.zeroClimberRoutine());
+        // controller.select().and(leftBumperOnly()).whileTrue(Robot.pivot.zeroPivotRoutine());
         controller.select().and(bothBumpers()).whileTrue(Robot.elevator.zeroElevatorRoutine());
 
         /* Pivot Adjustment */
