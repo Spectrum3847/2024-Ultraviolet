@@ -11,13 +11,7 @@
     "Subwoofer Paths"
   ],
   "autoFolders": [
-    "Adjustment Autos",
-    "Amp Side Autos",
-    "Front Autos",
-    "Madtown Autos",
-    "PID Config Autos",
-    "Source Side Autos",
-    "Subwoofer Autos"
+    "New Folder"
   ],
   "defaultMaxVel": 6.0,
   "defaultMaxAccel": 4.0,
