@@ -2,31 +2,25 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7194891096985188,
-      "y": 6.68861985057927
+      "x": 1.41,
+      "y": 3.65
     },
-    "rotation": -120.0
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "preloadScoreSub"
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "Path 1 - Amp Sub 2"
+            "pathName": "Source4"
           }
         },
         {
-          "type": "named",
+          "type": "wait",
           "data": {
-            "name": "scoreSub"
+            "waitTime": 0.75
           }
         }
       ]

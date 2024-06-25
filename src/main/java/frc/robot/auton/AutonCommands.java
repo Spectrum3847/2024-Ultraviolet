@@ -7,10 +7,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Robot;
-import frc.robot.RobotTelemetry;
 import frc.robot.mechanisms.amptrap.AmpTrapCommands;
 import frc.robot.mechanisms.feeder.FeederCommands;
 import frc.robot.mechanisms.intake.IntakeCommands;
@@ -252,39 +250,7 @@ public class AutonCommands {
     }
 
     public static Command intake() {
-        return new InstantCommand(
-                        () -> {
-                            Auton.noteIntaked = false;
-                        })
-                .andThen(
-                        IntakeCommands.intake()
-                                .alongWith(AmpTrapCommands.intake())
-                                .until(Robot.feeder::intakedNote)
-                                .andThen(
-                                        new InstantCommand(
-                                                        () -> {
-                                                            Auton.noteIntaked = true;
-                                                        })
-                                                .alongWith(
-                                                        IntakeCommands.intake()
-                                                                .withTimeout(0.15)
-                                                                .andThen(
-                                                                        Commands.either(
-                                                                                FeederCommands
-                                                                                        .addFeedRevolutions()
-                                                                                        .onlyIf(
-                                                                                                Robot
-                                                                                                                .feeder
-                                                                                                                .lasercan
-                                                                                                        ::intakedNote),
-                                                                                Commands.run(
-                                                                                        () ->
-                                                                                                RobotTelemetry
-                                                                                                        .print(
-                                                                                                                "No lasercan found; Didn't feed")),
-                                                                                Robot.feeder
-                                                                                                .lasercan
-                                                                                        ::validDistance)))));
+        return IntakeCommands.intake();
     }
 
     public static Command visionLaunch() {

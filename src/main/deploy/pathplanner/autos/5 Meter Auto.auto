@@ -14,12 +14,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "5 Meter Path"
+            "pathName": null
           }
         }
       ]
     }
   },
-  "folder": "PID Config Autos",
+  "folder": null,
   "choreoAuto": false
 }

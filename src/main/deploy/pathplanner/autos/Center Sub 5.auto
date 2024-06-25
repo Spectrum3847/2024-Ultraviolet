@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path 1 - Front 5"
+            "pathName": null
           }
         },
         {
@@ -26,7 +26,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path 2 - Front 5"
+            "pathName": null
           }
         },
         {
@@ -38,7 +38,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path 3 - Front 5"
+            "pathName": null
           }
         },
         {
@@ -50,7 +50,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path 4 - Front 5"
+            "pathName": null
           }
         },
         {
@@ -62,7 +62,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path 5 - Front 5"
+            "pathName": null
           }
         },
         {
@@ -74,6 +74,6 @@
       ]
     }
   },
-  "folder": "Front Autos",
+  "folder": null,
   "choreoAuto": false
 }

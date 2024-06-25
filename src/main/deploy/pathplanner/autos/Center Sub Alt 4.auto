@@ -62,12 +62,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Path 5 - Center Sub Alt 4"
+            "pathName": null
           }
         }
       ]
     }
   },
-  "folder": "Front Autos",
+  "folder": null,
   "choreoAuto": false
 }

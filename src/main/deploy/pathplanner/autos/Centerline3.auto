@@ -3,7 +3,7 @@
   "startingPose": {
     "position": {
       "x": 1.42,
-      "y": 5.55
+      "y": 5.52
     },
     "rotation": 180.0
   },
@@ -12,63 +12,75 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": null
+            "name": "launchReadySubwoofer"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.75
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "score1"
+            "name": "launch"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": null
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "score2"
+            "pathName": "CenterShootDrive"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "CenterDriveShoot"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "score3"
+            "name": "launchReadySubwoofer"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.75
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launch"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "CenterMidline3Test"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "score2"
+            "name": "launchReadySubwoofer"
           }
         },
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "Path 6 - Front Alt 5"
+            "waitTime": 0.75
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "score2"
+            "name": "launch"
           }
         }
       ]

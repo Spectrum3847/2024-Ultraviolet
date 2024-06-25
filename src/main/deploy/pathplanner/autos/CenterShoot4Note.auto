@@ -58,6 +58,54 @@
           "data": {
             "name": "launch"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "PodiumDriveShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launchReadySubwoofer"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launch"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "AmpDriveShoot2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launch"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launchReadySubwoofer"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
         }
       ]
     }

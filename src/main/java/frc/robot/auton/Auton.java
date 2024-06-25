@@ -34,51 +34,14 @@ public class Auton extends SubsystemBase {
         // autonChooser.addOption("1 Meter", new PathPlannerAuto("1 Meter Auto")); // Runs full Auto
         // autonChooser.addOption("3 Meter", new PathPlannerAuto("3 Meter Auto")); // Runs full Auto
         // autonChooser.addOption("5 Meter", new PathPlannerAuto("5 Meter Auto")); // Runs full Auto
-        // autonChooser.addOption("Front 5", new PathPlannerAuto("Front 5")); // Runs full Auto
 
-        // Competition Autos
+        autonChooser.addOption("Center Shoot Auto", new PathPlannerAuto("CenterShootAuto"));
         autonChooser.addOption(
-                "Front 6.5 Auto", new PathPlannerAuto("Front 6.5")); // Runs full Auto
-        autonChooser.addOption(
-                "Front Alt 6 Auto", new PathPlannerAuto("Front Alt 6")); // Runs full Auto
-
-        autonChooser.addOption("Front 43", new PathPlannerAuto("Front 43")); // Runs full Auto
-
-        autonChooser.addOption(
-                "Front Rush 12", new PathPlannerAuto("Front Rush 12")); // Runs full Auto
-
-        autonChooser.addOption(
-                "Front Rush 23", new PathPlannerAuto("Front Rush 23")); // Runs full Auto
-        autonChooser.addOption(
-                "Front Rush 13", new PathPlannerAuto("Front Rush 13")); // Runs full Auto
-        autonChooser.addOption(
-                "Front Rush 3", new PathPlannerAuto("Front Rush 3")); // Runs full Auto
-
-        autonChooser.addOption(
-                "Front Rush 23 Spit", new PathPlannerAuto("Front Rush 23 Spit")); // Runs full Auto
-        autonChooser.addOption("Source 4 Auto", new PathPlannerAuto("Source 4")); // Runs full
-        // Auto
-        // autonChooser.addOption("Front 6.5 Test", AutoPaths.Front6Point5()); // Runs full Auto
-        // autonChooser.addOption("Front Alt 6 Test", AutoPaths.FrontAlt6()); // Runs full Auto
-        // autonChooser.addOption("Source 4 Test", AutoPaths.Source4()); // Runs full Auto
-        // autonChooser.addOption("Front 6", new PathPlannerAuto("Front 6")); // Runs full Auto
-
-        // autonChooser.addOption("Test", AutoPaths.Test()); // Runs full Auto
-
-        autonChooser.addOption("Subwoofer", new PathPlannerAuto("Subwoofer")); // Runs full Auto
-
-        // autonChooser.addOption("Madtown Test", new PathPlannerAuto("Madtown Test"));
-        // autonChooser.addOption("Madtown Test 2", new PathPlannerAuto("Madtown Test 2"));
-        // autonChooser.addOption("Madtown Test 3", new PathPlannerAuto("Madtown Test 3"));
-        // autonChooser.addOption("Madtown Dect", AutoPaths.MadtownTest());
-
-        // Madtown Autos
-        autonChooser.addOption("Madtown Adaptive", AutoPaths.MadtownAdaptive());
-        autonChooser.addOption("Madtown", new PathPlannerAuto("Madtown"));
-        autonChooser.addOption("Madtown Alt", new PathPlannerAuto("Madtown Alt"));
-
+                "Source Side 2 Shoot Auto", new PathPlannerAuto("SourceSide2ShootAuto"));
         autonChooser.addOption("Do Nothing", Commands.print("Do Nothing Auto ran"));
-
+        autonChooser.addOption("CenterShoot4Note", new PathPlannerAuto("CenterShoot4Note"));
+        autonChooser.addOption("Centerline 3", new PathPlannerAuto("Centerline3"));
+        autonChooser.addOption("Source 4", new PathPlannerAuto("Source4"));
         SmartDashboard.putData("Auto Chooser", autonChooser);
     }
 
@@ -93,34 +56,11 @@ public class Auton extends SubsystemBase {
         NamedCommands.registerCommand("launchReadyPreload", AutonCommands.launchReadyPreload());
 
         NamedCommands.registerCommand("launchReadyPreload2", AutonCommands.launchReadyPreload2());
-        NamedCommands.registerCommand("launchReady1", AutonCommands.launchReady1());
-        NamedCommands.registerCommand("launchReady2", AutonCommands.launchReady2());
-        NamedCommands.registerCommand("launchReady3", AutonCommands.launchReady3());
-        NamedCommands.registerCommand("launchReady4", AutonCommands.launchReady4());
-        NamedCommands.registerCommand("launchReady5", AutonCommands.launchReady5());
-        NamedCommands.registerCommand("launchReady6", AutonCommands.launchReady6());
-        NamedCommands.registerCommand("launchReady7", AutonCommands.launchReady7());
-        NamedCommands.registerCommand("launchReady8", AutonCommands.launchReady8());
-        NamedCommands.registerCommand("launchReady9", AutonCommands.launchReady9());
-
-        NamedCommands.registerCommand("launchReady10", AutonCommands.launchReady10());
-        NamedCommands.registerCommand("launchReady11", AutonCommands.launchReady11());
-
-        NamedCommands.registerCommand("launchReady12", AutonCommands.launchReady12());
-
-        NamedCommands.registerCommand("launchReady13", AutonCommands.launchReady13());
-
-        NamedCommands.registerCommand("launchReady14", AutonCommands.launchReady14());
-
-        NamedCommands.registerCommand("launchReady15", AutonCommands.launchReady15());
-
-        NamedCommands.registerCommand("launchReady16", AutonCommands.launchReady16());
-        NamedCommands.registerCommand("launchReady17", AutonCommands.launchReady17());
 
         NamedCommands.registerCommand("visionLaunchReady", AutonCommands.visionLaunch());
         NamedCommands.registerCommand("launch", AutonCommands.launch());
         NamedCommands.registerCommand("launchShort", AutonCommands.launchShort());
-        NamedCommands.registerCommand("smartIntake", AutonCommands.intake());
+        NamedCommands.registerCommand("intake", AutonCommands.intake());
         NamedCommands.registerCommand("intakeCheck", AutonCommands.intakeCheck());
         NamedCommands.registerCommand("intakeFeed", AutonCommands.intakeFeed());
         NamedCommands.registerCommand("spit", AutonCommands.spit());
