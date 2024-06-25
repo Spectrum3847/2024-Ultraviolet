@@ -223,17 +223,18 @@ public class RobotCommands {
         return FeederCommands.score()
                 .withTimeout(0.1)
                 .onlyIf(Robot.feeder::noteIsClose)
-                .andThen(FeederCommands.feedToAmp())
-                .alongWith(AmpTrapCommands.amp())
+                .andThen(FeederCommands.feedToAmp().alongWith(AmpTrapCommands.amp()))
                 .until(
                         () ->
-                                // Robot.ampTrap.getBotLaserCanDistance() >= 20
-                                Robot.ampTrap.getTopLaserCanDistance() <= 10)
-                .andThen(FeederCommands.stopMotor().alongWith(AmpTrapCommands.stopMotor()))
+                                Robot.ampTrap.getBotLaserCanDistance() <= 10
+                                        && Robot.ampTrap.getBotLaserCanDistance() >= 0)
+                // Robot.ampTrap.getTopLaserCanDistance() <= 10
+                //      && Robot.ampTrap.getTopLaserCanDistance() >= 0)
+                /* .andThen(FeederCommands.stopMotor().alongWith(AmpTrapCommands.stopMotor()))
                 .alongWith(
                         ElevatorCommands.amp()
                                 .onlyIf(() -> Robot.ampTrap.getBotLaserCanDistance() < 200)
-                                .repeatedly())
+                                .repeatedly())*/
                 .withName("RobotCommands.amp");
     }
 
@@ -258,10 +259,10 @@ public class RobotCommands {
 
     public static Command launchEject() {
         return FeederCommands.launchEject()
-                /* .alongWith(
-                AmpTrapCommands.score(),
-                IntakeCommands.slowIntake(),
-                ElevatorCommands.holdPosition())*/
+                .alongWith(
+                        AmpTrapCommands.score(),
+                        IntakeCommands.slowIntake(),
+                        ElevatorCommands.holdPosition())
                 .withName("RobotCommands.launchEject");
     }
 
@@ -289,13 +290,9 @@ public class RobotCommands {
                 .withName("RobotCommands.dump");
     }
 
-    /*
-     * Intake when called will check if the supply current is above 60 amps to eject and will continue to intake if not
-     */
     public static Command intake() {
         return IntakeCommands.intake()
-                // .until(() -> (IntakeCommands.getSupplyCurrent() >= 60))
-                // .andThen(IntakeCommands.eject())
+                .alongWith(AmpTrapCommands.intake(), FeederCommands.intake())
                 .withName("RobotCommands.intake");
     }
 
@@ -313,37 +310,6 @@ public class RobotCommands {
                 .withName("RobotCommands.coastModeMechanisms");
     }
 
-    public static Command subwooferReady() {
-        return LauncherCommands.runLauncherVelocities(2960, 6000)
-                .alongWith(PivotCommands.subwoofer()) // 25
-                // rumble on ready
-
-                // .until(
-                //         () ->
-                //                 (Robot.leftLauncher.getMotorVelocity() >= 4500
-                //                         || Robot.rightLauncher.getMotorVelocity() >= 4500))
-                // .andThen(
-                //         PilotCommands.rumble(2, 1)
-                //                 .alongWith(
-                //                         LauncherCommands.runOnDemandVelocity(),
-                //                         PivotCommands.subwoofer()))
-                .withName("RobotCommands.subwooferReady");
-    }
-
-    public static Command podiumReady() {
-        return LauncherCommands.runOnDemandVelocity()
-                .alongWith(PivotCommands.onDemandPivot()) // 35
-                .withName("RobotCommands.podium");
-    }
-
-    public static Command intake8515() {
-        // return IntakeCommands.intake().onlyWhile(null).andThen();
-        return IntakeCommands.intake()
-                .until(() -> (Robot.feeder.getMotorVelocity() > 0))
-                .andThen(FeederCommands.intake().withTimeout(0.3));
-        // .alongWith(IntakeCommands.stopMotor())
-    }
-
     public static Command ensureBrakeMode() {
         return AmpTrapCommands.ensureBrakeMode()
                 .alongWith(
@@ -357,11 +323,34 @@ public class RobotCommands {
                 .withName("RobotCommands.ensureBrakeMode");
     }
 
+    public static Command subwooferReady() {
+        return LauncherCommands.runLauncherVelocities(2960, 6000)
+                .alongWith(PivotCommands.subwoofer()).withName("RobotCommands.subwooferReady");
+    }
+
+    //     public static Command podiumShot() {
+    //         return LauncherCommands.deepShot()
+    //                 .alongWith(PivotCommands.podium(), PilotCommands.podiumAimingDrive())
+    //                 .withName("RobotCommands.podium");
+    //     }
+
+    //     public static Command ampWingShot() {
+    //         return LauncherCommands.deepShot()
+    //                 .alongWith(PivotCommands.ampWing(), PilotCommands.ampWingAimingDrive())
+    //                 .withName("RobotCommands.ampWing");
+    //     }
+
     public static Command intoAmpShot() {
         return LauncherCommands.intoAmp()
                 .alongWith(PivotCommands.intoAmp(), PilotCommands.turnLaunchToAmp())
                 .withName("RobotCommands.intoAmp");
     }
+
+    //     public static Command fromAmpShot() {
+    //         return LauncherCommands.deepShot()
+    //                 .alongWith(PivotCommands.fromAmp(), PilotCommands.fromAmpAimingDrive())
+    //                 .withName("RobotCommands.ampWing");
+    //     }
 
     public static Command topClimb() {
         return Commands.either(

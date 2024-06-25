@@ -42,6 +42,9 @@ public class Auton extends SubsystemBase {
         autonChooser.addOption("CenterShoot4Note", new PathPlannerAuto("CenterShoot4Note"));
         autonChooser.addOption("Centerline 3", new PathPlannerAuto("Centerline3"));
         autonChooser.addOption("Source 4", new PathPlannerAuto("Source4"));
+        autonChooser.addOption("Center Preload", new PathPlannerAuto("CenterPreload"));
+        autonChooser.addOption("Centerline 2", new PathPlannerAuto("Centerline2"));
+        autonChooser.addOption("Amp Sub 1", new PathPlannerAuto("AmpSub1"));
         SmartDashboard.putData("Auto Chooser", autonChooser);
     }
 
