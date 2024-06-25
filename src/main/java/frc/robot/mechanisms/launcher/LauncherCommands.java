@@ -12,48 +12,24 @@ public class LauncherCommands {
     private static LeftLauncher leftLauncher = Robot.leftLauncher;
     private static RightLauncher rightLauncher = Robot.rightLauncher;
 
-    public static final InterpolatingDoubleTreeMap DISTANCE_MAP = new InterpolatingDoubleTreeMap();
+    public static final InterpolatingDoubleTreeMap DISTANCE_MAP_LEFT = new InterpolatingDoubleTreeMap();
+    public static final InterpolatingDoubleTreeMap DISTANCE_MAP_RIGHT = new InterpolatingDoubleTreeMap();
     public static final InterpolatingDoubleTreeMap FEED_DISTANCE_MAP =
             new InterpolatingDoubleTreeMap();
     public static final InterpolatingDoubleTreeMap DEEP_FEED_DISTANCE_MAP =
             new InterpolatingDoubleTreeMap();
 
     static {
-        /* Old Launching */
-        // DISTANCE_MAP.put(1.505, 3500.0);
-        // DISTANCE_MAP.put(2.629, 4500.0);
-        // DISTANCE_MAP.put(3.969, 4500.0);
-        // DISTANCE_MAP.put(4.269, 5200.0);
-        // DISTANCE_MAP.put(4.899, 5200.0);
-        // DISTANCE_MAP.put(5.189, 5200.0);
-        // DISTANCE_MAP.put(5.829, 5200.0);
-        // DISTANCE_MAP.put(6.229, 5200.0);
-
         /*Launching */
         // 4500 RPM shots
-        DISTANCE_MAP.put(0.0, 4500.0);
-        DISTANCE_MAP.put(4.1, 4500.0);
+        DISTANCE_MAP_LEFT.put(0.0, 2960.0);
+        DISTANCE_MAP_RIGHT.put(0.0, 6000.0);
+        DISTANCE_MAP_LEFT.put(2.2, 2960.0);
+        DISTANCE_MAP_RIGHT.put(2.2, 6000.0);
         // 5000 RPM shots
-        DISTANCE_MAP.put(4.11, 5000.0);
-        DISTANCE_MAP.put(5.9, 5000.0);
+        DISTANCE_MAP_LEFT.put(4.11, 6000.0);
+        DISTANCE_MAP_RIGHT.put(4.11, 3000.0);
 
-        // feed launching -- OLD
-        // FEED_DISTANCE_MAP.put(6.0, 3000.0);
-        // FEED_DISTANCE_MAP.put(6.08, 3000.0);
-        // FEED_DISTANCE_MAP.put(6.47, 3000.0);
-        // FEED_DISTANCE_MAP.put(6.96, 3000.0);
-        // FEED_DISTANCE_MAP.put(7.54, 3000.0);
-        // FEED_DISTANCE_MAP.put(7.74, 3250.0);
-        // FEED_DISTANCE_MAP.put(9.05, 4000.0);
-
-        // feed launching -- REVERT
-        // FEED_DISTANCE_MAP.put(6.0, 3300.0);
-        // FEED_DISTANCE_MAP.put(6.08, 3200.0);
-        // FEED_DISTANCE_MAP.put(6.47, 3200.0);
-        // FEED_DISTANCE_MAP.put(6.96, 3200.0);
-        // FEED_DISTANCE_MAP.put(7.54, 3700.0);
-        // FEED_DISTANCE_MAP.put(7.74, 3800.0);
-        // FEED_DISTANCE_MAP.put(9.05, 3950.0);
         FEED_DISTANCE_MAP.put(7.0, 4900.0);
 
         DEEP_FEED_DISTANCE_MAP.put(7.0, 5000.0);
@@ -69,7 +45,7 @@ public class LauncherCommands {
     /* Launch Commands */
 
     public static DoubleSupplier getRPMfromDistance(DoubleSupplier distance) {
-        return () -> getMapRPM(DISTANCE_MAP, distance.getAsDouble());
+        return () -> getMapRPM(DISTANCE_MAP_LEFT, distance.getAsDouble());
         // return () -> DISTANCE_MAP.get(distance.getAsDouble());
     }
 
