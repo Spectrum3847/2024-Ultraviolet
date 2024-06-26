@@ -292,7 +292,7 @@ public class RobotCommands {
 
     public static Command intake() {
         return IntakeCommands.intake()
-                .alongWith(AmpTrapCommands.intake(), FeederCommands.intake())
+                // .alongWith(AmpTrapCommands.intake(), FeederCommands.intake())
                 .withName("RobotCommands.intake");
     }
 
