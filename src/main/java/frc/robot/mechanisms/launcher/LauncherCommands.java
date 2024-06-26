@@ -12,8 +12,10 @@ public class LauncherCommands {
     private static LeftLauncher leftLauncher = Robot.leftLauncher;
     private static RightLauncher rightLauncher = Robot.rightLauncher;
 
-    public static final InterpolatingDoubleTreeMap DISTANCE_MAP_LEFT = new InterpolatingDoubleTreeMap();
-    public static final InterpolatingDoubleTreeMap DISTANCE_MAP_RIGHT = new InterpolatingDoubleTreeMap();
+    public static final InterpolatingDoubleTreeMap DISTANCE_MAP_LEFT =
+            new InterpolatingDoubleTreeMap();
+    public static final InterpolatingDoubleTreeMap DISTANCE_MAP_RIGHT =
+            new InterpolatingDoubleTreeMap();
     public static final InterpolatingDoubleTreeMap FEED_DISTANCE_MAP =
             new InterpolatingDoubleTreeMap();
     public static final InterpolatingDoubleTreeMap DEEP_FEED_DISTANCE_MAP =

@@ -325,7 +325,8 @@ public class RobotCommands {
 
     public static Command subwooferReady() {
         return LauncherCommands.runLauncherVelocities(2960, 6000)
-                .alongWith(PivotCommands.subwoofer()).withName("RobotCommands.subwooferReady");
+                .alongWith(PivotCommands.subwoofer())
+                .withName("RobotCommands.subwooferReady");
     }
 
     //     public static Command podiumShot() {
