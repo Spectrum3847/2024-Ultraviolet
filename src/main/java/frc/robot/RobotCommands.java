@@ -58,7 +58,6 @@ public class RobotCommands {
         return PilotCommands.aimToSpeaker()
                 .alongWith(
                         LauncherCommands.distanceVelocity(() -> Robot.vision.getSpeakerDistance()),
-                        PivotCommands.setPivotOnDistance(() -> Robot.vision.getSpeakerDistance()),
                         Commands.startEnd(Robot.vision::setAiming, Robot.vision::setNotAiming))
                 .withName("RobotCommands.visionLaunch");
     }

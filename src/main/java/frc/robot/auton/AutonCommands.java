@@ -89,26 +89,6 @@ public class AutonCommands {
                 .withTimeout(0.01);
     }
 
-    public static Command spit() {
-        return LauncherCommands.autoDump()
-                .alongWith(FeederCommands.autoFeed())
-                .withName("AutoCommands.spit");
-    }
-
-    public static Command spit2() {
-        return LauncherCommands.autoDump2()
-                .alongWith(FeederCommands.autoFeed())
-                .withName("AutoCommands.spit");
-    }
-
-    public static Command spitReady() {
-        return PivotCommands.spitReady().withName("AutonCommands.spitReady");
-    }
-
-    public static Command spitReady2() {
-        return PivotCommands.spitReady2().alongWith(spit2()).withName("AutonCommands.spitReady2");
-    }
-
     public static Command stopFeed() {
         return IntakeCommands.stopMotor()
                 .alongWith(AmpTrapCommands.stopMotor(), FeederCommands.stopMotor())

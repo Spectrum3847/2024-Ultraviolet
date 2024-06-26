@@ -26,11 +26,15 @@ public class LauncherCommands {
         // 4500 RPM shots
         DISTANCE_MAP_LEFT.put(0.0, 2960.0);
         DISTANCE_MAP_RIGHT.put(0.0, 6000.0);
-        DISTANCE_MAP_LEFT.put(2.2, 2960.0);
-        DISTANCE_MAP_RIGHT.put(2.2, 6000.0);
-        // 5000 RPM shots
-        DISTANCE_MAP_LEFT.put(4.11, 6000.0);
-        DISTANCE_MAP_RIGHT.put(4.11, 3000.0);
+        DISTANCE_MAP_LEFT.put(1.8, 2960.0);
+        DISTANCE_MAP_RIGHT.put(1.8, 6000.0);
+        DISTANCE_MAP_LEFT.put(2.0, 5000.0); // lined up to first number-ish
+        DISTANCE_MAP_RIGHT.put(2.0, 3000.0);
+
+        DISTANCE_MAP_LEFT.put(2.3, 6000.0); // Front of bumper on starting line
+        DISTANCE_MAP_RIGHT.put(2.3, 2000.0);
+        DISTANCE_MAP_LEFT.put(2.5, 6000.0);
+        DISTANCE_MAP_RIGHT.put(2.5, 1500.0);
 
         FEED_DISTANCE_MAP.put(7.0, 4900.0);
 
@@ -46,8 +50,13 @@ public class LauncherCommands {
 
     /* Launch Commands */
 
-    public static DoubleSupplier getRPMfromDistance(DoubleSupplier distance) {
+    public static DoubleSupplier getRPMfromDistanceLeft(DoubleSupplier distance) {
         return () -> getMapRPM(DISTANCE_MAP_LEFT, distance.getAsDouble());
+        // return () -> DISTANCE_MAP.get(distance.getAsDouble());
+    }
+
+    public static DoubleSupplier getRPMfromDistanceRight(DoubleSupplier distance) {
+        return () -> getMapRPM(DISTANCE_MAP_RIGHT, distance.getAsDouble());
         // return () -> DISTANCE_MAP.get(distance.getAsDouble());
     }
 
@@ -62,7 +71,8 @@ public class LauncherCommands {
     }
 
     public static Command distanceVelocity(DoubleSupplier distance) {
-        return velocityTCFOCrpm(getRPMfromDistance(distance));
+        return velocityTCFOCrpm(
+                getRPMfromDistanceLeft(distance), getRPMfromDistanceRight(distance));
     }
 
     public static Command feedDistanceVelocity(DoubleSupplier distance) {
@@ -73,16 +83,22 @@ public class LauncherCommands {
         return velocityTCFOCrpm(getRPMFromDeepFeedDistance(distance));
     }
 
-    public static Command runPercentOutput(double output) {
-        return leftLauncher.runPercentage(output).alongWith(rightLauncher.runPercentage(output));
-    }
-
     public static Command velocityTCFOCrpm(DoubleSupplier velocityRPM) {
         return leftLauncher
                 .runVelocityTCFOCrpm(velocityRPM)
                 .alongWith(
                         rightLauncher.runVelocityTCFOCrpm(velocityRPM),
                         sendLauncherFeedback(velocityRPM.getAsDouble(), velocityRPM.getAsDouble()));
+    }
+
+    public static Command velocityTCFOCrpm(
+            DoubleSupplier leftVelocityRPM, DoubleSupplier rightVelocityRPM) {
+        return leftLauncher
+                .runVelocityTCFOCrpm(leftVelocityRPM)
+                .alongWith(
+                        rightLauncher.runVelocityTCFOCrpm(rightVelocityRPM),
+                        sendLauncherFeedback(
+                                leftVelocityRPM.getAsDouble(), rightVelocityRPM.getAsDouble()));
     }
 
     public static Command runOnDemandVelocity() {
@@ -94,17 +110,6 @@ public class LauncherCommands {
         return runLauncherVelocities(
                         leftLauncher.config.manualFeed, rightLauncher.config.manualFeed)
                 .withName("Launcher.manualFeed");
-    }
-
-    public static Command runTest() {
-        return runLauncherVelocities(
-                        leftLauncher.config.testVelocity, rightLauncher.config.testVelocity)
-                .withName("Launcher.runTest");
-    }
-
-    public static Command runFull() {
-        return runLauncherVelocities(leftLauncher.config.maxSpeed, rightLauncher.config.maxSpeed)
-                .withName("Launcher.runFull");
     }
 
     public static Command runAmpVelocity() {
@@ -125,7 +130,7 @@ public class LauncherCommands {
     }
 
     public static Command manualSource() {
-        return runTorqueLauncherVelocities(
+        return runLauncherVelocities(
                         leftLauncher.config.manualSource, rightLauncher.config.manualSource)
                 .withName("Launcher.manualSource");
     }
@@ -137,41 +142,8 @@ public class LauncherCommands {
                 .withName("Launcher.dump");
     }
 
-    public static Command autoDump() {
-        return runLauncherPercentages(
-                        leftLauncher.config.autoDumpLauncherPercent,
-                        rightLauncher.config.autoDumpLauncherPercent)
-                .withName("Launcher.autoDump");
-    }
-
-    public static Command autoDump2() {
-        return runLauncherPercentages(
-                        leftLauncher.config.auto2DumpLauncherPercent,
-                        rightLauncher.config.auto2DumpLauncherPercent)
-                .withName("Launcher.autoDump2");
-    }
-
-    public static Command autoDump3() {
-        return runLauncherPercentages(
-                        leftLauncher.config.auto3DumpLauncherPercent,
-                        rightLauncher.config.auto3DumpLauncherPercent)
-                .withName("Launcher.autoDump2");
-    }
-
-    public static Command autoDump4() {
-        return runLauncherPercentages(
-                        leftLauncher.config.auto4DumpLauncherPercent,
-                        rightLauncher.config.auto4DumpLauncherPercent)
-                .withName("Launcher.autoDump2");
-    }
-
     public static Command subwoofer() {
-        return runPercentOutput(1).withName("Launcher.subwoofer");
-    }
-
-    public static Command launchReadyPreload() {
-        return runLauncherVelocities(
-                leftLauncher.config.launchReadyPreload, rightLauncher.config.launchReadyPreload);
+        return LauncherCommands.runLauncherVelocities(2960, 6000).withName("Launcher.subwoofer");
     }
 
     public static Command eject() {
@@ -215,18 +187,22 @@ public class LauncherCommands {
 
     public static Command runLauncherVelocities(double leftVelocity, double rightVelocity) {
         return leftLauncher
-                .runVelocityTCFOC(leftVelocity)
-                .alongWith(rightLauncher.runVelocityTCFOC(rightVelocity))
+                .runVelocityTCFOCrpm(leftVelocity)
+                .alongWith(
+                        rightLauncher.runVelocityTCFOCrpm(rightVelocity),
+                        sendLauncherFeedback(leftVelocity, rightVelocity))
                 .withName("Launcher.runLauncherVelocities");
     }
 
-    public static Command runTorqueLauncherVelocities(double leftVelocity, double rightVelocity) {
+    public static Command runLauncherVelocities(
+            DoubleSupplier leftVelocity, DoubleSupplier rightVelocity) {
         return leftLauncher
-                .runVelocityTCFOC(leftVelocity)
+                .runVelocityTCFOCrpm(leftVelocity)
                 .alongWith(
-                        rightLauncher.runVelocity(rightVelocity),
-                        sendLauncherFeedback(leftVelocity, rightVelocity))
-                .withName("Launcher.runTorqueLaunherVelocities");
+                        rightLauncher.runVelocityTCFOCrpm(rightVelocity),
+                        sendLauncherFeedback(
+                                leftVelocity.getAsDouble(), rightVelocity.getAsDouble()))
+                .withName("Launcher.runLauncherVelocities");
     }
 
     public static Command runLauncherPercentages(double leftPercentage, double rightPercentage) {
