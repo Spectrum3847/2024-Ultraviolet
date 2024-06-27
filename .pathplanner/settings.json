@@ -14,7 +14,7 @@
     "New Folder"
   ],
   "defaultMaxVel": 6.0,
-  "defaultMaxAccel": 4.0,
+  "defaultMaxAccel": 3.5,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
   "maxModuleSpeed": 6.0

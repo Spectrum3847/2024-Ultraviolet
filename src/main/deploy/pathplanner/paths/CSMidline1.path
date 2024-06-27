@@ -8,68 +8,45 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.1398019755435165,
-        "y": 5.54159552134024
+        "x": 2.7333236913877035,
+        "y": 5.768070912912364
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.3662773671156407,
-        "y": 4.237409645735251
+        "x": 8.0,
+        "y": 7.45
       },
       "prevControl": {
-        "x": 2.7411331876488116,
-        "y": 4.190552668168603
+        "x": 6.773431775095556,
+        "y": 7.7223822735364305
       },
       "nextControl": {
-        "x": 1.786536409640359,
-        "y": 4.309877265419662
+        "x": 8.751510216241018,
+        "y": 7.283113187567263
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.64780371109373,
+        "x": 1.65,
         "y": 5.52
       },
       "prevControl": {
-        "x": 1.4369473120438212,
-        "y": 5.143311212023746
+        "x": 4.127716487727026,
+        "y": 6.432693705368524
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.3,
-      "rotationDegrees": 135.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
-    {
-      "name": "Wait",
-      "waypointRelativePos": 1.0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "wait",
-              "data": {
-                "waitTime": 1.0
-              }
-            }
-          ]
-        }
-      }
-    },
     {
       "name": "Intake",
       "waypointRelativePos": 0.8,
@@ -86,11 +63,28 @@
           ]
         }
       }
+    },
+    {
+      "name": "stopIntake",
+      "waypointRelativePos": 1.35,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "stopIntake"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {
     "maxVelocity": 6.0,
-    "maxAcceleration": 4.0,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -102,7 +96,7 @@
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": -179.75673813567394,
+    "rotation": 180.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

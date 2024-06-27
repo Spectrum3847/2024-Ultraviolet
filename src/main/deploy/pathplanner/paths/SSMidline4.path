@@ -86,25 +86,8 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "preScoreFeed",
-      "waypointRelativePos": 2.05,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "preScoreFeed"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
       "name": "intake",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 1.65,
       "command": {
         "type": "parallel",
         "data": {
@@ -113,23 +96,6 @@
               "type": "named",
               "data": {
                 "name": "intake"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "home",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "home"
               }
             }
           ]
@@ -149,7 +115,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Source Side Paths",
+  "folder": null,
   "previewStartingState": {
     "rotation": 120.0,
     "velocity": 0

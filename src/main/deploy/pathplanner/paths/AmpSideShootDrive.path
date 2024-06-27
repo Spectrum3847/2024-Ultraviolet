@@ -3,25 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7340926485441263,
-        "y": 6.752067441811938
+        "x": 0.6403786934108335,
+        "y": 6.791114923117476
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.874279102665854,
-        "y": 6.525592050239813
+        "x": 1.2885668830827748,
+        "y": 6.658353486678646
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.5611302950651225,
-        "y": 6.345973636234336
+        "x": 1.8820885989269618,
+        "y": 6.681781975461968
       },
       "prevControl": {
-        "x": 2.4209438409433948,
-        "y": 6.43968759136763
+        "x": 1.1089484690772968,
+        "y": 6.759876938073044
+      },
+      "nextControl": {
+        "x": 2.6552287287766267,
+        "y": 6.603687012850892
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.209702963315275,
+        "y": 6.299116658667689
+      },
+      "prevControl": {
+        "x": 2.95198958669872,
+        "y": 6.3381641399732285
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,13 +46,48 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1,
-      "rotationDegrees": 180.0,
+      "waypointRelativePos": 1.0,
+      "rotationDegrees": -146.0,
       "rotateFast": false
     }
   ],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "launchReady"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 1.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "launch"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 2.0,
     "maxAcceleration": 2.0,
@@ -45,7 +96,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -175.60129464500443,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,

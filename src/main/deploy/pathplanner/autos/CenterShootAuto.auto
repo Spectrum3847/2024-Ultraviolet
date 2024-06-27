@@ -32,13 +32,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "CenterShootDrive"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "CenterDriveShoot"
+            "pathName": "CSFront2"
           }
         },
         {

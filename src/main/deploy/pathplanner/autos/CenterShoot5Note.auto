@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.42,
+      "x": 1.3822808382160674,
       "y": 5.52
     },
     "rotation": 180.0
@@ -12,24 +12,6 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "launchReadySubwoofer"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.75
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "launch"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "CSFront2"
@@ -38,13 +20,13 @@
         {
           "type": "named",
           "data": {
-            "name": "launchReadySubwoofer"
+            "name": "launch"
           }
         },
         {
-          "type": "wait",
+          "type": "path",
           "data": {
-            "waitTime": 0.75
+            "pathName": "CSFront3"
           }
         },
         {
@@ -56,19 +38,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "CSMidline3"
+            "pathName": "CSFront1"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "launchReadySubwoofer"
+            "name": "launch"
           }
         },
         {
-          "type": "wait",
+          "type": "path",
           "data": {
-            "waitTime": 0.75
+            "pathName": "CSMidline1"
           }
         },
         {

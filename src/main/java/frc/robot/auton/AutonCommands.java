@@ -217,7 +217,7 @@ public class AutonCommands {
 
     public static Command launch() {
         return FeederCommands.autoFeed()
-                .withTimeout(0.35)
+                .withTimeout(0.25)
                 .andThen(FeederCommands.stopMotor().withTimeout(0.01))
                 .withName("AutonCommands.launch");
     }

@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4135188232604983,
-      "y": 5.479119551251379
+      "x": 1.3822808382160674,
+      "y": 5.52
     },
     "rotation": 180.0
   },
@@ -12,15 +12,9 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "launchReadySubwoofer"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
+            "pathName": "CSFront2"
           }
         },
         {
@@ -32,25 +26,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "CenterShootDrive"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "CenterDriveShoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "launchReadySubwoofer"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
+            "pathName": "CSFront3"
           }
         },
         {
@@ -62,49 +38,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "PodiumDriveShoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "launchReadySubwoofer"
+            "pathName": "CSFront1"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "launch"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "AmpDriveShoot2"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "launch"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "launchReadySubwoofer"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
           }
         }
       ]

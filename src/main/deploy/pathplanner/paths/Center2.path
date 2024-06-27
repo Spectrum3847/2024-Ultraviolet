@@ -3,57 +3,57 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7194891096985188,
-        "y": 6.68861985057927
+        "x": 1.65,
+        "y": 5.52
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7194891096985188,
-        "y": 6.68861985057927
-      },
-      "isLocked": false,
-      "linkedName": "Amp Sub Start"
-    },
-    {
-      "anchor": {
-        "x": 4.819803390776099,
-        "y": 6.69
-      },
-      "prevControl": {
-        "x": 3.7753837154072816,
-        "y": 6.69773644203977
-      },
-      "nextControl": {
-        "x": 5.746763856031589,
-        "y": 6.6831336261832925
+        "x": 2.7333236913877035,
+        "y": 5.768070912912364
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.100054815638163,
-        "y": 7.237907235402871
+        "x": 5.130839043547776,
+        "y": 6.275688169884366
       },
       "prevControl": {
-        "x": 8.16900694833906,
-        "y": 6.843895048540589
+        "x": 4.340151672059063,
+        "y": 6.022262730304651
       },
       "nextControl": {
-        "x": 8.013864649762041,
-        "y": 7.7304224689807235
+        "x": 5.73997975191418,
+        "y": 6.470925576412059
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 0.7194891096985188,
-        "y": 6.69
+        "x": 8.028162156418743,
+        "y": 5.775880409173472
       },
       "prevControl": {
-        "x": 1.5472884079538038,
-        "y": 6.7891935970962685
+        "x": 8.51112616495036,
+        "y": 5.081966603811953
+      },
+      "nextControl": {
+        "x": 7.34873598170237,
+        "y": 6.752067441811938
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.65,
+        "y": 5.52
+      },
+      "prevControl": {
+        "x": 2.194050373889227,
+        "y": 5.5170117355909865
       },
       "nextControl": null,
       "isLocked": false,
@@ -64,19 +64,22 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "preScoreFeed",
-      "waypointRelativePos": 2.0,
+      "name": "Intake",
+      "waypointRelativePos": 1.6,
       "command": {
         "type": "parallel",
         "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "preScoreFeed"
-              }
-            }
-          ]
+          "commands": []
+        }
+      }
+    },
+    {
+      "name": "stopIntake",
+      "waypointRelativePos": 2.25,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": []
         }
       }
     }
@@ -89,13 +92,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -120.0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Amp Side Paths",
+  "folder": null,
   "previewStartingState": {
-    "rotation": -120.0,
+    "rotation": 180.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

@@ -2,19 +2,25 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 2.0,
-      "y": 6.0
+      "x": 0.6403786934108335,
+      "y": 6.791114923117476
     },
-    "rotation": 0
+    "rotation": -119.05460409907711
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 13.0
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "3m path"
+            "pathName": "AmpSideShootDrive"
           }
         }
       ]

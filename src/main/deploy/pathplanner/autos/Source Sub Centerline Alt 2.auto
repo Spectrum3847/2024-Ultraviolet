@@ -14,19 +14,31 @@
         {
           "type": "named",
           "data": {
-            "name": "preloadScoreSub"
+            "name": "launchReady"
           }
         },
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "Path 2 - Source Sub Centerline 2"
+            "waitTime": 0.5
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "score"
+            "name": "launch"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "SSMidline4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launch"
           }
         }
       ]

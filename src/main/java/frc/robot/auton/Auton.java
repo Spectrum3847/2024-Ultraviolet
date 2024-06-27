@@ -40,11 +40,15 @@ public class Auton extends SubsystemBase {
                 "Source Side 2 Shoot Auto", new PathPlannerAuto("SourceSide2ShootAuto"));
         autonChooser.addOption("Do Nothing", Commands.print("Do Nothing Auto ran"));
         autonChooser.addOption("CenterShoot4Note", new PathPlannerAuto("CenterShoot4Note"));
+        autonChooser.addOption("CenterShoot5Note", new PathPlannerAuto("CenterShoot5Note"));
         autonChooser.addOption("Centerline 3", new PathPlannerAuto("Centerline3"));
         autonChooser.addOption("Source 4", new PathPlannerAuto("Source4"));
         autonChooser.addOption("Center Preload", new PathPlannerAuto("CenterPreload"));
         autonChooser.addOption("Centerline 2", new PathPlannerAuto("Centerline2"));
-        autonChooser.addOption("Amp Sub 1", new PathPlannerAuto("AmpSub1"));
+        autonChooser.addOption("1Meter Auto", new PathPlannerAuto("1 Meter Auto"));
+        autonChooser.addOption("3Meter Auto", new PathPlannerAuto("3 Meter Auto"));
+        autonChooser.addOption("5Meter Auto", new PathPlannerAuto("5 Meter Auto"));
+        autonChooser.addOption("Amp Sub 1", new PathPlannerAuto("Preload Mobility Amp"));
         SmartDashboard.putData("Auto Chooser", autonChooser);
     }
 
