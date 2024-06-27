@@ -102,11 +102,11 @@ public class AmpTrap extends Mechanism {
     /*
      * AmpNote Detection
      */
-    public Boolean hasAmpNote(){
+    public Boolean hasAmpNote() {
         double topLaserNote = 10;
         double bottomLaserNote = 100;
 
-        if (getBotLaserCanStatus() == true){
+        if (getBotLaserCanStatus() == true) {
             return getTopLaserCanDistance() <= topLaserNote;
         } else {
             return getBotLaserCanDistance() <= bottomLaserNote;
