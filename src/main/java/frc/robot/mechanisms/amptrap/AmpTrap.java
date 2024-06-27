@@ -106,7 +106,8 @@ public class AmpTrap extends Mechanism {
         double topLaserNote = 10;
         double bottomLaserNote = 100;
 
-        if (getBotLaserCanStatus() == true) {
+        // PM only has Bottom Laser CAN
+        if (getTopLaserCanStatus() == true) {
             return getTopLaserCanDistance() <= topLaserNote;
         } else {
             return getBotLaserCanDistance() <= bottomLaserNote;
