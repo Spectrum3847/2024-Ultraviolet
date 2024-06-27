@@ -35,7 +35,6 @@ public class Auton extends SubsystemBase {
         // autonChooser.addOption("3 Meter", new PathPlannerAuto("3 Meter Auto")); // Runs full Auto
         // autonChooser.addOption("5 Meter", new PathPlannerAuto("5 Meter Auto")); // Runs full Auto
 
-        autonChooser.addOption("Center Shoot Auto", new PathPlannerAuto("CenterShootAuto"));
         autonChooser.addOption(
                 "Source Side 2 Shoot Auto", new PathPlannerAuto("SourceSide2ShootAuto"));
         autonChooser.addOption("Do Nothing", Commands.print("Do Nothing Auto ran"));
@@ -43,12 +42,10 @@ public class Auton extends SubsystemBase {
         autonChooser.addOption("CenterShoot5Note", new PathPlannerAuto("CenterShoot5Note"));
         autonChooser.addOption("Centerline 3", new PathPlannerAuto("Centerline3"));
         autonChooser.addOption("Source 4", new PathPlannerAuto("Source4"));
-        autonChooser.addOption("Center Preload", new PathPlannerAuto("CenterPreload"));
-        autonChooser.addOption("Centerline 2", new PathPlannerAuto("Centerline2"));
-        autonChooser.addOption("1Meter Auto", new PathPlannerAuto("1 Meter Auto"));
-        autonChooser.addOption("3Meter Auto", new PathPlannerAuto("3 Meter Auto"));
-        autonChooser.addOption("5Meter Auto", new PathPlannerAuto("5 Meter Auto"));
-        autonChooser.addOption("Amp Sub 1", new PathPlannerAuto("Preload Mobility Amp"));
+        // autonChooser.addOption("Center Shoot Auto", new PathPlannerAuto("CenterShootAuto"));
+        // autonChooser.addOption("Center Preload", new PathPlannerAuto("CenterPreload"));
+        // autonChooser.addOption("Centerline 2", new PathPlannerAuto("Centerline2"));
+        // autonChooser.addOption("Amp Sub 1", new PathPlannerAuto("Preload Mobility Amp"));
         SmartDashboard.putData("Auto Chooser", autonChooser);
     }
 
@@ -64,12 +61,13 @@ public class Auton extends SubsystemBase {
 
         NamedCommands.registerCommand("launchReadyPreload2", AutonCommands.launchReadyPreload2());
 
-        NamedCommands.registerCommand("visionLaunchReady", AutonCommands.visionLaunch());
+        //NamedCommands.registerCommand("visionLaunchReady", AutonCommands.visionLaunch());
         NamedCommands.registerCommand("launch", AutonCommands.launch());
         NamedCommands.registerCommand("launchShort", AutonCommands.launchShort());
         NamedCommands.registerCommand("intake", AutonCommands.intake());
         NamedCommands.registerCommand("intakeCheck", AutonCommands.intakeCheck());
         NamedCommands.registerCommand("intakeFeed", AutonCommands.intakeFeed());
+        NamedCommands.registerCommand("visionLaunch", AutonCommands.visionLaunch());
 
         NamedCommands.registerCommand("resetPose", AutonCommands.resetPoseToVision());
 
@@ -82,6 +80,7 @@ public class Auton extends SubsystemBase {
         NamedCommands.registerCommand("stopAmpTrap", AmpTrapCommands.stopMotor());
         NamedCommands.registerCommand("stopLauncher", LauncherCommands.stopMotors());
         NamedCommands.registerCommand("stopPivot", PivotCommands.stopMotor());
+
     }
 
     // Subsystem Documentation:

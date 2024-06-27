@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7349619937780567,
-        "y": 4.414105890887179
+        "x": 1.06,
+        "y": 3.8
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.4544511034765757,
-        "y": 3.632725244870508
+        "x": 1.779489109698519,
+        "y": 3.0186193539833286
       },
       "isLocked": false,
       "linkedName": "Source Sub Start"
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Simple Paths",
+  "folder": null,
   "previewStartingState": {
     "rotation": 120.0,
     "velocity": 0

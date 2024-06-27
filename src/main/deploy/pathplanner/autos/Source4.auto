@@ -2,25 +2,37 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.41,
-      "y": 3.65
+      "x": 0.72,
+      "y": 4.4
     },
-    "rotation": 180.0
+    "rotation": 120.81305413801972
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "launchReady"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "Source4"
+            "pathName": "SS4Preload"
           }
         },
         {
           "type": "wait",
           "data": {
             "waitTime": 0.75
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launch"
           }
         }
       ]
