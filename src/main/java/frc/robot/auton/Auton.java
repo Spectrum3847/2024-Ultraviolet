@@ -61,7 +61,7 @@ public class Auton extends SubsystemBase {
 
         NamedCommands.registerCommand("launchReadyPreload2", AutonCommands.launchReadyPreload2());
 
-        //NamedCommands.registerCommand("visionLaunchReady", AutonCommands.visionLaunch());
+        // NamedCommands.registerCommand("visionLaunchReady", AutonCommands.visionLaunch());
         NamedCommands.registerCommand("launch", AutonCommands.launch());
         NamedCommands.registerCommand("launchShort", AutonCommands.launchShort());
         NamedCommands.registerCommand("intake", AutonCommands.intake());
@@ -80,7 +80,6 @@ public class Auton extends SubsystemBase {
         NamedCommands.registerCommand("stopAmpTrap", AmpTrapCommands.stopMotor());
         NamedCommands.registerCommand("stopLauncher", LauncherCommands.stopMotors());
         NamedCommands.registerCommand("stopPivot", PivotCommands.stopMotor());
-
     }
 
     // Subsystem Documentation:
