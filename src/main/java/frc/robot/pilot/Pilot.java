@@ -22,7 +22,7 @@ public class Pilot extends Gamepad {
 
         public static final int emulatedPS5Port = 4;
 
-        public static final double slowModeScalor = 0.45;
+        public static final double slowModeScalor = 0.20;
         public static final double turboModeScalor = 1;
 
         public final double leftStickDeadzone = 0; // TODO: reivew
@@ -79,7 +79,7 @@ public class Pilot extends Gamepad {
                 .x()
                 .and(noBumpers().or(rightBumperOnly()))
                 .and(controller.a().negate())
-                .whileTrue(RobotCommands.visionLaunch());
+                .whileTrue(RobotCommands.visionLaunch().alongWith(PilotCommands.slowMode()));
         controller
                 .x()
                 .and(leftBumperOnly().or(bothBumpers()))
@@ -195,9 +195,9 @@ public class Pilot extends Gamepad {
     // Applies Expontial Curve, Deadzone, and Slow Mode toggle
     public double getDriveFwdPositive() {
         double fwdPositive = LeftStickCurve.calculate(-1 * controller.getLeftY());
-        // if (isSlowMode) {
-        //     fwdPositive *= Math.abs(PilotConfig.slowModeScalor);
-        // }
+        if (isSlowMode) {
+            fwdPositive *= Math.abs(PilotConfig.slowModeScalor);
+        }
         return fwdPositive;
     }
 
@@ -205,9 +205,9 @@ public class Pilot extends Gamepad {
     // Applies Expontial Curve, Deadzone, and Slow Mode toggle
     public double getDriveLeftPositive() {
         double leftPositive = -1 * LeftStickCurve.calculate(controller.getLeftX());
-        // if (isSlowMode) {
-        //     leftPositive *= Math.abs(PilotConfig.slowModeScalor);
-        // }
+        if (isSlowMode) {
+            leftPositive *= Math.abs(PilotConfig.slowModeScalor);
+        }
         return leftPositive;
     }
 

@@ -225,14 +225,11 @@ public class RobotCommands {
                 .onlyIf(Robot.feeder::noteIsClose)
                 .andThen(FeederCommands.feedToAmp())
                 .alongWith(AmpTrapCommands.amp())
-                .until(
-                        () ->
-                                // Robot.ampTrap.getBotLaserCanDistance() >= 20
-                                Robot.ampTrap.getTopLaserCanDistance() <= 10)
+                .until(() -> Robot.ampTrap.hasAmpNote())
                 .andThen(FeederCommands.stopMotor().alongWith(AmpTrapCommands.stopMotor()))
                 .alongWith(
                         ElevatorCommands.amp()
-                                .onlyIf(() -> Robot.ampTrap.getBotLaserCanDistance() < 200)
+                                .onlyIf(() -> Robot.ampTrap.getBotLaserCanDistance() < 100)
                                 .repeatedly())
                 .withName("RobotCommands.amp");
     }
