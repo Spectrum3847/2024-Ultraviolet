@@ -31,7 +31,7 @@ public class AmpTrap extends Mechanism {
         public double velocityKv = 0.12;
         public double velocityKs = 0.24;
 
-        public double hasNoteDistance = 300;
+        public double hasNoteDistance = 130;
         public double topHasNoteDistance = 150;
 
         public AmpTrapConfig() {

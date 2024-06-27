@@ -389,20 +389,19 @@ public class RobotCommands {
                 Robot.ampTrap.bottomLasercan::validDistance);
     }
 
-    public static Command centerClimbAlign() {
+    public static Command climbReady() {
         return ClimberCommands.topClimb()
                 .alongWith(
                         PivotCommands.climbHome(),
                         FeederCommands.score()
                                 .withTimeout(0.1)
-                                .onlyIf(Robot.feeder::noteIsClose)
                                 .andThen(FeederCommands.feedToAmp())
                                 .alongWith(AmpTrapCommands.amp())
                                 .until(
                                         () ->
                                                 Robot.ampTrap.bottomHasNote()
                                                         || Robot.ampTrap.topHasNote())
-                                .onlyIf(() -> !Robot.ampTrap.bottomHasNote())
+                                // .onlyIf(() -> !Robot.ampTrap.bottomHasNote())
                                 .andThen(
                                         AmpTrapCommands.stopMotor()
                                                 .alongWith(FeederCommands.stopMotor())));
