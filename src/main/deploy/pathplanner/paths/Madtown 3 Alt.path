@@ -55,7 +55,7 @@
   "eventMarkers": [
     {
       "name": "smartIntake",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 0.4,
       "command": {
         "type": "parallel",
         "data": {
