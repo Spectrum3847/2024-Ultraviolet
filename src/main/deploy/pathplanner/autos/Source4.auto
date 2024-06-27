@@ -12,21 +12,15 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "launchReady"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "SS4Preload"
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 0.75
+            "name": "launchReadySubwoofer"
           }
         },
         {
