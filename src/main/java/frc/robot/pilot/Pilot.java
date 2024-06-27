@@ -80,7 +80,7 @@ public class Pilot extends Gamepad {
                 .x()
                 .and(noBumpers().or(rightBumperOnly()))
                 .and(controller.a().negate())
-                .whileTrue(RobotCommands.visionLaunch().alongWith(PilotCommands.slowMode()));
+                .whileTrue(RobotCommands.visionLaunch());
         controller
                 .x()
                 .and(leftBumperOnly().or(bothBumpers()))

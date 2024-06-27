@@ -30,52 +30,33 @@ public class Auton extends SubsystemBase {
 
     // A chooser for autonomous commands
     public static void setupSelectors() {
-        // Config Autos
-        autonChooser.addOption("1 Meter", new PathPlannerAuto("1 Meter Auto")); // Runs full Auto
-        autonChooser.addOption("3 Meter", new PathPlannerAuto("3 Meter Auto")); // Runs full Auto
-        autonChooser.addOption("5 Meter", new PathPlannerAuto("5 Meter Auto")); // Runs full Auto
-        // autonChooser.addOption("Front 5", new PathPlannerAuto("Front 5")); // Runs full Auto
+        // Config Autos (Uncomment to use)
+        // autonChooser.addOption("1 Meter", new PathPlannerAuto("1 Meter Auto")); // Runs full Auto
+        // autonChooser.addOption("3 Meter", new PathPlannerAuto("3 Meter Auto")); // Runs full Auto
+        // autonChooser.addOption("5 Meter", new PathPlannerAuto("5 Meter Auto")); // Runs full Auto
 
         // Competition Autos
         autonChooser.addOption(
-                "Front 6.5 Auto", new PathPlannerAuto("Front 6.5")); // Runs full Auto
-        autonChooser.addOption(
-                "Front Alt 6 Auto", new PathPlannerAuto("Front Alt 6")); // Runs full Auto
-
-        autonChooser.addOption("Front 43", new PathPlannerAuto("Front 43")); // Runs full Auto
-
-        autonChooser.addOption(
                 "Front Rush 12", new PathPlannerAuto("Front Rush 12")); // Runs full Auto
-
+        autonChooser.addOption("Madtown Adaptive (3847 Only)", AutoPaths.MadtownAdaptive());
+        autonChooser.addOption(
+                "Front Rush 23 Spit", new PathPlannerAuto("Front Rush 23 Spit")); // Runs full Auto
+        autonChooser.addOption("Front 43", new PathPlannerAuto("Front 43")); // Runs full Auto
         autonChooser.addOption(
                 "Front Rush 23", new PathPlannerAuto("Front Rush 23")); // Runs full Auto
         autonChooser.addOption(
                 "Front Rush 13", new PathPlannerAuto("Front Rush 13")); // Runs full Auto
         autonChooser.addOption(
                 "Front Rush 3", new PathPlannerAuto("Front Rush 3")); // Runs full Auto
-
-        autonChooser.addOption(
-                "Front Rush 23 Spit", new PathPlannerAuto("Front Rush 23 Spit")); // Runs full Auto
-        autonChooser.addOption("Source 4 Auto", new PathPlannerAuto("Source 4")); // Runs full
-        // Auto
-        // autonChooser.addOption("Front 6.5 Test", AutoPaths.Front6Point5()); // Runs full Auto
-        // autonChooser.addOption("Front Alt 6 Test", AutoPaths.FrontAlt6()); // Runs full Auto
-        // autonChooser.addOption("Source 4 Test", AutoPaths.Source4()); // Runs full Auto
-        // autonChooser.addOption("Front 6", new PathPlannerAuto("Front 6")); // Runs full Auto
-
-        // autonChooser.addOption("Test", AutoPaths.Test()); // Runs full Auto
-
-        autonChooser.addOption("Subwoofer", new PathPlannerAuto("Subwoofer")); // Runs full Auto
-
-        // autonChooser.addOption("Madtown Test", new PathPlannerAuto("Madtown Test"));
-        // autonChooser.addOption("Madtown Test 2", new PathPlannerAuto("Madtown Test 2"));
-        // autonChooser.addOption("Madtown Test 3", new PathPlannerAuto("Madtown Test 3"));
-        // autonChooser.addOption("Madtown Dect", AutoPaths.MadtownTest());
-
-        // Madtown Autos
-        autonChooser.addOption("Madtown Adaptive", AutoPaths.MadtownAdaptive());
         autonChooser.addOption("Madtown", new PathPlannerAuto("Madtown"));
         autonChooser.addOption("Madtown Alt", new PathPlannerAuto("Madtown Alt"));
+
+        // Older autos
+        autonChooser.addOption(
+                "Front 6.5 Auto", new PathPlannerAuto("Front 6.5")); // Runs full Auto
+        autonChooser.addOption(
+                "Front Alt 6 Auto", new PathPlannerAuto("Front Alt 6")); // Runs full Auto
+        autonChooser.addOption("Subwoofer", new PathPlannerAuto("Subwoofer")); // Runs full Auto
 
         autonChooser.addOption("Do Nothing", Commands.print("Do Nothing Auto ran"));
 
