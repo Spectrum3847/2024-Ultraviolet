@@ -8,7 +8,6 @@ import frc.robot.RobotConfig;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
 import java.util.function.DoubleSupplier;
-import org.littletonrobotics.junction.AutoLogOutput;
 
 public class Climber extends Mechanism {
     public class ClimberConfig extends Config {
@@ -197,7 +196,7 @@ public class Climber extends Mechanism {
 
     /* Logging */
 
-    @AutoLogOutput(key = "Climber/Position (rotations)")
+    // @AutoLogOutput(key = "Climber/Position (rotations)")
     public double getMotorPosition() {
         if (attached) {
             return motor.getPosition().getValueAsDouble();
@@ -206,7 +205,7 @@ public class Climber extends Mechanism {
     }
 
     /** Returns the position of the motor as a percentage of max rotation */
-    @AutoLogOutput(key = "Climber/Motor Position (percent)")
+    // @AutoLogOutput(key = "Climber/Motor Position (percent)")
     public double getMotorPercentAngle() {
         if (attached) {
             return motor.getPosition().getValueAsDouble() / config.maxRotation * 100;

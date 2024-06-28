@@ -22,7 +22,6 @@ import frc.spectrumLib.vision.Limelight.PhysicalConfig;
 import frc.spectrumLib.vision.LimelightHelpers.RawFiducial;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import org.littletonrobotics.junction.AutoLogOutput;
 
 public class Vision extends SubsystemBase {
     /**
@@ -138,7 +137,7 @@ public class Vision extends SubsystemBase {
 
     private final DecimalFormat df = new DecimalFormat();
 
-    @AutoLogOutput(key = "Vision/a_Integrating")
+    // @AutoLogOutput(key = "Vision/a_Integrating")
     public static boolean isIntegrating = false;
 
     public ArrayList<Trio<Pose3d, Pose2d, Double>> autonPoses =
@@ -270,13 +269,13 @@ public class Vision extends SubsystemBase {
             /* integrations */
             // if almost stationary and extremely close to tag
             else if (robotSpeed.vxMetersPerSecond + robotSpeed.vyMetersPerSecond <= 0.2
-                    && targetSize > 0.4) {
+                    && targetSize > 0.45) { // 0.4
                 ll.sendValidStatus("Stationary close integration");
                 xyStds = 0.1;
                 degStds = 0.1;
             } else if (multiTags && targetSize > 0.05) {
                 ll.sendValidStatus("Multi integration");
-                xyStds = 0.25;
+                xyStds = 0.20; // 0.25
                 degStds = 8;
                 if (targetSize > 0.09) {
                     ll.sendValidStatus("Strong Multi integration");
@@ -360,7 +359,7 @@ public class Vision extends SubsystemBase {
     }
 
     /** Returns the distance from the speaker in meters, adjusted for the robot's movement. */
-    @AutoLogOutput(key = "Vision/SpeakerDistance")
+    // @AutoLogOutput(key = "Vision/SpeakerDistance")
     public double getSpeakerDistance() {
         double poseDistance =
                 Robot.swerve.getPose().getTranslation().getDistance(getAdjustedSpeakerPos());
@@ -371,7 +370,7 @@ public class Vision extends SubsystemBase {
         return poseDistance;
     }
 
-    @AutoLogOutput(key = "Vision/SpeakerYDistance")
+    // @AutoLogOutput(key = "Vision/SpeakerYDistance")
     public double getSpeakerYDelta() {
         return Robot.swerve.getPose().getTranslation().getY() - getAdjustedSpeakerPos().getY();
     }
@@ -467,7 +466,7 @@ public class Vision extends SubsystemBase {
     }
 
     /** Returns the distance from the feed position in meters, adjusted for the robot's movement. */
-    @AutoLogOutput(key = "Vision/FeedDistance")
+    // @AutoLogOutput(key = "Vision/FeedDistance")
     public double getFeedDistance() {
         return Robot.swerve.getPose().getTranslation().getDistance(getAdjustedFeederPos());
     }
@@ -476,7 +475,7 @@ public class Vision extends SubsystemBase {
      * Returns the distance from the deep feed position in meters, adjusted for the robot's
      * movement.
      */
-    @AutoLogOutput(key = "Vision/DeepFeedDistance")
+    // @AutoLogOutput(key = "Vision/DeepFeedDistance")
     public double getDeepFeedDistance() {
         return Robot.swerve.getPose().getTranslation().getDistance(getAdjustedDeepFeederPos());
     }
@@ -646,12 +645,12 @@ public class Vision extends SubsystemBase {
         return bestLimelight;
     }
 
-    @AutoLogOutput(key = "Vision/BestLimelight")
+    // @AutoLogOutput(key = "Vision/BestLimelight")
     public String logBestLimelight() {
         return getBestLimelight().CAMERA_NAME;
     }
 
-    @AutoLogOutput(key = "Vision/NoteInView")
+    // @AutoLogOutput(key = "Vision/NoteInView")
     public boolean noteInView() {
         return detectLL.targetInView();
     }
@@ -723,52 +722,52 @@ public class Vision extends SubsystemBase {
             this.name = name;
         }
 
-        @AutoLogOutput(key = "Vision/{name}/ConnectionStatus")
+        // @AutoLogOutput(key = "Vision/{name}/ConnectionStatus")
         public boolean getCameraConnection() {
             return limelight.isCameraConnected();
         }
 
-        @AutoLogOutput(key = "Vision/{name}/Integrating")
+        // @AutoLogOutput(key = "Vision/{name}/Integrating")
         public boolean getIntegratingStatus() {
             return limelight.isIntegrating;
         }
 
-        @AutoLogOutput(key = "Vision/{name}/LogStatus")
+        // @AutoLogOutput(key = "Vision/{name}/LogStatus")
         public String getLogStatus() {
             return limelight.logStatus;
         }
 
-        @AutoLogOutput(key = "Vision/{name}/TagStatus")
+        // @AutoLogOutput(key = "Vision/{name}/TagStatus")
         public String getTagStatus() {
             return limelight.tagStatus;
         }
 
-        @AutoLogOutput(key = "Vision/{name}/Pose")
+        // @AutoLogOutput(key = "Vision/{name}/Pose")
         public Pose2d getPose() {
             return limelight.getRawPose3d().toPose2d();
         }
 
-        @AutoLogOutput(key = "Vision/{name}/MegaPose")
+        // @AutoLogOutput(key = "Vision/{name}/MegaPose")
         public Pose2d getMegaPose() {
             return limelight.getMegaPose2d();
         }
 
-        @AutoLogOutput(key = "Vision/{name}/PoseX")
+        // @AutoLogOutput(key = "Vision/{name}/PoseX")
         public double getPoseX() {
             return getPose().getX();
         }
 
-        @AutoLogOutput(key = "Vision/{name}/PoseY")
+        // @AutoLogOutput(key = "Vision/{name}/PoseY")
         public double getPoseY() {
             return getPose().getY();
         }
 
-        @AutoLogOutput(key = "Vision/{name}/TagCount")
+        // @AutoLogOutput(key = "Vision/{name}/TagCount")
         public double getTagCount() {
             return limelight.getTagCountInView();
         }
 
-        @AutoLogOutput(key = "Vision/{name}/TargetSize")
+        // @AutoLogOutput(key = "Vision/{name}/TargetSize")
         public double getTargetSize() {
             return limelight.getTargetSize();
         }

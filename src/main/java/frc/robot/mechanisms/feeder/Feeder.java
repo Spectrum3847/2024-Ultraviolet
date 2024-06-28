@@ -8,7 +8,6 @@ import frc.spectrumLib.lasercan.LaserCanUtil;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
 import frc.spectrumLib.util.Conversions;
-import org.littletonrobotics.junction.AutoLogOutput;
 
 public class Feeder extends Mechanism {
     public class FeederConfig extends Config {
@@ -72,12 +71,12 @@ public class Feeder extends Mechanism {
 
     /* Lasercan */
 
-    @AutoLogOutput(key = "Feeder/LaserCan-Measurement")
+    // @AutoLogOutput(key = "Feeder/LaserCan-Measurement")
     public int getLaserCanDistance() {
         return lasercan.getDistance();
     }
 
-    @AutoLogOutput(key = "Feeder/LaserCan-Valid")
+    // @AutoLogOutput(key = "Feeder/LaserCan-Valid")
     public boolean getLaserCanStatus() {
         return lasercan.validDistance();
     }
@@ -176,7 +175,7 @@ public class Feeder extends Mechanism {
     /* Logging */
 
     /** Returns the velocity of the motor in rotations per second */
-    @AutoLogOutput(key = "Feeder/Motor Velocity (rotations per second)")
+    // @AutoLogOutput(key = "Feeder/Motor Velocity (rotations per second)")
     public double getMotorVelocity() {
         if (attached) {
             return motor.getVelocity().getValueAsDouble();
@@ -185,7 +184,7 @@ public class Feeder extends Mechanism {
     }
 
     /** Intaked note status */
-    @AutoLogOutput(key = "Feeder/Note Intaked")
+    // @AutoLogOutput(key = "Feeder/Note Intaked")
     public boolean noteIntaked() {
         if (attached) {
             return lasercan.intakedNote();

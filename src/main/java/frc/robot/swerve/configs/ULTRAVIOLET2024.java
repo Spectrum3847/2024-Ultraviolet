@@ -83,7 +83,7 @@ public class ULTRAVIOLET2024 {
      *
      * <p>ex: absolute pos no offset = 0.87; pivotCANcoderOffset = -0.86; read motor position = 0.13
      */
-    public static final double pivotCANcoderOffset = -0.830195; // -0.86;
+    public static final double pivotCANcoderOffset = -0.815195; // -0.830195;  -0.86;
 
     public static final CANCoderFeedbackType pivotFeedbackSource =
             CANCoderFeedbackType.FusedCANcoder;

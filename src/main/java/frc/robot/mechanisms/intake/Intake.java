@@ -8,7 +8,6 @@ import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
 import frc.spectrumLib.util.Conversions;
 import java.util.function.DoubleSupplier;
-import org.littletonrobotics.junction.AutoLogOutput;
 
 public class Intake extends Mechanism {
     public class IntakeConfig extends Config {
@@ -149,7 +148,7 @@ public class Intake extends Mechanism {
     /* Logging */
 
     /** Returns the velocity of the motor in rotations per second */
-    @AutoLogOutput(key = "Intake/Motor Velocity (rotations per second)")
+    // @AutoLogOutput(key = "Intake/Motor Velocity (rotations per second)")
     public double getMotorVelocity() {
         if (attached) {
             return motor.getVelocity().getValueAsDouble();

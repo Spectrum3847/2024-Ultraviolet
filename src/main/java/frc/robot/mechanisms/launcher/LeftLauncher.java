@@ -8,7 +8,6 @@ import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
 import frc.spectrumLib.util.Conversions;
 import java.util.function.DoubleSupplier;
-import org.littletonrobotics.junction.AutoLogOutput;
 
 /** Bottom Launcher */
 public class LeftLauncher extends Mechanism {
@@ -148,7 +147,7 @@ public class LeftLauncher extends Mechanism {
     /* Logging */
 
     /** Returns the velocity of the motor in rotations per second */
-    @AutoLogOutput(key = "LeftLauncher/Motor Velocity (rotations per second)")
+    // @AutoLogOutput(key = "LeftLauncher/Motor Velocity (rotations per second)")
     public double getMotorVelocity() {
         if (attached) {
             return motor.getVelocity().getValueAsDouble();
@@ -157,7 +156,7 @@ public class LeftLauncher extends Mechanism {
     }
 
     /** Returns the velocity of the motor in rotations per second */
-    @AutoLogOutput(key = "LeftLauncher/Motor Velocity (revolutions per minute)")
+    // @AutoLogOutput(key = "LeftLauncher/Motor Velocity (revolutions per minute)")
     public double getMotorVelocityInRPM() {
         if (attached) {
             return Conversions.RPStoRPM(getMotorVelocity());

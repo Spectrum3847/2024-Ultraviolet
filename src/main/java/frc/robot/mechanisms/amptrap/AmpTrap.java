@@ -7,7 +7,6 @@ import frc.spectrumLib.lasercan.LaserCanUtil;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
 import frc.spectrumLib.util.Conversions;
-import org.littletonrobotics.junction.AutoLogOutput;
 
 public class AmpTrap extends Mechanism {
     public class AmpTrapConfig extends Config {
@@ -62,22 +61,22 @@ public class AmpTrap extends Mechanism {
         topLasercan = new LaserCanUtil(2);
     }
 
-    @AutoLogOutput(key = "AmpTrap/Lasercans/Bottom/Measurement")
+    // @AutoLogOutput(key = "AmpTrap/Lasercans/Bottom/Measurement")
     public int getBotLaserCanDistance() {
         return bottomLasercan.getDistance();
     }
 
-    @AutoLogOutput(key = "AmpTrap/Lasercans/Top/Measurement")
+    // @AutoLogOutput(key = "AmpTrap/Lasercans/Top/Measurement")
     public int getTopLaserCanDistance() {
         return topLasercan.getDistance();
     }
 
-    @AutoLogOutput(key = "AmpTrap/Lasercans/Bottom/LaserCan-Valid")
+    // @AutoLogOutput(key = "AmpTrap/Lasercans/Bottom/LaserCan-Valid")
     public boolean getBotLaserCanStatus() {
         return bottomLasercan.validDistance();
     }
 
-    @AutoLogOutput(key = "AmpTrap/Lasercans/Top/LaserCan-Valid")
+    // @AutoLogOutput(key = "AmpTrap/Lasercans/Top/LaserCan-Valid")
     public boolean getTopLaserCanStatus() {
         return topLasercan.validDistance();
     }
@@ -177,7 +176,7 @@ public class AmpTrap extends Mechanism {
     /* Logging */
 
     /** Returns the velocity of the motor in rotations per second */
-    @AutoLogOutput(key = "AmpTrap/Motor Velocity (rotations per second)")
+    // @AutoLogOutput(key = "AmpTrap/Motor Velocity (rotations per second)")
     public double getMotorVelocity() {
         if (attached) {
             return motor.getVelocity().getValueAsDouble();

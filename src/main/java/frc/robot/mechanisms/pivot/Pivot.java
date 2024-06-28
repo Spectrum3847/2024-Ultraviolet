@@ -18,7 +18,6 @@ import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
 import frc.spectrumLib.swerve.config.SwerveConfig;
 import java.util.function.DoubleSupplier;
-import org.littletonrobotics.junction.AutoLogOutput;
 
 public class Pivot extends Mechanism {
     public class PivotConfig extends Config {
@@ -70,8 +69,8 @@ public class Pivot extends Mechanism {
 
         public final double autoLaunch15 = 43.5;
 
-        public final double autoLaunch16 = 55;
-        public final double autoLaunch17 = 47.75;
+        public final double autoLaunch16 = 54;
+        public final double autoLaunch17 = 46.5;
 
         public final double zeroSpeed = -0.1;
 
@@ -369,7 +368,7 @@ public class Pivot extends Mechanism {
     /* Logging */
 
     /** Returns the position of the motor in rotations */
-    @AutoLogOutput(key = "Pivot/Motor Position (rotations)")
+    // @AutoLogOutput(key = "Pivot/Motor Position (rotations)")
     public double getMotorPosition() {
         if (attached) {
             return motor.getPosition().getValueAsDouble();
@@ -377,7 +376,7 @@ public class Pivot extends Mechanism {
         return 0;
     }
 
-    @AutoLogOutput(key = "Pivot/Adjustable Offset (percent)")
+    // @AutoLogOutput(key = "Pivot/Adjustable Offset (percent)")
     public double getOffset() {
         if (attached) {
             return config.OFFSET;
@@ -385,13 +384,13 @@ public class Pivot extends Mechanism {
         return 0;
     }
 
-    @AutoLogOutput(key = "Pivot/Status")
+    // @AutoLogOutput(key = "Pivot/Status")
     public boolean pivotStatus() {
         return !pivotHasError();
     }
 
     /** Returns the position of the motor as a percentage of max rotation */
-    @AutoLogOutput(key = "Pivot/Motor Position (percent)")
+    // @AutoLogOutput(key = "Pivot/Motor Position (percent)")
     public double getMotorPercentAngle() {
         if (attached) {
             return motor.getPosition().getValueAsDouble() / config.maxRotation * 100;
@@ -437,7 +436,7 @@ public class Pivot extends Mechanism {
         RobotTelemetry.print("Feed spot switched to " + ((config.shortFeed) ? " short" : " long"));
     }
 
-    @AutoLogOutput(key = "Pivot/isShortFeed")
+    // @AutoLogOutput(key = "Pivot/isShortFeed")
     public boolean isFeedShort() {
         return config.shortFeed;
     }

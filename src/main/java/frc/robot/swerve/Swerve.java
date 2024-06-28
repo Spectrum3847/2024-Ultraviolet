@@ -103,22 +103,22 @@ public class Swerve implements Subsystem {
     @Override
     public void periodic() {
         // Log measured states
-        Logger.recordOutput("SwerveStates/Measured", drivetrain.getState().ModuleStates);
+        // Logger.recordOutput("SwerveStates/Measured", drivetrain.getState().ModuleStates);
 
         // Log empty setpoint states when disabled
         if (DriverStation.isDisabled()) {
             Logger.recordOutput("SwerveStates/Setpoints", new SwerveModuleState[] {});
         } else {
             // Log setpoint states
-            Logger.recordOutput("SwerveStates/Setpoints", readSetpoints());
+            // Logger.recordOutput("SwerveStates/Setpoints", readSetpoints());
             ;
         }
 
         // Log Odometry Pose
-        Logger.recordOutput("Odometry/Robot", getPose());
-        Logger.recordOutput("Odometry/RobotX", getPose().getX());
-        Logger.recordOutput("Odometry/RobotY", getPose().getY());
-        Logger.recordOutput("Odometry/RobotTheta", getPose().getRotation().getDegrees());
+        // Logger.recordOutput("Odometry/Robot", getPose());
+        // Logger.recordOutput("Odometry/RobotX", getPose().getX());
+        // Logger.recordOutput("Odometry/RobotY", getPose().getY());
+        // Logger.recordOutput("Odometry/RobotTheta", getPose().getRotation().getDegrees());
 
         // Log Vision Pose
         if (Robot.isReal()) {

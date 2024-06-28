@@ -8,7 +8,6 @@ import frc.robot.RobotConfig;
 import frc.spectrumLib.mechanism.Mechanism;
 import frc.spectrumLib.mechanism.TalonFXFactory;
 import java.util.function.DoubleSupplier;
-import org.littletonrobotics.junction.AutoLogOutput;
 
 public class Elevator extends Mechanism {
     public class ElevatorConfig extends Config {
@@ -190,7 +189,7 @@ public class Elevator extends Mechanism {
 
     /* Logging */
 
-    @AutoLogOutput(key = "Elevator/Position (rotations)")
+    // @AutoLogOutput(key = "Elevator/Position (rotations)")
     public double getMotorPosition() {
         if (attached) {
             return motor.getPosition().getValueAsDouble();
