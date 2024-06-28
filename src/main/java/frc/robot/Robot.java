@@ -271,6 +271,8 @@ public class Robot extends LoggedRobot {
                                     ? 0
                                     : 180));
 
+            vision.detectLL.setLimelightPipeline(2);
+
             // if(DriverStation.isFMSAttached()) {
             //     ClimberCommands.safeClimb().withTimeout(2).schedule();
             // }
