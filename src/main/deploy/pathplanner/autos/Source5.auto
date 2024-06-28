@@ -12,21 +12,33 @@
     "data": {
       "commands": [
         {
+          "type": "path",
+          "data": {
+            "pathName": "SS4Preload"
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "preloadScoreSub"
+            "name": "launchReadySubwoofer"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launch"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Path 1 - Source Sub Centerline 2"
+            "pathName": "SS5Midline"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "score"
+            "name": "launch"
           }
         }
       ]

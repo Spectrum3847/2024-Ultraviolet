@@ -12,6 +12,18 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "launchReadySubwoofer"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launch"
+          }
+        },
+        {
           "type": "wait",
           "data": {
             "waitTime": 13.0
@@ -21,6 +33,18 @@
           "type": "path",
           "data": {
             "pathName": "AmpSideShootDrive"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "visionLaunch"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launch"
           }
         }
       ]

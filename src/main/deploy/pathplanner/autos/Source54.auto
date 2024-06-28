@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.72,
-      "y": 4.4
+      "x": 0.7040162256189807,
+      "y": 4.421842332926948
     },
-    "rotation": 120.81305413801972
+    "rotation": 120.0
   },
   "command": {
     "type": "sequential",
@@ -21,6 +21,18 @@
           "type": "named",
           "data": {
             "name": "launchReadySubwoofer"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launch"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "SS5Midline"
           }
         },
         {
