@@ -84,7 +84,7 @@ public class PM2024 {
      * <p>ex: absolute pos no offset = 0.87; pivotCANcoderOffset = -0.86; read motor position = 0.13
      */
     public static final double pivotCANcoderOffset =
-            -0.712412; // -0.835459; // -0.004; // flip sign
+            -0.711191; // -0.712412; // -0.835459; // flip sign
 
     public static final CANCoderFeedbackType pivotFeedbackSource =
             CANCoderFeedbackType.FusedCANcoder;
