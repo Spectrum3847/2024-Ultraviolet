@@ -12,10 +12,10 @@ import frc.spectrumLib.swerve.config.SwerveConfig;
 public class PM2024 {
 
     // Angle Offsets: from cancoder Absolute Position No Offset, opposite sign
-    private static final double kFrontLeftCANcoderOffset = 0.337402; // 0.336426
-    private static final double kFrontRightCANncoderOffset = -0.027832; // -0.031006
-    private static final double kBackLeftCANcoderOffset = -0.323242; // -0.323730
-    private static final double kBackRightCANcoderOffset = 0.496338; // 0.492188
+    private static final double kFrontLeftCANcoderOffset = 0.337646; // 0.337402
+    private static final double kFrontRightCANncoderOffset = -0.027344; // -0.027832
+    private static final double kBackLeftCANcoderOffset = -0.323975; // -0.323242
+    private static final double kBackRightCANcoderOffset = 0.495605; // 0.496338
 
     // Physical Config
     private static final double frontWheelBaseInches = 11.875;
@@ -74,7 +74,18 @@ public class PM2024 {
     private static final double kBackRightYPos = Units.inchesToMeters(-trackWidthInches);
 
     // Pivot CANCoder configs
-    public static final double pivotCANcoderOffset = -0.004; // flip sign
+    // Pivot CANCoder configs
+    /**
+     * Flip sign of absolute position no offset. Enter value closer to 0 than recorded value.
+     *
+     * <p>Target 0.05 < motor position (rotations) < 0.015 when all the way down to keep shots
+     * consistent
+     *
+     * <p>ex: absolute pos no offset = 0.87; pivotCANcoderOffset = -0.86; read motor position = 0.13
+     */
+    public static final double pivotCANcoderOffset =
+            -0.712412; // -0.835459; // -0.004; // flip sign
+
     public static final CANCoderFeedbackType pivotFeedbackSource =
             CANCoderFeedbackType.FusedCANcoder;
 

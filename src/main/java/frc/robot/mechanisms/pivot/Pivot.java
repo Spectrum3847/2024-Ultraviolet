@@ -70,8 +70,8 @@ public class Pivot extends Mechanism {
 
         public final double autoLaunch15 = 43.5;
 
-        public final double autoLaunch16 = 55;
-        public final double autoLaunch17 = 47.75;
+        public final double autoLaunch16 = 53.5;
+        public final double autoLaunch17 = 46;
 
         public final double zeroSpeed = -0.1;
 
