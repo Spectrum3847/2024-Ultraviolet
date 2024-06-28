@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.6403786934108335,
-      "y": 6.791114923117476
+      "x": 0.7040162256189807,
+      "y": 6.68861985057927
     },
     "rotation": -120.0
   },
@@ -15,6 +15,12 @@
           "type": "named",
           "data": {
             "name": "launchReadySubwoofer"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "ASPreload"
           }
         },
         {
@@ -32,19 +38,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "AmpSideShootDrive"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "visionLaunch"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "launch"
+            "pathName": "ASFront1"
           }
         }
       ]
