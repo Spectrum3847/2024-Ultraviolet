@@ -23,6 +23,8 @@ import frc.spectrumLib.vision.LimelightHelpers.RawFiducial;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import org.littletonrobotics.junction.AutoLogOutput;
+
 public class Vision extends SubsystemBase {
     /**
      * Configs must be initialized and added as limelights to {@link Vision} {@code allLimelights} &
@@ -650,7 +652,7 @@ public class Vision extends SubsystemBase {
         return getBestLimelight().CAMERA_NAME;
     }
 
-    // @AutoLogOutput(key = "Vision/NoteInView")
+    @AutoLogOutput(key = "Vision/NoteInView")
     public boolean noteInView() {
         return detectLL.targetInView();
     }
