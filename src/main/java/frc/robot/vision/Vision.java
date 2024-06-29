@@ -22,7 +22,6 @@ import frc.spectrumLib.vision.Limelight.PhysicalConfig;
 import frc.spectrumLib.vision.LimelightHelpers.RawFiducial;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-
 import org.littletonrobotics.junction.AutoLogOutput;
 
 public class Vision extends SubsystemBase {
