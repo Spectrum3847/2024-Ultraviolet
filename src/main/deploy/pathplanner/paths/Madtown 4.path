@@ -16,15 +16,15 @@
     },
     {
       "anchor": {
-        "x": 4.6,
+        "x": 4.65,
         "y": 3.85
       },
       "prevControl": {
-        "x": 4.1453658548330505,
+        "x": 4.195365854833051,
         "y": 3.058274522664954
       },
       "nextControl": {
-        "x": 4.913721449294365,
+        "x": 4.963721449294366,
         "y": 4.39633218123468
       },
       "isLocked": false,
@@ -107,7 +107,7 @@
   "reversed": false,
   "folder": "Madtown Paths",
   "previewStartingState": {
-    "rotation": 142.5,
+    "rotation": 141.5,
     "velocity": 0.0
   },
   "useDefaultConstraints": true
