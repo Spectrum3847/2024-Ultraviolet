@@ -55,21 +55,22 @@ public class Pivot extends Mechanism {
         public final double autoLaunch4 = 50; // 5 and 6 on Front 6
         public final double autoLaunch5 = 74; // GP 2 on Front 6
         public final double autoLaunch6 = 47; // Gp 3 on Front 6
-        public final double autoLaunch7 = 45.5; // GP 4 on Front 6
+        public final double autoLaunch7 = 46.5; // GP 4 on Front 6
         public final double autoLaunch8 = 30; // GP 4 on Front 6
-        public final double autoLaunch9 = 43.5; // GP 4 on Front 6
+        public final double autoLaunch9 = 45.5; // GP 4 on Front 6
 
         public final double autoLaunch10 = 45.5;
-        public final double autoLaunch11 = 54;
+        public final double autoLaunch11 = 54.5;
+
         public final double autoLaunch12 = 48;
 
-        public final double autoLaunch13 = 47;
+        public final double autoLaunch13 = 48.5;
 
         public final double autoLaunch14 = 46;
 
         public final double autoLaunch15 = 43.5;
 
-        public final double autoLaunch16 = 54;
+        public final double autoLaunch16 = 55;
         public final double autoLaunch17 = 46.25;
 
         public final double zeroSpeed = -0.1;
