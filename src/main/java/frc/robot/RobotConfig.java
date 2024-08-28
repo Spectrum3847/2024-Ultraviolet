@@ -10,7 +10,7 @@ public final class RobotConfig {
     public static final Double robotInitDelay = 2.0; // Seconds to wait before starting robot code
 
     public final String ALPHA2024SERIAL = "032B1F69";
-    public final String PM2024SERIAL = "03223839";
+    public final String PM2024SERIAL = "032B4BB3";
     public final String ULTRAVIOLET2024SERIAL = "032B1F69"; // "0329AD07";
     public final String NOTEBLOCK2023SERIAL = ""; // TODO: find
     public final String MUSICDISC2023SERIAL = ""; // TODO: find
