@@ -36,9 +36,10 @@ public class Auton extends SubsystemBase {
         // autonChooser.addOption("5 Meter", new PathPlannerAuto("5 Meter Auto")); // Runs full Auto
 
         // Competition Autos
+        autonChooser.addOption("Madtown (Grabs 4)", new PathPlannerAuto("Madtown"));
+        autonChooser.addOption("Madtown Alt (Grabs 5)", new PathPlannerAuto("Madtown Alt"));
         autonChooser.addOption(
                 "Front Rush 12", new PathPlannerAuto("Front Rush 12")); // Runs full Auto
-        autonChooser.addOption("Madtown Adaptive (3847 Only)", AutoPaths.MadtownAdaptive());
         autonChooser.addOption(
                 "Front Rush 23 Spit", new PathPlannerAuto("Front Rush 23 Spit")); // Runs full Auto
         autonChooser.addOption("Front 43", new PathPlannerAuto("Front 43")); // Runs full Auto
@@ -48,8 +49,6 @@ public class Auton extends SubsystemBase {
                 "Front Rush 13", new PathPlannerAuto("Front Rush 13")); // Runs full Auto
         autonChooser.addOption(
                 "Front Rush 3", new PathPlannerAuto("Front Rush 3")); // Runs full Auto
-        autonChooser.addOption("Madtown", new PathPlannerAuto("Madtown"));
-        autonChooser.addOption("Madtown Alt", new PathPlannerAuto("Madtown Alt"));
 
         // Older autos
         autonChooser.addOption(
