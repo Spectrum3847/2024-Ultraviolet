@@ -81,6 +81,10 @@ public class AmpTrap extends Mechanism {
         return topLasercan.validDistance();
     }
 
+    public boolean laserCanValidDistance() {
+        return bottomLasercan.validDistance() || topLasercan.validDistance();
+    }
+
     public boolean bottomHasNote() {
         if (getBotLaserCanDistance() <= 0) {
             return false;

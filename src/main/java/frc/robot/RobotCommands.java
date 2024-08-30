@@ -363,12 +363,16 @@ public class RobotCommands {
                                                 () ->
                                                         Robot.ampTrap.bottomHasNote()
                                                                 || Robot.ampTrap.topHasNote())
-                                        .onlyIf(() -> !Robot.ampTrap.bottomHasNote())
+                                        .onlyIf(
+                                                () ->
+                                                        !Robot.ampTrap.bottomHasNote()
+                                                                && !Robot.ampTrap.topHasNote())
                                         .andThen(
                                                 AmpTrapCommands.stopMotor()
-                                                        .alongWith(FeederCommands.stopMotor()))),
+                                                        .alongWith(FeederCommands.stopMotor())))
+                        .repeatedly(),
                 ClimberCommands.topClimb().alongWith(PivotCommands.climbHome()),
-                Robot.ampTrap.bottomLasercan::validDistance);
+                Robot.ampTrap::laserCanValidDistance);
     }
 
     public static Command trapExtend() {
@@ -379,14 +383,14 @@ public class RobotCommands {
                         .andThen(FeederCommands.feedToAmp())
                         .alongWith(AmpTrapCommands.amp())
                         .until(() -> Robot.ampTrap.bottomHasNote() || Robot.ampTrap.topHasNote())
-                        .onlyIf(() -> !Robot.ampTrap.bottomHasNote())
+                        .onlyIf(() -> !Robot.ampTrap.bottomHasNote() && !Robot.ampTrap.topHasNote())
                         .andThen(
                                 AmpTrapCommands.stopMotor()
                                         .alongWith(
                                                 FeederCommands.stopMotor(),
                                                 ElevatorCommands.fullExtend())),
                 ElevatorCommands.fullExtend(),
-                Robot.ampTrap.bottomLasercan::validDistance);
+                Robot.ampTrap::laserCanValidDistance);
     }
 
     public static Command centerClimbAlign() {
@@ -402,7 +406,10 @@ public class RobotCommands {
                                         () ->
                                                 Robot.ampTrap.bottomHasNote()
                                                         || Robot.ampTrap.topHasNote())
-                                .onlyIf(() -> !Robot.ampTrap.bottomHasNote())
+                                .onlyIf(
+                                        () ->
+                                                !Robot.ampTrap.bottomHasNote()
+                                                        && !Robot.ampTrap.topHasNote())
                                 .andThen(
                                         AmpTrapCommands.stopMotor()
                                                 .alongWith(FeederCommands.stopMotor())));

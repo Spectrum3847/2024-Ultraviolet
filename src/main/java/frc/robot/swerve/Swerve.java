@@ -73,7 +73,7 @@ public class Swerve implements Subsystem {
                 break;
             default:
                 DriverStation.reportError(
-                        "Could not match robot to swerve config; defaulting to PM2024 swerve config",
+                        "Could not match robot to swerve config; defaulting to ULTRAVIOLET2024 swerve config",
                         false);
                 config = ULTRAVIOLET2024.config;
                 break;
