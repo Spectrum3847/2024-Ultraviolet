@@ -1,4 +1,7 @@
 package frc.robot.swerve;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrain;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.Matrix;
@@ -34,9 +37,13 @@ import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 import org.littletonrobotics.junction.Logger;
 
+
+
 public class Swerve implements Subsystem {
-    public final SwerveConfig config;
-    private final Drivetrain drivetrain;
+    public final SwerveDrivetrainConstants config; 
+   // public final SwerveConfig config;
+    public final SwerveDrivetrain drivetrain;
+    //private final Drivetrain drivetrain;
     private final RotationController rotationController;
     private final AlignmentController xController;
     private final AlignmentController yController;
@@ -78,6 +85,8 @@ public class Swerve implements Subsystem {
                 config = ULTRAVIOLET2024.config;
                 break;
         }
+
+        //drivetrain = new SwerveDrivetrain(config, OdometryUpdateFrequency, );
         drivetrain = new Drivetrain(config, OdometryUpdateFrequency);
 
         rotationController = new RotationController(this);

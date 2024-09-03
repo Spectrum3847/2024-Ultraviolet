@@ -1,5 +1,6 @@
 package frc.robot.swerve.configs;
 
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 import edu.wpi.first.math.util.Units;
 import frc.robot.RobotConfig;
 import frc.robot.mechanisms.pivot.Pivot.CANCoderFeedbackType;
@@ -158,4 +159,89 @@ public class PM2024 {
                             maxVelocity, maxAccel, maxAngularVelocity, maxAngularAcceleration)
                     .withDeadbandConfig(deadband, rotationDeadband)
                     .withPivotConfig(pivotCANcoderOffset, pivotFeedbackSource);
+
+        /**
+         * public static final SwerveModuleConstants FrontLeft =
+            DefaultConfig.FrontLeft.withCANcoderOffset(kFrontLeftCANcoderOffset)
+                    .withLocationX(kFrontLeftXPos)
+                    .withLocationY(kFrontLeftYPos)
+                    .withSlipCurrent(slipCurrent)
+                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
+                    .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
+                    .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
+                    .withSpeedAt12VoltsMps(speedAt12VoltsMps)
+                    .withDriveMotorGearRatio(kDriveGearRatio)
+                    .withSteerMotorGearRatio(kSteerGearRatio)
+                    .withDriveMotorGains(driveGains)
+                    .withSteerMotorGains(steerGains)
+                    .withWheelRadius(kWheelRadiusInches)
+                    .withFeedbackSource(steerFeedbackType);
+
+    public static final SwerveModuleConstants FrontRight =
+            DefaultConfig.FrontRight.withCANcoderOffset(kFrontRightCANncoderOffset)
+                    .withLocationX(kFrontRightXPos)
+                    .withLocationY(kFrontRightYPos)
+                    .withSlipCurrent(slipCurrent)
+                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
+                    .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
+                    .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
+                    .withSpeedAt12VoltsMps(speedAt12VoltsMps)
+                    .withDriveMotorGearRatio(kDriveGearRatio)
+                    .withSteerMotorGearRatio(kSteerGearRatio)
+                    .withDriveMotorGains(driveGains)
+                    .withSteerMotorGains(steerGains)
+                    .withWheelRadius(kWheelRadiusInches)
+                    .withFeedbackSource(steerFeedbackType)
+            //     .withDriveMotorInverted(false)
+            ;
+
+    public static final SwerveModuleConstants BackLeft =
+            DefaultConfig.BackLeft.withCANcoderOffset(kBackLeftCANcoderOffset)
+                    .withLocationX(kBackLeftXPos)
+                    .withLocationY(kBackLeftYPos)
+                    .withSlipCurrent(slipCurrent)
+                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
+                    .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
+                    .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
+                    .withSpeedAt12VoltsMps(speedAt12VoltsMps)
+                    .withDriveMotorGearRatio(kDriveGearRatio)
+                    .withSteerMotorGearRatio(kSteerGearRatio)
+                    .withDriveMotorGains(driveGains)
+                    .withSteerMotorGains(steerGains)
+                    .withWheelRadius(kWheelRadiusInches)
+                    .withFeedbackSource(steerFeedbackType);
+
+    public static final SwerveModuleConstants BackRight =
+            DefaultConfig.BackRight.withCANcoderOffset(kBackRightCANcoderOffset)
+                    .withLocationX(kBackRightXPos)
+                    .withLocationY(kBackRightYPos)
+                    .withSlipCurrent(slipCurrent)
+                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
+                    .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
+                    .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
+                    .withSpeedAt12VoltsMps(speedAt12VoltsMps)
+                    .withDriveMotorGearRatio(kDriveGearRatio)
+                    .withSteerMotorGearRatio(kSteerGearRatio)
+                    .withDriveMotorGains(driveGains)
+                    .withSteerMotorGains(steerGains)
+                    .withWheelRadius(kWheelRadiusInches)
+                    .withFeedbackSource(steerFeedbackType);
+
+    public static final SwerveModuleConstants[] ModuleConfigs = {FrontLeft, FrontRight, BackLeft, BackRight};
+
+    public static final SwerveConfig config =
+            DefaultConfig.DrivetrainConstants.withCANbusName(kCANbusName)
+                    .withSupportsPro(supportsPro)
+                    .withModules(ModuleConfigs)
+                    .withRotationGains(
+                            kPRotationController, kIRotationController, kDRotationController)
+                    .withAlignmentGains(
+                            kPAlignmentController, kIAlignmentController, kDAlignmentController)
+                    .withProfilingConfigs(
+                            maxVelocity, maxAccel, maxAngularVelocity, maxAngularAcceleration)
+                    .withDeadbandConfig(deadband, rotationDeadband)
+                    .withPivotConfig(pivotCANcoderOffset, pivotFeedbackSource);
+}
+
+         */
 }

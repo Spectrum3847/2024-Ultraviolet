@@ -1,5 +1,6 @@
 package frc.robot.swerve.configs;
 
+import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrain;
 import edu.wpi.first.math.util.Units;
 import frc.robot.RobotConfig;
 import frc.spectrumLib.swerve.config.DefaultConfig;
@@ -134,4 +135,73 @@ public class NOTEBLOCK2023 {
                             kPRotationController, kIRotationController, kDRotationController)
                     .withProfilingConfigs(
                             maxVelocity, maxAccel, maxAngularVelocity, maxAngularAcceleration);
+
+        /**
+         * public static final SwerveModuleConstants FrontLeft =
+            DefaultConfig.FrontLeft.withCANcoderOffset(kFrontLeftCANcoderOffset)
+                    .withLocationX(kFrontLeftXPos)
+                    .withLocationY(kFrontLeftYPos)
+                    .withSlipCurrent(slipCurrent)
+                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
+                    .withSpeedAt12VoltsMps(speedAt12VoltsMps)
+                    .withDriveMotorGearRatio(kDriveGearRatio)
+                    .withSteerMotorGearRatio(kSteerGearRatio)
+                    .withDriveMotorGains(driveGains)
+                    .withSteerMotorGains(steerGains)
+                    .withWheelRadius(kWheelRadiusInches)
+                    .withFeedbackSource(steerFeedbackType);
+
+    public static final ModuleConfig FrontRight =
+            DefaultConfig.FrontRight.withCANcoderOffset(kFrontRightCANncoderOffset)
+                    .withLocationX(kFrontRightXPos)
+                    .withLocationY(kFrontRightYPos)
+                    .withSlipCurrent(slipCurrent)
+                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
+                    .withSpeedAt12VoltsMps(speedAt12VoltsMps)
+                    .withDriveMotorGearRatio(kDriveGearRatio)
+                    .withSteerMotorGearRatio(kSteerGearRatio)
+                    .withDriveMotorGains(driveGains)
+                    .withSteerMotorGains(steerGains)
+                    .withWheelRadius(kWheelRadiusInches)
+                    .withFeedbackSource(steerFeedbackType);
+
+    public static final ModuleConfig BackLeft =
+            DefaultConfig.BackLeft.withCANcoderOffset(kBackLeftCANcoderOffset)
+                    .withLocationX(kBackLeftXPos)
+                    .withLocationY(kBackLeftYPos)
+                    .withSlipCurrent(slipCurrent)
+                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
+                    .withSpeedAt12VoltsMps(speedAt12VoltsMps)
+                    .withDriveMotorGearRatio(kDriveGearRatio)
+                    .withSteerMotorGearRatio(kSteerGearRatio)
+                    .withDriveMotorGains(driveGains)
+                    .withSteerMotorGains(steerGains)
+                    .withWheelRadius(kWheelRadiusInches)
+                    .withFeedbackSource(steerFeedbackType);
+
+    public static final ModuleConfig BackRight =
+            DefaultConfig.BackRight.withCANcoderOffset(kBackRightCANcoderOffset)
+                    .withLocationX(kBackRightXPos)
+                    .withLocationY(kBackRightYPos)
+                    .withSlipCurrent(slipCurrent)
+                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
+                    .withSpeedAt12VoltsMps(speedAt12VoltsMps)
+                    .withDriveMotorGearRatio(kDriveGearRatio)
+                    .withSteerMotorGearRatio(kSteerGearRatio)
+                    .withDriveMotorGains(driveGains)
+                    .withSteerMotorGains(steerGains)
+                    .withWheelRadius(kWheelRadiusInches)
+                    .withFeedbackSource(steerFeedbackType);
+
+    public static final ModuleConfig[] ModuleConfigs = {FrontLeft, FrontRight, BackLeft, BackRight};
+
+    public static final SwerveConfig config =
+            DefaultConfig.DrivetrainConstants.withCANbusName(kCANbusName)
+                    .withSupportsPro(supportsPro)
+                    .withModules(ModuleConfigs)
+                    .withRotationGains(
+                            kPRotationController, kIRotationController, kDRotationController)
+                    .withProfilingConfigs(
+                            maxVelocity, maxAccel, maxAngularVelocity, maxAngularAcceleration);
+         */
 }
