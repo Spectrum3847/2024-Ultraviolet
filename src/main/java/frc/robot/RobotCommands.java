@@ -361,16 +361,20 @@ public class RobotCommands {
                                         .alongWith(AmpTrapCommands.amp())
                                         .until(
                                                 () ->
-                                                        Robot.ampTrap.bottomHasNote()
-                                                                || Robot.ampTrap.topHasNote())
+                                                        (Robot.ampTrap.bottomHasNote()
+                                                                        || Robot.ampTrap
+                                                                                .topHasNote())
+                                                                && !Robot.feeder.noteIntaked())
                                         .onlyIf(
                                                 () ->
                                                         !Robot.ampTrap.bottomHasNote()
                                                                 && !Robot.ampTrap.topHasNote())
                                         .andThen(
                                                 AmpTrapCommands.stopMotor()
-                                                        .alongWith(FeederCommands.stopMotor())))
-                        .repeatedly(),
+                                                        .withTimeout(0.5)
+                                                        .alongWith(
+                                                                FeederCommands.stopMotor()
+                                                                        .withTimeout(0.5)))),
                 ClimberCommands.topClimb().alongWith(PivotCommands.climbHome()),
                 Robot.ampTrap::laserCanValidDistance);
     }
