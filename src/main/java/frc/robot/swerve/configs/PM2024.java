@@ -12,10 +12,10 @@ import frc.spectrumLib.swerve.config.SwerveConfig;
 public class PM2024 {
 
     // Angle Offsets: from cancoder Absolute Position No Offset, opposite sign
-    private static final double kFrontLeftCANcoderOffset = 0.337646; // 0.337402
-    private static final double kFrontRightCANncoderOffset = -0.027344; // -0.027832
-    private static final double kBackLeftCANcoderOffset = -0.323975; // -0.323242
-    private static final double kBackRightCANcoderOffset = 0.495605; // 0.496338
+    private static final double kFrontLeftCANcoderOffset = 0.336426; // 0.337646
+    private static final double kFrontRightCANncoderOffset = -0.026855; // -0.027832
+    private static final double kBackLeftCANcoderOffset = -0.342041; // -0.323975
+    private static final double kBackRightCANcoderOffset = 0.494873; // 0.496338
 
     // Physical Config
     private static final double frontWheelBaseInches = 11.875;
@@ -84,7 +84,7 @@ public class PM2024 {
      * <p>ex: absolute pos no offset = 0.87; pivotCANcoderOffset = -0.86; read motor position = 0.13
      */
     public static final double pivotCANcoderOffset =
-            -0.60; // -0.711191; // -0.712412;  // flip sign
+            -0.092; // -0.60; // -0.711191; // -0.712412;  // flip sign
 
     public static final CANCoderFeedbackType pivotFeedbackSource =
             CANCoderFeedbackType.FusedCANcoder;
