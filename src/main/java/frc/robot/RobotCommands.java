@@ -362,13 +362,16 @@ public class RobotCommands {
                                         .until(
                                                 () ->
                                                         Robot.ampTrap.bottomHasNote()
-                                                                || Robot.ampTrap.topHasNote())
+                                                                && !Robot.feeder.noteIntaked())
                                         .onlyIf(() -> !Robot.ampTrap.bottomHasNote())
                                         .andThen(
                                                 AmpTrapCommands.stopMotor()
-                                                        .alongWith(FeederCommands.stopMotor()))),
+                                                        .withTimeout(0.5)
+                                                        .alongWith(
+                                                                FeederCommands.stopMotor()
+                                                                        .withTimeout(0.5)))),
                 ClimberCommands.topClimb().alongWith(PivotCommands.climbHome()),
-                Robot.ampTrap.bottomLasercan::validDistance);
+                Robot.ampTrap::getBotLaserCanStatus);
     }
 
     public static Command trapExtend() {
@@ -400,11 +403,14 @@ public class RobotCommands {
                                 .until(
                                         () ->
                                                 Robot.ampTrap.bottomHasNote()
-                                                        || Robot.ampTrap.topHasNote())
+                                                        && !Robot.feeder.noteIntaked())
                                 // .onlyIf(() -> !Robot.ampTrap.bottomHasNote())
                                 .andThen(
                                         AmpTrapCommands.stopMotor()
-                                                .alongWith(FeederCommands.stopMotor())));
+                                                .withTimeout(0.5)
+                                                .alongWith(
+                                                        FeederCommands.stopMotor()
+                                                                .withTimeout(0.5))));
     }
 
     public static Command autoClimb() {

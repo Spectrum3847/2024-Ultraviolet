@@ -117,7 +117,7 @@ public class Pilot extends Gamepad {
         rightStick().and(leftBumperOnly()).whileTrue(PilotCommands.manualPivot());
 
         controller.leftDpad().and(noBumpers()).whileTrue(RobotCommands.manualSource());
-        controller.rightDpad().and(noBumpers()).whileTrue(RobotCommands.climbReady());
+        controller.rightDpad().and(noBumpers()).whileTrue(RobotCommands.climbReady().repeatedly());
         controller.downDpad().and(noBumpers()).whileTrue(ClimberCommands.safeClimb());
 
         controller
