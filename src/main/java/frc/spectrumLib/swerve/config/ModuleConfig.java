@@ -1,5 +1,6 @@
 package frc.spectrumLib.swerve.config;
 
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
 import com.ctre.phoenix6.configs.Slot0Configs;
 
 public class ModuleConfig {

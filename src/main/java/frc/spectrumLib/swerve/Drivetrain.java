@@ -49,6 +49,7 @@ public class Drivetrain {
     protected final int ModuleCount;
     protected final double UpdateFrequency;
     protected final Module[] Modules;
+    //protected final SwerveModule[] Modules;
 
     protected Pigeon2 m_pigeon2;
     protected SwerveDriveKinematics m_kinematics;
