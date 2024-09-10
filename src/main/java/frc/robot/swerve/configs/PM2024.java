@@ -1,6 +1,7 @@
 package frc.robot.swerve.configs;
 
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
 import edu.wpi.first.math.util.Units;
 import frc.robot.RobotConfig;
 import frc.robot.mechanisms.pivot.Pivot.CANCoderFeedbackType;
@@ -79,14 +80,14 @@ public class PM2024 {
     public static final CANCoderFeedbackType pivotFeedbackSource =
             CANCoderFeedbackType.FusedCANcoder;
 
-    public static final ModuleConfig FrontLeft =
+    public static final SwerveModuleConstants FrontLeft =
             DefaultConfig.FrontLeft.withCANcoderOffset(kFrontLeftCANcoderOffset)
                     .withLocationX(kFrontLeftXPos)
                     .withLocationY(kFrontLeftYPos)
                     .withSlipCurrent(slipCurrent)
-                    .withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
-                    .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
-                    .withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
+                    //.withSupplyCurrent(supplyCurrentLimit, supplyCurrentThreshold)
+                    //.withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
+                    //.withReverseTorqueCurrentLimit(peakReverseTorqueCurrent)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
                     .withDriveMotorGearRatio(kDriveGearRatio)
                     .withSteerMotorGearRatio(kSteerGearRatio)
@@ -145,7 +146,7 @@ public class PM2024 {
                     .withWheelRadius(kWheelRadiusInches)
                     .withFeedbackSource(steerFeedbackType);
 
-    public static final ModuleConfig[] ModuleConfigs = {FrontLeft, FrontRight, BackLeft, BackRight};
+    public static final SwerveModuleConstants[] ModuleConfigs = {FrontLeft, FrontRight, BackLeft, BackRight};
 
     public static final SwerveConfig config =
             DefaultConfig.DrivetrainConstants.withCANbusName(kCANbusName)

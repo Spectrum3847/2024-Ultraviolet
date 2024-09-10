@@ -1,7 +1,7 @@
 package frc.spectrumLib.swerve.config;
 
 import frc.robot.mechanisms.pivot.Pivot.CANCoderFeedbackType;
-
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 public class SwerveConfig {
     /** CAN ID of the Pigeon2 on the drivetrain */
     public int Pigeon2Id = 0;
@@ -11,7 +11,7 @@ public class SwerveConfig {
     /** If using Pro, specify this as true to make use of all the Pro features */
     public boolean SupportsPro = false;
 
-    public ModuleConfig[] modules = new ModuleConfig[0];
+    public SwerveModuleConstants[] modules = new SwerveModuleConstants[0];
 
     /*Rotation Controller*/
     public double kPRotationController = 0.0;
@@ -52,7 +52,7 @@ public class SwerveConfig {
         return this;
     }
 
-    public SwerveConfig withModules(ModuleConfig[] modules) {
+    public SwerveConfig withModules(SwerveModuleConstants[] modules) {
         this.modules = modules;
         return this;
     }

@@ -1,5 +1,7 @@
 package frc.spectrumLib.swerve.config;
-
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstantsFactory;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants.SteerFeedbackType;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import edu.wpi.first.math.util.Units;
 import frc.spectrumLib.swerve.config.ModuleConfig.SwerveModuleSteerFeedbackType;
@@ -30,8 +32,8 @@ public class DefaultConfig {
     // Device Setup
     private static final String kCANbusName = "*"; // canivore
     private static final boolean supportsPro = false;
-    private static final SwerveModuleSteerFeedbackType steerFeedbackType =
-            SwerveModuleSteerFeedbackType.RemoteCANcoder;
+    private static final SteerFeedbackType steerFeedbackType =
+    SteerFeedbackType.RemoteCANcoder;
 
     private static final int kPigeonId = 0;
     private static final int kFrontLeftDriveMotorId = 1;
@@ -82,15 +84,87 @@ public class DefaultConfig {
         }
     }
 
-    public static final ModuleConfigFactory ModuleCreator =
-            new ModuleConfigFactory()
+//     public static final ModuleConfigFactory ModuleCreator =
+//             new ModuleConfigFactory()
+//                     .withDriveMotorGearRatio(kDriveGearRatio)
+//                     .withSteerMotorGearRatio(kSteerGearRatio)
+//                     .withCouplingGearRatio(kCouplingGearRatio)
+//                     .withWheelRadius(kWheelRadiusInches)
+//                     .withSlipCurrent(slipCurrent)
+//                     .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
+//                     .withReverseTorqueCurrentLimit(PeakReverseTorqueCurrent)
+//                     .withSteerMotorGains(steerGains)
+//                     .withDriveMotorGains(driveGains)
+//                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
+//                     .withSteerInertia(kSteerInertia)
+//                     .withDriveInertia(kDriveInertia)
+//                     .withFeedbackSource(steerFeedbackType)
+//                     .withSteerMotorInverted(kSteerMotorReversed);
+
+//     public static final ModuleConfig FrontLeft =
+//             ModuleCreator.createModuleConfig(
+//                     kFrontLeftSteerMotorId,
+//                     kFrontLeftDriveMotorId,
+//                     kFrontLeftEncoderId,
+//                     kFrontLeftCANcoderOffset,
+//                     Units.inchesToMeters(kFrontLeftXPosInches),
+//                     Units.inchesToMeters(kFrontLeftYPosInches),
+//                     kInvertLeftSide);
+
+//     public static final ModuleConfig FrontRight =
+//             ModuleCreator.createModuleConfig(
+//                     kFrontRightSteerMotorId,
+//                     kFrontRightDriveMotorId,
+//                     kFrontRightEncoderId,
+//                     kFrontRightCANncoderOffset,
+//                     Units.inchesToMeters(kFrontRightXPosInches),
+//                     Units.inchesToMeters(kFrontRightYPosInches),
+//                     kInvertRightSide);
+
+//     public static final ModuleConfig BackLeft =
+//             ModuleCreator.createModuleConfig(
+//                     kBackLeftSteerMotorId,
+//                     kBackLeftDriveMotorId,
+//                     kBackLeftEncoderId,
+//                     kBackLeftCANcoderOffset,
+//                     Units.inchesToMeters(kBackLeftXPosInches),
+//                     Units.inchesToMeters(kBackLeftYPosInches),
+//                     kInvertLeftSide);
+
+//     public static final ModuleConfig BackRight =
+//             ModuleCreator.createModuleConfig(
+//                     kBackRightSteerMotorId,
+//                     kBackRightDriveMotorId,
+//                     kBackRightEncoderId,
+//                     kBackRightCANcoderOffset,
+//                     Units.inchesToMeters(kBackRightXPosInches),
+//                     Units.inchesToMeters(kBackRightYPosInches),
+//                     kInvertRightSide);
+
+//     public static final ModuleConfig[] ModuleConfigs = {FrontLeft, FrontRight, BackLeft, BackRight};
+
+//     public static final SwerveConfig DrivetrainConstants =
+//             new SwerveConfig()
+//                     .withPigeon2Id(kPigeonId)
+//                     .withCANbusName(kCANbusName)
+//                     .withSupportsPro(supportsPro)
+//                     .withModules(ModuleConfigs)
+//                     .withRotationGains(
+//                             kPRotationController, kIRotationController, kDRotationController);
+
+
+
+
+// ForwardTorqueCurrentLimit and ReverseTorqueCurrentLimit need replacement
+    public static final SwerveModuleConstantsFactory ModuleCreator =
+            new SwerveModuleConstantsFactory()
                     .withDriveMotorGearRatio(kDriveGearRatio)
                     .withSteerMotorGearRatio(kSteerGearRatio)
                     .withCouplingGearRatio(kCouplingGearRatio)
                     .withWheelRadius(kWheelRadiusInches)
                     .withSlipCurrent(slipCurrent)
-                    .withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
-                    .withReverseTorqueCurrentLimit(PeakReverseTorqueCurrent)
+                    //.withForwardTorqueCurrentLimit(peakForwardTorqueCurrent)
+                    //.withReverseTorqueCurrentLimit(PeakReverseTorqueCurrent)
                     .withSteerMotorGains(steerGains)
                     .withDriveMotorGains(driveGains)
                     .withSpeedAt12VoltsMps(speedAt12VoltsMps)
@@ -99,8 +173,8 @@ public class DefaultConfig {
                     .withFeedbackSource(steerFeedbackType)
                     .withSteerMotorInverted(kSteerMotorReversed);
 
-    public static final ModuleConfig FrontLeft =
-            ModuleCreator.createModuleConfig(
+    public static final SwerveModuleConstants FrontLeft =
+            ModuleCreator.createModuleConstants(
                     kFrontLeftSteerMotorId,
                     kFrontLeftDriveMotorId,
                     kFrontLeftEncoderId,
@@ -109,8 +183,8 @@ public class DefaultConfig {
                     Units.inchesToMeters(kFrontLeftYPosInches),
                     kInvertLeftSide);
 
-    public static final ModuleConfig FrontRight =
-            ModuleCreator.createModuleConfig(
+    public static final SwerveModuleConstants FrontRight =
+            ModuleCreator.createModuleConstants(
                     kFrontRightSteerMotorId,
                     kFrontRightDriveMotorId,
                     kFrontRightEncoderId,
@@ -119,8 +193,8 @@ public class DefaultConfig {
                     Units.inchesToMeters(kFrontRightYPosInches),
                     kInvertRightSide);
 
-    public static final ModuleConfig BackLeft =
-            ModuleCreator.createModuleConfig(
+    public static final SwerveModuleConstants BackLeft =
+            ModuleCreator.createModuleConstants(
                     kBackLeftSteerMotorId,
                     kBackLeftDriveMotorId,
                     kBackLeftEncoderId,
@@ -129,8 +203,8 @@ public class DefaultConfig {
                     Units.inchesToMeters(kBackLeftYPosInches),
                     kInvertLeftSide);
 
-    public static final ModuleConfig BackRight =
-            ModuleCreator.createModuleConfig(
+    public static final SwerveModuleConstants BackRight =
+            ModuleCreator.createModuleConstants(
                     kBackRightSteerMotorId,
                     kBackRightDriveMotorId,
                     kBackRightEncoderId,
@@ -139,7 +213,7 @@ public class DefaultConfig {
                     Units.inchesToMeters(kBackRightYPosInches),
                     kInvertRightSide);
 
-    public static final ModuleConfig[] ModuleConfigs = {FrontLeft, FrontRight, BackLeft, BackRight};
+    public static final SwerveModuleConstants[] ModuleConfigs = {FrontLeft, FrontRight, BackLeft, BackRight};
 
     public static final SwerveConfig DrivetrainConstants =
             new SwerveConfig()
@@ -149,4 +223,5 @@ public class DefaultConfig {
                     .withModules(ModuleConfigs)
                     .withRotationGains(
                             kPRotationController, kIRotationController, kDRotationController);
+ 
 }
