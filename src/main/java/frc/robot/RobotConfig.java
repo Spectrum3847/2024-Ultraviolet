@@ -51,8 +51,8 @@ public final class RobotConfig {
     public boolean feederAttached = true;
     public boolean climberAttached = true;
     public boolean pivotAttached = true;
-    public boolean leftLauncherAttached = true;
-    public boolean rightLauncherAttached = true;
+    public boolean leftLauncherAttached = false;
+    public boolean rightLauncherAttached = false;
 
     public RobotConfig() {
         if (Robot.isReal()) {
