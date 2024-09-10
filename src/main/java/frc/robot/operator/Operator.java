@@ -90,7 +90,7 @@ public class Operator extends Gamepad {
                 .onTrue(rumbleCommand(PivotCommands.switchFeedSpot()));
 
         /* Climb */
-        controller.upDpad().and(leftBumperOnly()).whileTrue(RobotCommands.topClimb());
+        controller.upDpad().and(leftBumperOnly()).whileTrue(RobotCommands.topClimb().repeatedly());
         controller.downDpad().and(leftBumperOnly()).whileTrue(ClimberCommands.midClimb());
         controller.leftDpad().and(leftBumperOnly()).whileTrue(ElevatorCommands.fullExtend());
         controller.rightDpad().and(leftBumperOnly()).whileTrue(ClimberCommands.botClimb());
