@@ -304,6 +304,18 @@ public class Pivot extends Mechanism {
     }
 
     /** Sets the motor to brake mode if it is in coast mode */
+    public Command ensureBrakeMode() {
+        return runOnce(
+                        () -> {
+                            setBrakeMode(true);
+                        })
+                .onlyIf(
+                        () ->
+                                attached
+                                        && config.talonConfig.MotorOutput.NeutralMode
+                                                == NeutralModeValue.Coast)
+                .ignoringDisable(true);
+    }
 
     public Command zeroPivotRoutine() {
         return new FunctionalCommand(
