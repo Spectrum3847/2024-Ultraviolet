@@ -19,6 +19,7 @@ public class Climber extends Mechanism {
 
         /* Climber positions in percent (0 - 100) of full rotation */
         public double fullExtend = 120;
+        public double full = 100;
         public double home = 0;
 
         public double topClimb = 100;

@@ -11,6 +11,14 @@ public class ClimberCommands {
                 climber.holdPosition().ignoringDisable(true).withName("Climber.default"));
     }
 
+    public static Command climbUp() {
+        return climber.runPosition(climber.config.full).withName("Climber.up");
+    }
+
+    public static Command climbDown() {
+        return climber.runPosition(climber.config.home).withName("Climber.down");
+    }
+
     public static Command fullExtend() {
         return climber.runPosition(climber.config.fullExtend).withName("Climber.fullExtend");
     }

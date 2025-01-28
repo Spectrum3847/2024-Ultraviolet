@@ -11,10 +11,10 @@ import frc.spectrumLib.swerve.config.SwerveConfig;
 public class PHOTON {
 
     // Angle Offsets: from cancoder Absolute Position No Offset, opposite sign
-    private static final double kFrontLeftCANcoderOffset = 0.289307; // 0.286865;
-    private static final double kFrontRightCANncoderOffset = 0.395264; // 0.392090;
-    private static final double kBackLeftCANcoderOffset = -0.199219; // -0.202148;
-    private static final double kBackRightCANcoderOffset = -0.041260; // -0.039795;
+    private static final double kFrontLeftCANcoderOffset = 0.281738; // 0.289307; // 0.286865;
+    private static final double kFrontRightCANncoderOffset = 0.391846; // 0.395264; // 0.392090;
+    private static final double kBackLeftCANcoderOffset = -0.205811; // -0.199219; // -0.202148;
+    private static final double kBackRightCANcoderOffset = -0.046875; // -0.041260; // -0.039795;
 
     // Physical Config
     private static final double wheelBaseInches = 21.5;
@@ -58,7 +58,7 @@ public class PHOTON {
     private static final double rotationDeadband = 0.1;
 
     // Device Setup
-    private static final String kCANbusName = RobotConfig.CANIVORE;
+    private static final String kCANbusName = RobotConfig.RIO_CANBUS;
     private static final boolean supportsPro = true;
     private static final SwerveModuleSteerFeedbackType steerFeedbackType =
             SwerveModuleSteerFeedbackType.FusedCANcoder;

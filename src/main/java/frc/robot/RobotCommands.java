@@ -25,6 +25,16 @@ import frc.robot.vision.VisionCommands;
  */
 public class RobotCommands {
 
+    public static Command climbUp() {
+        return ClimberCommands.climbUp()
+                .withName("ClimberCommands.climbUp");
+    }
+
+    public static Command climbDown() {
+        return ClimberCommands.climbDown()
+                .withName("ClimberCommands.climbDown");
+    }
+
     public static void setupRobotTriggers() {
         Trigger coastMode =
                 new Trigger(
