@@ -63,30 +63,28 @@ public class Pilot extends Gamepad {
     public void setupTeleopButtons() {
 
         /*controller
-                .a()
-                .and(noBumpers())
-                .and(controller.x().negate())
-                .whileTrue(RobotCommands.intake());
-                */
+        .a()
+        .and(noBumpers())
+        .and(controller.x().negate())
+        .whileTrue(RobotCommands.intake());
+        */
         controller.a().and(noBumpers()).whileTrue(RobotCommands.climbUp());
 
         controller.a().and(leftBumperOnly()).whileTrue(RobotCommands.eject());
 
-        //controller.b().and(noBumpers().or(rightBumperOnly())).whileTrue(PilotCommands.turnToAmp());
+        // controller.b().and(noBumpers().or(rightBumperOnly())).whileTrue(PilotCommands.turnToAmp());
         controller
                 .b()
                 // .and(noBumpers())
                 // .or(rightBumperOnly())
                 .whileTrue(LauncherCommands.runAmpVelocity());
-        
+
         controller.b().and(noBumpers()).whileTrue(RobotCommands.climbDown());
 
         /*controller
         .b()
         .and(leftBumperOnly().or(bothBumpers()))
         .whileTrue(RobotCommands.intoAmpShot());*/
-        
-        
 
         controller
                 .x()
