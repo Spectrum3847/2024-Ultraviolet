@@ -14,7 +14,7 @@ public class Climber extends Mechanism {
     public class ClimberConfig extends Config {
 
         /* Climber constants in rotations */
-        public final double maxRotation = 124;
+        public final double maxRotation = 300;
         public final double minRotation = -1;
 
         /* Climber positions in percent (0 - 100) of full rotation */
