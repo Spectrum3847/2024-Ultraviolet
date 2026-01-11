@@ -22,4 +22,8 @@ public enum State {
             Map.entry(PRE_SHOT, SHOT),
             Map.entry(PRE_AMP, AMP)
         );
+
+    public State getNextScoreState() {
+            return scoreSequence.getOrDefault(this, this);
+    }
 }
