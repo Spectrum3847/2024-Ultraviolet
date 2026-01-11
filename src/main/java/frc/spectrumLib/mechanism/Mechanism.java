@@ -264,7 +264,6 @@ public abstract class Mechanism implements Subsystem {
         public void configSupplyCurrentLimit(
                 double supplyLimit, double supplyThreshold, boolean enabled) {
             talonConfig.CurrentLimits.SupplyCurrentLimit = supplyLimit;
-            talonConfig.CurrentLimits.SupplyCurrentThreshold = supplyThreshold;
             talonConfig.CurrentLimits.SupplyCurrentLimitEnable = enabled;
         }
 

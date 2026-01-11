@@ -1,10 +1,7 @@
-package main.java.frc.robot;
+package frc.robot;
 
 import com.google.common.collect.ImmutableMap;
-import frc.spectrumLib.Telemetry;
 import java.util.Map;
-import java.util.function.BooleanSupplier;
-import lombok.Setter;
 
 public enum State {
     REHOME,

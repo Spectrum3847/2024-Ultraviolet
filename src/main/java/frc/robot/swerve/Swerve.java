@@ -155,7 +155,6 @@ public class Swerve implements Subsystem {
 
     @Override
     public void simulationPeriodic() {
-        drivetrain.updateSimState(0.02, 12);
     }
 
     // Returns a commmand that applies the given request to the drivetrain

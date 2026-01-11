@@ -10,8 +10,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.auton.Auton;
-import frc.robot.auton.config.AutonConfig;
 import frc.robot.leds.LEDs;
 import frc.robot.leds.LEDsCommands;
 import frc.robot.mechanisms.amptrap.AmpTrap;
@@ -58,7 +56,6 @@ public class Robot extends LoggedRobot {
     public static LeftLauncher leftLauncher;
     public static RightLauncher rightLauncher;
     public static Vision vision;
-    public static Auton auton;
     public static LEDs leds;
     public static Pilot pilot;
     public static Operator operator;
@@ -120,7 +117,6 @@ public class Robot extends LoggedRobot {
             Timer.delay(0.1);
             rightLauncher = new RightLauncher(config.rightLauncherAttached);
             vision = new Vision();
-            auton = new Auton();
             pilot = new Pilot();
             operator = new Operator();
             leds = new LEDs();
@@ -189,12 +185,12 @@ public class Robot extends LoggedRobot {
 
         resetCommandsAndButtons();
 
-        if (!AutonConfig.commandInit) {
-            Command AutonStartCommand =
-                    FollowPathCommand.warmupCommand().andThen(PathfindingCommand.warmupCommand());
-            AutonStartCommand.schedule();
-            AutonConfig.commandInit = true;
-        }
+        // if (!AutonConfig.commandInit) {
+        //     Command AutonStartCommand =
+        //             FollowPathCommand.warmupCommand().andThen(PathfindingCommand.warmupCommand());
+        //     AutonStartCommand.schedule();
+        //     AutonConfig.commandInit = true;
+        // }
 
         RobotTelemetry.print("### Disabled Init Complete ### ");
     }
@@ -223,20 +219,20 @@ public class Robot extends LoggedRobot {
     /** This method is called once when autonomous starts */
     public void autonomousInit() {
         try {
-            RobotTelemetry.print("@@@ Auton Init Starting @@@ ");
-            clearCommandsAndButtons();
-            Command autonCommand = Commands.waitSeconds(0.01).andThen(Auton.getAutonomousCommand());
+            // RobotTelemetry.print("@@@ Auton Init Starting @@@ ");
+            // clearCommandsAndButtons();
+            // Command autonCommand = Commands.waitSeconds(0.01).andThen(Auton.getAutonomousCommand());
 
-            if (autonCommand != null) {
-                autonCommand.schedule();
-                Auton.startAutonTimer();
-            } else {
-                RobotTelemetry.print("No Auton Command Found");
-            }
+            // if (autonCommand != null) {
+            //     autonCommand.schedule();
+            //     Auton.startAutonTimer();
+            // } else {
+            //     RobotTelemetry.print("No Auton Command Found");
+            // }
 
-            LEDsCommands.countdown(15, 10).schedule();
+            // LEDsCommands.countdown(15, 10).schedule();
 
-            RobotTelemetry.print("@@@ Auton Init Complete @@@ ");
+            // RobotTelemetry.print("@@@ Auton Init Complete @@@ ");
         } catch (Throwable t) {
             // intercept error and log it
             CrashTracker.logThrowableCrash(t);

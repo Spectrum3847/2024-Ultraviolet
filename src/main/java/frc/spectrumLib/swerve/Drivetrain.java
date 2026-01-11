@@ -21,6 +21,10 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.units.AngleUnit;
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Threads;
 import frc.robot.RobotTelemetry;
@@ -57,15 +61,15 @@ public class Drivetrain {
     protected Translation2d[] m_moduleLocations;
     protected OdometryThread m_odometryThread;
     protected Rotation2d m_fieldRelativeOffset;
-    protected StatusSignal<Double> m_yawGetter;
-    protected StatusSignal<Double> m_angularZGetter;
+    protected StatusSignal<Angle> m_yawGetter;
+    protected StatusSignal<AngularVelocity> m_angularZGetter;
 
     protected Request m_requestToApply = new Request.Idle();
     protected ControlRequestParameters m_requestParameters = new ControlRequestParameters();
 
     protected ReadWriteLock m_stateLock = new ReentrantReadWriteLock();
 
-    protected final SimDrivetrain m_simDrive;
+    // protected final SimDrivetrain m_simDrive;
     protected final boolean IsOnCANFD;
 
     /**
@@ -164,11 +168,11 @@ public class Drivetrain {
                     m_modulePositions[i] = Modules[i].getPosition(false);
                 }
                 // Assume Pigeon2 is flat-and-level so latency compensation can be performed
-                double yawDegrees =
+                Measure<AngleUnit> yawDegrees =
                         BaseStatusSignal.getLatencyCompensatedValue(m_yawGetter, m_angularZGetter);
 
                 /* Keep track of previous and current pose to account for the carpet vector */
-                m_odometry.update(Rotation2d.fromDegrees(yawDegrees), m_modulePositions);
+                m_odometry.update(Rotation2d.fromDegrees(yawDegrees.magnitude()), m_modulePositions);
 
                 /* And now that we've got the new odometry, update the controls */
                 m_requestParameters.currentPose =
@@ -283,7 +287,7 @@ public class Drivetrain {
 
         m_fieldRelativeOffset = new Rotation2d();
 
-        m_simDrive = new SimDrivetrain(m_moduleLocations, m_pigeon2, swerveConfig, moduleConfigs);
+        // m_simDrive = new SimDrivetrain(m_moduleLocations, m_pigeon2, swerveConfig, moduleConfigs);
 
         m_odometryThread = new OdometryThread();
         RobotTelemetry.print("Starting Odometry Thread: ");
@@ -428,7 +432,7 @@ public class Drivetrain {
             m_stateLock.writeLock().lock();
 
             m_odometry.resetPosition(
-                    Rotation2d.fromDegrees(m_yawGetter.getValue()), m_modulePositions, location);
+                    Rotation2d.fromDegrees(m_yawGetter.getValueAsDouble()), m_modulePositions, location);
         } finally {
             m_stateLock.writeLock().unlock();
         }
@@ -594,9 +598,9 @@ public class Drivetrain {
      * @param dtSeconds time since last update call
      * @param supplyVoltage voltage as seen at the motor controllers
      */
-    public void updateSimState(double dtSeconds, double supplyVoltage) {
-        m_simDrive.update(dtSeconds, supplyVoltage, Modules);
-    }
+    // public void updateSimState(double dtSeconds, double supplyVoltage) {
+    //     m_simDrive.update(dtSeconds, supplyVoltage, Modules);
+    // }
 
     /**
      * Register the specified lambda to be executed whenever our SwerveDriveState function is

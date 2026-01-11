@@ -3,7 +3,6 @@ package frc.robot.mechanisms.pivot;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
-import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
@@ -191,8 +190,6 @@ public class Pivot extends Mechanism {
             cancoderConfigs.MagnetSensor.MagnetOffset = swerveConfig.pivotCANcoderOffset;
             cancoderConfigs.MagnetSensor.SensorDirection =
                     SensorDirectionValue.CounterClockwise_Positive;
-            cancoderConfigs.MagnetSensor.AbsoluteSensorRange =
-                    AbsoluteSensorRangeValue.Unsigned_0To1;
             checkMotorResponse(m_CANcoder.getConfigurator().apply(cancoderConfigs));
         }
 
