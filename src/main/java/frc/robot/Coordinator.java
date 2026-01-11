@@ -14,13 +14,18 @@ public class Coordinator {
     public void applyRobotState(State state) {
         switch (state) {
             case -> REHOME{
-                
+                AmpTrapCommands.home();
+                ElevatorCommands.home();
+                FeederCommands.home();
+                IntakeCommands.home();
+                LauncherCommands.home();
+                PivotCommands.home();
             }
             case -> SHOT {
-
+                LauncherCommands.score();
             }
             case -> AMP {
-
+                
             }
             case -> PRE_SHOT {
                 
@@ -29,10 +34,22 @@ public class Coordinator {
 
             }
             case -> INTAKE {
+                IntakeCommands.intake();
 
+                AmpTrapCommands.home();
+                ElevatorCommands.home();
+                FeederCommands.home();
+                LauncherCommands.home();
+                PivotCommands.home();
             }
             case -> EJECT {
+                IntakeCommands.ejectFromIntake();
 
+                AmpTrapCommands.home();
+                ElevatorCommands.home();
+                FeederCommands.home();
+                LauncherCommands.home();
+                PivotCommands.home();
             }
             default -> {
 
